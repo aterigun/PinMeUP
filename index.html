@@ -3,381 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PinMeUP!</title>
+    <title>PIN ME UP! - Sklep z Przypinkami</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
-            --color-navy: #2A235B;
-            --color-orange: #FF9F68;
-            --color-bg: #f4f7f6;
-            --color-text: #333;
+            --navy: #2A235B;
+            --purple: #6a1b9a;
+            --orange: #FF9F68;
+            --gold: #FFD700;
+            --bg: #f8f9fa;
+            --text: #333;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--color-bg);
-            color: var(--color-text);
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             padding: 0;
+            padding-top: 80px; /* Miejsce na fixed header */
         }
 
-        header {
-            background: linear-gradient(135deg, var(--color-navy), #3e3486);
-            padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            color: white;
+        /* --- NAWIGACJA --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(42, 35, 91, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 10px 0;
         }
 
-        .header-container {
-            max-width: 1000px;
+        .nav-container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
         }
 
-        .logo-container img {
-            height: 60px;
-            width: auto;
-        }
-
-        .shop-title {
-            font-size: 1.8rem;
-            font-weight: 700;
+        .nav-logo {
+            font-weight: 800;
+            color: white;
+            font-size: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-logo img { height: 40px; border-radius: 50%; border: 2px solid var(--orange); }
+
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a {
+            color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            transition: color 0.3s; text-transform: uppercase;
+        }
+        .nav-links a:hover { color: var(--orange); }
+        .cart-icon { position: relative; cursor: pointer; }
+        .cart-badge {
+            position: absolute; top: -8px; right: -12px; background: var(--orange); color: var(--navy);
+            border-radius: 50%; padding: 2px 6px; font-size: 0.7rem; font-weight: bold;
         }
 
-        .main-container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        h1, h2 {
+        /* --- HERO --- */
+        .hero {
+            background: linear-gradient(135deg, var(--navy), var(--purple));
+            color: white;
             text-align: center;
-            color: var(--color-navy);
-            margin-bottom: 25px;
-        }
-        h1 { font-size: 2.5em; font-weight: 700; }
-        h2 {
-            font-size: 1.6em;
-            border-bottom: 3px solid var(--color-orange);
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-        
-        section {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+            padding: 60px 20px;
             margin-bottom: 40px;
-            border: 1px solid #eee;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-bottom-right-radius: 50px;
+            border-bottom-left-radius: 50px;
+            box-shadow: 0 10px 30px rgba(42, 35, 91, 0.3);
         }
-        section:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        }
-        .section-header { text-align: center; margin-bottom: 25px; }
+        .hero h1 { margin: 0; font-size: 3rem; font-weight: 800; letter-spacing: 2px; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; margin-top: 10px; }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-        }
-        .product-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            background: #fff;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .product-card:hover {
-            border-color: var(--color-orange);
-            box-shadow: 0 4px 15px rgba(255, 159, 104, 0.3);
-        }
-        .product-card img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-            border: 5px solid var(--color-bg);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .product-card:hover img { transform: scale(1.05); }
-        .product-title { font-weight: 600; font-size: 1.1em; margin-bottom: 5px; }
-        .price {
-            font-weight: 700;
-            color: var(--color-navy);
-            display: block;
-            margin: 10px 0;
-            font-size: 1.2em;
-        }
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        .quantity-label { font-size: 0.9em; margin-right: 10px; color: #666; }
-        .quantity-input {
-            width: 60px;
-            padding: 8px;
-            text-align: center;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 600;
-        }
-        .quantity-input:focus { border-color: var(--color-orange); outline: none; }
+        /* --- KONTENER GŁÓWNY --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-        .img-container {
-            max-width: 100%;
-            height: 450px;
-            background: #f0f0f0;
-            display: none;
-            margin: 25px auto;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
-            border: 2px solid var(--color-navy);
+        /* --- SEKCJE --- */
+        .category-section {
+            margin-bottom: 60px;
+            animation: fadeIn 0.8s ease-out;
         }
         
-        .cropper-view-box, .cropper-face {
-            border-radius: 50%;
-            outline: 3px solid var(--color-orange);
-            box-shadow: 0 0 0 9999px rgba(42, 35, 91, 0.5);
-        }
-        
-        .cropper-view-box { outline-color: var(--color-orange); }
-        .cropper-dashed, .cropper-point, .cropper-line { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .cart-table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 15px; }
-        th, td { padding: 15px; text-align: left; vertical-align: middle; }
-        th {
-            background-color: var(--color-navy);
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 0.5px;
-        }
-        th:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
-        th:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
-        tbody tr {
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
-        tbody tr:hover { transform: scale(1.01); }
-        td { border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-        td:first-child { border-left: 1px solid #eee; border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
-        td:last-child { border-right: 1px solid #eee; border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
-
-        .cart-total-box {
-            background-color: var(--color-navy);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: right;
-            font-size: 1.5em;
-            font-weight: 700;
-            margin-top: 25px;
-            box-shadow: 0 4px 15px rgba(42, 35, 91, 0.3);
-        }
-        .cart-total-box span { color: var(--color-orange); }
-        
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--color-navy); }
-        input[type="text"], input[type="email"], input[type="file"] {
-            width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; box-sizing: border-box; font-family: inherit; font-size: 1em; transition: border-color 0.3s;
-        }
-        input:focus { border-color: var(--color-orange); outline: none; }
-        input[type="file"] { padding: 10px; background-color: #fff; cursor: pointer; }
-
-        button {
-            cursor: pointer; border: none; border-radius: 10px; font-family: inherit; font-weight: 700; transition: all 0.3s ease;
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        
-        .btn-add {
-            background: var(--color-navy); color: white; padding: 12px 25px; width: 100%; font-size: 1em;
-            box-shadow: 0 4px 10px rgba(42, 35, 91, 0.2);
-        }
-        .btn-add:hover { background: #3e3486; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(42, 35, 91, 0.3); }
-        
-        .btn-crop {
-            background: var(--color-orange); color: var(--color-navy); padding: 15px 30px; width: 100%; font-size: 1.1em; margin-top: 20px;
-            box-shadow: 0 4px 10px rgba(255, 159, 104, 0.3);
-        }
-        .btn-crop:hover { background: #ff8c4d; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 159, 104, 0.4); }
-
-        .btn-remove {
-            color: #dc3545; background: rgba(220, 53, 69, 0.1); padding: 8px 15px; font-size: 0.9em; border-radius: 8px; transition: 0.2s;
-        }
-        .btn-remove:hover { background: #dc3545; color: white; }
-
-        .btn-checkout {
-            background: var(--color-orange); color: var(--color-navy); padding: 20px; font-size: 1.3em; width: 100%; margin-top: 25px;
-            box-shadow: 0 5px 20px rgba(255, 159, 104, 0.4);
-        }
-        .btn-checkout:hover { background: #ff8c4d; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 159, 104, 0.5); }
-        .btn-checkout:disabled { background: #ccc; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        .alert-info {
-            background: #eef2ff;
-            color: var(--color-navy);
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 1em;
-            line-height: 1.6;
+        .section-title {
+            font-size: 2rem;
+            color: var(--navy);
             margin-bottom: 30px;
-            border-left: 6px solid var(--color-orange);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+            display: inline-block;
+            padding-right: 20px;
         }
-        .alert-info strong { color: var(--color-orange); }
+        .section-title::after {
+            content: ''; position: absolute; bottom: 5px; left: 0; width: 60%; height: 4px;
+            background: var(--orange); border-radius: 2px;
+        }
+        
+        /* Specjalne kolory tytułów */
+        .title-blindbox { color: var(--purple); }
+        .title-blindbox::after { background: var(--purple); }
+        .title-fame { color: #b8860b; }
+        .title-fame::after { background: var(--gold); }
+
+        /* --- KARTY PRODUKTÓW --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+
+        .card img {
+            width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
+            border: 5px solid #f0f0f0; margin-bottom: 15px; transition: transform 0.3s;
+        }
+        .card:hover img { transform: scale(1.08) rotate(3deg); }
+
+        /* Specjalne style kart */
+        .card.mystery { background: linear-gradient(145deg, #fff, #f3e5f5); border: 2px solid var(--purple); }
+        .card.mystery img { border-color: var(--purple); filter: blur(5px); transition: filter 0.3s; }
+        .card.mystery:hover img { filter: blur(0px); } /* Odkrywa się po najechaniu */
+
+        .card.vip { background: linear-gradient(145deg, #fff, #fffde7); border: 2px solid var(--gold); }
+        .card.vip::before {
+            content: '👑'; position: absolute; top: 10px; right: 10px; font-size: 1.5rem;
+        }
+        .card.vip img { border-color: var(--gold); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+
+        .card h3 { font-size: 1.1rem; margin: 10px 0; color: var(--navy); }
+        .price { font-size: 1.3rem; font-weight: 700; color: var(--orange); display: block; margin-bottom: 10px; }
+        .price.promo { color: var(--purple); }
+
+        /* Kontrolki ilości i przyciski */
+        .qty-box { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .qty-input { width: 50px; text-align: center; padding: 5px; border-radius: 8px; border: 1px solid #ddd; font-weight: bold; }
+        
+        .btn {
+            background: var(--navy); color: white; border: none; padding: 10px 20px; border-radius: 50px;
+            font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%;
+        }
+        .btn:hover { background: var(--orange); transform: scale(1.05); }
+        .btn.mystery-btn { background: var(--purple); }
+        .btn.vip-btn { background: #b8860b; }
+
+        /* --- KREATOR --- */
+        .creator-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
+        .img-container {
+            max-width: 100%; height: 400px; background: #e0e0e0; margin: 20px auto;
+            border-radius: 15px; overflow: hidden; display: none;
+        }
+        .cropper-view-box, .cropper-face { border-radius: 50%; outline: 3px solid var(--orange); }
+
+        /* --- KOSZYK --- */
+        .cart-section { background: white; border-radius: 20px; padding: 30px; margin-top: 60px; border: 2px solid var(--navy); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; padding: 10px; color: var(--navy); border-bottom: 2px solid #eee; }
+        td { padding: 15px 10px; border-bottom: 1px solid #eee; }
+        .total { text-align: right; font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-top: 20px; }
+        
+        /* Płatność Info */
+        .payment-info {
+            background: #e3f2fd; border-left: 5px solid #2196f3; padding: 15px; margin: 20px 0; border-radius: 8px; font-size: 0.9rem;
+        }
+
+        .form-row { margin-bottom: 15px; }
+        .form-row label { display: block; font-weight: 600; margin-bottom: 5px; }
+        .form-row input { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #eee; box-sizing: border-box; }
+        
+        .btn-checkout {
+            background: linear-gradient(45deg, var(--orange), #ff7043); width: 100%; padding: 20px; font-size: 1.4rem; margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
 
-<header>
-    <div class="header-container">
-        <div class="logo-container">
-            <img src="pinmeup_logo.png" alt="PIN ME UP! Logo">
+<nav>
+    <div class="nav-container">
+        <div class="nav-logo">
+            <img src="pinmeup_logo.jpg" alt="Logo"> PIN ME UP!
         </div>
-        <div class="shop-title">
-            PinMeUP!
+        <div class="nav-links">
+            <a href="#kategorie">Wzory</a>
+            <a href="#kreator">Własna</a>
+            <a href="#blindbox" style="color:var(--purple);">Blindbox</a>
+            <a href="#fame" style="color:var(--gold);">Fame</a>
+            <a href="#koszyk" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i> <span class="cart-badge" id="cartCount">0</span>
+            </a>
         </div>
     </div>
-</header>
+</nav>
 
-<div class="main-container">
-    
-    <div class="alert-info">
-        <strong>Witaj w świecie przypinek!</strong><br>
-        1. Wybierz nasze autorskie wzory i określ, ile sztuk potrzebujesz.<br>
-        2. Lub stwórz własną, unikalną przypinkę w naszym kreatorze (idealne kółko 58mm!).<br>
-        3. Po złożeniu zamówienia, wszystkie pliki (w tym Twoje projekty) automatycznie trafią do nas. Proste!
+<div class="hero">
+    <h1>WYRAŹ SIEBIE!</h1>
+    <p>Najlepsze przypinki na wydziale. Gotowe wzory, memy lub Twój własny projekt.</p>
+</div>
+
+<div class="container">
+
+    <div id="kategorie"></div> <div class="category-section">
+        <h2 class="section-title">Loga i Symbole</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="logo_uczelni.png" alt="Logo"> <h3>Duma Wydziału</h3>
+                <span class="price">5.00 PLN</span>
+                <div class="qty-box">
+                    <input type="number" id="q1" class="qty-input" value="1" min="1">
+                    <button class="btn" onclick="add('Duma Wydziału', 5, 'q1')">Do koszyka</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="pinmeup_logo.jpg" alt="Logo"> 
+                <h3>Pin Me Up Official</h3>
+                <span class="price">5.00 PLN</span>
+                <div class="qty-box">
+                    <input type="number" id="q2" class="qty-input" value="1" min="1">
+                    <button class="btn" onclick="add('Pin Me Up Logo', 5, 'q2')">Do koszyka</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <section>
-        <div class="section-header">
-            <h2>1. Gotowe Wzory (5 PLN/szt.)</h2>
-        </div>
-        <div class="gallery-grid">
-            <div class="product-card">
-                <img src="[PL] fuw __ pełne.png" alt="Wzór 1">
-                <div class="product-title">LOGO FUW</div>
+    <div class="category-section">
+        <h2 class="section-title">Strefa Memów</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="mem_kot.png" alt="Kot"> <h3>Kot Student</h3>
                 <span class="price">5.00 PLN</span>
-                <div class="quantity-control">
-                    <span class="quantity-label">Ilość:</span>
-                    <input type="number" id="qty-kot" class="quantity-input" value="1" min="1">
+                <div class="qty-box">
+                    <input type="number" id="q3" class="qty-input" value="1" min="1">
+                    <button class="btn" onclick="add('Mem: Kot Student', 5, 'q3')">Do koszyka</button>
                 </div>
-                <button class="btn-add" onclick="addToCartWithQty('Gotowiec: Kot Śmieszek', 5.00, 'qty-kot')">Dodaj do koszyka</button>
             </div>
-            <div class="product-card">
-                <img src="[PL] mimuw __ pełne.png" alt="Wzór 2">
-                <div class="product-title">LOGO MIMUW</div>
+            <div class="card">
+                <img src="mem_pies.png" alt="Pies"> <h3>Pieseł "Wow"</h3>
                 <span class="price">5.00 PLN</span>
-                <div class="quantity-control">
-                    <span class="quantity-label">Ilość:</span>
-                    <input type="number" id="qty-pies" class="quantity-input" value="1" min="1">
+                <div class="qty-box">
+                    <input type="number" id="q4" class="qty-input" value="1" min="1">
+                    <button class="btn" onclick="add('Mem: Pieseł', 5, 'q4')">Do koszyka</button>
                 </div>
-                <button class="btn-add" onclick="addToCartWithQty('Gotowiec: Pieseł', 5.00, 'qty-pies')">Dodaj do koszyka</button>
-            </div>
-            <div class="product-card">
-                <img src="[PL] wchem.png" alt="Wzór 3">
-                <div class="product-title">LOGO WCH</div>
-                <span class="price">5.00 PLN</span>
-                <div class="quantity-control">
-                    <span class="quantity-label">Ilość:</span>
-                    <input type="number" id="qty-logo" class="quantity-input" value="1" min="1">
-                </div>
-                <button class="btn-add" onclick="addToCartWithQty('Gotowiec: Logo Uczelni', 5.00, 'qty-logo')">Dodaj do koszyka</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section>
-        <div class="section-header">
-            <h2>2. Twój Własny Projekt (7 PLN/szt.)</h2>
+    <div class="category-section">
+        <h2 class="section-title">#BądźSobą</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="teczowa.png" alt="Tęcza"> <h3>Love is Love</h3>
+                <span class="price">5.00 PLN</span>
+                <div class="qty-box">
+                    <input type="number" id="q5" class="qty-input" value="1" min="1">
+                    <button class="btn" onclick="add('Love is Love', 5, 'q5')">Do koszyka</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="cytat.png" alt="Cytat"> <h3>Motywacja na sesję</h3>
+                <span class="price">5.00 PLN</span>
+                <div class="qty-box">
+                    <input type="number" id="q6" class="qty-input" value="1" min="1">
+                    <button class="btn" onclick="add('Motywacja', 5, 'q6')">Do koszyka</button>
+                </div>
+            </div>
         </div>
-        <p style="text-align: center; margin-bottom: 20px;">Wgraj zdjęcie, a my zadbamy o idealne kółko 58mm.</p>
+    </div>
+
+    <div id="blindbox" class="category-section">
+        <h2 class="section-title title-blindbox">🔮 Blindbox (Taniej!)</h2>
+        <div class="grid">
+            <div class="card mystery">
+                <img src="question_mark.png" alt="?"> <h3>Losowa Przypinka</h3>
+                <p style="font-size:0.9rem; color:#666;">Co trafisz? To niespodzianka!</p>
+                <span class="price promo">3.00 PLN</span>
+                <div class="qty-box">
+                    <input type="number" id="q_blind" class="qty-input" value="1" min="1">
+                    <button class="btn mystery-btn" onclick="add('🔮 BLINDBOX Niespodzianka', 3, 'q_blind')">Zaryzykuj!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fame" class="category-section">
+        <h2 class="section-title title-fame">🏆 Pin Of Fame</h2>
+        <div class="grid">
+            <div class="card vip">
+                <img src="gwiazda1.png" alt="Gwiazda"> <h3>Ulubiony Dr Prowadzący</h3>
+                <span class="price">6.00 PLN</span>
+                <div class="qty-box">
+                    <input type="number" id="q_vip1" class="qty-input" value="1" min="1">
+                    <button class="btn vip-btn" onclick="add('VIP: Dr Prowadzący', 6, 'q_vip1')">Do koszyka</button>
+                </div>
+            </div>
+            <div class="card vip">
+                <img src="gwiazda2.png" alt="Gwiazda"> 
+                <h3>Legenda Dziekanatu</h3>
+                <span class="price">6.00 PLN</span>
+                <div class="qty-box">
+                    <input type="number" id="q_vip2" class="qty-input" value="1" min="1">
+                    <button class="btn vip-btn" onclick="add('VIP: Dziekanat', 6, 'q_vip2')">Do koszyka</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="kreator" class="category-section creator-section">
+        <h2 class="section-title">🛠️ Twój Własny Projekt (7 PLN)</h2>
+        <p>Wgraj zdjęcie, ustaw w kółku 58mm i gotowe!</p>
         
-        <div class="form-group">
-            <label class="form-label">Wybierz plik graficzny:</label>
-            <input type="file" id="inputImage" accept="image/*">
-        </div>
+        <input type="file" id="inputImage" accept="image/*" style="margin: 20px 0;">
         
         <div class="img-container" id="imgContainer">
             <img id="image" src="">
         </div>
 
-        <div id="cropControls" style="display:none;">
-            <div class="quantity-control" style="justify-content: center; margin-top: 20px;">
-                <span class="quantity-label" style="font-size: 1.1em; font-weight: 600;">Ilość sztuk:</span>
-                <input type="number" id="qty-custom" class="quantity-input" value="1" min="1" style="width: 80px; font-size: 1.1em;">
-            </div>
-            <button id="btnCropToAdd" class="btn-crop">ZATWIERDŹ PROJEKT I DODAJ DO KOSZYKA</button>
+        <div id="cropControls" style="display:none; margin-top:20px;">
+            <label>Ile sztuk tego projektu?</label>
+            <input type="number" id="qty-custom" class="qty-input" value="1" min="1" style="width: 80px; font-size: 1.2rem;">
+            <br><br>
+            <button id="btnCropToAdd" class="btn" style="background:var(--orange); color:var(--navy); padding:15px 40px;">ZATWIERDŹ I DODAJ</button>
         </div>
-    </section>
+    </div>
 
-    <section>
-        <div class="section-header">
-            <h2>3. Twój Koszyk</h2>
-        </div>
-        <div class="cart-table-container">
+    <div id="koszyk" class="cart-section">
+        <h2 class="section-title">🛒 Twoje Zamówienie</h2>
+        <div style="overflow-x:auto;">
             <table id="cartTable">
                 <thead>
                     <tr>
                         <th>Produkt</th>
-                        <th style="text-align:center;">Cena jedn.</th>
-                        <th style="text-align:center;">Ilość</th>
-                        <th style="text-align:right;">Suma</th>
-                        <th style="text-align:center;">Opcje</th>
+                        <th>Cena</th>
+                        <th>Ilość</th>
+                        <th>Suma</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="cartBody">
+                    <tr><td colspan="5" style="text-align:center; padding:20px;">Koszyk jest pusty</td></tr>
                 </tbody>
             </table>
         </div>
         
-        <div class="cart-total-box">
-            Do zapłaty: <span id="totalPrice">0.00</span> PLN
+        <div class="total">Do zapłaty: <span id="totalPrice">0.00</span> PLN</div>
+        
+        <hr style="margin: 30px 0; border:0; border-top:1px solid #ddd;">
+        
+        <div class="payment-info">
+            <i class="fas fa-info-circle"></i> <strong>JAK ZAPŁACIĆ?</strong><br>
+            To projekt studencki, więc działamy prosto!<br>
+            1. Wyślij zamówienie przyciskiem poniżej.<br>
+            2. Wykonaj <strong>przelew BLIK na numer telefonu: 123-456-789</strong> (Odbiorca: Jan Kowalski).<br>
+            3. W tytule przelewu wpisz swoje <strong>Imię i Nazwisko</strong>.<br>
+            Twoje zamówienie trafi do realizacji po zaksięgowaniu wpłaty.
+        </div>
+
+        <div class="form-row">
+            <label>Twoje Imię i Nazwisko (do weryfikacji wpłaty):</label>
+            <input type="text" id="clientName" placeholder="np. Anna Nowak">
+        </div>
+        <div class="form-row">
+            <label>Adres E-mail (do kontaktu):</label>
+            <input type="email" id="clientEmail" placeholder="np. anna@student.pl">
         </div>
         
-        <hr style="margin: 30px 0; border: 0; border-top: 2px solid #eee;">
-        
-        <h3>Dane do zamówienia</h3>
-        <div class="form-group">
-            <label for="clientName" class="form-label">Imię i Nazwisko:</label>
-            <input type="text" id="clientName" placeholder="Wpisz swoje dane...">
-        </div>
-        <div class="form-group">
-            <label for="clientEmail" class="form-label">Adres e-mail (ważne!):</label>
-            <input type="email" id="clientEmail" placeholder="Np. jan.kowalski@example.com">
-        </div>
-        
-        <button class="btn-checkout" onclick="checkout()">WYŚLIJ ZAMÓWIENIE I PLIKI</button>
-    </section>
+        <button class="btn btn-checkout" onclick="checkout()">🚀 WYŚLIJ ZAMÓWIENIE</button>
+    </div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
-    const ACCESS_KEY = "8a7e51bf-8aab-4ee7-b678-7ae82f55c7c6";
+    // === KONFIGURACJA ===
+    const ACCESS_KEY = "8a7e51bf-8aab-4ee7-b678-7ae82f55c7c6"; 
+    // ====================
 
     let cart = [];
     let cropper;
@@ -385,8 +409,28 @@
     const inputImage = document.getElementById('inputImage');
     const imgContainer = document.getElementById('imgContainer');
     const cropControls = document.getElementById('cropControls');
-    const btnCropToAdd = document.getElementById('btnCropToAdd');
 
+    // Licznik koszyka w menu
+    function updateBadge() {
+        const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+        document.getElementById('cartCount').innerText = count;
+    }
+
+    // Funkcja dodawania gotowców
+    function add(name, price, qtyId) {
+        const q = parseInt(document.getElementById(qtyId).value);
+        if(q < 1) return;
+        
+        const existing = cart.find(item => item.name === name && !item.file);
+        if(existing) existing.quantity += q;
+        else cart.push({name, price, quantity: q, file: null});
+        
+        document.getElementById(qtyId).value = 1;
+        renderCart();
+        alert(`Dodano: ${name} (${q} szt.)`);
+    }
+
+    // KREATOR
     inputImage.addEventListener('change', function (e) {
         const files = e.target.files;
         if (files && files.length > 0) {
@@ -396,170 +440,113 @@
                 image.src = e.target.result;
                 imgContainer.style.display = 'block';
                 cropControls.style.display = 'block';
-                
-                if (cropper) { cropper.destroy(); }
+                if (cropper) cropper.destroy();
                 cropper = new Cropper(image, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                    dragMode: 'move',
-                    autoCropArea: 0.6,
-                    restore: false,
-                    guides: false,
-                    center: false,
-                    highlight: false,
-                    cropBoxMovable: false,
-                    cropBoxResizable: false,
-                    toggleDragModeOnDblclick: false,
+                    aspectRatio: 1, viewMode: 1, dragMode: 'move', autoCropArea: 0.65,
+                    guides: false, center: false, highlight: false, 
+                    cropBoxMovable: false, cropBoxResizable: false, toggleDragModeOnDblclick: false
                 });
             };
             reader.readAsDataURL(file);
         }
     });
 
-    btnCropToAdd.addEventListener('click', function() {
+    document.getElementById('btnCropToAdd').addEventListener('click', function() {
         if(!cropper) return;
-        
-        const quantity = parseInt(document.getElementById('qty-custom').value);
-        if (quantity < 1) { alert("Ilość musi być większa od 0!"); return; }
-
+        const q = parseInt(document.getElementById('qty-custom').value);
         cropper.getCroppedCanvas({ width: 1200, height: 1200, fillColor: '#fff' }).toBlob((blob) => {
-            addToCart("PROJEKT WŁASNY", 7.00, quantity, blob);
+            cart.push({ name: "PROJEKT WŁASNY", price: 7.00, quantity: q, file: blob });
             
             cropper.destroy();
             imgContainer.style.display = 'none';
             cropControls.style.display = 'none';
             inputImage.value = "";
-            document.getElementById('qty-custom').value = "1";
-            alert(`Dodano Twój projekt (${quantity} szt.) do koszyka!`);
+            renderCart();
+            alert("Twój projekt dodany do koszyka!");
         });
     });
 
-    function addToCartWithQty(name, price, qtyInputId) {
-        const quantity = parseInt(document.getElementById(qtyInputId).value);
-        if (quantity < 1) { alert("Ilość musi być większa od 0!"); return; }
-        addToCart(name, price, quantity);
-        document.getElementById(qtyInputId).value = "1";
+    // KOSZYK
+    function renderCart() {
+        const tbody = document.getElementById('cartBody');
+        tbody.innerHTML = '';
+        let total = 0;
+        
+        cart.forEach((item, index) => {
+            const sum = item.price * item.quantity;
+            total += sum;
+            tbody.innerHTML += `
+                <tr>
+                    <td>${item.name} ${item.file ? '<i class="fas fa-image" style="color:var(--orange)"></i>' : ''}</td>
+                    <td>${item.price.toFixed(2)} zł</td>
+                    <td>${item.quantity}</td>
+                    <td>${sum.toFixed(2)} zł</td>
+                    <td><button onclick="remove(${index})" style="color:red; background:none; border:none; cursor:pointer;"><i class="fas fa-trash"></i></button></td>
+                </tr>
+            `;
+        });
+        
+        if(cart.length === 0) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Pusto :(</td></tr>';
+        document.getElementById('totalPrice').innerText = total.toFixed(2);
+        updateBadge();
     }
 
-    function addToCart(name, price, quantity, fileBlob = null) {
-        let existingItem = null;
-        if (!fileBlob) {
-             existingItem = cart.find(item => item.name === name && !item.file);
-        }
-
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            cart.push({ name, price, quantity, file: fileBlob });
-        }
-        renderCart();
-    }
-
-    function removeFromCart(index) {
+    function remove(index) {
         cart.splice(index, 1);
         renderCart();
     }
 
-    function renderCart() {
-        const tbody = document.getElementById('cartBody');
-        const totalSpan = document.getElementById('totalPrice');
-        tbody.innerHTML = '';
-        let total = 0;
-
-        if (cart.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#999;">Koszyk jest pusty</td></tr>';
-        } else {
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                let row = `<tr>
-                    <td>
-                        <strong>${item.name}</strong>
-                        ${item.file ? '<br><small style="color: var(--color-orange); font-weight:600;">(Plik graficzny załączony)</small>' : ''}
-                    </td>
-                    <td style="text-align:center;">${item.price.toFixed(2)} zł</td>
-                    <td style="text-align:center; font-weight:600;">${item.quantity} szt.</td>
-                    <td style="text-align:right; font-weight:700; color: var(--color-navy);">${itemTotal.toFixed(2)} zł</td>
-                    <td style="text-align:center;"><button class="btn-remove" onclick="removeFromCart(${index})">Usuń</button></td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
-        }
-
-        totalSpan.innerText = total.toFixed(2);
-    }
-    
-    renderCart();
-
+    // WYSYŁKA
     async function checkout() {
-        if (!ACCESS_KEY || ACCESS_KEY === "TWÓJ_KLUCZ_PRO_TUTAJ") { alert("BŁĄD KONFIGURACJI: Wpisz swój klucz Web3Forms w kodzie!"); return; }
+        if (!ACCESS_KEY || ACCESS_KEY.includes("KLUCZ")) { alert("Ustaw klucz API w kodzie!"); return; }
         if (cart.length === 0) { alert("Koszyk jest pusty!"); return; }
         
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
-        
-        if (!name || !email) { alert("Uzupełnij imię i e-mail!"); return; }
+        if (!name || !email) { alert("Podaj dane!"); return; }
 
         const btn = document.querySelector('.btn-checkout');
-        const originalText = btn.innerText;
-        btn.innerText = "Wysyłanie zamówienia i plików...";
+        const oldText = btn.innerText;
+        btn.innerText = "Wysyłanie...";
         btn.disabled = true;
 
         const formData = new FormData();
         formData.append("access_key", ACCESS_KEY);
-        formData.append("subject", "Nowe zamówienie od: " + name);
+        formData.append("subject", "Nowe zamówienie: " + name);
         formData.append("imie", name);
         formData.append("email", email);
         
-        let orderDetails = "";
+        let desc = "";
         let total = 0;
-        let fileCounter = 1;
+        let fileCount = 1;
 
-        for (const [index, item] of cart.entries()) {
-            const itemTotal = item.price * item.quantity;
-            total += itemTotal;
-            orderDetails += `${index + 1}. ${item.name} | Ilość: ${item.quantity} szt. | Suma: ${itemTotal.toFixed(2)} PLN\n`;
-            
+        for (const [i, item] of cart.entries()) {
+            const sum = item.price * item.quantity;
+            total += sum;
+            desc += `${i+1}. ${item.name} | Ilość: ${item.quantity} | Suma: ${sum.toFixed(2)} zł\n`;
             if (item.file) {
-                const fileName = `Projekt_${name.replace(/\s+/g, '_')}_${fileCounter}.png`;
-                formData.append("attachment", item.file, fileName);
-                orderDetails += `   [ZAŁĄCZONO PLIK GRAFICZNY: ${fileName}]\n`;
-                fileCounter++;
+                const fname = `Projekt_${name.replace(/\s/g,'_')}_${fileCount}.png`;
+                formData.append("attachment", item.file, fname);
+                desc += `   [ZAŁĄCZONO PLIK: ${fname}]\n`;
+                fileCount++;
             }
         }
-
-        formData.append("szczegoly_zamowienia", orderDetails);
-        formData.append("RAZEM_DO_ZAPLATY", total.toFixed(2) + " PLN");
+        formData.append("zamowienie", desc);
+        formData.append("DO_ZAPLATY", total.toFixed(2) + " PLN");
+        formData.append("status_platnosci", "Oczekiwanie na BLIK");
 
         try {
-            const response = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (response.status === 200) {
-                alert("SUKCES! \n\nTwoje zamówienie ORAZ pliki graficzne zostały pomyślnie wysłane.\nDziękujemy za zakupy w PIN ME UP!");
-                
-                cart = [];
-                renderCart();
+            const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+            if (res.status === 200) {
+                alert("SUKCES! Zamówienie wysłane.\nTeraz wykonaj przelew BLIK na podany numer, abyśmy zaczęli produkcję!");
+                cart = []; renderCart();
                 document.getElementById('clientName').value = "";
                 document.getElementById('clientEmail').value = "";
-            } else {
-                console.log(result);
-                alert("Błąd serwera: " + (result.message || "Sprawdź klucz dostępu"));
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Błąd połączenia internetowego. Spróbuj ponownie.");
-        } finally {
-            btn.innerText = originalText;
-            btn.disabled = false;
-        }
+            } else { alert("Błąd serwera."); }
+        } catch (e) { alert("Błąd połączenia."); } 
+        finally { btn.innerText = oldText; btn.disabled = false; }
     }
 </script>
 
 </body>
 </html>
-
