@@ -68,11 +68,11 @@
         }
         .cart-btn:hover { transform: translateY(-2px); background: white; }
 
-        /* LAYOUT */
+        /* LAYOUT - Zmiana proporcji dla koszyka po prawej */
         .main-wrapper {
             max-width: 1200px; margin: 30px auto; padding: 0 20px;
             display: grid; 
-            grid-template-columns: 3fr 1.1fr; 
+            grid-template-columns: 2fr 1.2fr; /* Prawa kolumna szersza dla koszyka */
             gap: 30px;
             align-items: start;
         }
@@ -111,6 +111,29 @@
             border-radius: 15px; font-weight: 800; font-size: 1.1rem; z-index: 2; transform: rotate(-1deg);
         }
 
+        /* BANER DZIEKANA */
+        .dean-alert {
+            grid-column: 1 / -1;
+            background: linear-gradient(45deg, #111, #333);
+            color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid var(--accent);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .dean-alert::before {
+            content: '📸'; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 3rem; opacity: 0.3;
+        }
+        .dean-alert::after {
+            content: '🎓'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 3rem; opacity: 0.3;
+        }
+        .dean-alert h2 { margin: 0 0 10px 0; color: var(--accent); font-weight: 900; text-transform: uppercase; font-size: 1.3rem; }
+        .dean-alert p { margin: 0; font-size: 1rem; line-height: 1.5; }
+
         /* AKORDEON */
         .accordion-item {
             background: white; border-radius: 15px; margin-bottom: 20px;
@@ -130,15 +153,23 @@
 
         .zone-desc { font-size: 0.9rem; color: #666; margin-bottom: 20px; font-style: italic; border-left: 3px solid #eee; padding-left: 10px; }
 
-        /* KARTY */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        /* KARTY - NOWE EFEKTY */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
         .card {
             border: 1px solid #f0f0f0; border-radius: 16px; padding: 20px; text-align: center;
-            transition: 0.3s; position: relative; background: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Sprężysty efekt */
+            position: relative; background: white;
             display: flex; flex-direction: column; justify-content: space-between;
         }
-        .card:hover { border-color: var(--salmon); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .card img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; border: 4px solid #f8f9fa; }
+        /* Hover efekt: powiększenie i cień */
+        .card:hover { 
+            border-color: var(--salmon); 
+            transform: scale(1.05) translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(58, 42, 107, 0.2); 
+            z-index: 10;
+        }
+        .card img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; border: 4px solid #f8f9fa; transition: 0.3s; }
+        .card:hover img { border-color: var(--accent); }
         .card h3 { font-size: 1rem; margin: 0 0 10px 0; font-weight: 700; color: #444; }
         .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 15px; font-size: 1.2rem; }
         .old-price { text-decoration: line-through; color: #aaa; font-size: 0.9rem; margin-right: 5px; }
@@ -152,52 +183,96 @@
         
         .qty-mini { width: 45px; text-align: center; border: 2px solid #eee; border-radius: 8px; font-size: 1rem; padding: 8px; font-weight: bold; color: var(--primary); }
 
-        /* SIDEBAR */
-        .sidebar { position: sticky; top: 100px; }
+        /* SIDEBAR (TERAZ Z KOSZYKIEM) */
+        .sidebar { position: sticky; top: 100px; height: fit-content; }
+        
+        .cart-wrapper { 
+            background: white; padding: 25px; border-radius: 20px; 
+            border: 2px solid var(--primary); margin-top: 0; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative; overflow: hidden;
+            margin-bottom: 30px;
+        }
+        /* Pasek ozdobny koszyka */
+        .cart-wrapper::before {
+            content: ''; position: absolute; top:0; left:0; width:100%; height:10px;
+            background: repeating-linear-gradient(45deg, var(--primary), var(--primary) 10px, var(--salmon) 10px, var(--salmon) 20px);
+        }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; font-size: 0.85rem; }
+        td { padding: 5px; border-bottom: 1px solid #f9f9f9; vertical-align: middle; }
+        
+        .promo-alert { 
+            background: linear-gradient(to right, #dff9fb, #c7ecee); color: #130f40; padding: 10px; border-radius: 10px; font-size: 0.85rem; margin-top: 15px; border: 1px solid #badc58;
+            animation: fadeIn 0.5s; 
+        }
+        .saved-amount { color: #27ae60; text-align: right; font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; display: block; margin-top: 10px; }
+        .total { font-size: 1.3rem; font-weight: 900; text-align: right; color: var(--primary); margin-top: 20px; }
+
+        .payment-options { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
+        .pay-option { 
+            flex: 1; border: 2px solid #eee; padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.2s; min-width: 100px; background: #fff; font-size: 0.8rem;
+        }
+        .pay-option.active { border-color: var(--salmon); background: #fff5eb; transform: scale(1.02); }
+        .pay-option i { font-size: 1.5rem; display: block; margin-bottom: 5px; color: #ccc; }
+        .pay-option.active i { color: var(--salmon); }
+        
+        .blik-warning { display: none; background: #ffebeb; color: #d63031; padding: 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 500; border-left: 5px solid #d63031; margin-bottom: 20px; }
+        
+        .tip-box { background: #fffbf0; padding: 10px; border-radius: 10px; margin: 15px 0; border: 1px solid var(--accent); display: flex; align-items: center; font-size: 0.85rem; }
+        .tip-box input { width: 18px; height: 18px; margin-right: 10px; accent-color: var(--accent); }
+        
+        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 0.9rem; }
+        .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 15px; font-size: 1.1rem; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
+        .btn-checkout:hover { background: var(--salmon); color: var(--primary); transform: translateY(-2px); }
+
+        /* GALERIA NA DOLE */
+        .bottom-gallery {
+            grid-column: 1 / -1;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-top: 40px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .gallery-grid img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .gallery-grid img:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+        /* OPINIE SIDEBAR */
         .sidebar-box {
             background: white; border-radius: 16px; padding: 25px; margin-bottom: 25px;
             box-shadow: var(--shadow); border: 1px solid #fff;
         }
         .sidebar-title { font-weight: 900; color: var(--primary); margin-bottom: 20px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
-        .mini-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .mini-gallery img { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; }
         .review { background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-size: 0.9rem; font-style: italic; border-left: 4px solid var(--primary-light); }
         .review-author { display: block; text-align: right; font-weight: 700; font-style: normal; margin-top: 8px; font-size: 0.8rem; color: var(--salmon-dark); }
-
-        /* KOSZYK */
-        .cart-wrapper { 
-            background: white; padding: 35px; border-radius: 20px; 
-            border: 2px solid #f0f0f0; margin-top: 40px; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            position: relative; overflow: hidden;
+        
+        .review.vip {
+            background: #fffbf0;
+            border-left-color: var(--accent);
+            border: 1px solid var(--accent);
+            position: relative;
         }
-        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; font-size: 0.95rem; }
-        td { padding: 10px; border-bottom: 1px solid #f9f9f9; vertical-align: middle; }
-        
-        .promo-alert { 
-            background: linear-gradient(to right, #dff9fb, #c7ecee); color: #130f40; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-top: 15px; border: 1px solid #badc58;
-            animation: fadeIn 0.5s; 
+        .review.vip::after {
+            content: '⭐ VIP';
+            position: absolute; top: -10px; right: -10px;
+            background: var(--accent); color: var(--primary);
+            padding: 3px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .saved-amount { color: #27ae60; text-align: right; font-weight: 800; font-size: 1.2rem; margin-bottom: 5px; display: block; margin-top: 10px; }
-        .total { font-size: 1.5rem; font-weight: 900; text-align: right; color: var(--primary); margin-top: 20px; }
-
-        .payment-options { display: flex; gap: 15px; margin: 25px 0; flex-wrap: wrap; }
-        .pay-option { 
-            flex: 1; border: 2px solid #eee; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.2s; min-width: 140px; background: #fff;
-        }
-        .pay-option.active { border-color: var(--salmon); background: #fff5eb; transform: scale(1.02); }
-        .pay-option i { font-size: 1.8rem; display: block; margin-bottom: 10px; color: #ccc; }
-        .pay-option.active i { color: var(--salmon); }
-        
-        .blik-warning { display: none; background: #ffebeb; color: #d63031; padding: 15px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; border-left: 5px solid #d63031; margin-bottom: 20px; }
-        
-        /* Zmiana na Tips */
-        .tip-box { background: #fffbf0; padding: 15px; border-radius: 10px; margin: 20px 0; border: 1px solid var(--accent); display: flex; align-items: center; }
-        .tip-box input { width: 20px; height: 20px; margin-right: 15px; accent-color: var(--accent); }
-        
-        input.field { width: 100%; padding: 15px; margin-bottom: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 1rem; }
-        .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 20px; font-size: 1.3rem; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: 0.2s; }
-        .btn-checkout:hover { background: var(--salmon); color: var(--primary); transform: translateY(-2px); }
 
         /* KREATOR */
         .img-container { height: 400px; background: #333; display: none; margin: 20px 0; border-radius: 10px; overflow: hidden; }
@@ -240,6 +315,12 @@
             <div class="promo-banner">
                 <i class="fa-solid fa-fire"></i> 5+1 GRATIS (ten sam wzór)
             </div>
+        </div>
+
+        <div class="dean-alert">
+            <h2>🚨 Breaking News: FOTOBUDKA Z DZIEKANEM!</h2>
+            <p>Tego jeszcze nie było! <strong>17 Grudnia (12:00 - 14:00)</strong> w naszej budce czeka sam <strong style="color:var(--accent);">DZIEKAN TURZYŃSKI!</strong><br>
+            Wpadnij, zrób sobie z nim fotkę na przypinkę i zapewnij sobie <strong>+10 pkt do charyzmy</strong> na egzaminie dyplomowym!</p>
         </div>
 
         <div class="accordion-item active">
@@ -436,10 +517,26 @@
             </div>
         </div>
 
+        <div class="bottom-gallery">
+            <h2 class="sidebar-title">📸 GALERIA LUDZI</h2>
+            <div class="gallery-grid">
+                <img src="https://via.placeholder.com/200x200?text=Usmiech" alt="G">
+                <img src="https://via.placeholder.com/200x200?text=Ekipa" alt="G">
+                <img src="https://via.placeholder.com/200x200?text=Selfie" alt="G">
+                <img src="https://via.placeholder.com/200x200?text=Przypinka" alt="G">
+                <img src="https://via.placeholder.com/200x200?text=Dziedziniec" alt="G">
+                <img src="https://via.placeholder.com/200x200?text=Impreza" alt="G">
+            </div>
+        </div>
+
+    </div> 
+    
+    <div class="sidebar">
+        
         <div id="koszyk" class="cart-wrapper">
-            <h2 style="margin-top:0; color:var(--primary); text-transform:uppercase; font-size:1.5rem; border-bottom:2px solid #eee; padding-bottom:15px;">🛒 Twoje Zamówienie</h2>
+            <h2 style="margin-top:0; color:var(--primary); text-transform:uppercase; font-size:1.3rem; border-bottom:2px solid #eee; padding-bottom:15px;">🛒 Twój Koszyk</h2>
             <table>
-                <tbody id="cartBody"><tr><td colspan="4" style="text-align:center; padding:30px; color:#aaa;">Koszyk jest pusty...<br>Dodaj coś fajnego!</td></tr></tbody>
+                <tbody id="cartBody"><tr><td colspan="4" style="text-align:center; padding:30px; color:#aaa;">Pusto...<br>Kliknij "Dodaj"!</td></tr></tbody>
             </table>
             
             <div id="promoMessage"></div>
@@ -447,56 +544,49 @@
             <div class="tip-box">
                 <label style="cursor:pointer; display:flex; align-items:center; width:100%;">
                     <input type="checkbox" id="tipCheck" onchange="updateCart()">
-                    <span><strong>Napiwek na Monsterka dla Twórców</strong> <small style="display:block; color:#666;">(Symboliczne 1 PLN na przetrwanie sesji ❤️)</small></span>
+                    <span><strong>Napiwek na Monsterka</strong> <br><small style="color:#666;">(+1 PLN dla nas ❤️)</small></span>
                 </label>
             </div>
 
             <div class="saved-amount" id="savedAmount"></div>
-            <div class="total">DO ZAPŁATY: <span id="totalPrice">0.00</span> PLN</div>
+            <div class="total">RAZEM: <span id="totalPrice">0.00</span> PLN</div>
             
-            <div style="background:#fcfcfc; padding:20px; border-radius:15px; margin-top:25px; border:1px solid #eee;">
-                <h4 style="margin-top:0;">Wybierz metodę płatności:</h4>
+            <div style="background:#fcfcfc; padding:15px; border-radius:15px; margin-top:20px; border:1px solid #eee;">
+                <h4 style="margin-top:0; font-size:0.9rem;">Płatność:</h4>
                 <div class="payment-options">
                     <div class="pay-option active" id="opt-blik" onclick="setPay('blik')">
-                        <i class="fa-solid fa-mobile-screen"></i> BLIK na telefon
+                        <i class="fa-solid fa-mobile-screen"></i> BLIK
                     </div>
                     <div class="pay-option" id="opt-cash" onclick="setPay('cash')">
-                        <i class="fa-solid fa-hand-holding-dollar"></i> Gotówka przy odbiorze
+                        <i class="fa-solid fa-hand-holding-dollar"></i> Gotówka
                     </div>
                 </div>
                 <input type="hidden" id="selectedPayment" value="BLIK">
 
                 <div class="blik-warning" id="blikWarning" style="display:block;">
-                    ⚠️ <strong>WAŻNE:</strong> Przelew BLIK na nr <strong>123-456-789</strong>. Brak wpłaty = anulowanie!
+                    ⚠️ Przelew BLIK na <strong>123-456-789</strong>
                 </div>
 
-                <input type="text" id="clientName" class="field" placeholder="Twoje Imię i Nazwisko">
-                <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
+                <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
+                <input type="email" id="clientEmail" class="field" placeholder="E-mail">
                 <button class="btn-checkout" onclick="checkout()">🚀 ZAMAWIAM</button>
             </div>
         </div>
 
-    </div> 
-    
-    <div class="sidebar">
-        <div class="sidebar-box">
-            <div class="sidebar-title">📸 GALERIA LUDZI</div>
-            <div class="mini-gallery">
-                <img src="https://via.placeholder.com/150x100?text=Gwiazda1" alt="G">
-                <img src="https://via.placeholder.com/150x100?text=Gwiazda2" alt="G">
-                <img src="https://via.placeholder.com/150x100?text=Ekipa" alt="G">
-                <img src="https://via.placeholder.com/150x100?text=Kot" alt="G">
-            </div>
-        </div>
         <div class="sidebar-box">
             <div class="sidebar-title">💬 GŁOS LUDU (OPINIE)</div>
+            
+            <div class="review vip">
+                "Zatwierdzam ten projekt. Przypinki są zgodne z regulaminem, a selfie ze mną jest... mile widziane." 
+                <span class="review-author" style="color:var(--primary); font-weight:900;">~ Dziekan Turzyński</span>
+            </div>
+
             <div class="review">"Kupiłem Dubajską Czekoladę, żeby zaimponować na ustnym z algebry. Zadziałało." <span class="review-author">~Marek, III rok</span></div>
             <div class="review">"Selfie z Gwiazdą Wydziału? Wchodzę w to!" <span class="review-author">~Fanka Turzyna</span></div>
-            <div class="review">"Przypinka Pride wygląda sztos na plecaku. Polecajka." <span class="review-author">~Alex</span></div>
-            <div class="review">"Blindbox trafił mi się idealny. Chyba czytają w myślach." <span class="review-author">~Anonim</span></div>
-            <div class="review">"Kupiłem dla beki, noszę nieironicznie." <span class="review-author">~Seba</span></div>
+            <div class="review">"Blindbox trafił mi się idealny." <span class="review-author">~Anonim</span></div>
             <div class="review">"W końcu coś fajnego na tym wydziale." <span class="review-author">~Zofia</span></div>
         </div>
+
     </div>
 
 </div>
