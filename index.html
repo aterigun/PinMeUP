@@ -3,152 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sklep z Przypinkami - Projekt Studencki</title>
+    <title>PinMeUP!</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- STYLE OGÓLNE --- */
-        body { font-family: 'Poppins', sans-serif; background: #f0f2f5; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        
-        h1, h2 { text-align: center; color: #1a1a1a; margin-bottom: 20px; }
-        h1 { font-size: 2.5em; color: #007bff; }
-        
-        section { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 30px; transition: transform 0.2s; }
-        section:hover { transform: translateY(-2px); }
-
-        /* --- GALERIA --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-        .product-card { border: 1px solid #eee; border-radius: 10px; padding: 15px; text-align: center; background: #fafafa; }
-        .product-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 4px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .price { font-weight: bold; color: #28a745; display: block; margin: 10px 0; font-size: 1.1em; }
-
-        /* --- KREATOR --- */
-        .img-container { max-width: 100%; height: 400px; background: #333; display: none; margin: 20px 0; border-radius: 8px; overflow: hidden; }
-        /* To sprawia, że w edytorze widzimy kółko, mimo że wycinamy kwadrat */
-        .cropper-view-box, .cropper-face { border-radius: 50%; }
-
-        /* --- KOSZYK --- */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-        th { background: #f8f9fa; color: #666; font-size: 0.9em; text-transform: uppercase; }
-        .cart-total { text-align: right; font-size: 1.4em; font-weight: bold; margin-top: 20px; color: #333; }
-        
-        /* --- FORMULARZ I GUZIKI --- */
-        input[type="text"], input[type="email"], input[type="file"] {
-            width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; font-family: inherit;
+        :root {
+            --color-navy: #2A235B;
+            --color-orange: #FF9F68;
+            --color-bg: #f4f7f6;
+            --color-text: #333;
         }
-        input:focus { border-color: #007bff; outline: none; }
 
-        button { cursor: pointer; border: none; border-radius: 8px; font-family: inherit; font-weight: 600; transition: 0.2s; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--color-navy), #3e3486);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: white;
+        }
+
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container img {
+            height: 60px;
+            width: auto;
+        }
+
+        .shop-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
         
-        .btn-add { background: #007bff; color: white; padding: 10px 20px; width: 100%; }
-        .btn-add:hover { background: #0056b3; }
+        h1, h2 {
+            text-align: center;
+            color: var(--color-navy);
+            margin-bottom: 25px;
+        }
+        h1 { font-size: 2.5em; font-weight: 700; }
+        h2 {
+            font-size: 1.6em;
+            border-bottom: 3px solid var(--color-orange);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
         
-        .btn-remove { color: #dc3545; background: none; padding: 5px 10px; font-size: 0.9em; border: 1px solid #dc3545; }
+        section {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+            margin-bottom: 40px;
+            border: 1px solid #eee;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        .section-header { text-align: center; margin-bottom: 25px; }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        .product-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            background: #fff;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product-card:hover {
+            border-color: var(--color-orange);
+            box-shadow: 0 4px 15px rgba(255, 159, 104, 0.3);
+        }
+        .product-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 5px solid var(--color-bg);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover img { transform: scale(1.05); }
+        .product-title { font-weight: 600; font-size: 1.1em; margin-bottom: 5px; }
+        .price {
+            font-weight: 700;
+            color: var(--color-navy);
+            display: block;
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .quantity-label { font-size: 0.9em; margin-right: 10px; color: #666; }
+        .quantity-input {
+            width: 60px;
+            padding: 8px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 600;
+        }
+        .quantity-input:focus { border-color: var(--color-orange); outline: none; }
+
+        .img-container {
+            max-width: 100%;
+            height: 450px;
+            background: #f0f0f0;
+            display: none;
+            margin: 25px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+            border: 2px solid var(--color-navy);
+        }
+        
+        .cropper-view-box, .cropper-face {
+            border-radius: 50%;
+            outline: 3px solid var(--color-orange);
+            box-shadow: 0 0 0 9999px rgba(42, 35, 91, 0.5);
+        }
+        
+        .cropper-view-box { outline-color: var(--color-orange); }
+        .cropper-dashed, .cropper-point, .cropper-line { display: none !important; }
+
+        .cart-table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 15px; }
+        th, td { padding: 15px; text-align: left; vertical-align: middle; }
+        th {
+            background-color: var(--color-navy);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        th:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+        th:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+        tbody tr {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        tbody tr:hover { transform: scale(1.01); }
+        td { border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        td:first-child { border-left: 1px solid #eee; border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+        td:last-child { border-right: 1px solid #eee; border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+
+        .cart-total-box {
+            background-color: var(--color-navy);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: right;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(42, 35, 91, 0.3);
+        }
+        .cart-total-box span { color: var(--color-orange); }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--color-navy); }
+        input[type="text"], input[type="email"], input[type="file"] {
+            width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; box-sizing: border-box; font-family: inherit; font-size: 1em; transition: border-color 0.3s;
+        }
+        input:focus { border-color: var(--color-orange); outline: none; }
+        input[type="file"] { padding: 10px; background-color: #fff; cursor: pointer; }
+
+        button {
+            cursor: pointer; border: none; border-radius: 10px; font-family: inherit; font-weight: 700; transition: all 0.3s ease;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        
+        .btn-add {
+            background: var(--color-navy); color: white; padding: 12px 25px; width: 100%; font-size: 1em;
+            box-shadow: 0 4px 10px rgba(42, 35, 91, 0.2);
+        }
+        .btn-add:hover { background: #3e3486; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(42, 35, 91, 0.3); }
+        
+        .btn-crop {
+            background: var(--color-orange); color: var(--color-navy); padding: 15px 30px; width: 100%; font-size: 1.1em; margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(255, 159, 104, 0.3);
+        }
+        .btn-crop:hover { background: #ff8c4d; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 159, 104, 0.4); }
+
+        .btn-remove {
+            color: #dc3545; background: rgba(220, 53, 69, 0.1); padding: 8px 15px; font-size: 0.9em; border-radius: 8px; transition: 0.2s;
+        }
         .btn-remove:hover { background: #dc3545; color: white; }
 
-        .btn-checkout { background: #28a745; color: white; padding: 18px; font-size: 1.2em; width: 100%; margin-top: 10px; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); }
-        .btn-checkout:hover { background: #218838; transform: scale(1.02); }
-        .btn-checkout:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-checkout {
+            background: var(--color-orange); color: var(--color-navy); padding: 20px; font-size: 1.3em; width: 100%; margin-top: 25px;
+            box-shadow: 0 5px 20px rgba(255, 159, 104, 0.4);
+        }
+        .btn-checkout:hover { background: #ff8c4d; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 159, 104, 0.5); }
+        .btn-checkout:disabled { background: #ccc; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* Instrukcja dla klienta */
-        .alert-info { background: #e3f2fd; color: #0d47a1; padding: 15px; border-radius: 8px; font-size: 0.9em; line-height: 1.5; margin-bottom: 20px; border-left: 5px solid #2196f3; }
+        .alert-info {
+            background: #eef2ff;
+            color: var(--color-navy);
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            border-left: 6px solid var(--color-orange);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .alert-info strong { color: var(--color-orange); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🔘 Przypinkowo</h1>
+<header>
+    <div class="header-container">
+        <div class="logo-container">
+            <img src="pinmeup_logo.jpg" alt="PIN ME UP! Logo">
+        </div>
+        <div class="shop-title">
+            PinMeUP!
+        </div>
+    </div>
+</header>
+
+<div class="main-container">
     
     <div class="alert-info">
-        <strong>Jak to działa?</strong><br>
-        1. Wybierz gotowe wzory lub stwórz własny ze swojego zdjęcia.<br>
-        2. Przy "Własnym Projekcie" program dotnie zdjęcie do idealnego rozmiaru.<br>
-        3. Po zamówieniu, gotowe pliki z Twoim projektem pobiorą się na Twój komputer – wyślij je nam mailem!
+        <strong>Witaj w świecie przypinek!</strong><br>
+        1. Wybierz nasze autorskie wzory i określ, ile sztuk potrzebujesz.<br>
+        2. Lub stwórz własną, unikalną przypinkę w naszym kreatorze (idealne kółko 58mm!).<br>
+        3. Po złożeniu zamówienia, wszystkie pliki (w tym Twoje projekty) automatycznie trafią do nas. Proste!
     </div>
 
     <section>
-        <h2>1. Gotowe Wzory (5 PLN)</h2>
+        <div class="section-header">
+            <h2>1. Gotowe Wzory (5 PLN/szt.)</h2>
+        </div>
         <div class="gallery-grid">
             <div class="product-card">
-                <img src="https://via.placeholder.com/150/FF5733/FFFFFF?text=KOT" alt="Wzór 1">
-                <div>Kot Śmieszek</div>
+                <img src="https://via.placeholder.com/150/FF9F68/2A235B?text=KOT" alt="Wzór 1">
+                <div class="product-title">Kot Śmieszek</div>
                 <span class="price">5.00 PLN</span>
-                <button class="btn-add" onclick="addToCart('Gotowiec: Kot Śmieszek', 5.00)">Dodaj</button>
+                <div class="quantity-control">
+                    <span class="quantity-label">Ilość:</span>
+                    <input type="number" id="qty-kot" class="quantity-input" value="1" min="1">
+                </div>
+                <button class="btn-add" onclick="addToCartWithQty('Gotowiec: Kot Śmieszek', 5.00, 'qty-kot')">Dodaj do koszyka</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/150/33FF57/FFFFFF?text=PIES" alt="Wzór 2">
-                <div>Pieseł</div>
+                <img src="https://via.placeholder.com/150/2A235B/FF9F68?text=PIES" alt="Wzór 2">
+                <div class="product-title">Pieseł</div>
                 <span class="price">5.00 PLN</span>
-                <button class="btn-add" onclick="addToCart('Gotowiec: Pieseł', 5.00)">Dodaj</button>
+                <div class="quantity-control">
+                    <span class="quantity-label">Ilość:</span>
+                    <input type="number" id="qty-pies" class="quantity-input" value="1" min="1">
+                </div>
+                <button class="btn-add" onclick="addToCartWithQty('Gotowiec: Pieseł', 5.00, 'qty-pies')">Dodaj do koszyka</button>
             </div>
             <div class="product-card">
-                <img src="https://via.placeholder.com/150/3357FF/FFFFFF?text=LOGO" alt="Wzór 3">
-                <div>Logo Uczelni</div>
+                <img src="https://via.placeholder.com/150/FF9F68/FFFFFF?text=LOGO" alt="Wzór 3">
+                <div class="product-title">Logo Uczelni</div>
                 <span class="price">5.00 PLN</span>
-                <button class="btn-add" onclick="addToCart('Gotowiec: Logo Uczelni', 5.00)">Dodaj</button>
+                <div class="quantity-control">
+                    <span class="quantity-label">Ilość:</span>
+                    <input type="number" id="qty-logo" class="quantity-input" value="1" min="1">
+                </div>
+                <button class="btn-add" onclick="addToCartWithQty('Gotowiec: Logo Uczelni', 5.00, 'qty-logo')">Dodaj do koszyka</button>
             </div>
         </div>
     </section>
 
     <section>
-        <h2>2. Twój Własny Projekt (7 PLN)</h2>
-        <p>Wgraj zdjęcie. My wytniemy z niego idealne koło.</p>
+        <div class="section-header">
+            <h2>2. Twój Własny Projekt (7 PLN/szt.)</h2>
+        </div>
+        <p style="text-align: center; margin-bottom: 20px;">Wgraj zdjęcie, a my zadbamy o idealne kółko 58mm.</p>
         
-        <input type="file" id="inputImage" accept="image/*">
+        <div class="form-group">
+            <label class="form-label">Wybierz plik graficzny:</label>
+            <input type="file" id="inputImage" accept="image/*">
+        </div>
         
         <div class="img-container" id="imgContainer">
             <img id="image" src="">
         </div>
-        
-        <button id="btnCropToAdd" class="btn-add" style="background: #6f42c1; display:none;">ZATWIERDŹ PROJEKT I DODAJ DO KOSZYKA</button>
+
+        <div id="cropControls" style="display:none;">
+            <div class="quantity-control" style="justify-content: center; margin-top: 20px;">
+                <span class="quantity-label" style="font-size: 1.1em; font-weight: 600;">Ilość sztuk:</span>
+                <input type="number" id="qty-custom" class="quantity-input" value="1" min="1" style="width: 80px; font-size: 1.1em;">
+            </div>
+            <button id="btnCropToAdd" class="btn-crop">ZATWIERDŹ PROJEKT I DODAJ DO KOSZYKA</button>
+        </div>
     </section>
 
     <section>
-        <h2>3. Twój Koszyk</h2>
-        <table id="cartTable">
-            <thead>
-                <tr>
-                    <th>Produkt</th>
-                    <th style="text-align:right;">Cena</th>
-                    <th style="text-align:center;">Opcje</th>
-                </tr>
-            </thead>
-            <tbody id="cartBody">
+        <div class="section-header">
+            <h2>3. Twój Koszyk</h2>
+        </div>
+        <div class="cart-table-container">
+            <table id="cartTable">
+                <thead>
+                    <tr>
+                        <th>Produkt</th>
+                        <th style="text-align:center;">Cena jedn.</th>
+                        <th style="text-align:center;">Ilość</th>
+                        <th style="text-align:right;">Suma</th>
+                        <th style="text-align:center;">Opcje</th>
+                    </tr>
+                </thead>
+                <tbody id="cartBody">
                 </tbody>
-        </table>
+            </table>
+        </div>
         
-        <div class="cart-total">Razem: <span id="totalPrice">0.00</span> PLN</div>
+        <div class="cart-total-box">
+            Do zapłaty: <span id="totalPrice">0.00</span> PLN
+        </div>
         
-        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+        <hr style="margin: 30px 0; border: 0; border-top: 2px solid #eee;">
         
         <h3>Dane do zamówienia</h3>
-        <input type="text" id="clientName" placeholder="Imię i Nazwisko">
-        <input type="email" id="clientEmail" placeholder="Twój adres e-mail (ważne!)">
+        <div class="form-group">
+            <label for="clientName" class="form-label">Imię i Nazwisko:</label>
+            <input type="text" id="clientName" placeholder="Wpisz swoje dane...">
+        </div>
+        <div class="form-group">
+            <label for="clientEmail" class="form-label">Adres e-mail (ważne!):</label>
+            <input type="email" id="clientEmail" placeholder="Np. jan.kowalski@example.com">
+        </div>
         
-        <button class="btn-checkout" onclick="checkout()">WYŚLIJ ZAMÓWIENIE</button>
+        <button class="btn-checkout" onclick="checkout()">WYŚLIJ ZAMÓWIENIE I PLIKI</button>
     </section>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
-    // ==========================================================
-    // KONFIGURACJA - TU WPISZ WASZ EMAIL!
-    // Pamiętaj: Po pierwszym zamówieniu musicie kliknąć link aktywacyjny na mailu.
-    const EMAIL_TARGET = "pinmeup.fuw@gmail.com"; 
-    // ==========================================================
+    const ACCESS_KEY = "8a7e51bf-8aab-4ee7-b678-7ae82f55c7c6";
 
     let cart = [];
     let cropper;
     const image = document.getElementById('image');
     const inputImage = document.getElementById('inputImage');
     const imgContainer = document.getElementById('imgContainer');
+    const cropControls = document.getElementById('cropControls');
     const btnCropToAdd = document.getElementById('btnCropToAdd');
 
-    // 1. OBSŁUGA KREATORA (CROPPER)
     inputImage.addEventListener('change', function (e) {
         const files = e.target.files;
         if (files && files.length > 0) {
@@ -157,40 +395,63 @@
             reader.onload = function (e) {
                 image.src = e.target.result;
                 imgContainer.style.display = 'block';
-                btnCropToAdd.style.display = 'block';
+                cropControls.style.display = 'block';
                 
                 if (cropper) { cropper.destroy(); }
                 cropper = new Cropper(image, {
-                    aspectRatio: 1, // Kwadrat
+                    aspectRatio: 1,
                     viewMode: 1,
+                    dragMode: 'move',
+                    autoCropArea: 0.6,
+                    restore: false,
                     guides: false,
-                    autoCropArea: 0.8,
+                    center: false,
+                    highlight: false,
+                    cropBoxMovable: false,
+                    cropBoxResizable: false,
+                    toggleDragModeOnDblclick: false,
                 });
             };
             reader.readAsDataURL(file);
         }
     });
 
-    // 2. DODAWANIE WŁASNEGO PROJEKTU DO KOSZYKA
     btnCropToAdd.addEventListener('click', function() {
         if(!cropper) return;
         
-        // Generujemy obraz w wysokiej jakości
+        const quantity = parseInt(document.getElementById('qty-custom').value);
+        if (quantity < 1) { alert("Ilość musi być większa od 0!"); return; }
+
         cropper.getCroppedCanvas({ width: 1200, height: 1200, fillColor: '#fff' }).toBlob((blob) => {
-            addToCart("PROJEKT WŁASNY", 7.00, blob);
+            addToCart("PROJEKT WŁASNY", 7.00, quantity, blob);
             
-            // Reset widoku
             cropper.destroy();
             imgContainer.style.display = 'none';
-            btnCropToAdd.style.display = 'none';
+            cropControls.style.display = 'none';
             inputImage.value = "";
-            alert("Dodano Twój projekt do koszyka!");
+            document.getElementById('qty-custom').value = "1";
+            alert(`Dodano Twój projekt (${quantity} szt.) do koszyka!`);
         });
     });
 
-    // 3. FUNKCJE KOSZYKA
-    function addToCart(name, price, fileBlob = null) {
-        cart.push({ name, price, file: fileBlob });
+    function addToCartWithQty(name, price, qtyInputId) {
+        const quantity = parseInt(document.getElementById(qtyInputId).value);
+        if (quantity < 1) { alert("Ilość musi być większa od 0!"); return; }
+        addToCart(name, price, quantity);
+        document.getElementById(qtyInputId).value = "1";
+    }
+
+    function addToCart(name, price, quantity, fileBlob = null) {
+        let existingItem = null;
+        if (!fileBlob) {
+             existingItem = cart.find(item => item.name === name && !item.file);
+        }
+
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            cart.push({ name, price, quantity, file: fileBlob });
+        }
         renderCart();
     }
 
@@ -205,30 +466,33 @@
         tbody.innerHTML = '';
         let total = 0;
 
-        cart.forEach((item, index) => {
-            total += item.price;
-            let row = `<tr>
-                <td>
-                    ${item.name} 
-                    ${item.file ? '<br><small style="color:#6f42c1;">(Plik graficzny)</small>' : ''}
-                </td>
-                <td style="text-align:right;">${item.price.toFixed(2)} zł</td>
-                <td style="text-align:center;"><button class="btn-remove" onclick="removeFromCart(${index})">Usuń</button></td>
-            </tr>`;
-            tbody.innerHTML += row;
-        });
+        if (cart.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#999;">Koszyk jest pusty</td></tr>';
+        } else {
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                let row = `<tr>
+                    <td>
+                        <strong>${item.name}</strong>
+                        ${item.file ? '<br><small style="color: var(--color-orange); font-weight:600;">(Plik graficzny załączony)</small>' : ''}
+                    </td>
+                    <td style="text-align:center;">${item.price.toFixed(2)} zł</td>
+                    <td style="text-align:center; font-weight:600;">${item.quantity} szt.</td>
+                    <td style="text-align:right; font-weight:700; color: var(--color-navy);">${itemTotal.toFixed(2)} zł</td>
+                    <td style="text-align:center;"><button class="btn-remove" onclick="removeFromCart(${index})">Usuń</button></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
 
         totalSpan.innerText = total.toFixed(2);
     }
+    
+    renderCart();
 
-    // 4. FINALIZACJA ZAMÓWIENIA (FORMSUBMIT.CO)
-    /* --- NOWA FUNKCJA FINALIZACJI (WEB3FORMS) --- */
-    function checkout() {
-        // ==========================================================
-        // TU WKLEJCIE KLUCZ, KTÓRY DOSTALIŚCIE NA MAILA:
-        const ACCESS_KEY = "8a7e51bf-8aab-4ee7-b678-7ae82f55c7c6"; 
-        // ==========================================================
-
+    async function checkout() {
+        if (!ACCESS_KEY || ACCESS_KEY === "TWÓJ_KLUCZ_PRO_TUTAJ") { alert("BŁĄD KONFIGURACJI: Wpisz swój klucz Web3Forms w kodzie!"); return; }
         if (cart.length === 0) { alert("Koszyk jest pusty!"); return; }
         
         const name = document.getElementById('clientName').value;
@@ -236,84 +500,63 @@
         
         if (!name || !email) { alert("Uzupełnij imię i e-mail!"); return; }
 
-        // Budujemy treść zamówienia
-        let orderDetails = "";
-        let hasCustomFiles = false;
-        let total = 0;
-
-        cart.forEach((item, index) => {
-            total += item.price;
-            orderDetails += `${index + 1}. ${item.name} - ${item.price.toFixed(2)} PLN\n`;
-            if (item.file) hasCustomFiles = true;
-        });
-
-        // Dane do wysłania
-        const json = JSON.stringify({
-            access_key: ACCESS_KEY, // To autoryzuje wysyłkę
-            subject: "Nowe zamówienie od: " + name,
-            imie: name,
-            email: email,
-            zamowienie: orderDetails,
-            RAZEM: total.toFixed(2) + " PLN",
-            info: hasCustomFiles ? "!!! KLIENT MA WŁASNE PLIKI (DOSŁAĆ MAILEM) !!!" : "Tylko gotowe wzory"
-        });
-
         const btn = document.querySelector('.btn-checkout');
         const originalText = btn.innerText;
-        btn.innerText = "Wysyłanie...";
+        btn.innerText = "Wysyłanie zamówienia i plików...";
         btn.disabled = true;
 
-        // Wysyłamy do Web3Forms
-        fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: json
-        })
-        .then(async (response) => {
-            const json = await response.json();
-            if (response.status == 200) {
-                // SUKCES!
-                if (hasCustomFiles) {
-                    // Pobieramy pliki
-                    let fileCounter = 1;
-                    cart.forEach(item => {
-                        if (item.file) {
-                            const url = URL.createObjectURL(item.file);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = `PROJEKT_${name}_nr${fileCounter}.png`;
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            fileCounter++;
-                        }
-                    });
-                    alert("ZAMÓWIENIE PRZYJĘTE!\n\nNa Twój komputer pobrały się właśnie pliki z projektem. Wyślij nam je teraz w odpowiedzi na maila, którego zaraz do Ciebie napiszemy.");
-                } else {
-                    alert("ZAMÓWIENIE PRZYJĘTE! Dziękujemy.");
-                }
+        const formData = new FormData();
+        formData.append("access_key", ACCESS_KEY);
+        formData.append("subject", "Nowe zamówienie od: " + name);
+        formData.append("imie", name);
+        formData.append("email", email);
+        
+        let orderDetails = "";
+        let total = 0;
+        let fileCounter = 1;
+
+        for (const [index, item] of cart.entries()) {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            orderDetails += `${index + 1}. ${item.name} | Ilość: ${item.quantity} szt. | Suma: ${itemTotal.toFixed(2)} PLN\n`;
+            
+            if (item.file) {
+                const fileName = `Projekt_${name.replace(/\s+/g, '_')}_${fileCounter}.png`;
+                formData.append("attachment", item.file, fileName);
+                orderDetails += `   [ZAŁĄCZONO PLIK GRAFICZNY: ${fileName}]\n`;
+                fileCounter++;
+            }
+        }
+
+        formData.append("szczegoly_zamowienia", orderDetails);
+        formData.append("RAZEM_DO_ZAPLATY", total.toFixed(2) + " PLN");
+
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (response.status === 200) {
+                alert("SUKCES! \n\nTwoje zamówienie ORAZ pliki graficzne zostały pomyślnie wysłane.\nDziękujemy za zakupy w PIN ME UP!");
                 
-                // Czyścimy koszyk
                 cart = [];
                 renderCart();
                 document.getElementById('clientName').value = "";
                 document.getElementById('clientEmail').value = "";
             } else {
-                console.log(response);
-                alert("Wystąpił błąd! Sprawdź czy Access Key jest poprawny.");
+                console.log(result);
+                alert("Błąd serwera: " + (result.message || "Sprawdź klucz dostępu"));
             }
+        } catch (error) {
+            console.error(error);
+            alert("Błąd połączenia internetowego. Spróbuj ponownie.");
+        } finally {
             btn.innerText = originalText;
             btn.disabled = false;
-        })
-        .catch(error => {
-            console.log(error);
-            alert("Błąd połączenia. Spróbuj ponownie.");
-            btn.innerText = originalText;
-            btn.disabled = false;
-        });
+        }
     }
 </script>
 
