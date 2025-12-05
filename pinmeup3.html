@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sklep z Przypinkami - Projekt Studencki</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- STYLE OGÓLNE --- */
+        body { font-family: 'Poppins', sans-serif; background: #f0f2f5; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        h1, h2 { text-align: center; color: #1a1a1a; margin-bottom: 20px; }
+        h1 { font-size: 2.5em; color: #007bff; }
+        
+        section { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 30px; transition: transform 0.2s; }
+        section:hover { transform: translateY(-2px); }
+
+        /* --- GALERIA --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+        .product-card { border: 1px solid #eee; border-radius: 10px; padding: 15px; text-align: center; background: #fafafa; }
+        .product-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 4px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .price { font-weight: bold; color: #28a745; display: block; margin: 10px 0; font-size: 1.1em; }
+
+        /* --- KREATOR --- */
+        .img-container { max-width: 100%; height: 400px; background: #333; display: none; margin: 20px 0; border-radius: 8px; overflow: hidden; }
+        /* To sprawia, że w edytorze widzimy kółko, mimo że wycinamy kwadrat */
+        .cropper-view-box, .cropper-face { border-radius: 50%; }
+
+        /* --- KOSZYK --- */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        th { background: #f8f9fa; color: #666; font-size: 0.9em; text-transform: uppercase; }
+        .cart-total { text-align: right; font-size: 1.4em; font-weight: bold; margin-top: 20px; color: #333; }
+        
+        /* --- FORMULARZ I GUZIKI --- */
+        input[type="text"], input[type="email"], input[type="file"] {
+            width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; font-family: inherit;
+        }
+        input:focus { border-color: #007bff; outline: none; }
+
+        button { cursor: pointer; border: none; border-radius: 8px; font-family: inherit; font-weight: 600; transition: 0.2s; }
+        
+        .btn-add { background: #007bff; color: white; padding: 10px 20px; width: 100%; }
+        .btn-add:hover { background: #0056b3; }
+        
+        .btn-remove { color: #dc3545; background: none; padding: 5px 10px; font-size: 0.9em; border: 1px solid #dc3545; }
+        .btn-remove:hover { background: #dc3545; color: white; }
+
+        .btn-checkout { background: #28a745; color: white; padding: 18px; font-size: 1.2em; width: 100%; margin-top: 10px; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); }
+        .btn-checkout:hover { background: #218838; transform: scale(1.02); }
+        .btn-checkout:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Instrukcja dla klienta */
+        .alert-info { background: #e3f2fd; color: #0d47a1; padding: 15px; border-radius: 8px; font-size: 0.9em; line-height: 1.5; margin-bottom: 20px; border-left: 5px solid #2196f3; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔘 Przypinkowo</h1>
+    
+    <div class="alert-info">
+        <strong>Jak to działa?</strong><br>
+        1. Wybierz gotowe wzory lub stwórz własny ze swojego zdjęcia.<br>
+        2. Przy "Własnym Projekcie" program dotnie zdjęcie do idealnego rozmiaru.<br>
+        3. Po zamówieniu, gotowe pliki z Twoim projektem pobiorą się na Twój komputer – wyślij je nam mailem!
+    </div>
+
+    <section>
+        <h2>1. Gotowe Wzory (5 PLN)</h2>
+        <div class="gallery-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150/FF5733/FFFFFF?text=KOT" alt="Wzór 1">
+                <div>Kot Śmieszek</div>
+                <span class="price">5.00 PLN</span>
+                <button class="btn-add" onclick="addToCart('Gotowiec: Kot Śmieszek', 5.00)">Dodaj</button>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150/33FF57/FFFFFF?text=PIES" alt="Wzór 2">
+                <div>Pieseł</div>
+                <span class="price">5.00 PLN</span>
+                <button class="btn-add" onclick="addToCart('Gotowiec: Pieseł', 5.00)">Dodaj</button>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150/3357FF/FFFFFF?text=LOGO" alt="Wzór 3">
+                <div>Logo Uczelni</div>
+                <span class="price">5.00 PLN</span>
+                <button class="btn-add" onclick="addToCart('Gotowiec: Logo Uczelni', 5.00)">Dodaj</button>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>2. Twój Własny Projekt (7 PLN)</h2>
+        <p>Wgraj zdjęcie. My wytniemy z niego idealne koło.</p>
+        
+        <input type="file" id="inputImage" accept="image/*">
+        
+        <div class="img-container" id="imgContainer">
+            <img id="image" src="">
+        </div>
+        
+        <button id="btnCropToAdd" class="btn-add" style="background: #6f42c1; display:none;">ZATWIERDŹ PROJEKT I DODAJ DO KOSZYKA</button>
+    </section>
+
+    <section>
+        <h2>3. Twój Koszyk</h2>
+        <table id="cartTable">
+            <thead>
+                <tr>
+                    <th>Produkt</th>
+                    <th style="text-align:right;">Cena</th>
+                    <th style="text-align:center;">Opcje</th>
+                </tr>
+            </thead>
+            <tbody id="cartBody">
+                </tbody>
+        </table>
+        
+        <div class="cart-total">Razem: <span id="totalPrice">0.00</span> PLN</div>
+        
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+        
+        <h3>Dane do zamówienia</h3>
+        <input type="text" id="clientName" placeholder="Imię i Nazwisko">
+        <input type="email" id="clientEmail" placeholder="Twój adres e-mail (ważne!)">
+        
+        <button class="btn-checkout" onclick="checkout()">WYŚLIJ ZAMÓWIENIE</button>
+    </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script>
+    // ==========================================================
+    // KONFIGURACJA - TU WPISZ WASZ EMAIL!
+    // Pamiętaj: Po pierwszym zamówieniu musicie kliknąć link aktywacyjny na mailu.
+    const EMAIL_TARGET = "pinmeup.fuw@gmail.com"; 
+    // ==========================================================
+
+    let cart = [];
+    let cropper;
+    const image = document.getElementById('image');
+    const inputImage = document.getElementById('inputImage');
+    const imgContainer = document.getElementById('imgContainer');
+    const btnCropToAdd = document.getElementById('btnCropToAdd');
+
+    // 1. OBSŁUGA KREATORA (CROPPER)
+    inputImage.addEventListener('change', function (e) {
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                image.src = e.target.result;
+                imgContainer.style.display = 'block';
+                btnCropToAdd.style.display = 'block';
+                
+                if (cropper) { cropper.destroy(); }
+                cropper = new Cropper(image, {
+                    aspectRatio: 1, // Kwadrat
+                    viewMode: 1,
+                    guides: false,
+                    autoCropArea: 0.8,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // 2. DODAWANIE WŁASNEGO PROJEKTU DO KOSZYKA
+    btnCropToAdd.addEventListener('click', function() {
+        if(!cropper) return;
+        
+        // Generujemy obraz w wysokiej jakości
+        cropper.getCroppedCanvas({ width: 1200, height: 1200, fillColor: '#fff' }).toBlob((blob) => {
+            addToCart("PROJEKT WŁASNY", 7.00, blob);
+            
+            // Reset widoku
+            cropper.destroy();
+            imgContainer.style.display = 'none';
+            btnCropToAdd.style.display = 'none';
+            inputImage.value = "";
+            alert("Dodano Twój projekt do koszyka!");
+        });
+    });
+
+    // 3. FUNKCJE KOSZYKA
+    function addToCart(name, price, fileBlob = null) {
+        cart.push({ name, price, file: fileBlob });
+        renderCart();
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        renderCart();
+    }
+
+    function renderCart() {
+        const tbody = document.getElementById('cartBody');
+        const totalSpan = document.getElementById('totalPrice');
+        tbody.innerHTML = '';
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            total += item.price;
+            let row = `<tr>
+                <td>
+                    ${item.name} 
+                    ${item.file ? '<br><small style="color:#6f42c1;">(Plik graficzny)</small>' : ''}
+                </td>
+                <td style="text-align:right;">${item.price.toFixed(2)} zł</td>
+                <td style="text-align:center;"><button class="btn-remove" onclick="removeFromCart(${index})">Usuń</button></td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+
+        totalSpan.innerText = total.toFixed(2);
+    }
+
+    // 4. FINALIZACJA ZAMÓWIENIA (FORMSUBMIT.CO)
+    /* --- NOWA FUNKCJA FINALIZACJI (WEB3FORMS) --- */
+    function checkout() {
+        // ==========================================================
+        // TU WKLEJCIE KLUCZ, KTÓRY DOSTALIŚCIE NA MAILA:
+        const ACCESS_KEY = "8a7e51bf-8aab-4ee7-b678-7ae82f55c7c6"; 
+        // ==========================================================
+
+        if (cart.length === 0) { alert("Koszyk jest pusty!"); return; }
+        
+        const name = document.getElementById('clientName').value;
+        const email = document.getElementById('clientEmail').value;
+        
+        if (!name || !email) { alert("Uzupełnij imię i e-mail!"); return; }
+
+        // Budujemy treść zamówienia
+        let orderDetails = "";
+        let hasCustomFiles = false;
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            total += item.price;
+            orderDetails += `${index + 1}. ${item.name} - ${item.price.toFixed(2)} PLN\n`;
+            if (item.file) hasCustomFiles = true;
+        });
+
+        // Dane do wysłania
+        const json = JSON.stringify({
+            access_key: ACCESS_KEY, // To autoryzuje wysyłkę
+            subject: "Nowe zamówienie od: " + name,
+            imie: name,
+            email: email,
+            zamowienie: orderDetails,
+            RAZEM: total.toFixed(2) + " PLN",
+            info: hasCustomFiles ? "!!! KLIENT MA WŁASNE PLIKI (DOSŁAĆ MAILEM) !!!" : "Tylko gotowe wzory"
+        });
+
+        const btn = document.querySelector('.btn-checkout');
+        const originalText = btn.innerText;
+        btn.innerText = "Wysyłanie...";
+        btn.disabled = true;
+
+        // Wysyłamy do Web3Forms
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(async (response) => {
+            const json = await response.json();
+            if (response.status == 200) {
+                // SUKCES!
+                if (hasCustomFiles) {
+                    // Pobieramy pliki
+                    let fileCounter = 1;
+                    cart.forEach(item => {
+                        if (item.file) {
+                            const url = URL.createObjectURL(item.file);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `PROJEKT_${name}_nr${fileCounter}.png`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            fileCounter++;
+                        }
+                    });
+                    alert("ZAMÓWIENIE PRZYJĘTE!\n\nNa Twój komputer pobrały się właśnie pliki z projektem. Wyślij nam je teraz w odpowiedzi na maila, którego zaraz do Ciebie napiszemy.");
+                } else {
+                    alert("ZAMÓWIENIE PRZYJĘTE! Dziękujemy.");
+                }
+                
+                // Czyścimy koszyk
+                cart = [];
+                renderCart();
+                document.getElementById('clientName').value = "";
+                document.getElementById('clientEmail').value = "";
+            } else {
+                console.log(response);
+                alert("Wystąpił błąd! Sprawdź czy Access Key jest poprawny.");
+            }
+            btn.innerText = originalText;
+            btn.disabled = false;
+        })
+        .catch(error => {
+            console.log(error);
+            alert("Błąd połączenia. Spróbuj ponownie.");
+            btn.innerText = originalText;
+            btn.disabled = false;
+        });
+    }
+</script>
+
+</body>
+</html>
