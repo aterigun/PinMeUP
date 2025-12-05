@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIN ME UP! - Edycja Studencka</title>
+    <title>PIN ME UP! - Sklep Studencki</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #6a1b9a; /* Ten fiolet co chcieliście */
-            --primary-dark: #4a148c;
-            --navy: #2A235B;
-            --accent: #FFD700; /* Złoty do promocji */
-            --bg: #f3f0f5; /* Lekko fioletowawe tło, ale jasne */
-            --text: #222;
+            /* KOLORY Z LOGO */
+            --primary: #3A2A6B; /* Głęboki fiolet */
+            --primary-dark: #261a4d;
+            --salmon: #FF9F68; /* Łososiowy */
+            --accent: #FFD700; /* Złoty */
+            --bg: #f4f1f8;
+            --text: #333;
+            --white: #ffffff;
         }
 
         body {
@@ -24,152 +26,187 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0; padding: 0;
-            padding-top: 70px;
+            padding-top: 80px;
+            overflow-x: hidden;
         }
+
+        /* --- POWIADOMIENIA (SOCIAL PROOF) --- */
+        #social-proof {
+            position: fixed; bottom: 20px; left: 20px;
+            background: white; border-left: 5px solid var(--salmon);
+            padding: 15px; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            max-width: 320px; z-index: 9999;
+            transform: translateX(-200%); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; gap: 15px; font-size: 0.85rem;
+        }
+        #social-proof.visible { transform: translateX(0); }
+        #social-proof img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; }
 
         /* --- HEADER --- */
         header {
-            background: var(--navy);
-            color: white;
+            background: var(--primary);
             padding: 15px 0;
             position: fixed; top: 0; width: 100%; z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(58, 42, 107, 0.4);
         }
         .header-inner {
-            max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 15px;
+            max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
         }
-        .logo { font-weight: 800; font-size: 1.5rem; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
-        .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--accent); }
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; color: var(--salmon); text-shadow: 2px 2px 0px #000; cursor: pointer; }
+        .logo img { height: 45px; border-radius: 50%; border: 2px solid var(--salmon); }
         
         .cart-btn {
-            background: var(--accent); color: var(--navy); padding: 8px 15px; border-radius: 20px; font-weight: bold; text-decoration: none;
-            transition: 0.3s; display: flex; align-items: center; gap: 5px;
+            background: var(--salmon); color: var(--primary); padding: 8px 15px; border-radius: 20px; font-weight: 800; text-decoration: none;
+            transition: 0.3s; display: flex; align-items: center; gap: 8px; box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
         }
-        .cart-btn:hover { transform: scale(1.05); box-shadow: 0 0 10px var(--accent); }
+        .cart-btn:hover { transform: scale(1.05); color: var(--primary); }
 
         /* --- LAYOUT GŁÓWNY (GRID) --- */
         .main-wrapper {
-            max-width: 1200px; margin: 20px auto; padding: 0 15px;
-            display: grid;
-            grid-template-columns: 3fr 1fr; /* Lewa szeroka, Prawa wąska */
-            gap: 20px;
+            max-width: 1200px; margin: 30px auto; padding: 0 20px;
+            display: grid; 
+            grid-template-columns: 3fr 1fr; /* Lewa kolumna szeroka, Prawa wąska */
+            gap: 25px;
+            align-items: start;
+        }
+        
+        @media (max-width: 900px) { 
+            .main-wrapper { grid-template-columns: 1fr; } 
+            .sidebar { order: 2; } /* Na telefonach sidebar pod spodem */
         }
 
-        /* Na telefonach jedna kolumna */
-        @media (max-width: 900px) {
-            .main-wrapper { grid-template-columns: 1fr; }
-            .sidebar { order: -1; } /* Sidebar na górze na mobile? Albo daj order: 1 żeby był na dole */
+        /* --- HERO BANNER --- */
+        .hero {
+            grid-column: 1 / -1; /* Na całą szerokość */
+            background: linear-gradient(135deg, var(--primary), #5b42a8);
+            color: white; padding: 40px; border-radius: 15px; text-align: center;
+            box-shadow: 0 10px 30px rgba(58, 42, 107, 0.3); margin-bottom: 10px;
+            border: 3px solid var(--salmon);
         }
+        .hero h1 { margin: 0; font-weight: 900; font-size: 2.2rem; text-transform: uppercase; letter-spacing: 1px; }
+        .hero p { font-size: 1.1rem; margin-top: 10px; font-weight: 600; color: var(--salmon); }
 
-        /* --- INFO EVENTOWE (Baner) --- */
-        .event-banner {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, var(--primary), var(--navy));
-            color: white; padding: 30px; border-radius: 15px; text-align: center;
-            box-shadow: 0 10px 20px rgba(106, 27, 154, 0.3); margin-bottom: 20px;
-            border: 2px solid var(--accent);
-            position: relative; overflow: hidden;
-        }
-        .event-banner::before { content: '🎉'; position: absolute; top: -10px; left: 10px; font-size: 4rem; opacity: 0.2; }
-        .event-banner h2 { margin: 0 0 10px 0; color: var(--accent); text-transform: uppercase; font-weight: 900; }
-        .event-info { font-size: 1.1rem; line-height: 1.6; }
-        .promo-tag { background: #ff4757; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; vertical-align: middle; }
-
-        /* --- AKORDEON (Zwijane sekcje) --- */
+        /* --- AKORDEONY (Główna Kolumna) --- */
         .accordion-item {
             background: white; border-radius: 10px; margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow: hidden;
-            border-left: 5px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden;
+            border-left: 6px solid var(--primary);
         }
         .accordion-header {
-            padding: 15px 20px; background: #fff; cursor: pointer;
+            padding: 20px; background: #fff; cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
-            font-weight: 700; font-size: 1.1rem; color: var(--navy);
-            transition: 0.2s;
+            font-weight: 800; font-size: 1.1rem; color: var(--primary);
+            transition: 0.2s; user-select: none;
         }
-        .accordion-header:hover { background: #f9f9f9; color: var(--primary); }
+        .accordion-header:hover { background: #fdfdfd; padding-left: 25px; color: var(--salmon); }
         .accordion-header i { transition: 0.3s; }
+        
+        .accordion-item.active .accordion-header { background: var(--primary); color: white; }
+        .accordion-item.active .accordion-header:hover { padding-left: 20px; color: var(--salmon); }
         .accordion-item.active .accordion-header i { transform: rotate(180deg); }
         
         .accordion-content {
-            display: none; padding: 20px; border-top: 1px solid #eee; animation: slideDown 0.3s ease-out;
+            display: none; padding: 25px; border-top: 1px solid #eee; animation: slideDown 0.3s ease-out;
         }
         .accordion-item.active .accordion-content { display: block; }
 
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Specjalne kolory dla sekcji */
+        /* Kolory specyficzne dla sekcji */
         .border-gold { border-left-color: var(--accent); }
-        .border-pink { border-left-color: #ff6b81; }
-        .border-black { border-left-color: #222; }
+        .border-salmon { border-left-color: var(--salmon); }
+        .border-dark { border-left-color: #222; }
 
-        /* --- KARTY PRODUKTÓW (Compact) --- */
-        .grid-products {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px;
-        }
-        .card {
-            border: 1px solid #eee; border-radius: 10px; padding: 10px; text-align: center;
-            transition: 0.2s; position: relative;
-        }
-        .card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
-        .card h3 { font-size: 0.95rem; margin: 5px 0; font-weight: 600; height: 40px; display: flex; align-items: center; justify-content: center; }
-        .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 8px; }
+        /* --- KARTY PRODUKTÓW --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         
+        .card {
+            border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center;
+            transition: 0.2s; position: relative; background: white;
+        }
+        .card:hover { border-color: var(--salmon); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        
+        .card img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f0f0f0; }
+        .card h3 { font-size: 0.95rem; margin: 5px 0; font-weight: 700; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+        .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 8px; font-size: 1.1rem; }
+        
+        .old-price { text-decoration: line-through; color: #999; font-size: 0.8rem; margin-right: 5px; }
+        .cert-badge { display: block; font-size: 0.7rem; color: #666; margin-bottom: 8px; font-style: italic; }
+
         .btn-mini {
-            background: var(--navy); color: white; border: none; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; cursor: pointer; width: 100%; transition: 0.2s;
+            background: var(--primary); color: white; border: none; padding: 10px 0; border-radius: 8px; font-size: 0.85rem; cursor: pointer; width: 100%; transition: 0.2s; font-weight: bold;
         }
-        .btn-mini:hover { background: var(--primary); }
+        .btn-mini:hover { background: var(--salmon); color: var(--primary); }
+        .qty-mini { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; font-size: 0.9rem; padding: 5px; }
 
-        .qty-mini { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; font-size: 0.8rem; padding: 3px; }
-
-        /* --- SIDEBAR (Prawa kolumna) --- */
-        .sidebar-section {
-            background: white; border-radius: 10px; padding: 15px; margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        /* --- SIDEBAR (Galeria i Opinie) --- */
+        .sidebar-box {
+            background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .sidebar-title { font-weight: 800; color: var(--navy); margin-bottom: 15px; border-bottom: 2px solid var(--accent); display: inline-block; }
-
-        /* Galeria boczna */
-        .mini-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-        .mini-gallery img { width: 100%; height: 100px; object-fit: cover; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+        .sidebar-title { font-weight: 900; color: var(--primary); border-bottom: 3px solid var(--salmon); padding-bottom: 5px; margin-bottom: 15px; font-size: 1.1rem; }
+        
+        .mini-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .mini-gallery img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; cursor: pointer; transition: 0.2s; }
         .mini-gallery img:hover { transform: scale(1.05); }
 
-        /* Opinie */
-        .review { font-size: 0.85rem; background: #f4f4f4; padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--primary); }
-        .review-author { font-weight: bold; display: block; margin-top: 5px; color: #555; font-size: 0.75rem; text-align: right; }
+        .review { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.85rem; font-style: italic; border-left: 3px solid var(--primary); }
+        .review-author { display: block; text-align: right; font-weight: bold; font-style: normal; margin-top: 5px; font-size: 0.75rem; color: #666; }
 
-        /* --- KREATOR --- */
-        .img-container { height: 350px; background: #333; display: none; margin: 10px 0; }
-        .cropper-view-box, .cropper-face { border-radius: 50%; outline: 3px solid var(--primary); }
-
-        /* --- KOSZYK --- */
-        .cart-wrapper { background: white; padding: 20px; border-radius: 10px; border-top: 5px solid var(--primary); }
+        /* --- KOSZYK (Stały element na dole lewej kolumny) --- */
+        .cart-wrapper { 
+            background: white; padding: 30px; border-radius: 15px; 
+            border-top: 8px solid var(--salmon); margin-top: 30px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
         table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        th { text-align: left; color: #888; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        td { padding: 10px 0; border-bottom: 1px solid #f9f9f9; }
-        .total-row { font-size: 1.2rem; font-weight: 800; text-align: right; color: var(--navy); margin-top: 15px; }
+        td { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .total-row { font-size: 1.4rem; font-weight: 900; text-align: right; color: var(--primary); margin-top: 15px; }
         
-        .promo-alert { background: #dff9fb; color: #130f40; padding: 10px; border-radius: 5px; font-size: 0.85rem; margin-top: 5px; border: 1px solid #badc58; }
-        
-        .tip-box { margin: 15px 0; background: #fdfbf9; padding: 10px; border: 1px dashed #ccc; border-radius: 5px; text-align: center; }
-        .btn-tip { background: none; border: 1px solid var(--primary); color: var(--primary); padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; margin-top: 5px; }
-        .btn-tip:hover { background: var(--primary); color: white; }
+        .promo-alert { 
+            background: #dff9fb; color: #130f40; padding: 10px; border-radius: 5px; font-size: 0.85rem; margin-top: 10px; border: 1px solid #badc58;
+            animation: fadeIn 0.5s; 
+        }
+        .saved-amount { color: #27ae60; text-align: right; font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; display: block; }
 
-        input.form-control { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 10px; }
-        .btn-checkout:hover { background: var(--primary-dark); }
+        /* Płatności */
+        .payment-options { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+        .pay-option { 
+            flex: 1; border: 2px solid #eee; padding: 15px; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.2s; min-width: 130px;
+        }
+        .pay-option.active { border-color: var(--salmon); background: #fff5eb; }
+        .pay-option i { font-size: 1.5rem; display: block; margin-bottom: 8px; color: var(--primary); }
+        
+        .blik-warning { display: none; background: #ffebeb; color: #d63031; padding: 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; border-left: 4px solid #d63031; margin-bottom: 15px; }
+
+        .starosta-tax { background: #f2f2f2; padding: 10px; border-radius: 5px; margin: 15px 0; border: 1px dashed #aaa; }
+
+        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 2px solid #eee; border-radius: 8px; box-sizing: border-box; }
+        .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 18px; font-size: 1.3rem; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
+        .btn-checkout:hover { background: var(--salmon); color: var(--primary); }
+
+        /* KREATOR */
+        .img-container { height: 350px; background: #eee; display: none; margin: 15px 0; }
+        .cropper-view-box, .cropper-face { border-radius: 50%; outline: 3px solid var(--salmon); }
 
     </style>
 </head>
 <body>
 
+<div id="social-proof">
+    <img src="https://via.placeholder.com/50" id="sp-img" alt="User">
+    <div>
+        <strong id="sp-name" style="display:block; color:var(--primary);">Ktoś z I roku</strong>
+        <span id="sp-msg">Właśnie kupił Dubajską Czekoladę!</span>
+    </div>
+</div>
+
 <header>
     <div class="header-inner">
-        <div class="logo">
+        <div class="logo" onclick="location.reload()">
             <img src="pinmeup_logo.jpg" alt="Logo"> PIN ME UP!
         </div>
-        <a href="#koszyk" class="cart-btn">
+        <a href="#koszyk" class="cart-btn" onclick="document.getElementById('koszyk').scrollIntoView()">
             <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
         </a>
     </div>
@@ -178,23 +215,19 @@
 <div class="main-wrapper">
 
     <div class="content-col">
-
-        <div class="event-banner">
-            <h2>📅 17 GRUDNIA - WIELKI DROP!</h2>
-            <div class="event-info">
-                Wpadaj na nasze stoisko (hol główny)!<br>
-                🎡 <strong>Koło Fortuny</strong> - wykręć zniżki!<br>
-                📸 <strong>Selfie z Gwiazdą Wydziału</strong> - godz. 12:00-14:00.<br>
-                💸 <strong>RABAT:</strong> Kup 5 sztuk tego samego wzoru, a 6-tą dostaniesz <strong>GRATIS!</strong>
-            </div>
+        
+        <div class="hero">
+            <h1>WYRAŹ SIEBIE NA SESJI</h1>
+            <p>Promocja na start: 5+1 GRATIS (ten sam wzór) • Oszczędzasz miliony!</p>
         </div>
 
-        <div class="accordion-item active"> <div class="accordion-header" onclick="toggleAcc(this)">
+        <div class="accordion-item active">
+            <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🔥 BESTSELLERY & LOGA</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <div class="grid-products">
+                <div class="grid">
                     <div class="card">
                         <img src="logo_uczelni.png" alt="Logo">
                         <h3>Logo Wydziału</h3>
@@ -202,8 +235,8 @@
                         <div style="display:flex; gap:5px;"><input type="number" id="q1" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Logo Wydziału', 5, 'q1')">DODAJ</button></div>
                     </div>
                     <div class="card">
-                        <img src="pinmeup_logo.jpg" alt="Logo">
-                        <h3>PinMeUp Official</h3>
+                        <img src="pinmeup_logo.jpg" alt="PinMeUp">
+                        <h3>Wspieram Projekt</h3>
                         <span class="price">5.00 zł</span>
                         <div style="display:flex; gap:5px;"><input type="number" id="q2" class="qty-mini" value="1"><button class="btn-mini" onclick="add('PinMeUp Logo', 5, 'q2')">DODAJ</button></div>
                     </div>
@@ -211,41 +244,68 @@
             </div>
         </div>
 
-        <div class="accordion-item border-gold">
+        <div class="accordion-item border-dark">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🏆 PIN OF FAME</span>
+                <span>💎 STREFA PRESTIŻU (LUKSUS)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <div class="grid-products">
-                    <div class="card">
-                        <img src="gwiazda1.png" alt="Starosta">
-                        <h3>Pan Starosta</h3>
-                        <span class="price">6.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q3" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pin Fame: Starosta', 6, 'q3')">DODAJ</button></div>
+                <div class="grid">
+                    <div class="card" style="background:#111; color:white; border:2px solid var(--accent);">
+                        <img src="czekolada.png" alt="Dubaj">
+                        <h3 style="color:var(--accent)">Dubajska Czekolada</h3>
+                        <span class="cert-badge">📜 Certyfikat "Trust Me Bro"</span>
+                        <span class="price" style="color:white"><span class="old-price">150 zł</span> 15.00 zł</span>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q_dubaj" class="qty-mini" value="1"><button class="btn-mini" style="background:#333;" onclick="add('PRESTIŻ: Dubajska', 15, 'q_dubaj')">BIORĘ</button></div>
                     </div>
-                    <div class="card">
-                        <img src="gwiazda2.png" alt="Dziekan">
-                        <h3>Legenda Dziekanatu</h3>
-                        <span class="price">6.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q4" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pin Fame: Dziekanat', 6, 'q4')">DODAJ</button></div>
+                    <div class="card" style="background:#111; color:white; border:2px solid var(--accent);">
+                        <img src="labubu.png" alt="Labubu">
+                        <h3 style="color:var(--accent)">Labubu Rare</h3>
+                        <span class="cert-badge">📜 Certyfikat Autentyczności</span>
+                        <span class="price" style="color:white"><span class="old-price">500 zł</span> 20.00 zł</span>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q_labubu" class="qty-mini" value="1"><button class="btn-mini" style="background:#333;" onclick="add('PRESTIŻ: Labubu', 20, 'q_labubu')">BIORĘ</button></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="accordion-item border-pink">
+        <div class="accordion-item" style="border-left-color: #8e44ad;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🌈 #BĄDŹSOBĄ</span>
+                <span>🔮 BLINDBOX (Niespodzianka)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <div class="grid-products">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <img src="question.png" style="width:80px; border-radius:10px;">
+                    <div>
+                        <p style="margin:0 0 10px 0;">Kupujesz taniej (3 zł), my losujemy. Może trafisz mema, a może Dubajską?</p>
+                        <div style="display:flex; gap:5px;">
+                            <input type="number" id="q_blind" class="qty-mini" value="1">
+                            <button class="btn-mini" style="background:#8e44ad; width:auto; padding:0 20px;" onclick="add('🔮 Blindbox', 3, 'q_blind')">RYZYKUJĘ (3 PLN)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item border-salmon">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🐸 STREFA MEMÓW</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
                     <div class="card">
-                        <img src="teczowa.png" alt="Tęcza">
-                        <h3>Love is Love</h3>
+                        <img src="mem_kot.png" alt="Kot">
+                        <h3>Kot Student</h3>
                         <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q5" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Love is Love', 5, 'q5')">DODAJ</button></div>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q3" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Mem: Kot', 5, 'q3')">DODAJ</button></div>
+                    </div>
+                    <div class="card">
+                        <img src="mem_pies.png" alt="Pies">
+                        <h3>Pieseł</h3>
+                        <span class="price">5.00 zł</span>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q4" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Mem: Pieseł', 5, 'q4')">DODAJ</button></div>
                     </div>
                     <div class="card">
                         <img src="cytat.png" alt="Cytat">
@@ -257,24 +317,24 @@
             </div>
         </div>
 
-        <div class="accordion-item">
+        <div class="accordion-item border-gold">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🐸 STREFA MEMÓW</span>
+                <span>🏆 PIN OF FAME</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <div class="grid-products">
+                <div class="grid">
                     <div class="card">
-                        <img src="mem_kot.png" alt="Kot">
-                        <h3>Kot Student</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q7" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Mem: Kot', 5, 'q7')">DODAJ</button></div>
+                        <img src="gwiazda1.png" alt="Starosta">
+                        <h3>Pan Starosta</h3>
+                        <span class="price">6.00 zł</span>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q7" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pin Fame: Starosta', 6, 'q7')">DODAJ</button></div>
                     </div>
                     <div class="card">
-                        <img src="mem_pies.png" alt="Pies">
-                        <h3>Pieseł</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q8" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Mem: Pieseł', 5, 'q8')">DODAJ</button></div>
+                        <img src="gwiazda2.png" alt="Dziekan">
+                        <h3>Legenda Dziekanatu</h3>
+                        <span class="price">6.00 zł</span>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q8" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pin Fame: Dziekanat', 6, 'q8')">DODAJ</button></div>
                     </div>
                 </div>
             </div>
@@ -282,103 +342,104 @@
 
         <div class="accordion-item">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎨 KREATOR WŁASNY</span>
+                <span>📱 GENERATOR QR (WŁASNY LINK)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <p>Wgraj cokolwiek (Twoje logo, fotkę psa, selfie z gwiazdą wydziału).</p>
+                <p>Wklej link (np. YouTube) - my zrobimy kod QR na przypinkę!</p>
+                <input type="text" id="qrText" class="field" placeholder="Wklej link tutaj...">
+                <button class="btn-mini" style="width:auto; padding:10px 30px;" onclick="generateQR()">GENERUJ I DODAJ (7 PLN)</button>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🎨 KREATOR & SELFIE Z GWIAZDĄ</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <p>Tutaj wgraj dowolne zdjęcie (swoje, selfie z wykładowcą, psa). My to dotniemy.</p>
                 <input type="file" id="inputImage" accept="image/*">
                 <div class="img-container" id="imgContainer">
                     <img id="image" src="">
                 </div>
                 <div id="cropControls" style="display:none; margin-top:10px;">
                     Ilość: <input type="number" id="qty-custom" class="qty-mini" value="1" min="1">
-                    <button class="btn-mini" style="width:auto; padding:5px 20px;" id="btnCropToAdd">Zatwierdź (7 zł)</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item border-black">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>💎 DLA BEKI & BLINDBOX</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div class="grid-products">
-                    <div class="card" style="background:#f0f0f0;">
-                        <img src="question.png" alt="?">
-                        <h3>Blindbox</h3>
-                        <span class="price">3.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q_b" class="qty-mini" value="1"><button class="btn-mini" style="background:#8e44ad" onclick="add('Blindbox', 3, 'q_b')">RYZYKUJ</button></div>
-                    </div>
-                    <div class="card">
-                        <img src="czekolada.png" alt="Dubaj">
-                        <h3>Dubajska</h3>
-                        <span class="price">15.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q_d" class="qty-mini" value="1"><button class="btn-mini" style="background:#222" onclick="add('Dubajska Czekolada', 15, 'q_d')">BIORĘ</button></div>
-                    </div>
-                    <div class="card">
-                        <img src="labubu.png" alt="Labubu">
-                        <h3>Labubu</h3>
-                        <span class="price">20.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q_l" class="qty-mini" value="1"><button class="btn-mini" style="background:#222" onclick="add('Labubu', 20, 'q_l')">BIORĘ</button></div>
-                    </div>
+                    <button class="btn-mini" style="width:auto; padding:5px 20px; background:var(--salmon); color:var(--primary);" id="btnCropToAdd">ZATWIERDŹ PROJEKT (7 PLN)</button>
                 </div>
             </div>
         </div>
 
         <div id="koszyk" class="cart-wrapper">
-            <h2 style="margin-top:0; color:var(--navy);">🛒 TWOJE ZAMÓWIENIE</h2>
+            <h2 style="margin-top:0; color:var(--primary); text-transform:uppercase;">🛒 Twoje Zamówienie</h2>
             <table>
-                <thead><tr><th>Nazwa</th><th>Ilość</th><th>Cena</th><th>Usuń</th></tr></thead>
                 <tbody id="cartBody"><tr><td colspan="4" style="text-align:center">Pusto...</td></tr></tbody>
             </table>
             
-            <div id="promoMessage"></div> <div class="tip-box">
-                <i class="fa-solid fa-mug-hot"></i> Podoba Ci się projekt?
-                <br>
-                <button class="btn-tip" onclick="addTip()">+ Dorzuć 1 zł na wsparcie</button>
+            <div id="promoMessage"></div>
+            
+            <div class="starosta-tax">
+                <label style="cursor:pointer; display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" id="starostaCheck" onchange="updateCart()">
+                    <span><strong>Jestem Starostą Grupy</strong> <small>(+21,37% do ceny za prestiż)</small></span>
+                </label>
             </div>
 
-            <div class="total-row">DO ZAPŁATY: <span id="totalPrice">0.00</span> PLN</div>
+            <div class="saved-amount" id="savedAmount"></div>
+            <div class="total">DO ZAPŁATY: <span id="totalPrice">0.00</span> PLN</div>
             
-            <hr>
+            <hr style="margin:20px 0; border:0; border-top:2px solid #eee;">
             
-            <p><strong>Płatność:</strong> BLIK na tel (123-456-789) lub Gotówka przy odbiorze.</p>
-            <input type="text" id="clientName" class="form-control" placeholder="Twoje Imię i Nazwisko">
-            <input type="email" id="clientEmail" class="form-control" placeholder="Twój E-mail">
-            <button class="btn-checkout" onclick="checkout()">WYŚLIJ ZAMÓWIENIE 🚀</button>
+            <h4>Wybierz płatność:</h4>
+            <div class="payment-options">
+                <div class="pay-option active" id="opt-blik" onclick="setPay('blik')">
+                    <i class="fa-solid fa-mobile-screen"></i> BLIK na telefon
+                </div>
+                <div class="pay-option" id="opt-cash" onclick="selectPayment('cash')">
+                    <i class="fa-solid fa-hand-holding-dollar"></i> Gotówka przy odbiorze
+                </div>
+            </div>
+            <input type="hidden" id="selectedPayment" value="BLIK">
+
+            <div class="blik-warning" id="blikWarning" style="display:block;">
+                ⚠️ <strong>WAŻNE:</strong> Brak przelewu BLIK (na nr 123-456-789) zaraz po zamówieniu = <strong>ANULOWANIE ZAMÓWIENIA!</strong>
+            </div>
+
+            <input type="text" id="clientName" class="field" placeholder="Twoje Imię i Nazwisko">
+            <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
+            <button class="btn-checkout" onclick="checkout()">🚀 WYŚLIJ ZAMÓWIENIE</button>
         </div>
 
     </div> <div class="sidebar">
         
-        <div class="sidebar-section">
-            <div class="sidebar-title">📸 GALERIA</div>
+        <div class="sidebar-box">
+            <div class="sidebar-title">📸 GALERIA LUDZI</div>
             <div class="mini-gallery">
-                <img src="https://via.placeholder.com/150" alt="Model 1">
-                <img src="https://via.placeholder.com/150" alt="Model 2">
-                <img src="https://via.placeholder.com/150" alt="Model 3">
-                <img src="https://via.placeholder.com/150" alt="Model 4">
+                <img src="https://via.placeholder.com/150x100?text=Foto1" alt="G">
+                <img src="https://via.placeholder.com/150x100?text=Foto2" alt="G">
+                <img src="https://via.placeholder.com/150x100?text=Foto3" alt="G">
+                <img src="https://via.placeholder.com/150x100?text=Foto4" alt="G">
             </div>
         </div>
 
-        <div class="sidebar-section">
-            <div class="sidebar-title">💬 NA KORYTARZU</div>
+        <div class="sidebar-box">
+            <div class="sidebar-title">💬 GŁOS LUDU (OPINIE)</div>
+            
             <div class="review">
-                "Kupiłem Blindboxa i trafiłem mema z 2012, ale i tak kocham XD"
-                <span class="review-author">~Marek, Informatyka</span>
+                "Kupiłem Dubajską Czekoladę, żeby zaimponować na Tinderze. Zadziałało."
+                <span class="review-author">~Marek, III rok</span>
             </div>
             <div class="review">
-                "Ta Dubajska to totalny scam cenowy, szanuję za odwagę lol."
-                <span class="review-author">~Anonim</span>
+                "Blindbox to życie. Trafiłem logo uczelni, a chciałem kota. 10/10."
+                <span class="review-author">~Anonimowy Hazardzista</span>
             </div>
             <div class="review">
-                "Pin z Dziekanatem > wszystko inne. Noszę dumnie."
-                <span class="review-author">~Kasia, Zarządzanie</span>
+                "Ten podatek dla starosty to skandal. Zapłaciłem."
+                <span class="review-author">~Starosta Grupy 2</span>
             </div>
             <div class="review">
-                "Daję łapkę w górę za opcję 5+1 gratis, obkupiłem całą grupę."
-                <span class="review-author">~Bartek</span>
+                "Labubu na przypince wygląda lepiej niż na półce za milion monet."
+                <span class="review-author">~Julka</span>
             </div>
         </div>
 
@@ -386,57 +447,85 @@
 
 </div>
 
+<footer style="text-align:center; padding:40px; color:#999; font-size:0.8rem;">
+    &copy; 2024 PIN ME UP! Projekt Studencki "Dla Beki i Nauki"
+</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
     const ACCESS_KEY = "TWOJ_KLUCZ_WEB3FORMS_PRO"; 
 
     let cart = [];
-    
-    // AKORDEON LOGIKA
+
+    // --- AKORDEONY LOGIKA ---
     function toggleAcc(header) {
-        const item = header.parentElement;
-        item.classList.toggle('active');
+        // Zwiń inne (opcjonalne, ale fajne dla porządku)
+        // document.querySelectorAll('.accordion-item').forEach(item => {
+        //     if(item !== header.parentElement) item.classList.remove('active');
+        // });
+        header.parentElement.classList.toggle('active');
     }
 
-    // DODAWANIE DO KOSZYKA
+    // --- SOCIAL PROOF ---
+    const spNames = ["Ktoś z Dziekanatu", "Studentka Prawa", "Twój Były", "Bartek z akademika", "Anonimowy Wykładowca"];
+    const spMsgs = ["Kupił Dubajską Czekoladę!", "Wziął Blindboxa i żałuje.", "Zamówił przypinkę z Memem.", "Wydał stypendium na Labubu."];
+    
+    setInterval(() => {
+        const box = document.getElementById('social-proof');
+        document.getElementById('sp-name').innerText = spNames[Math.floor(Math.random()*spNames.length)];
+        document.getElementById('sp-msg').innerText = spMsgs[Math.floor(Math.random()*spMsgs.length)];
+        document.getElementById('sp-img').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`;
+        
+        box.classList.add('visible');
+        setTimeout(()=>box.classList.remove('visible'), 5000);
+    }, 15000); // Co 15 sekund
+
+    // --- KOSZYK LOGIKA ---
     function add(name, price, qtyId) {
         const q = parseInt(document.getElementById(qtyId).value);
         if(q<1) return;
-        
-        const exist = cart.find(x => x.name === name && !x.file && !x.isTip);
+        const exist = cart.find(x => x.name === name && !x.file && !x.isQr);
         if(exist) exist.qty += q;
-        else cart.push({name, price, qty: q, file: null, isTip: false});
-        
+        else cart.push({name, price, qty: q, file: null});
         document.getElementById(qtyId).value = 1;
         updateCart();
-        // Mała animacja koszyka
-        const badge = document.getElementById('cartCount');
-        badge.style.transform = "scale(1.5)";
-        setTimeout(()=>badge.style.transform="scale(1)", 200);
     }
 
-    function addTip() {
-        cart.push({name: "Wsparcie Projektu (Tip)", price: 1.00, qty: 1, file:null, isTip: true});
-        updateCart();
+    function generateQR() {
+        const txt = document.getElementById('qrText').value;
+        if(!txt) return;
+        const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(txt)}`;
+        fetch(url).then(res => res.blob()).then(blob => {
+            cart.push({name: "QR Code Custom", price: 7.00, qty: 1, file: blob, isQr: true});
+            updateCart();
+            alert("QR dodany do koszyka!");
+        });
     }
 
-    // UPDATE KOSZYKA Z LOGIKĄ 5+1 GRATIS
     function updateCart() {
         const tbody = document.getElementById('cartBody');
         tbody.innerHTML = '';
         let total = 0;
         let count = 0;
+        let savings = 0;
         let discountMsg = "";
+
+        const isStarosta = document.getElementById('starostaCheck').checked;
 
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
             
-            // Logika 5+1 Gratis (Dla przedmiotów nie-tipów i nie-plików)
-            if(!item.file && !item.isTip && item.qty >= 6) {
-                const freeItems = Math.floor(item.qty / 6);
-                const discount = freeItems * item.price;
-                itemTotal -= discount;
-                discountMsg += `<div>🎁 ${item.name}: ${freeItems} szt. GRATIS!</div>`;
+            // Oszczędność Dubaj/Labubu
+            if(item.name.includes("Dubajska")) savings += (150 - 15) * item.qty;
+            if(item.name.includes("Labubu")) savings += (500 - 20) * item.qty;
+
+            // 5+1 Gratis
+            if(!item.file && !item.isQr && item.qty >= 6) {
+                const free = Math.floor(item.qty / 6);
+                const disc = free * item.price;
+                itemTotal -= disc;
+                savings += disc;
+                discountMsg += `<div>🎁 ${item.name}: ${free} szt. GRATIS!</div>`;
             }
 
             total += itemTotal;
@@ -447,24 +536,33 @@
                     <td>${item.name} ${item.file ? '📎' : ''}</td>
                     <td>${item.qty}</td>
                     <td>${itemTotal.toFixed(2)} zł</td>
-                    <td><i class="fa-solid fa-trash" style="cursor:pointer; color:red;" onclick="remove(${index})"></i></td>
+                    <td><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="remove(${index})"></i></td>
                 </tr>
             `;
         });
 
-        if(cart.length===0) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:10px;">Koszyk pusty</td></tr>';
+        // Podatek Starosty
+        if(isStarosta && total > 0) {
+            const tax = total * 0.2137;
+            total += tax;
+            tbody.innerHTML += `<tr><td colspan="4" style="color:var(--primary); font-style:italic; font-weight:bold;">+ Podatek Starosty (21,37%): ${tax.toFixed(2)} zł</td></tr>`;
+        }
+
+        if(cart.length===0) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Pusto...</td></tr>';
         
         document.getElementById('totalPrice').innerText = total.toFixed(2);
         document.getElementById('cartCount').innerText = count;
-        
+
         const promoBox = document.getElementById('promoMessage');
         if(discountMsg) {
-            promoBox.innerHTML = promoBox.className = 'promo-alert';
-            promoBox.innerHTML = "<strong>Aktywne Promocje:</strong>" + discountMsg;
+            promoBox.innerHTML = '<div class="promo-alert"><strong>Aktywne Promocje:</strong>'+discountMsg+'</div>';
         } else {
             promoBox.innerHTML = "";
-            promoBox.className = "";
         }
+
+        const saveEl = document.getElementById('savedAmount');
+        if(savings > 0) saveEl.innerText = `OSZCZĘDZASZ ŁĄCZNIE: ${savings.toFixed(2)} PLN!`;
+        else saveEl.innerText = "";
     }
 
     function remove(idx) {
@@ -472,7 +570,21 @@
         updateCart();
     }
 
-    // KREATOR
+    // --- PŁATNOŚCI ---
+    function setPay(type) {
+        document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
+        if(type === 'blik') {
+            document.getElementById('opt-blik').classList.add('active');
+            document.getElementById('blikWarning').style.display = 'block';
+            document.getElementById('selectedPayment').value = "BLIK";
+        } else {
+            document.getElementById('opt-cash').classList.add('active');
+            document.getElementById('blikWarning').style.display = 'none';
+            document.getElementById('selectedPayment').value = "Gotówka";
+        }
+    }
+
+    // --- KREATOR ---
     let cropper;
     const image = document.getElementById('image');
     const inputImage = document.getElementById('inputImage');
@@ -500,35 +612,37 @@
         if(!cropper) return;
         const q = parseInt(document.getElementById('qty-custom').value);
         cropper.getCroppedCanvas({width:1000, height:1000, fillColor:'#fff'}).toBlob((blob)=>{
-            cart.push({name:"Własny Projekt", price:7.00, qty:q, file:blob});
+            cart.push({name:"WŁASNY PROJEKT", price:7.00, qty:q, file:blob});
             cropper.destroy();
             imgContainer.style.display='none';
             document.getElementById('cropControls').style.display='none';
             inputImage.value="";
             updateCart();
-            alert('Dodano projekt!');
+            alert('Projekt dodany!');
         });
     });
 
-    // WYSYŁKA
+    // --- WYSYŁKA ---
     async function checkout() {
-        if (!ACCESS_KEY || ACCESS_KEY.includes("KLUCZ")) { alert("Brak klucza API!"); return; }
+        if (!ACCESS_KEY || ACCESS_KEY.includes("KLUCZ")) { alert("Ustaw klucz API!"); return; }
         if (cart.length === 0) { alert("Pusto!"); return; }
         
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
+        const pay = document.getElementById('selectedPayment').value;
+        
         if (!name || !email) { alert("Podaj dane!"); return; }
 
         const btn = document.querySelector('.btn-checkout');
         const oldText = btn.innerText;
-        btn.innerText = "Wysyłanie..."; 
-        btn.disabled = true;
+        btn.innerText = "Wysyłanie..."; btn.disabled = true;
 
         const formData = new FormData();
         formData.append("access_key", ACCESS_KEY);
-        formData.append("subject", `Zamówienie: ${name}`);
+        formData.append("subject", `Zamówienie: ${name} (${pay})`);
         formData.append("imie", name);
         formData.append("email", email);
+        formData.append("platnosc", pay);
         
         let desc = "";
         let fileCount = 1;
@@ -543,13 +657,15 @@
             }
         });
         
+        if(document.getElementById('starostaCheck').checked) desc += "\n[UWAGA]: KLIENT JEST STAROSTĄ (+21%)";
+        
         formData.append("zamowienie", desc);
-        formData.append("RAZEM", document.getElementById('totalPrice').innerText + " PLN");
+        formData.append("DO_ZAPLATY", document.getElementById('totalPrice').innerText + " PLN");
 
         try {
             const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
             if (res.status === 200) {
-                alert("WYSŁANO! Dzięki za zamówienie.");
+                alert("SUKCES! Pamiętaj o płatności.");
                 cart = []; updateCart();
                 document.getElementById('clientName').value = "";
             } else { alert("Błąd serwera."); }
