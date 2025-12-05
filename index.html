@@ -20,6 +20,7 @@
             --text: #2d3436;
             --white: #ffffff;
             --shadow: 0 8px 30px rgba(0,0,0,0.08);
+            --rainbow: linear-gradient(180deg, #ff0000, #ffa500, #ffff00, #008000, #0000ff, #4b0082, #ee82ee);
         }
 
         body {
@@ -127,6 +128,8 @@
         .accordion-item.active .accordion-content { display: block; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
+        .zone-desc { font-size: 0.9rem; color: #666; margin-bottom: 20px; font-style: italic; border-left: 3px solid #eee; padding-left: 10px; }
+
         /* KARTY */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
         .card {
@@ -187,8 +190,10 @@
         .pay-option.active i { color: var(--salmon); }
         
         .blik-warning { display: none; background: #ffebeb; color: #d63031; padding: 15px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; border-left: 5px solid #d63031; margin-bottom: 20px; }
-        .starosta-tax { background: #f2f2f2; padding: 15px; border-radius: 10px; margin: 20px 0; border: 1px dashed #aaa; display: flex; align-items: center; }
-        .starosta-tax input { width: 20px; height: 20px; margin-right: 15px; accent-color: var(--primary); }
+        
+        /* Zmiana na Tips */
+        .tip-box { background: #fffbf0; padding: 15px; border-radius: 10px; margin: 20px 0; border: 1px solid var(--accent); display: flex; align-items: center; }
+        .tip-box input { width: 20px; height: 20px; margin-right: 15px; accent-color: var(--accent); }
         
         input.field { width: 100%; padding: 15px; margin-bottom: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 1rem; }
         .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 20px; font-size: 1.3rem; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: 0.2s; }
@@ -243,6 +248,7 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                <p class="zone-desc">Klasyka gatunku. Z tym nie zginiesz na korytarzu.</p>
                 <div class="grid">
                     <div class="card">
                         <img src="logo_uczelni.png" alt="Logo">
@@ -266,6 +272,7 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                <p class="zone-desc">Dla tych, co mają za dużo punktów ECTS i gotówki.</p>
                 <div class="grid">
                     <div class="card" style="background:#1a1a1a; border-color:#333;">
                         <img src="czekolada.png" alt="Dubaj" style="border-color:var(--accent);">
@@ -291,6 +298,7 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                <p class="zone-desc">Płacisz mniej, ale nie wiesz co dostaniesz. Czysty hazard.</p>
                 <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
                     <img src="question.png" style="width:100px; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
                     <div style="flex:1;">
@@ -305,12 +313,43 @@
             </div>
         </div>
 
+        <div class="accordion-item" style="border-left: 5px solid; border-image: var(--rainbow) 1;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🏳️‍🌈 STREFA #PRIDE</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="zone-desc">Bądź sobą, wszyscy inni są już zajęci. ~Oscar Wilde</p>
+                <div class="grid">
+                    <div class="card">
+                        <img src="pride_rainbow.png" alt="Rainbow">
+                        <h3>Tęcza Klasyk</h3>
+                        <span class="price">5.00 zł</span>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q_pride1" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pride: Tęcza', 5, 'q_pride1')">DODAJ</button></div>
+                    </div>
+                    <div class="card">
+                        <img src="pride_bi.png" alt="Bi">
+                        <h3>Bi Vibes</h3>
+                        <span class="price">5.00 zł</span>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q_pride2" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pride: Bi', 5, 'q_pride2')">DODAJ</button></div>
+                    </div>
+                    <div class="card">
+                        <img src="pride_love.png" alt="Love">
+                        <h3>Love is Love</h3>
+                        <span class="price">5.00 zł</span>
+                        <div style="display:flex; gap:5px;"><input type="number" id="q_pride3" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pride: Love', 5, 'q_pride3')">DODAJ</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="accordion-item" style="border-left: 5px solid var(--salmon);">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🐸 STREFA MEMÓW</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                <p class="zone-desc">Memy, które rozumiesz tylko Ty i Twoja grupa dziekańska.</p>
                 <div class="grid">
                     <div class="card">
                         <img src="mem_kot.png" alt="Kot">
@@ -340,6 +379,7 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                <p class="zone-desc">Dla tych, którzy rządzą tym miejscem (lub tylko tak myślą).</p>
                 <div class="grid">
                     <div class="card">
                         <img src="gwiazda1.png" alt="Starosta">
@@ -363,7 +403,10 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <p>Wklej link (np. YouTube) - my zrobimy kod QR na przypinkę!</p>
+                <p class="zone-desc">Przekieruj znajomych na swojego Instagrama lub LinkedIn.</p>
+                <div style="background:#f0f8ff; border-left:4px solid #3498db; padding:10px; margin-bottom:15px; border-radius:5px;">
+                    ℹ️ <strong>Spokojnie!</strong> Nie musisz wgrywać zdjęcia kodu. Wklej link, a my wygenerujemy grafikę na przypinkę.
+                </div>
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
                     <input type="text" id="qrText" class="field" style="flex:1; margin:0;" placeholder="Wklej link tutaj...">
                     <button class="btn-mini" style="width:auto; padding:0 30px;" onclick="generateQR()">GENERUJ (7 PLN)</button>
@@ -377,7 +420,10 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <p>Tutaj wgraj dowolne zdjęcie. Użyj narzędzia poniżej, żeby wyciąć kółko.</p>
+                <p class="zone-desc">Twoje zdjęcie, Twoja przypinka. Pełna personalizacja.</p>
+                <div style="background:#fff3e0; border-left:4px solid var(--salmon); padding:10px; margin-bottom:15px; border-radius:5px;">
+                    ✂️ <strong>Czemu wycinanie?</strong> Przypinki są okrągłe! Użyj narzędzia poniżej, aby idealnie dopasować fotkę.
+                </div>
                 <input type="file" id="inputImage" accept="image/*" class="field" style="padding:10px;">
                 <div class="img-container" id="imgContainer">
                     <img id="image" src="">
@@ -398,10 +444,10 @@
             
             <div id="promoMessage"></div>
             
-            <div class="starosta-tax">
+            <div class="tip-box">
                 <label style="cursor:pointer; display:flex; align-items:center; width:100%;">
-                    <input type="checkbox" id="starostaCheck" onchange="updateCart()">
-                    <span><strong>Jestem Starostą Grupy</strong> <small style="display:block; color:#666;">(+21,37% do ceny)</small></span>
+                    <input type="checkbox" id="tipCheck" onchange="updateCart()">
+                    <span><strong>Napiwek na Monsterka dla Twórców</strong> <small style="display:block; color:#666;">(Symboliczne 1 PLN na przetrwanie sesji ❤️)</small></span>
                 </label>
             </div>
 
@@ -443,9 +489,13 @@
             </div>
         </div>
         <div class="sidebar-box">
-            <div class="sidebar-title">💬 GŁOS LUDU</div>
+            <div class="sidebar-title">💬 GŁOS LUDU (OPINIE)</div>
             <div class="review">"Kupiłem Dubajską Czekoladę, żeby zaimponować na Tinderze. Zadziałało." <span class="review-author">~Marek, III rok</span></div>
             <div class="review">"Selfie z Gwiazdą Wydziału? Wchodzę w to!" <span class="review-author">~Fanka</span></div>
+            <div class="review">"Przypinka Pride wygląda sztos na plecaku. Polecajka." <span class="review-author">~Alex</span></div>
+            <div class="review">"Blindbox trafił mi się idealny. Chyba czytają w myślach." <span class="review-author">~Anonim</span></div>
+            <div class="review">"Kupiłem dla beki, noszę nieironicznie." <span class="review-author">~Seba</span></div>
+            <div class="review">"W końcu coś fajnego na tym wydziale." <span class="review-author">~Zofia</span></div>
         </div>
     </div>
 
@@ -495,7 +545,9 @@
         let count = 0;
         let savings = 0;
         let discountMsg = "";
-        const isStarosta = document.getElementById('starostaCheck').checked;
+        
+        // Sprawdzamy napiwek
+        const isTip = document.getElementById('tipCheck').checked;
 
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
@@ -525,13 +577,13 @@
             `;
         });
 
-        if(isStarosta && total > 0) {
-            const tax = total * 0.2137;
-            total += tax;
-            tbody.innerHTML += `<tr><td colspan="4" style="color:var(--primary); background:#f0f0f0; padding:10px; border-radius:5px; font-size:0.85rem;">+ Podatek Starosty (21,37%): ${tax.toFixed(2)} zł</td></tr>`;
+        // Obsługa napiwku
+        if(isTip) {
+            total += 1.00;
+            tbody.innerHTML += `<tr><td colspan="4" style="color:#e67e22; background:#fffbf0; padding:10px; border-radius:5px; font-style:italic; font-weight:bold; font-size:0.85rem;">❤️ Dzięki za napiwek: 1.00 zł</td></tr>`;
         }
 
-        if(cart.length===0) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Twój koszyk jest pusty.</td></tr>';
+        if(cart.length===0 && !isTip) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Twój koszyk jest pusty.</td></tr>';
         
         document.getElementById('totalPrice').innerText = total.toFixed(2);
         document.getElementById('cartCount').innerText = count;
@@ -614,58 +666,58 @@
         });
     });
 
-    // --- SOCIAL PROOF ---
+    // --- SOCIAL PROOF (WIĘCEJ POWIADOMIEŃ) ---
+    const spNames = ["Ktoś z I roku", "Pani z Dziekanatu", "Bartek (ten z imprezy)", "Twoja Crush", "Anonimowy Wykładowca", "Student Prawa", "Kasia z Samorządu"];
+    const spMsgs = ["Kupił Dubajską Czekoladę!", "Właśnie zgarnęła Labubu.", "Dodał napiwek 1 zł ❤️", "Zamówiła przypinkę Pride.", "Przegrał 3 zł na Blindboxie.", "Wziął Logo Wydziału."];
+
     setInterval(() => {
         const box = document.getElementById('social-proof');
         if(box) {
+            // Losowanie treści
+            document.getElementById('sp-name').innerText = spNames[Math.floor(Math.random()*spNames.length)];
+            document.getElementById('sp-msg').innerText = spMsgs[Math.floor(Math.random()*spMsgs.length)];
+            document.getElementById('sp-img').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`;
+
             box.classList.add('visible');
             setTimeout(()=>box.classList.remove('visible'), 5000);
         }
-    }, 15000);
+    }, 8000); // Częściej (co 8 sekund)
 
+    // --- WYSYŁKA ---
     async function checkout() {
-        // 1. Sprawdzenie klucza API
-        if (!ACCESS_KEY || ACCESS_KEY === "TWOJ_KLUCZ_WEB3FORMS_PRO") { 
+        if (!ACCESS_KEY || ACCESS_KEY === "8a7e51bf-8aab-4ee7-b678-7ae82f55c7c6") { 
             alert("BŁĄD: Nie wpisałeś klucza Web3Forms w kodzie!"); 
             return; 
         }
         
-        // 2. Walidacja koszyka i danych
-        if (cart.length === 0) { alert("Koszyk jest pusty!"); return; }
-        
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
         const paymentMethod = document.getElementById('selectedPayment').value;
+        const isTip = document.getElementById('tipCheck').checked;
         
+        if (cart.length === 0 && !isTip) { alert("Koszyk jest pusty!"); return; }
         if (!name || !email) { alert("Uzupełnij Imię i Email!"); return; }
 
-        // 3. Zmiana przycisku na "Wysyłanie..."
         const btn = document.querySelector('.btn-checkout');
         const oldText = btn.innerText;
         btn.innerText = "⏳ Wysyłanie..."; 
         btn.disabled = true;
 
-        // 4. Budowanie formularza (FormData)
         const formData = new FormData();
         formData.append("access_key", ACCESS_KEY);
         formData.append("subject", `PIN ME UP - Nowe zamówienie od: ${name}`);
-        formData.append("from_name", "Sklep Studencki"); // To wyświetli się jako nadawca
-        formData.append("replyto", email); // Odpiszesz bezpośrednio na mail klienta
+        formData.append("from_name", "Sklep Studencki");
+        formData.append("replyto", email);
 
-        // Dane klienta w treści maila
         formData.append("Klient", name);
         formData.append("Email", email);
         formData.append("Płatność", paymentMethod);
         
-        // Tworzenie opisu zamówienia
         let desc = "\n--- SZCZEGÓŁY ZAMÓWIENIA ---\n";
         cart.forEach((item, i) => {
             desc += `${i+1}. ${item.name} | Ilość: ${item.qty} | Cena: ${(item.price * item.qty).toFixed(2)} zł\n`;
             
-            // WAŻNE: Dodawanie plików
-            // Używamy klucza "attachment" - to standard Web3Forms dla załączników
             if (item.file) {
-                // Generujemy unikalną nazwę pliku, np. Jan_Kowalski_projekt_1.png
                 const safeName = name.replace(/[^a-zA-Z0-9]/g, '_'); 
                 const fileName = `Projekt_${safeName}_${i+1}.png`;
                 formData.append("attachment", item.file, fileName);
@@ -673,29 +725,25 @@
             }
         });
 
-        // Informacja o podatku starosty
-        if(document.getElementById('starostaCheck').checked) {
-            desc += "\n[UWAGA] Klient zaznaczył opcję STAROSTA (+21.37%)\n";
+        if(isTip) {
+            desc += "\n[❤️] KLIENT ZOSTAWIŁ NAPIWEK 1.00 PLN!\n";
         }
 
         const finalPrice = document.getElementById('totalPrice').innerText;
         desc += `\n--- RAZEM DO ZAPŁATY: ${finalPrice} PLN ---`;
 
-        // Dodanie treści zamówienia do formularza
         formData.append("message", desc);
 
-        // 5. Wysyłka do Web3Forms
         try {
             const res = await fetch('https://api.web3forms.com/submit', { 
                 method: 'POST', 
                 body: formData 
             });
             
-            const json = await res.json(); // Web3Forms zwraca odpowiedź JSON
+            const json = await res.json();
 
             if (res.status === 200 && json.success) {
                 alert(`SUKCES! Zamówienie wysłane.\nDo zapłaty: ${finalPrice} PLN.\n${paymentMethod === 'BLIK' ? 'Pamiętaj o przelewie!' : 'Gotówka przy odbiorze.'}`);
-                // Czyszczenie koszyka po sukcesie
                 cart = []; 
                 updateCart();
                 document.getElementById('clientName').value = "";
@@ -708,7 +756,6 @@
             console.error(e);
             alert("Błąd połączenia z internetem."); 
         } finally { 
-            // Przywrócenie przycisku
             btn.innerText = oldText; 
             btn.disabled = false; 
         }
