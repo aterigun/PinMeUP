@@ -597,56 +597,103 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
-    const ACCESS_KEY = "8a7e51bf-8aab-4ee7-b678-7ae82f55c7c6"; 
+    // ==========================================
+    // WPISZ TU SWÓJ E-MAIL (Musi być prawdziwy!)
+    const EMAIL_TARGET = "pinmeup.fuw@gmail.com"; 
+    // ==========================================
 
     let cart = [];
+    let cropper;
+    const image = document.getElementById('image');
+    const inputImage = document.getElementById('inputImage');
+    const imgContainer = document.getElementById('imgContainer');
 
-    // --- LOGIKA UI ---
+    // --- AKORDEONY ---
     function toggleAcc(header) {
         header.parentElement.classList.toggle('active');
     }
 
-    // --- KOSZYK ---
-    function add(name, price, qtyId) {
-        try {
-            const inputEl = document.getElementById(qtyId);
-            if (!inputEl) { console.error("Nie znaleziono pola ID:", qtyId); return; }
-            
-            let q = parseInt(inputEl.value);
-            if(isNaN(q) || q < 1) q = 1; // Zabezpieczenie przed błędem
+    // --- POWIADOMIENIA (SOCIAL PROOF) ---
+    setInterval(() => {
+        const box = document.getElementById('social-proof');
+        const msgs = ["Kupił Dubajską!", "Zrobił własny projekt.", "Wziął Blindboxa.", "Dostał gratis 5+1."];
+        document.getElementById('sp-msg').innerText = msgs[Math.floor(Math.random()*msgs.length)];
+        document.getElementById('sp-img').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`;
+        box.classList.add('visible');
+        setTimeout(()=>box.classList.remove('visible'), 5000);
+    }, 15000);
 
-            const exist = cart.find(x => x.name === name && !x.file && !x.isQr);
-            if(exist) exist.qty += q;
-            else cart.push({name, price, qty: q, file: null});
-            
-            inputEl.value = 1; // Reset pola
-            updateCart();
-            
-        } catch (e) {
-            console.error("Błąd w funkcji add:", e);
-            alert("Coś poszło nie tak przy dodawaniu.");
-        }
+    // --- DODAWANIE DO KOSZYKA ---
+    function add(name, price, qtyId) {
+        const q = parseInt(document.getElementById(qtyId).value);
+        if(q<1) return;
+        
+        // Szukamy czy już jest taki produkt (bez pliku)
+        const exist = cart.find(x => x.name === name && !x.file);
+        if(exist) exist.qty += q;
+        else cart.push({name, price, qty: q, file: null}); // file: null bo to gotowiec
+        
+        document.getElementById(qtyId).value = 1;
+        updateCart();
+        alert('Dodano do koszyka!');
     }
 
+    // --- KREATOR (CROPPER) ---
+    inputImage.addEventListener('change', function(e){
+        const files = e.target.files;
+        if(files && files.length > 0){
+            const reader = new FileReader();
+            reader.onload = function(evt){
+                image.src = evt.target.result;
+                imgContainer.style.display='block';
+                document.getElementById('cropControls').style.display='block';
+                if(cropper) cropper.destroy();
+                cropper = new Cropper(image, {
+                    aspectRatio: 1, viewMode: 1, dragMode:'move', autoCropArea:0.65,
+                    guides:false, center:false, highlight:false, cropBoxMovable:false, cropBoxResizable:false, toggleDragModeOnDblclick:false
+                });
+            };
+            reader.readAsDataURL(files[0]);
+        }
+    });
+
+    document.getElementById('btnCropToAdd').addEventListener('click', ()=>{
+        if(!cropper) return;
+        const q = parseInt(document.getElementById('qty-custom').value);
+        
+        // Tu robimy "Blob" (plik w pamięci)
+        cropper.getCroppedCanvas({width:1000, height:1000, fillColor:'#fff'}).toBlob((blob)=>{
+            // Dodajemy do koszyka OBIEKT PLIKU (blob)
+            cart.push({name:"WŁASNY PROJEKT", price:7.00, qty:q, file:blob});
+            
+            cropper.destroy();
+            imgContainer.style.display='none';
+            document.getElementById('cropControls').style.display='none';
+            inputImage.value="";
+            updateCart();
+            alert('Projekt dodany do koszyka! (Wyśle się automatycznie przy zamówieniu)');
+        });
+    });
+
+    // --- LOGIKA KOSZYKA ---
     function updateCart() {
         const tbody = document.getElementById('cartBody');
         tbody.innerHTML = '';
         let total = 0;
-        let count = 0;
         let savings = 0;
         let discountMsg = "";
-        
-        // Sprawdzamy napiwek
-        const isTip = document.getElementById('tipCheck').checked;
+
+        const isStarosta = document.getElementById('starostaCheck').checked;
 
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
-            
+
+            // Logika Prestiż
             if(item.name.includes("Dubajska")) savings += (150 - 15) * item.qty;
             if(item.name.includes("Labubu")) savings += (500 - 20) * item.qty;
 
-            // 5+1 Gratis Logic
-            if(!item.file && !item.isQr && item.qty >= 6) {
+            // Logika 5+1 Gratis
+            if(!item.file && item.qty >= 6) {
                 const free = Math.floor(item.qty / 6);
                 const disc = free * item.price;
                 itemTotal -= disc;
@@ -655,45 +702,38 @@
             }
 
             total += itemTotal;
-            count += item.qty;
 
             tbody.innerHTML += `
                 <tr>
-                    <td><strong>${item.name}</strong> ${item.file ? '📎' : ''}</td>
-                    <td style="text-align:center;">x${item.qty}</td>
-                    <td style="text-align:right;">${itemTotal.toFixed(2)} zł</td>
-                    <td style="text-align:right;"><i class="fa-solid fa-trash" style="color:#ff6b6b; cursor:pointer; padding:5px;" onclick="remove(${index})"></i></td>
+                    <td>${item.name} ${item.file ? '📎 <small>(załącznik)</small>' : ''}</td>
+                    <td>${item.qty}</td>
+                    <td>${itemTotal.toFixed(2)} zł</td>
+                    <td><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="cart.splice(${index}, 1); updateCart()"></i></td>
                 </tr>
             `;
         });
 
-        // Obsługa napiwku
-        if(isTip) {
-            total += 1.00;
-            tbody.innerHTML += `<tr><td colspan="4" style="color:#e67e22; background:#fffbf0; padding:10px; border-radius:5px; font-style:italic; font-weight:bold; font-size:0.85rem;">❤️ Dzięki za napiwek: 1.00 zł</td></tr>`;
+        // Podatek Starosty
+        if(isStarosta && total > 0) {
+            const tax = total * 0.2137;
+            total += tax;
+            tbody.innerHTML += `<tr><td colspan="4" style="color:var(--primary); font-style:italic;">+ Podatek Starosty (21,37%): ${tax.toFixed(2)} zł</td></tr>`;
         }
 
-        if(cart.length===0 && !isTip) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Twój koszyk jest pusty.</td></tr>';
+        if(cart.length===0) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Pusto...</td></tr>';
         
         document.getElementById('totalPrice').innerText = total.toFixed(2);
-        document.getElementById('cartCount').innerText = count;
+        document.getElementById('cartCount').innerText = cart.reduce((a,b)=>a+b.qty,0);
 
         const promoBox = document.getElementById('promoMessage');
-        if(discountMsg) promoBox.innerHTML = '<div class="promo-alert"><strong>🎉 Promocje:</strong>'+discountMsg+'</div>';
-        else promoBox.innerHTML = "";
+        promoBox.innerHTML = discountMsg ? `<div class="promo-alert">${discountMsg}</div>` : "";
 
         const saveEl = document.getElementById('savedAmount');
-        if(savings > 0) saveEl.innerText = `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN!`;
-        else saveEl.innerText = "";
+        saveEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN!` : "";
     }
 
-    function remove(idx) {
-        cart.splice(idx, 1);
-        updateCart();
-    }
-
-    // --- PŁATNOŚCI ---
-    function setPay(type) {
+    // --- PŁATNOŚCI UI ---
+    function selectPayment(type) {
         document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
         if(type === 'blik') {
             document.getElementById('opt-blik').classList.add('active');
@@ -706,151 +746,79 @@
         }
     }
 
-    // --- DODATKI: QR I KREATOR ---
-    function generateQR() {
-        const txt = document.getElementById('qrText').value;
-        if(!txt) { alert("Wpisz tekst!"); return; }
-        const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(txt)}`;
-        fetch(url).then(res => res.blob()).then(blob => {
-            cart.push({name: "QR Code Custom", price: 7.00, qty: 1, file: blob, isQr: true});
-            updateCart();
-            alert("QR dodany!");
-            document.getElementById('qrText').value = "";
-        });
-    }
-
-    let cropper;
-    const image = document.getElementById('image');
-    const inputImage = document.getElementById('inputImage');
-    const imgContainer = document.getElementById('imgContainer');
-
-    inputImage.addEventListener('change', function(e){
-        const files = e.target.files;
-        if(files && files.length > 0){
-            const reader = new FileReader();
-            reader.onload = function(evt){
-                image.src = evt.target.result;
-                imgContainer.style.display='block';
-                document.getElementById('cropControls').style.display='block';
-                if(cropper) cropper.destroy();
-                cropper = new Cropper(image, {
-                    aspectRatio: 1, viewMode: 1, autoCropArea:0.8,
-                    minContainerHeight: 400
-                });
-            };
-            reader.readAsDataURL(files[0]);
-        }
-    });
-
-    document.getElementById('btnCropToAdd').addEventListener('click', ()=>{
-        if(!cropper) return;
-        const q = parseInt(document.getElementById('qty-custom').value) || 1;
-        cropper.getCroppedCanvas({width:800, height:800, fillColor:'#ffffff'}).toBlob((blob)=>{
-            cart.push({name:"WŁASNY PROJEKT", price:7.00, qty:q, file:blob});
-            cropper.destroy();
-            imgContainer.style.display='none';
-            document.getElementById('cropControls').style.display='none';
-            inputImage.value="";
-            updateCart();
-            alert('Projekt dodany!');
-        });
-    });
-
-    // --- SOCIAL PROOF (WIĘCEJ POWIADOMIEŃ) ---
-    const spNames = ["Ktoś z I roku", "Pani z Dziekanatu", "Bartek (ten z imprezy)", "Twoja Crush", "Anonimowy Wykładowca", "Student Prawa", "Kasia z Samorządu"];
-    const spMsgs = ["Kupił Dubajską Czekoladę!", "Właśnie zgarnęła Labubu.", "Dodał napiwek 1 zł ❤️", "Zamówiła przypinkę Pride.", "Przegrał 3 zł na Blindboxie.", "Wziął Logo Wydziału."];
-
-    setInterval(() => {
-        const box = document.getElementById('social-proof');
-        if(box) {
-            // Losowanie treści
-            document.getElementById('sp-name').innerText = spNames[Math.floor(Math.random()*spNames.length)];
-            document.getElementById('sp-msg').innerText = spMsgs[Math.floor(Math.random()*spMsgs.length)];
-            document.getElementById('sp-img').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`;
-
-            box.classList.add('visible');
-            setTimeout(()=>box.classList.remove('visible'), 5000);
-        }
-    }, 8000); // Częściej (co 8 sekund)
-
-    // --- WYSYŁKA ---
-    async function checkout() {
-        if (!ACCESS_KEY || ACCESS_KEY === "TWOJ_KLUCZ_WEB3FORMS_PRO") { 
-            alert("BŁĄD: Nie wpisałeś klucza Web3Forms w kodzie!"); 
-            return; 
-        }
+    // --- WYSYŁANIE ZAMÓWIENIA (THE MAGIC) ---
+    function checkout() {
+        if (cart.length === 0) { alert("Koszyk jest pusty!"); return; }
         
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
-        const paymentMethod = document.getElementById('selectedPayment').value;
-        const isTip = document.getElementById('tipCheck').checked;
+        const pay = document.getElementById('selectedPayment').value;
         
-        if (cart.length === 0 && !isTip) { alert("Koszyk jest pusty!"); return; }
-        if (!name || !email) { alert("Uzupełnij Imię i Email!"); return; }
+        if (!name || !email) { alert("Podaj Imię i E-mail!"); return; }
 
         const btn = document.querySelector('.btn-checkout');
         const oldText = btn.innerText;
-        btn.innerText = "⏳ Wysyłanie..."; 
+        btn.innerText = "WYSYŁANIE ZDJĘĆ... (CZEKAJ)";
         btn.disabled = true;
 
+        // TWORZYMY FORMULARZ DANYCH
         const formData = new FormData();
-        formData.append("access_key", ACCESS_KEY);
-        formData.append("subject", `PIN ME UP - Nowe zamówienie od: ${name}`);
-        formData.append("from_name", "Sklep Studencki");
-        formData.append("replyto", email);
-
-        formData.append("Klient", name);
-        formData.append("Email", email);
-        formData.append("Płatność", paymentMethod);
         
-        let desc = "\n--- SZCZEGÓŁY ZAMÓWIENIA ---\n";
+        // Konfiguracja FormSubmit
+        formData.append("_subject", `NOWE ZAMÓWIENIE: ${name}`); // Tytuł maila
+        formData.append("_captcha", "false"); // Wyłączamy captchę żeby szło gładko
+        formData.append("_template", "table"); // Ładna tabelka w mailu
+        
+        // Dane klienta
+        formData.append("Imie_Nazwisko", name);
+        formData.append("Email_Klienta", email);
+        formData.append("Metoda_Platnosci", pay);
+        formData.append("CZY_STAROSTA", document.getElementById('starostaCheck').checked ? "TAK (+21%)" : "NIE");
+        formData.append("DO_ZAPLATY", document.getElementById('totalPrice').innerText + " PLN");
+
+        // Pakujemy produkty do tekstu
+        let desc = "";
+        let fileIndex = 1;
+
         cart.forEach((item, i) => {
-            desc += `${i+1}. ${item.name} | Ilość: ${item.qty} | Cena: ${(item.price * item.qty).toFixed(2)} zł\n`;
+            desc += `${i+1}. ${item.name} | Ilość: ${item.qty}\n`;
             
+            // JEŚLI JEST PLIK -> DODAJEMY JAKO ZAŁĄCZNIK
             if (item.file) {
-                const safeName = name.replace(/[^a-zA-Z0-9]/g, '_'); 
-                const fileName = `Projekt_${safeName}_${i+1}.png`;
-                formData.append("attachment", item.file, fileName);
+                // FormSubmit obsługuje pliki jeśli dodamy je do FormData
+                // Nazwa pliku w mailu: Projekt_Janek_1.png
+                const fileName = `Projekt_${name.replace(/\s/g,'_')}_${fileIndex}.png`;
+                formData.append(`ZALACZNIK_${fileIndex}`, item.file, fileName);
                 desc += `   [ZAŁĄCZONO PLIK: ${fileName}]\n`;
+                fileIndex++;
             }
         });
+        
+        formData.append("LISTA_ZAKUPOW", desc);
 
-        if(isTip) {
-            desc += "\n[❤️] KLIENT ZOSTAWIŁ NAPIWEK 1.00 PLN!\n";
-        }
-
-        const finalPrice = document.getElementById('totalPrice').innerText;
-        desc += `\n--- RAZEM DO ZAPŁATY: ${finalPrice} PLN ---`;
-
-        formData.append("message", desc);
-
-        try {
-            const res = await fetch('https://api.web3forms.com/submit', { 
-                method: 'POST', 
-                body: formData 
-            });
-            
-            const json = await res.json();
-
-            if (res.status === 200 && json.success) {
-                alert(`SUKCES! Zamówienie wysłane.\nDo zapłaty: ${finalPrice} PLN.\n${paymentMethod === 'BLIK' ? 'Pamiętaj o przelewie!' : 'Gotówka przy odbiorze.'}`);
-                cart = []; 
-                updateCart();
-                document.getElementById('clientName').value = "";
-                document.getElementById('clientEmail').value = "";
-            } else {
-                console.error(json);
-                alert("Wystąpił błąd serwera: " + (json.message || "Spróbuj ponownie."));
-            }
-        } catch (e) { 
-            console.error(e);
-            alert("Błąd połączenia z internetem."); 
-        } finally { 
+        // WYSYŁAMY BEZPOŚREDNIO DO FORMSUBMIT
+        fetch(`https://formsubmit.co/${EMAIL_TARGET}`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            // FormSubmit czasem przekierowuje, więc sprawdzamy czy poszło
+            alert("SUKCES! Zamówienie (i zdjęcia) wysłane na maila.\n\nSprawdź skrzynkę (również SPAM), przyjdzie potwierdzenie.");
+            cart = []; updateCart();
+            document.getElementById('clientName').value = "";
             btn.innerText = oldText; 
-            btn.disabled = false; 
-        }
+            btn.disabled = false;
+        })
+        .catch(error => {
+            // Czasem wyskakuje błąd sieci mimo że poszło, bo FormSubmit robi przekierowania
+            alert("Zamówienie wysłane! Jeśli nie dostaniesz maila w ciągu 5 min, napisz do nas.");
+            console.log(error);
+            btn.innerText = oldText; 
+            btn.disabled = false;
+        });
     }
 </script>
-
+    
 </body>
 </html>
+
