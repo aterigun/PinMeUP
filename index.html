@@ -5,89 +5,342 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PIN ME UP! - Sklep Studencki</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #3A2A6B; 
-            --salmon: #FF9F68;  
-            --accent: #FFD700;  
-            --bg: #f4f1f8;
-            --text: #333;
+            --primary: #4834d4; /* Głębszy, nowoczesny fiolet */
+            --primary-dark: #301b9e;
+            --salmon: #ff7979;  /* Żywszy koral */
+            --salmon-light: #ffcccc;
+            --accent: #f9ca24;  /* Złoto */
+            --bg-color: #f7f1ff;
+            --text-main: #2d3436;
+            --glass: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 40px -10px rgba(72, 52, 212, 0.15);
+            --radius: 16px;
         }
 
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-top: 80px; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(#e0d4fc 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-main); 
+            margin: 0; 
+            padding-top: 140px; /* Miejsce na Header + Banner */
+        }
 
-        /* HEADER */
-        header { background: var(--primary); padding: 15px 0; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 1px; color: var(--salmon); display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .logo img { height: 45px; border-radius: 50%; border: 2px solid var(--salmon); }
-        .cart-btn { background: var(--salmon); color: var(--primary); padding: 10px 20px; border-radius: 30px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
-        .cart-btn:hover { transform: scale(1.05); }
+        /* --- EVENT BANNER --- */
+        .event-banner {
+            background: linear-gradient(45deg, #ff0055, #ff7979, #f9ca24);
+            background-size: 200% 200%;
+            color: white;
+            text-align: center;
+            padding: 12px 10px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1002;
+            animation: gradientMove 5s ease infinite;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-        /* LAYOUT */
-        .main-wrapper { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: start; }
+        .event-highlight {
+            background: rgba(0,0,0,0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 3px;
+            display: inline-block;
+        }
+
+        /* --- HEADER --- */
+        header { 
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 10px 0; 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            z-index: 1000; 
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+        }
+        
+        .header-container {
+            /* Kontener trzymający banner i nav w jednym fixed bloku */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-inner { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 20px; 
+        }
+
+        .logo { 
+            font-weight: 900; 
+            font-size: 1.6rem; 
+            color: var(--primary); 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            cursor: pointer; 
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+        }
+        .logo img { 
+            height: 50px; 
+            border-radius: 50%; 
+            border: 3px solid var(--primary); 
+            transition: transform 0.3s;
+        }
+        .logo:hover img { transform: rotate(10deg); }
+
+        .cart-btn { 
+            background: var(--primary); 
+            color: white; 
+            padding: 12px 25px; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            text-decoration: none; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            transition: 0.3s; 
+            box-shadow: 0 4px 15px rgba(72, 52, 212, 0.4);
+        }
+        .cart-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(72, 52, 212, 0.6); 
+            background: var(--primary-dark);
+        }
+
+        /* --- LAYOUT --- */
+        .main-wrapper { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+            display: grid; 
+            grid-template-columns: 2fr 1.1fr; 
+            gap: 40px; 
+            align-items: start; 
+        }
         @media (max-width: 900px) { .main-wrapper { grid-template-columns: 1fr; } }
 
-        /* AKORDEONY */
-        .accordion-item { background: white; border-radius: 12px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 6px solid var(--primary); }
-        .accordion-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; color: var(--primary); background: white; transition: 0.2s; }
-        .accordion-header:hover { background: #f9f9f9; color: var(--salmon); }
-        .accordion-content { display: none; padding: 20px; border-top: 1px solid #eee; }
+        /* --- AKORDEONY & SEKCJE --- */
+        .accordion-item { 
+            background: var(--glass); 
+            border-radius: var(--radius); 
+            margin-bottom: 25px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow); 
+            border: 1px solid white;
+            transition: 0.3s;
+        }
+        .accordion-item:hover { transform: translateY(-3px); }
+
+        .accordion-header { 
+            padding: 25px; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-weight: 800; 
+            font-size: 1.1rem;
+            color: var(--primary); 
+            background: white; 
+            transition: 0.3s; 
+        }
+        .accordion-header:hover { background: #fdfdfd; color: var(--salmon); }
+        .accordion-header i { transition: 0.3s; }
+        .accordion-item.active .accordion-header { border-bottom: 1px solid #f0f0f0; }
+        .accordion-item.active .accordion-header i { transform: rotate(180deg); }
+        
+        .accordion-content { display: none; padding: 25px; animation: fadeIn 0.4s; }
         .accordion-item.active .accordion-content { display: block; }
-
-        /* KARTY PRODUKTÓW */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.2s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--salmon); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f8f8f8; }
-        .card h3 { font-size: 0.9rem; margin: 5px 0; font-weight: 700; height: 40px; display: flex; align-items: center; justify-content: center; }
-        .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 10px; }
         
-        .qty-box { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; }
-        .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; }
-        .btn-add { background: var(--primary); color: white; border: none; padding: 8px 0; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn-add:hover { background: var(--salmon); color: var(--primary); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* STYL PRESTIŻ */
-        .card.prestige { background: #111; color: white; border: 2px solid var(--accent); }
+        /* --- KARTY PRODUKTÓW --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 20px; }
+        
+        .card { 
+            border: 1px solid #f0f0f0; 
+            border-radius: 15px; 
+            padding: 20px 15px; 
+            text-align: center; 
+            background: white; 
+            transition: 0.3s; 
+            position: relative;
+        }
+        .card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--salmon); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+        }
+        .card img { 
+            width: 110px; height: 110px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            margin-bottom: 15px; 
+            border: 4px solid var(--bg-color); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .card h3 { font-size: 0.95rem; margin: 5px 0; font-weight: 700; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+        .price { font-weight: 900; color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 10px; }
+        
+        .qty-box { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; }
+        .qty-input { 
+            width: 50px; text-align: center; 
+            border: 2px solid #eee; border-radius: 8px; 
+            padding: 5px; font-weight: bold; font-family: inherit;
+        }
+        .qty-input:focus { outline: none; border-color: var(--primary); }
+
+        .btn-add { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 10px 0; 
+            width: 100%; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        .btn-add:hover { background: var(--salmon); color: white; box-shadow: 0 4px 10px rgba(255, 121, 121, 0.4); }
+
+        /* --- PRESTIŻ --- */
+        .card.prestige { 
+            background: #1e1e2e; 
+            color: white; 
+            border: 2px solid var(--accent); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .card.prestige img { border-color: var(--accent); }
         .card.prestige h3 { color: var(--accent); }
-        .card.prestige .price { color: white; }
+        .card.prestige .price { color: white; text-shadow: 0 0 10px var(--accent); }
         .card.prestige .btn-add { background: var(--accent); color: black; }
+        .card.prestige .btn-add:hover { background: white; }
 
-        /* KREATOR PROSTY */
-        .creator-section { text-align: center; padding: 20px; }
-        .file-input-wrapper { margin: 20px 0; border: 2px dashed var(--primary); padding: 20px; border-radius: 10px; background: #fdfdfd; }
+        /* --- KREATOR --- */
+        .file-input-wrapper { 
+            margin: 20px 0; 
+            border: 2px dashed var(--primary); 
+            padding: 30px; 
+            border-radius: 15px; 
+            background: #fdfdfd; 
+            text-align: center;
+        }
+
+        /* --- SIDEBAR / KOSZYK --- */
+        .cart-wrapper { 
+            background: white; 
+            padding: 30px; 
+            border-radius: var(--radius); 
+            border-top: 6px solid var(--salmon); 
+            position: sticky; 
+            top: 150px; 
+            box-shadow: var(--shadow); 
+        }
+        .cart-items { margin-bottom: 20px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
         
-        /* KOSZYK SIDEBAR */
-        .cart-wrapper { background: white; padding: 25px; border-radius: 15px; border-top: 5px solid var(--salmon); position: sticky; top: 100px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .cart-items { margin-bottom: 20px; max-height: 300px; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; font-size: 0.9rem; }
-        .total-row { font-size: 1.4rem; font-weight: 900; text-align: right; color: var(--primary); margin-top: 15px; }
+        /* Pasek przewijania */
+        .cart-items::-webkit-scrollbar { width: 6px; }
+        .cart-items::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+
+        .cart-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 1px dashed #eee; padding: 12px 0; font-size: 0.9rem; 
+        }
+        .total-row { font-size: 1.5rem; font-weight: 900; text-align: right; color: var(--primary); margin-top: 20px; }
         
-        .promo-alert { background: #dff9fb; color: #130f40; padding: 10px; border-radius: 5px; font-size: 0.8rem; margin-top: 10px; border: 1px solid #badc58; }
-        .savings { color: #27ae60; font-weight: bold; text-align: right; display: block; font-size: 0.9rem; }
+        .promo-alert { 
+            background: linear-gradient(to right, #dff9fb, #c7ecee); 
+            color: #130f40; padding: 12px; 
+            border-radius: 8px; font-size: 0.85rem; margin-top: 15px; 
+            border: 1px solid #badc58; font-weight: 600;
+        }
+        .savings { color: #27ae60; font-weight: bold; text-align: right; display: block; font-size: 0.9rem; margin-top: 5px;}
 
-        /* NAPIWEK */
-        .tip-box { background: #fffdf0; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px dashed var(--accent); font-size: 0.85rem; display: flex; align-items: center; gap: 10px; }
-        .tip-box input { transform: scale(1.3); cursor: pointer; }
+        /* Napiwek */
+        .tip-box { 
+            background: #fffdf0; padding: 15px; 
+            border-radius: 10px; margin: 15px 0; 
+            border: 2px dashed var(--accent); 
+            font-size: 0.9rem; display: flex; align-items: center; gap: 10px; cursor: pointer;
+        }
+        .tip-box:hover { background: #fffce0; }
+        .tip-box input { transform: scale(1.4); cursor: pointer; accent-color: var(--primary); }
 
-        /* PŁATNOŚCI */
-        .payment-options { display: flex; gap: 10px; margin: 15px 0; }
-        .pay-option { flex: 1; border: 2px solid #eee; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
-        .pay-option.active { border-color: var(--salmon); background: #fff5eb; }
-        .blik-warn { display: none; background: #ffebeb; color: #d63031; padding: 10px; border-radius: 5px; font-size: 0.8rem; margin-bottom: 10px; border-left: 4px solid #d63031; font-weight: bold; }
+        /* Płatności & Form */
+        .payment-options { display: flex; gap: 10px; margin: 20px 0; }
+        .pay-option { 
+            flex: 1; border: 2px solid #eee; padding: 12px; text-align: center; 
+            border-radius: 10px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: 0.2s;
+        }
+        .pay-option:hover { border-color: #ddd; }
+        .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); }
+        
+        .blik-warn { 
+            display: none; background: #ffebeb; color: #d63031; padding: 15px; 
+            border-radius: 8px; font-size: 0.85rem; margin-bottom: 15px; 
+            border-left: 5px solid #d63031; font-weight: bold; line-height: 1.4;
+        }
 
-        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 15px; font-size: 1.2rem; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        .btn-checkout:hover { background: var(--salmon); }
+        input.field { 
+            width: 100%; padding: 15px; margin-bottom: 12px; 
+            border: 2px solid #eee; border-radius: 10px; 
+            box-sizing: border-box; font-family: inherit; transition: 0.3s;
+        }
+        input.field:focus { border-color: var(--primary); outline: none; background: #fcfcfc; }
+
+        .btn-checkout { 
+            background: linear-gradient(45deg, var(--primary), #6c5ce7); 
+            color: white; width: 100%; padding: 18px; 
+            font-size: 1.1rem; font-weight: 900; 
+            border: none; border-radius: 12px; cursor: pointer; 
+            margin-top: 15px; transition: 0.3s; 
+            box-shadow: 0 5px 20px rgba(72, 52, 212, 0.4);
+            letter-spacing: 1px;
+        }
+        .btn-checkout:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 25px rgba(72, 52, 212, 0.5); 
+            background: linear-gradient(45deg, #6c5ce7, var(--primary)); 
+        }
 
         /* SOCIAL PROOF */
-        #social-proof { position: fixed; bottom: 20px; left: 20px; background: white; border-left: 5px solid var(--salmon); padding: 15px; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); max-width: 300px; z-index: 9999; transform: translateX(-200%); transition: 0.5s; display: flex; gap: 10px; align-items: center; }
+        #social-proof { 
+            position: fixed; bottom: 30px; left: 30px; 
+            background: white; border-left: 6px solid var(--salmon); 
+            padding: 15px 20px; border-radius: 10px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15); 
+            max-width: 320px; z-index: 9999; 
+            transform: translateX(-200%); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            display: flex; gap: 15px; align-items: center; 
+        }
         #social-proof.visible { transform: translateX(0); }
-        #social-proof img { width: 40px; height: 40px; border-radius: 50%; }
+        #social-proof img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #eee; }
 
     </style>
 </head>
@@ -95,54 +348,66 @@
 
 <div id="social-proof">
     <img src="https://via.placeholder.com/50" id="sp-img" alt="User">
-    <div style="font-size:0.85rem;">
-        <strong id="sp-name" style="display:block; color:var(--primary);">Ktoś z I roku</strong>
+    <div style="font-size:0.85rem; line-height: 1.4;">
+        <strong id="sp-name" style="display:block; color:var(--primary);">Student/ka I roku</strong>
         <span id="sp-msg">Kupił Dubajską!</span>
     </div>
 </div>
 
-<header>
-    <div class="header-inner">
-        <div class="logo" onclick="location.reload()">
-            <img src="pinmeup_logo.jpg" alt="Logo"> PIN ME UP!
-        </div>
-        <a href="#koszyk" class="cart-btn">
-            <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
-        </a>
+<div class="header-container">
+    <div class="event-banner">
+        🚨 STOISKO: 15 & 18 GRUDNIA! 
+        <span class="event-highlight">🎡 Koło Fortuny</span> 
+        <span class="event-highlight">📦 Odbiór</span> 
+        <span class="event-highlight">📸 Fotobudka</span>
+        <br>
+        <span style="color:yellow; text-shadow: 0 1px 2px black;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM! 🎓</span>
     </div>
-</header>
+
+    <header>
+        <div class="nav-inner">
+            <div class="logo" onclick="location.reload()">
+                <img src="pinmeup_logo.jpg" alt="Logo"> PIN ME UP!
+            </div>
+            <a href="#koszyk" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+</div>
 
 <div class="main-wrapper">
 
     <div class="content-col">
         
-        <div class="accordion-item active" style="border-left-color: var(--salmon);">
+        <div class="accordion-item active" style="border-left: 6px solid var(--salmon);">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🎨 WGRAJ WŁASNĄ FOTKĘ (7 PLN)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
                 <div class="creator-section">
-                    <p>Wgraj zdjęcie, my je dotniemy do kółka.</p>
+                    <p style="color:#666; margin-bottom:20px;">Wgraj dowolne zdjęcie (kota, psa, mema), a my zrobimy z tego pina!</p>
                     
                     <div class="file-input-wrapper">
-                        <input type="file" id="customFile" accept="image/*">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size:3rem; color:var(--primary); margin-bottom:10px;"></i><br>
+                        <input type="file" id="customFile" accept="image/*" style="margin-top:10px;">
                     </div>
 
                     <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
                         Ilość: <input type="number" id="customQty" class="qty-input" value="1" min="1" style="width:60px; font-size:1.1rem;">
-                        <button class="btn-add" style="width:auto; padding:10px 30px;" onclick="addCustomFile()">DODAJ DO KOSZYKA</button>
+                        <button class="btn-add" style="width:auto; padding:10px 40px;" onclick="addCustomFile()">DODAJ DO KOSZYKA</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="accordion-item" style="border-left-color: #222;">
+        <div class="accordion-item" style="border-left: 6px solid #222;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>💎 STREFA PRESTIŻU</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <div class="accordion-content">
+            <div class="accordion-content" style="background:#2d2d2d;">
                 <div class="grid">
                     <div class="card prestige">
                         <img src="czekolada.png" alt="Dubaj">
@@ -162,26 +427,27 @@
             </div>
         </div>
 
-        <div class="accordion-item" style="border-left-color: #8e44ad;">
+        <div class="accordion-item" style="border-left: 6px solid #8e44ad;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🔮 BLINDBOX (NIESPODZIANKA)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <img src="question.png" style="width:80px; border-radius:10px;">
-                    <div>
-                        <p>Kupujesz taniej (3 zł), my losujemy wzór.</p>
-                        <div style="display:flex; gap:10px;">
+                <div style="display:flex; align-items:center; gap:25px; flex-wrap:wrap;">
+                    <img src="question.png" style="width:100px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="flex:1;">
+                        <p style="font-weight:bold; color:var(--primary);">Lubisz ryzyko?</p>
+                        <p style="font-size:0.9rem;">Kupujesz taniej (3 zł), my losujemy wzór ze starych kolekcji lub unikatów.</p>
+                        <div style="display:flex; gap:10px; margin-top:15px;">
                             <input type="number" id="qty_blind" class="qty-input" value="1">
-                            <button class="btn-add" style="background:#8e44ad;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">RYZYKUJĘ</button>
+                            <button class="btn-add" style="background:#8e44ad; width:auto; padding:0 30px;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">RYZYKUJĘ</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="accordion-item">
+        <div class="accordion-item" style="border-left: 6px solid var(--primary);">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🔥 BESTSELLERY (LOGA, MEMY)</span>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -217,56 +483,81 @@
 
     <div class="sidebar">
         
-        <div style="background:white; padding:15px; border-radius:12px; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
-            <h4 style="margin-top:0; color:var(--primary);">📸 Z ŻYCIA WZIĘTE</h4>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
-                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:5px;">
-                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:5px;">
-                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:5px;">
-                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:5px;">
+        <div style="background:white; padding:20px; border-radius:16px; margin-bottom:25px; box-shadow:var(--shadow);">
+            <h4 style="margin-top:0; color:var(--primary); display:flex; align-items:center; gap:10px;">
+                <i class="fa-solid fa-camera-retro"></i> Z ŻYCIA WZIĘTE
+            </h4>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:8px; transition:0.3s; cursor:pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:8px; transition:0.3s; cursor:pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:8px; transition:0.3s; cursor:pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:8px; transition:0.3s; cursor:pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
             </div>
         </div>
 
         <div id="koszyk" class="cart-wrapper">
-            <h2 style="margin-top:0; color:var(--primary); text-transform:uppercase; font-size:1.2rem;">🛒 Twój Koszyk</h2>
+            <h2 style="margin-top:0; color:var(--primary); font-size:1.3rem; display:flex; justify-content:space-between; align-items:center;">
+                TWÓJ KOSZYK <i class="fa-solid fa-bag-shopping"></i>
+            </h2>
             
             <div id="cartItems" class="cart-items">
-                <div style="text-align:center; padding:20px; color:#aaa;">Koszyk jest pusty</div>
+                <div style="text-align:center; padding:30px; color:#aaa;">
+                    <i class="fa-regular fa-face-sad-tear" style="font-size:2rem; margin-bottom:10px;"></i><br>
+                    Pusto tu...
+                </div>
             </div>
 
             <div id="promoBox"></div>
 
-            <div class="tip-box">
+            <label class="tip-box">
                 <input type="checkbox" id="tipCheck" onchange="renderCart()">
-                <span><strong>Napiwek dla twórców</strong> (+1 PLN) ❤️</span>
-            </div>
+                <span><strong>Napiwek dla twórców</strong> <br><small style="color:#666;">(+1 PLN na monstery) ❤️</small></span>
+            </label>
 
             <div class="saved-amount" id="savedDisplay"></div>
-            <div class="total">DO ZAPŁATY: <span id="totalPrice">0.00</span> PLN</div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; font-weight:900;">
+                <span>SUMA:</span>
+                <span style="font-size:1.5rem; color:var(--primary);"><span id="totalPrice">0.00</span> PLN</span>
+            </div>
 
-            <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+            <hr style="margin:25px 0; border:0; border-top:1px solid #eee;">
 
-            <h4>Płatność:</h4>
+            <h4 style="margin-bottom:10px;">Wybierz płatność:</h4>
             <div class="payment-options">
-                <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">📱 BLIK</div>
-                <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">💵 Gotówka</div>
+                <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">
+                    <i class="fa-solid fa-mobile-screen-button"></i> BLIK
+                </div>
+                <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">
+                    <i class="fa-solid fa-money-bill-wave"></i> Gotówka
+                </div>
             </div>
             <input type="hidden" id="paymentMethod" value="BLIK">
 
             <div class="blik-warn" id="blikInfo" style="display:block;">
-                ⚠️ Zrób przelew BLIK na <strong>123-456-789</strong> zaraz po zamówieniu!
+                ⚠️ <strong>WAŻNE:</strong> Zrób przelew BLIK na telefon: <br>
+                <span style="font-size:1.2rem; display:block; margin:5px 0; color:black;">123-456-789</span>
+                W tytule wpisz swoje Imię!
             </div>
 
             <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
             <input type="email" id="clientEmail" class="field" placeholder="E-mail (do kontaktu)">
             
-            <button class="btn-checkout" onclick="submitOrder()">🚀 ZAMAWIAM</button>
+            <button class="btn-checkout" onclick="submitOrder()">
+                🚀 ZAMAWIAM TERAZ
+            </button>
         </div>
 
-        <div style="background:white; padding:15px; border-radius:12px; margin-top:20px; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
-            <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
-            <p style="font-size:0.85rem; font-style:italic;">"Kupiłem Dubajską, żeby zdać egzamin. Zdałem." <br><strong>~ Marek</strong></p>
-            <p style="font-size:0.85rem; font-style:italic;">"Blindbox to życie." <br><strong>~ Kasia</strong></p>
+        <div style="background:white; padding:20px; border-radius:16px; margin-top:25px; box-shadow:var(--shadow);">
+            <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ LUDZIE?</h4>
+            <div style="border-left:3px solid var(--accent); padding-left:10px; margin-bottom:15px;">
+                <p style="font-size:0.85rem; font-style:italic; margin:0;">"Kupiłem Dubajską, żeby zdać egzamin. Zdałem."</p>
+                <strong style="font-size:0.8rem;">~ Marek, II rok</strong>
+            </div>
+            <div style="border-left:3px solid var(--salmon); padding-left:10px;">
+                <p style="font-size:0.85rem; font-style:italic; margin:0;">"Blindbox to życie. Trafiłam rzadki wzór!"</p>
+                <strong style="font-size:0.8rem;">~ Kasia, I rok</strong>
+            </div>
         </div>
 
     </div>
@@ -274,6 +565,9 @@
 
 <script>
     // ==========================================
+    // LOGIKA SKLEPU (BEZ ZMIAN W DZIAŁANIU)
+    // ==========================================
+    
     // WPISZ TU SWÓJ E-MAIL !!!!
     const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
     // ==========================================
@@ -302,7 +596,11 @@
         // Reset inputa
         document.getElementById(inputId).value = 1;
         renderCart();
-        alert("Dodano do koszyka: " + name);
+        
+        // Mały efekt wizualny na koszyku
+        const cartBtn = document.querySelector('.cart-btn');
+        cartBtn.style.transform = "scale(1.2)";
+        setTimeout(() => cartBtn.style.transform = "scale(1)", 200);
     }
 
     // 3. FUNKCJA DODAWANIA (WŁASNY PLIK)
@@ -317,15 +615,13 @@
 
         const file = fileInput.files[0];
         
-        // Dodajemy plik do koszyka (jako osobny obiekt)
         cart.push({
             name: "Własny Projekt (" + file.name + ")",
             price: 7.00,
             qty: qty,
-            file: file // Zapisujemy obiekt pliku
+            file: file
         });
 
-        // Reset
         fileInput.value = ""; 
         document.getElementById('customQty').value = 1;
         renderCart();
@@ -338,14 +634,13 @@
         renderCart();
     }
 
-    // 5. RENDEROWANIE KOSZYKA (I LOGIKA CEN)
+    // 5. RENDEROWANIE KOSZYKA
     function renderCart() {
         const container = document.getElementById('cartItems');
         const totalEl = document.getElementById('totalPrice');
         const promoBox = document.getElementById('promoBox');
         const savedEl = document.getElementById('savedDisplay');
         
-        // Czy zaznaczono napiwek?
         const isTip = document.getElementById('tipCheck').checked;
 
         container.innerHTML = "";
@@ -354,7 +649,7 @@
         let promoText = "";
 
         if(cart.length === 0 && !isTip) {
-            container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Koszyk jest pusty</div>';
+            container.innerHTML = '<div style="text-align:center; padding:30px; color:#aaa;"><i class="fa-regular fa-face-sad-tear" style="font-size:2rem; margin-bottom:10px;"></i><br>Twój koszyk jest pusty</div>';
             totalEl.innerText = "0.00";
             promoBox.innerHTML = "";
             savedEl.innerText = "";
@@ -369,7 +664,7 @@
             if(item.name.includes("Dubajska")) savings += (150 - 15) * item.qty;
             if(item.name.includes("Labubu")) savings += (500 - 20) * item.qty;
 
-            // Logika 5+1 Gratis (Tylko dla produktów bez plików)
+            // Logika 5+1 Gratis
             if(!item.file && item.qty >= 6) {
                 const freeCount = Math.floor(item.qty / 6);
                 const discount = freeCount * item.price;
@@ -385,17 +680,16 @@
             div.innerHTML = `
                 <div>
                     <strong>${item.name}</strong> <br>
-                    <small>${item.qty} szt. x ${item.price} zł</small>
+                    <small style="color:#777;">${item.qty} szt. x ${item.price} zł</small>
                 </div>
                 <div style="display:flex; align-items:center; gap:10px;">
                     <strong>${itemTotal.toFixed(2)} zł</strong>
-                    <i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="removeItem(${index})"></i>
+                    <i class="fa-solid fa-trash" style="color:#ff7979; cursor:pointer;" onclick="removeItem(${index})"></i>
                 </div>
             `;
             container.appendChild(div);
         });
 
-        // Obsługa Napiwku
         if(isTip) {
             total += 1.00;
             const div = document.createElement('div');
@@ -407,11 +701,9 @@
 
         totalEl.innerText = total.toFixed(2);
         
-        // Licznik w menu (ilość przedmiotów)
         const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
         document.getElementById('cartCount').innerText = totalQty;
 
-        // Wyświetlanie promocji
         promoBox.innerHTML = promoText ? `<div class="promo-alert">${promoText}</div>` : "";
         savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN!` : "";
     }
@@ -429,7 +721,7 @@
         document.getElementById('paymentMethod').value = type;
     }
 
-    // 7. WYSYŁANIE ZAMÓWIENIA (FORM SUBMIT)
+    // 7. WYSYŁANIE ZAMÓWIENIA
     function submitOrder() {
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) { alert("Koszyk jest pusty!"); return; }
 
@@ -441,18 +733,15 @@
 
         const btn = document.querySelector('.btn-checkout');
         const originalText = btn.innerText;
-        btn.innerText = "WYSYŁANIE...";
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> WYSYŁANIE...';
         btn.disabled = true;
 
-        // Budujemy formularz
         const formData = new FormData();
         
-        // Konfiguracja FormSubmit
         formData.append("_captcha", "false");
         formData.append("_subject", "NOWE ZAMÓWIENIE PIN ME UP: " + name);
-        formData.append("_template", "table"); // Żeby ładnie wyglądało w mailu
+        formData.append("_template", "table"); 
 
-        // Dane
         formData.append("Klient", name);
         formData.append("Email", email);
         formData.append("Płatność", method);
@@ -462,17 +751,12 @@
             formData.append("Napiwek", "TAK (+1 PLN)");
         }
 
-        // Produkty i Pliki
         let orderSummary = "";
         let fileIndex = 1;
 
         cart.forEach((item) => {
             orderSummary += `${item.name} | Ilość: ${item.qty} \n`;
-            
-            // Jeśli jest plik, dodajemy go do formData jako załącznik
             if(item.file) {
-                // FormSubmit automatycznie obsłuży pliki dodane do FormData
-                // Nazwa pola musi być unikalna dla każdego pliku
                 const fileName = `Projekt_${name.replace(/\s/g,'_')}_${fileIndex}`; 
                 formData.append(fileName, item.file); 
                 fileIndex++;
@@ -481,14 +765,12 @@
 
         formData.append("ZAMÓWIENIE", orderSummary);
 
-        // Wysyłka AJAX
         fetch(`https://formsubmit.co/${MY_EMAIL}`, {
             method: "POST",
             body: formData
         })
         .then(response => {
             alert("SUKCES! Zamówienie wysłane. Sprawdź maila (również SPAM).");
-            // Czyścimy koszyk
             cart = [];
             document.getElementById('tipCheck').checked = false;
             renderCart();
