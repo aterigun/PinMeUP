@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PIN ME UP! - Sklep Studencki</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -31,28 +31,32 @@
             background-size: 20px 20px;
             color: #2d3436; 
             margin: 0; 
-            padding-top: calc(var(--banner-height) + var(--header-height) + 30px);
+            /* Dodatkowy padding na dole dla paska mobilnego */
+            padding-bottom: 80px;
+            padding-top: calc(var(--banner-height) + var(--header-height) + 20px);
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* --- TOAST NOTIFICATION --- */
         #toast {
             visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center;
-            border-radius: 50px; padding: 16px; position: fixed; z-index: 9999; left: 50%; bottom: 30px;
+            border-radius: 50px; padding: 16px; position: fixed; z-index: 9999; left: 50%; bottom: 90px; /* Wyżej na mobile */
             transform: translateX(-50%); font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             opacity: 0; transition: opacity 0.3s, bottom 0.3s;
         }
-        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
         #toast i { margin-right: 10px; color: var(--accent); }
 
         /* --- EVENT BANNER --- */
         .event-banner {
             position: fixed; top: 0; left: 0; width: 100%; height: var(--banner-height);
             background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200% 200%; color: white;
-            display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800;
+            display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: 800;
             text-transform: uppercase; letter-spacing: 0.5px; z-index: 1002; animation: gradientMove 5s ease infinite;
+            overflow: hidden; text-align: center; line-height: 1.2;
         }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .event-highlight { background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 4px; margin: 0 5px; }
+        .event-highlight { background: rgba(0,0,0,0.2); padding: 1px 6px; border-radius: 4px; margin: 0 3px; display: inline-block; }
 
         /* --- HEADER --- */
         header { 
@@ -63,91 +67,99 @@
         }
         .nav-inner { 
             max-width: 1200px; width: 100%; margin: 0 auto; display: flex; 
-            justify-content: space-between; align-items: center; padding: 0 20px; 
+            justify-content: space-between; align-items: center; padding: 0 15px; gap: 10px;
         }
-        .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
-        .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
+        
+        /* LOGO NA MOBILE */
+        .logo { font-weight: 900; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; flex-shrink: 0;}
+        .logo img { height: 35px; border-radius: 50%; border: 2px solid var(--primary); }
+        .logo span { display: block; } /* Pokazujemy tekst na mobile też, bo jest ładny */
 
-        .main-menu { display: flex; gap: 8px; }
+        /* --- MENU (SCROLLOWANE NA MOBILE) --- */
+        .main-menu { 
+            display: flex; gap: 8px; 
+            overflow-x: auto; /* Pozwala przesuwać palcem */
+            white-space: nowrap; /* Nie zawija wierszy */
+            padding-bottom: 5px; /* Miejsce na scrollbar (ukryty) */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+        .main-menu::-webkit-scrollbar { display: none; } /* Chrome hide scrollbar */
+
         .menu-link { 
             text-decoration: none; color: #555; font-weight: 700; font-size: 0.75rem; 
-            padding: 8px 10px; border-radius: 20px; transition: 0.3s; text-transform: uppercase; cursor: pointer;
+            padding: 8px 14px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer;
+            background: rgba(255,255,255,0.5); border: 1px solid transparent; flex-shrink: 0;
         }
-        .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
-        .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
+        .menu-link:active, .menu-link:hover { background: var(--primary); color: white; }
+        .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); background: #fff0f0; }
 
-        .cart-btn { 
-            background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; 
+        /* Ukrywamy duży przycisk koszyka w headerze na mobile, bo będzie pasek na dole */
+        .cart-btn-desktop { 
+            background: var(--primary); color: white; padding: 8px 15px; border-radius: 50px; 
             font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; 
-            transition: 0.3s; font-size: 0.9rem; 
+            transition: 0.3s; font-size: 0.85rem; flex-shrink: 0;
         }
-        .cart-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
-
-        @media (max-width: 900px) { .main-menu { display: none; } .logo span { display: none; } }
-
-        /* --- UKŁAD --- */
+        
+        /* --- UKŁAD RESPONSYWNY --- */
         .main-wrapper { 
-            max-width: 1200px; margin: 0 auto; padding: 0 20px; 
-            display: grid; grid-template-columns: 2fr 1.1fr; gap: 40px; align-items: start; 
+            max-width: 1200px; margin: 0 auto; padding: 0 15px; 
+            display: grid; grid-template-columns: 2fr 1.1fr; gap: 30px; align-items: start; 
         }
-        @media (max-width: 900px) { .main-wrapper { grid-template-columns: 1fr; } }
+
+        /* --- MOBILE MEDIA QUERY (KLUCZOWE) --- */
+        @media (max-width: 900px) {
+            .logo span { display: none; } /* Na bardzo małych ekranach ukrywamy napis logo */
+            .logo img { height: 32px; }
+            .cart-btn-desktop { display: none; } /* Ukrywamy górny koszyk na mobile */
+            
+            .main-wrapper { grid-template-columns: 1fr; gap: 20px; } /* Jedna kolumna layoutu */
+            
+            .main-menu { margin: 0; padding-right: 20px; } /* Więcej miejsca na swipe */
+            
+            /* Produkty w 2 kolumnach na mobile */
+            .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+            
+            /* Mniejsze karty */
+            .card { padding: 10px; }
+            .card img { width: 70px; height: 70px; }
+            .card h3 { font-size: 0.8rem; height: 30px; }
+            .btn-add { padding: 8px 0; font-size: 0.75rem; }
+
+            /* Koszyk na dole */
+            .cart-wrapper { position: relative; top: 0; z-index: 1; margin-bottom: 20px; }
+            
+            /* Banner tekst mniejszy */
+            .event-banner { font-size: 0.65rem; padding: 0 5px; }
+        }
 
         /* --- AKORDEONY --- */
         .accordion-item { 
-            background: white; border-radius: var(--radius); margin-bottom: 20px; 
-            box-shadow: var(--shadow); overflow: hidden; 
-            /* To jest ważne dla scrollowania */
-            scroll-margin-top: 150px; 
-            /* Domyślny pasek - nadpisany inline */
-            border-left: 6px solid #ccc; 
-            transition: transform 0.3s;
+            background: white; border-radius: var(--radius); margin-bottom: 15px; 
+            box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 120px; 
+            border-left: 5px solid #ccc; 
+            transition: transform 0.2s;
         }
-        
-        /* PASTELOWA TĘCZA - POPRAWIONA */
+        /* Pastelowa Tęcza */
         .accordion-item.rainbow-border {
-            border-left: none !important; /* Usuwamy zwykły border */
-            /* Tęcza jako tło o szerokości 6px */
-            background-image: linear-gradient(to bottom, 
-                #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff
-            );
-            background-size: 6px 100%; /* Szerokość paska */
-            background-repeat: no-repeat;
-            background-position: left top;
+            border-left: none !important;
+            background-image: linear-gradient(to bottom, #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff);
+            background-size: 5px 100%; background-repeat: no-repeat; background-position: left top;
         }
+        .accordion-item.rainbow-border .accordion-header, 
+        .accordion-item.rainbow-border .accordion-content { margin-left: 5px; background: white; }
 
         .accordion-header { 
-            padding: 20px; cursor: pointer; display: flex; justify-content: space-between; 
-            align-items: center; font-weight: 800; color: var(--primary); background: white; transition: 0.3s; 
-            /* Ważne: tło musi być lekko przezroczyste lub przesunięte, żeby nie zasłaniało paska tła */
-            background-clip: padding-box;
-            margin-left: 6px; /* Odstęp na pasek tła */
+            padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; 
+            align-items: center; font-weight: 800; color: var(--primary); background: white; font-size: 0.95rem;
         }
-        /* Dla zwykłych akordeonów z border-left, margin-left nie jest potrzebny w headerze, 
-           ale dla spójności w rainbow-border robimy tak, że kontener ma tło, a header jest przesunięty.
-           Tutaj robimy trick: dla .rainbow-border header ma margin-left: 6px.
-        */
-        .accordion-item.rainbow-border .accordion-header,
-        .accordion-item.rainbow-border .accordion-content {
-            margin-left: 6px;
-            background: white;
-        }
-
-        .accordion-header:hover { background-color: #fafafa; color: var(--salmon); }
-        .accordion-content { display: none; padding: 25px; border-top: 1px solid #f0f0f0; background: white; }
+        .accordion-content { display: none; padding: 20px; border-top: 1px solid #f0f0f0; background: white; }
         .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* --- KARTY --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--salmon); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f5f5f5; }
-        .card h3 { font-size: 0.9rem; margin: 5px 0; height: 35px; display: flex; align-items: center; justify-content: center; }
-        .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
-        .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; }
-        .btn-add { background: var(--primary); color: white; border: none; padding: 8px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top:5px; transition:0.2s; }
-        .btn-add:hover { background: var(--salmon); }
-
+        /* --- ELEMENTY UI --- */
         .card.prestige { background: #222; color: white; border: 1px solid var(--accent); }
         .card.prestige h3 { color: var(--accent); }
         .card.prestige .price { color: #fff; }
@@ -155,48 +167,69 @@
 
         /* --- KOSZYK --- */
         .cart-wrapper { 
-            background: white; padding: 25px; border-radius: var(--radius); 
-            position: sticky; top: 130px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid #eee;
+            background: white; padding: 20px; border-radius: var(--radius); 
+            position: sticky; top: 130px; box-shadow: 0 5px 25px rgba(0,0,0,0.05); border: 1px solid #eee;
         }
-        .cart-header { border-bottom: 2px dashed #ddd; padding-bottom: 15px; margin-bottom: 15px; text-align: center; }
-        .cart-items { margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding-right: 5px; }
-        .cart-items::-webkit-scrollbar { width: 5px; }
-        .cart-items::-webkit-scrollbar-thumb { background: #eee; border-radius: 3px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 12px 0; font-size: 0.85rem; }
-        .cart-total-section { background: #fdfdfd; border-radius: 10px; padding: 15px; border: 1px solid #eee; margin-top: 15px; }
-
-        .payment-options { display: flex; gap: 10px; margin: 15px 0; }
-        .pay-option { flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
-        .pay-option:hover { background: #fafafa; }
-        .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); font-weight: bold; }
+        .cart-items { margin-bottom: 15px; max-height: 300px; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 10px 0; font-size: 0.85rem; }
         
         .btn-checkout { 
-            background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 15px; 
-            font-weight: 900; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; 
-            box-shadow: 0 4px 15px rgba(72, 52, 212, 0.3); margin-top: 10px;
+            background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 16px; 
+            font-weight: 900; border: none; border-radius: 12px; cursor: pointer; transition: 0.3s; 
+            box-shadow: 0 4px 15px rgba(72, 52, 212, 0.3); margin-top: 10px; font-size: 1.1rem;
         }
-        .btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(72, 52, 212, 0.4); }
 
-        /* --- SIDEBAR CONTENT --- */
-        .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 30px; border: 1px solid #eee; }
-        .review-box { margin-bottom: 15px; border-left: 3px solid #ddd; padding-left: 15px; background: #fafafa; padding: 10px; border-radius: 0 8px 8px 0; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
-        .gallery-item img { width: 100%; border-radius: 8px; transition: 0.3s; cursor: pointer; }
-        .gallery-item img:hover { transform: scale(1.05); }
-        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        /* Inputy - font 16px zapobiega zoomowi na iOS */
+        input.field { width: 100%; padding: 14px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; font-size: 16px; }
+
+        /* --- MOBILE STICKY CART BAR (NOWOŚĆ) --- */
+        #mobile-sticky-cart {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: white; border-top: 1px solid #eee;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            padding: 12px 20px; display: none; /* Domyślnie ukryty, JS pokaże */
+            justify-content: space-between; align-items: center; z-index: 2000;
+            box-sizing: border-box;
+        }
+        @media (max-width: 900px) { #mobile-sticky-cart.visible { display: flex; } }
+
+        .m-cart-info { font-size: 0.9rem; color: #333; }
+        .m-cart-total { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
+        .m-cart-btn { 
+            background: var(--primary); color: white; padding: 10px 20px; 
+            border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(72, 52, 212, 0.4);
+        }
+
+        /* --- GALERIA I OPINIE --- */
+        .extra-content-box { background: white; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 30px; border: 1px solid #eee; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 15px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; aspect-ratio: 1/1; }
 
     </style>
 </head>
 <body>
 
-<div id="toast"><i class="fa-solid fa-check-circle"></i> Dodano do koszyka!</div>
+<div id="toast"><i class="fa-solid fa-check-circle"></i> Dodano!</div>
+
+<div id="mobile-sticky-cart">
+    <div class="m-cart-info">
+        <span>Suma:</span> <span class="m-cart-total" id="mobileTotal">0.00 PLN</span>
+    </div>
+    <a href="#koszyk" class="m-cart-btn" onclick="scrollToCartMobile()">
+        ZAMAWIAM <i class="fa-solid fa-arrow-right"></i>
+    </a>
+</div>
 
 <div class="event-banner">
-    🚨 STOISKO: 15 & 18 GRUDNIA! 
-    <span class="event-highlight">🎡 Koło Fortuny</span> 
-    <span class="event-highlight">📦 Odbiór</span> 
-    <span class="event-highlight">📸 Fotobudka</span>
-    <span style="color:yellow; margin-left:10px; text-shadow:0 1px 2px black;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM!</span>
+    <div style="display:inline-block;">
+        🚨 STOISKO: 15 & 18 GRUDNIA! 
+        <span class="event-highlight">🎡 Koło Fortuny</span> 
+        <span class="event-highlight">📦 Odbiór</span> 
+        <span class="event-highlight">📸 Fotobudka</span>
+        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM!</span>
+    </div>
 </div>
 
 <header>
@@ -216,7 +249,7 @@
             <a href="#acc-border" class="menu-link">Pieski</a>
         </nav>
 
-        <a href="#koszyk" class="cart-btn">
+        <a href="#koszyk" class="cart-btn-desktop">
             <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
         </a>
     </div>
@@ -228,18 +261,18 @@
         
         <div id="acc-custom" class="accordion-item active" style="border-left-color: var(--salmon);">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎨 KREATOR (WGRAJ FOTKĘ) - 7 PLN</span>
+                <span>🎨 KREATOR (WGRAJ) - 7 PLN</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
                 <div style="text-align:center;">
-                    <p>Wgraj zdjęcie, my je dotniemy.</p>
-                    <div style="border: 2px dashed #ddd; padding: 20px; border-radius: 10px; margin-bottom: 10px; background:#fafafa;">
-                        <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; color:#ccc;"></i><br>
-                        <input type="file" id="customFile" accept="image/*" style="margin-top:10px;">
+                    <p style="font-size:0.9rem;">Wgraj zdjęcie, my je dotniemy.</p>
+                    <div style="border: 2px dashed #ddd; padding: 15px; border-radius: 10px; margin-bottom: 10px; background:#fafafa;">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.5rem; color:#ccc;"></i><br>
+                        <input type="file" id="customFile" accept="image/*" style="margin-top:10px; max-width:100%;">
                     </div>
                     Ilość: <input type="number" id="customQty" class="qty-input" value="1" min="1">
-                    <button class="btn-add" style="width:auto; padding:8px 30px;" onclick="addCustomFile()">DODAJ</button>
+                    <button class="btn-add" style="width:auto; padding:8px 25px; margin-left:10px;" onclick="addCustomFile()">DODAJ</button>
                 </div>
             </div>
         </div>
@@ -271,16 +304,16 @@
 
         <div id="acc-blind" class="accordion-item" style="border-left-color: #8e44ad;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🔮 BLINDBOX (NIESPODZIANKA)</span>
+                <span>🔮 BLINDBOX (LOSOWE)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
                 <div style="display:flex; align-items:center; gap:15px;">
-                    <img src="question.png" style="width:70px; border-radius:10px;">
+                    <img src="question.png" style="width:60px; border-radius:10px;">
                     <div>
-                        <p style="margin:0 0 5px 0;">Płacisz 3 zł, dostajesz losowy wzór.</p>
+                        <p style="margin:0 0 5px 0; font-size:0.9rem;">Płacisz 3 zł, dostajesz losowy wzór.</p>
                         <input type="number" id="qty_blind" class="qty-input" value="1">
-                        <button class="btn-add" style="background:#8e44ad; width:auto;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">RYZYKUJĘ</button>
+                        <button class="btn-add" style="background:#8e44ad; width:auto; padding:8px 15px;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">RYZYKUJĘ</button>
                     </div>
                 </div>
             </div>
@@ -288,7 +321,7 @@
 
         <div id="acc-bestsellers" class="accordion-item" style="border-left-color: #e67e22;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🔥 BESTSELLERY (LOGA, MEMY)</span>
+                <span>🔥 BESTSELLERY</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
@@ -388,9 +421,9 @@
                 <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO4"></div>
             </div>
 
-            <hr style="margin:25px 0; border:0; border-top:1px dashed #eee;">
+            <hr style="margin:20px 0; border:0; border-top:1px dashed #eee;">
 
-            <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ LUDZIE?</h4>
+            <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
             <div class="review-box">
                 <small>⭐⭐⭐⭐⭐</small>
                 <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Kupiłem Dubajską, żeby zdać egzamin. Zdałem."</p>
@@ -398,14 +431,13 @@
             </div>
             <div class="review-box">
                 <small>⭐⭐⭐⭐⭐</small>
-                <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Super jakość, a koło fortuny to sztos!"</p>
+                <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Koło fortuny to sztos!"</p>
                 <strong>~ Kasia</strong>
             </div>
 
-            <p style="font-size:0.8rem; margin-top:20px;">Dodaj swoją opinię:</p>
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="reviewText" class="field" placeholder="Napisz coś miłego..." style="margin-bottom:0;">
-                <button class="btn-add" style="width:auto; background:#555; margin-top:0;" onclick="sendReview()">Wyślij</button>
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <input type="text" id="reviewText" class="field" placeholder="Twoja opinia..." style="margin-bottom:0;">
+                <button class="btn-add" style="width:auto; background:#555; margin-top:0;" onclick="sendReview()">OK</button>
             </div>
         </div>
 
@@ -419,7 +451,7 @@
             </div>
             
             <div id="cartItems" class="cart-items">
-                <div style="text-align:center; padding:40px; color:#aaa;">
+                <div style="text-align:center; padding:30px; color:#aaa;">
                     <i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>
                     Koszyk jest pusty
                 </div>
@@ -442,89 +474,75 @@
             </div>
 
             <div style="margin-top:20px;">
-                <h4 style="margin:0 0 10px 0; font-size:0.9rem;">Metoda płatności:</h4>
+                <h4 style="margin:0 0 10px 0; font-size:0.9rem;">Płatność:</h4>
                 <div class="payment-options">
-                    <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">📱 BLIK</div>
-                    <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">💵 GOTÓWKA</div>
+                    <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">BLIK</div>
+                    <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">GOTÓWKA</div>
                 </div>
                 <input type="hidden" id="paymentMethod" value="BLIK">
 
                 <div class="blik-warn" id="blikInfo" style="display:block; background:#ffebeb; color:#d63031; padding:10px; border-radius:5px; font-size:0.8rem; margin-bottom:10px; border-left:4px solid #d63031;">
-                    ⚠️ Przelew BLIK na numer: <br> <strong style="font-size:1.1rem; color:black;">123-456-789</strong>
+                    ⚠️ Przelew BLIK na: <strong style="color:black;">123-456-789</strong>
                 </div>
 
                 <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
                 <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
                 
                 <button class="btn-checkout" onclick="submitOrder()">
-                    <i class="fa-solid fa-paper-plane"></i> ZAMAWIAM
+                    ZAMAWIAM 🚀
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<footer style="text-align:center; padding:40px; color:#888; font-size:0.8rem; margin-top:40px;">
-    &copy; 2024 PIN ME UP! <br> Sklep studencki created with ❤️ and caffeine.
+<footer style="text-align:center; padding:30px; color:#888; font-size:0.8rem; margin-top:20px;">
+    &copy; 2024 PIN ME UP! <br> Sklep studencki created with ❤️
 </footer>
 
 <script>
     const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
     let cart = [];
 
-    // --- SKRYPT NAWIGACJI (AUTO-OTWIERANIE AKORDEONÓW) ---
-    // To jest kluczowa zmiana:
+    // NAWIGACJA MENU
     document.querySelectorAll('.menu-link').forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault(); // Zatrzymujemy domyślny skok
-            const targetId = this.getAttribute('href').substring(1); // Pobieramy ID (np. acc-xmas)
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
             const targetItem = document.getElementById(targetId);
 
             if(targetItem) {
-                // 1. Zamykamy wszystkie inne
-                document.querySelectorAll('.accordion-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                // 2. Otwieramy ten wybrany
+                document.querySelectorAll('.accordion-item').forEach(item => item.classList.remove('active'));
                 targetItem.classList.add('active');
-
-                // 3. Scrollujemy do niego (z poprawką na header)
+                
                 const headerOffset = 140; 
                 const elementPosition = targetItem.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
             }
         });
     });
+
+    // SCROLL DLA MOBILNEGO KOSZYKA
+    function scrollToCartMobile() {
+        const cart = document.getElementById('koszyk');
+        const headerOffset = 100;
+        const elementPosition = cart.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+    }
 
     function showToast(message) {
         const toast = document.getElementById("toast");
         toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
         toast.className = "show";
-        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
     }
 
     function toggleAcc(header) {
-        // Logika kliknięcia bezpośrednio w nagłówek
         const item = header.parentElement;
-        const isActive = item.classList.contains('active');
-        
-        // Opcja: Czy chcesz, żeby zamykało inne przy ręcznym kliknięciu?
-        // Jeśli tak, odkomentuj poniższe 3 linie:
-        // document.querySelectorAll('.accordion-item').forEach(i => {
-        //    i.classList.remove('active');
-        // });
-
-        if(!isActive) {
-            item.classList.add('active');
-        } else {
-            item.classList.remove('active');
-        }
+        item.classList.toggle('active');
     }
 
     function addItem(name, price, inputId) {
@@ -540,11 +558,11 @@
     function addCustomFile() {
         const fileInput = document.getElementById('customFile');
         const qty = parseInt(document.getElementById('customQty').value);
-        if(fileInput.files.length === 0) { alert("Wybierz plik!"); return; }
+        if(fileInput.files.length === 0) { showToast("Wybierz plik!"); return; }
         cart.push({ name: "Własny Projekt", price: 7.00, qty: qty, file: fileInput.files[0] });
         fileInput.value = ""; document.getElementById('customQty').value = 1;
         renderCart(); 
-        showToast("Dodano Twój projekt!");
+        showToast("Dodano projekt!");
     }
 
     function removeItem(index) { cart.splice(index, 1); renderCart(); }
@@ -552,6 +570,8 @@
     function renderCart() {
         const container = document.getElementById('cartItems');
         const totalEl = document.getElementById('totalPrice');
+        const mobileTotalEl = document.getElementById('mobileTotal');
+        const mobileBar = document.getElementById('mobile-sticky-cart');
         const promoBox = document.getElementById('promoBox');
         const savedEl = document.getElementById('savedDisplay');
         const isTip = document.getElementById('tipCheck').checked;
@@ -562,9 +582,17 @@
         let promoText = "";
 
         if(cart.length === 0 && !isTip) {
-            container.innerHTML = '<div style="text-align:center; padding:30px; color:#aaa;"><i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>Twój koszyk jest pusty</div>';
-            totalEl.innerText = "0.00"; promoBox.innerHTML=""; savedEl.innerText=""; document.getElementById('cartCount').innerText="0"; return;
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;"><i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>Pusto...</div>';
+            totalEl.innerText = "0.00"; 
+            mobileTotalEl.innerText = "0.00 PLN";
+            promoBox.innerHTML=""; savedEl.innerText=""; 
+            document.getElementById('cartCount').innerText="0"; 
+            mobileBar.classList.remove('visible'); // Ukryj pasek jak pusty
+            return;
         }
+
+        // Pokaż pasek na mobile jeśli coś jest w koszyku
+        mobileBar.classList.add('visible');
 
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
@@ -583,7 +611,10 @@
 
         if(isTip) { total += 1.00; container.innerHTML += `<div class="cart-item" style="color:var(--salmon); border-bottom:none;"><div>❤️ Napiwek</div><div>1.00 zł</div></div>`; }
 
-        totalEl.innerText = total.toFixed(2);
+        const finalTotal = total.toFixed(2);
+        totalEl.innerText = finalTotal;
+        mobileTotalEl.innerText = finalTotal + " PLN"; // Aktualizuj pasek mobilny
+        
         document.getElementById('cartCount').innerText = cart.reduce((acc, i) => acc + i.qty, 0);
         promoBox.innerHTML = promoText ? `<div style="background:#e0ffe0; color:#009432; padding:8px; font-size:0.8rem; border-radius:5px; margin-bottom:10px; border:1px solid #b8e994;">${promoText}</div>` : "";
         savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN` : "";
@@ -600,7 +631,7 @@
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
-        if(!name || !email) return alert("Podaj imię i email!");
+        if(!name || !email) return showToast("Podaj imię i email!");
 
         const btn = document.querySelector('.btn-checkout');
         const oldText = btn.innerHTML;
