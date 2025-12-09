@@ -34,48 +34,27 @@
             padding-top: calc(var(--banner-height) + var(--header-height) + 30px);
         }
 
-        /* --- 1. TOAST NOTIFICATION (ZAMIAST ALERTÓW) --- */
+        /* --- TOAST NOTIFICATION --- */
         #toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 50px;
-            padding: 16px;
-            position: fixed;
-            z-index: 9999;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            font-size: 0.9rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            opacity: 0;
-            transition: opacity 0.3s, bottom 0.3s;
+            visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center;
+            border-radius: 50px; padding: 16px; position: fixed; z-index: 9999; left: 50%; bottom: 30px;
+            transform: translateX(-50%); font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0; transition: opacity 0.3s, bottom 0.3s;
         }
-        #toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
-        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
         #toast i { margin-right: 10px; color: var(--accent); }
 
-        /* --- 2. EVENT BANNER --- */
+        /* --- EVENT BANNER --- */
         .event-banner {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: var(--banner-height);
-            background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24);
-            background-size: 200% 200%;
-            color: white;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 0.5px; z-index: 1002;
-            animation: gradientMove 5s ease infinite;
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--banner-height);
+            background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200% 200%; color: white;
+            display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.5px; z-index: 1002; animation: gradientMove 5s ease infinite;
         }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .event-highlight { background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 4px; margin: 0 5px; }
 
-        /* --- 3. HEADER --- */
+        /* --- HEADER --- */
         header { 
             background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             position: fixed; top: var(--banner-height); left: 0; width: 100%; height: var(--header-height);
@@ -89,10 +68,10 @@
         .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
         .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        .main-menu { display: flex; gap: 10px; }
+        .main-menu { display: flex; gap: 8px; }
         .menu-link { 
-            text-decoration: none; color: #555; font-weight: 700; font-size: 0.8rem; 
-            padding: 8px 12px; border-radius: 20px; transition: 0.3s; text-transform: uppercase; 
+            text-decoration: none; color: #555; font-weight: 700; font-size: 0.75rem; 
+            padding: 8px 10px; border-radius: 20px; transition: 0.3s; text-transform: uppercase; cursor: pointer;
         }
         .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
         .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
@@ -104,10 +83,7 @@
         }
         .cart-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
 
-        @media (max-width: 900px) {
-            .main-menu { display: none; } 
-            .logo span { display: none; } 
-        }
+        @media (max-width: 900px) { .main-menu { display: none; } .logo span { display: none; } }
 
         /* --- UKŁAD --- */
         .main-wrapper { 
@@ -119,16 +95,22 @@
         /* --- AKORDEONY --- */
         .accordion-item { 
             background: white; border-radius: var(--radius); margin-bottom: 20px; 
-            box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 130px; 
-            /* Domyślny pasek z lewej - nadpiszemy go inline w HTML lub klasami */
+            box-shadow: var(--shadow); overflow: hidden; 
+            /* To jest ważne dla scrollowania */
+            scroll-margin-top: 150px; 
+            /* Domyślny pasek - nadpisany inline */
             border-left: 6px solid #ccc; 
+            transition: transform 0.3s;
         }
         
-        /* Specjalny styl dla Tęczowego PRIDE */
+        /* PASTELOWA TĘCZA - POPRAWIONA */
         .accordion-item.rainbow-border {
-            border-left: none; /* Usuwamy standardowy border */
-            background-image: linear-gradient(to bottom, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-            background-size: 6px 100%; /* Pasek szerokości 6px */
+            border-left: none !important; /* Usuwamy zwykły border */
+            /* Tęcza jako tło o szerokości 6px */
+            background-image: linear-gradient(to bottom, 
+                #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff
+            );
+            background-size: 6px 100%; /* Szerokość paska */
             background-repeat: no-repeat;
             background-position: left top;
         }
@@ -136,13 +118,26 @@
         .accordion-header { 
             padding: 20px; cursor: pointer; display: flex; justify-content: space-between; 
             align-items: center; font-weight: 800; color: var(--primary); background: white; transition: 0.3s; 
+            /* Ważne: tło musi być lekko przezroczyste lub przesunięte, żeby nie zasłaniało paska tła */
+            background-clip: padding-box;
+            margin-left: 6px; /* Odstęp na pasek tła */
         }
-        .accordion-header:hover { background: #fafafa; color: var(--salmon); }
-        .accordion-content { display: none; padding: 25px; border-top: 1px solid #f0f0f0; }
+        /* Dla zwykłych akordeonów z border-left, margin-left nie jest potrzebny w headerze, 
+           ale dla spójności w rainbow-border robimy tak, że kontener ma tło, a header jest przesunięty.
+           Tutaj robimy trick: dla .rainbow-border header ma margin-left: 6px.
+        */
+        .accordion-item.rainbow-border .accordion-header,
+        .accordion-item.rainbow-border .accordion-content {
+            margin-left: 6px;
+            background: white;
+        }
+
+        .accordion-header:hover { background-color: #fafafa; color: var(--salmon); }
+        .accordion-content { display: none; padding: 25px; border-top: 1px solid #f0f0f0; background: white; }
         .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* --- KARTY PRODUKTÓW --- */
+        /* --- KARTY --- */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.3s; }
         .card:hover { transform: translateY(-5px); border-color: var(--salmon); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
@@ -158,34 +153,17 @@
         .card.prestige .price { color: #fff; }
         .card.prestige .btn-add { background: var(--accent); color: black; }
 
-        /* --- KOSZYK (SIDEBAR) --- */
+        /* --- KOSZYK --- */
         .cart-wrapper { 
             background: white; padding: 25px; border-radius: var(--radius); 
-            position: sticky; top: 130px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1); 
-            border: 1px solid #eee;
+            position: sticky; top: 130px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid #eee;
         }
-        /* Header koszyka z efektem paska */
-        .cart-header {
-            border-bottom: 2px dashed #ddd;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
+        .cart-header { border-bottom: 2px dashed #ddd; padding-bottom: 15px; margin-bottom: 15px; text-align: center; }
         .cart-items { margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding-right: 5px; }
         .cart-items::-webkit-scrollbar { width: 5px; }
         .cart-items::-webkit-scrollbar-thumb { background: #eee; border-radius: 3px; }
-
         .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 12px 0; font-size: 0.85rem; }
-        
-        /* Sekcja sumy - ładniejsza */
-        .cart-total-section {
-            background: #fdfdfd;
-            border-radius: 10px;
-            padding: 15px;
-            border: 1px solid #eee;
-            margin-top: 15px;
-        }
+        .cart-total-section { background: #fdfdfd; border-radius: 10px; padding: 15px; border: 1px solid #eee; margin-top: 15px; }
 
         .payment-options { display: flex; gap: 10px; margin: 15px 0; }
         .pay-option { flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
@@ -193,25 +171,18 @@
         .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); font-weight: bold; }
         
         .btn-checkout { 
-            background: linear-gradient(135deg, var(--primary), #6c5ce7); 
-            color: white; width: 100%; padding: 15px; font-weight: 900; 
-            border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; 
-            box-shadow: 0 4px 15px rgba(72, 52, 212, 0.3);
-            margin-top: 10px;
+            background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 15px; 
+            font-weight: 900; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; 
+            box-shadow: 0 4px 15px rgba(72, 52, 212, 0.3); margin-top: 10px;
         }
         .btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(72, 52, 212, 0.4); }
 
-        /* --- OPINIE I GALERIA (TERAZ W LEWEJ KOLUMNIE) --- */
-        .extra-content-box {
-            background: white; padding: 25px; border-radius: var(--radius); 
-            box-shadow: var(--shadow); margin-top: 30px; border: 1px solid #eee;
-        }
+        /* --- SIDEBAR CONTENT --- */
+        .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 30px; border: 1px solid #eee; }
         .review-box { margin-bottom: 15px; border-left: 3px solid #ddd; padding-left: 15px; background: #fafafa; padding: 10px; border-radius: 0 8px 8px 0; }
-        
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
         .gallery-item img { width: 100%; border-radius: 8px; transition: 0.3s; cursor: pointer; }
         .gallery-item img:hover { transform: scale(1.05); }
-
         input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
 
     </style>
@@ -239,7 +210,7 @@
             <a href="#acc-custom" class="menu-link">Własny</a>
             <a href="#acc-prestige" class="menu-link">Prestiż</a>
             <a href="#acc-blind" class="menu-link">Blindbox</a>
-            <a href="#acc-bestsellers" class="menu-link">Memy</a>
+            <a href="#acc-bestsellers" class="menu-link">Bestsellery</a>
             <a href="#acc-xmas" class="menu-link highlight">XMAS 🎄</a>
             <a href="#acc-pride" class="menu-link">#PRIDE 🏳️‍🌈</a>
             <a href="#acc-border" class="menu-link">Pieski</a>
@@ -441,7 +412,6 @@
     </div>
 
     <div class="sidebar">
-        
         <div id="koszyk" class="cart-wrapper">
             <div class="cart-header">
                 <h2 style="margin:0; color:var(--primary); font-size:1.3rem;">TWÓJ RACHUNEK</h2>
@@ -491,7 +461,6 @@
                 </button>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -503,7 +472,36 @@
     const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
     let cart = [];
 
-    // --- TOAST NOTIFICATION FUNKCJA ---
+    // --- SKRYPT NAWIGACJI (AUTO-OTWIERANIE AKORDEONÓW) ---
+    // To jest kluczowa zmiana:
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); // Zatrzymujemy domyślny skok
+            const targetId = this.getAttribute('href').substring(1); // Pobieramy ID (np. acc-xmas)
+            const targetItem = document.getElementById(targetId);
+
+            if(targetItem) {
+                // 1. Zamykamy wszystkie inne
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // 2. Otwieramy ten wybrany
+                targetItem.classList.add('active');
+
+                // 3. Scrollujemy do niego (z poprawką na header)
+                const headerOffset = 140; 
+                const elementPosition = targetItem.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+
     function showToast(message) {
         const toast = document.getElementById("toast");
         toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
@@ -512,7 +510,21 @@
     }
 
     function toggleAcc(header) {
-        header.parentElement.classList.toggle('active');
+        // Logika kliknięcia bezpośrednio w nagłówek
+        const item = header.parentElement;
+        const isActive = item.classList.contains('active');
+        
+        // Opcja: Czy chcesz, żeby zamykało inne przy ręcznym kliknięciu?
+        // Jeśli tak, odkomentuj poniższe 3 linie:
+        // document.querySelectorAll('.accordion-item').forEach(i => {
+        //    i.classList.remove('active');
+        // });
+
+        if(!isActive) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
     }
 
     function addItem(name, price, inputId) {
@@ -521,9 +533,7 @@
         const existing = cart.find(item => item.name === name && !item.file);
         if(existing) { existing.qty += qty; } else { cart.push({ name: name, price: price, qty: qty, file: null }); }
         document.getElementById(inputId).value = 1;
-        renderCart();
-        
-        // WYWOŁANIE TOASTA ZAMIAST ALERTA
+        renderCart(); 
         showToast(`Dodano: ${name}`);
     }
 
