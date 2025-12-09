@@ -3,289 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIN ME UP! - Wielki Drop 17 Grudnia</title>
+    <title>PIN ME UP! - Wersja Finalna</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #3A2A6B; 
-            --primary-light: #523b96;
-            --salmon: #FF9F68; 
-            --salmon-dark: #ff8540;
-            --accent: #FFD700; 
-            --bg: #f8f9fa;
-            --text: #2d3436;
-            --white: #ffffff;
-            --shadow: 0 8px 30px rgba(0,0,0,0.08);
-            --rainbow: linear-gradient(180deg, #ff0000, #ffa500, #ffff00, #008000, #0000ff, #4b0082, #ee82ee);
+            --primary: #3A2A6B; /* Fiolet z logo */
+            --salmon: #FF9F68;  /* Łososiowy z logo */
+            --accent: #FFD700;  /* Złoty */
+            --bg: #f4f1f8;
+            --text: #333;
         }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg);
-            background-image: radial-gradient(#e6e6e6 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: var(--text);
-            margin: 0; padding: 0;
-            padding-top: 90px;
-            overflow-x: hidden;
-        }
-
-        /* POWIADOMIENIA */
-        #social-proof {
-            position: fixed; bottom: 20px; left: 20px;
-            background: white; 
-            border-left: 5px solid var(--salmon);
-            padding: 15px; border-radius: 12px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            max-width: 320px; z-index: 9999;
-            transform: translateX(-200%); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: flex; align-items: center; gap: 15px; font-size: 0.85rem;
-        }
-        #social-proof.visible { transform: translateX(0); }
-        #social-proof img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg); }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-top: 80px; }
 
         /* HEADER */
-        header {
-            background: rgba(58, 42, 107, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            box-shadow: 0 4px 20px rgba(58, 42, 107, 0.2);
-        }
-        .header-inner {
-            max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
-        }
-        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: 1px; display: flex; align-items: center; gap: 12px; color: var(--salmon); cursor: pointer; }
+        header { background: var(--primary); padding: 15px 0; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 1px; color: var(--salmon); display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .logo img { height: 45px; border-radius: 50%; border: 2px solid var(--salmon); }
-        
-        .cart-btn {
-            background: var(--salmon); color: var(--primary); padding: 10px 20px; border-radius: 30px; font-weight: 800; text-decoration: none;
-            transition: 0.3s; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(255, 159, 104, 0.4);
-        }
-        .cart-btn:hover { transform: translateY(-2px); background: white; }
+        .cart-btn { background: var(--salmon); color: var(--primary); padding: 10px 20px; border-radius: 30px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .cart-btn:hover { transform: scale(1.05); }
 
-        /* LAYOUT - Zmiana proporcji dla koszyka po prawej */
-        .main-wrapper {
-            max-width: 1200px; margin: 30px auto; padding: 0 20px;
-            display: grid; 
-            grid-template-columns: 2fr 1.2fr; /* Prawa kolumna szersza dla koszyka */
-            gap: 30px;
-            align-items: start;
-        }
-        
-        @media (max-width: 900px) { 
-            .main-wrapper { grid-template-columns: 1fr; } 
-            .sidebar { order: 2; } 
-        }
+        /* LAYOUT */
+        .main-wrapper { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: start; }
+        @media (max-width: 900px) { .main-wrapper { grid-template-columns: 1fr; } }
 
-        /* HERO */
-        .event-hero {
-            grid-column: 1 / -1;
-            background: linear-gradient(120deg, var(--primary) 0%, #6c5ce7 100%);
-            border-radius: 20px; padding: 40px; color: white;
-            position: relative; overflow: hidden;
-            box-shadow: var(--shadow); margin-bottom: 20px;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            border: 4px solid var(--salmon);
-        }
-        .date-badge {
-            background: var(--accent); color: var(--primary); padding: 5px 15px; border-radius: 20px;
-            font-weight: 900; font-size: 0.9rem; margin-bottom: 15px; z-index: 2;
-        }
-        .event-hero h1 {
-            margin: 0; font-weight: 900; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.3); z-index: 2; line-height: 1.2;
-        }
-        .event-details { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 25px 0; z-index: 2; }
-        .event-pill {
-            background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); padding: 10px 20px; border-radius: 12px; font-weight: 600;
-            display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.2);
-        }
-        .event-pill i { color: var(--accent); }
-        .promo-banner {
-            background: var(--salmon); color: var(--primary); padding: 15px 30px; width: 100%; max-width: 500px;
-            border-radius: 15px; font-weight: 800; font-size: 1.1rem; z-index: 2; transform: rotate(-1deg);
-        }
-
-        /* BANER DZIEKANA */
-        .dean-alert {
-            grid-column: 1 / -1;
-            background: linear-gradient(45deg, #111, #333);
-            color: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 2px solid var(--accent);
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        .dean-alert::before {
-            content: '📸'; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 3rem; opacity: 0.3;
-        }
-        .dean-alert::after {
-            content: '🎓'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 3rem; opacity: 0.3;
-        }
-        .dean-alert h2 { margin: 0 0 10px 0; color: var(--accent); font-weight: 900; text-transform: uppercase; font-size: 1.3rem; }
-        .dean-alert p { margin: 0; font-size: 1rem; line-height: 1.5; }
-
-        /* AKORDEON */
-        .accordion-item {
-            background: white; border-radius: 15px; margin-bottom: 20px;
-            box-shadow: var(--shadow); overflow: hidden; border: 1px solid #eee; transition: 0.3s;
-        }
-        .accordion-header {
-            padding: 25px; background: #fff; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
-            font-weight: 800; font-size: 1.1rem; color: var(--primary); user-select: none;
-        }
-        .accordion-header:hover { background: #fdfdfd; padding-left: 30px; color: var(--salmon-dark); }
-        .accordion-item.active .accordion-header { background: #fdfdfd; color: var(--primary); border-bottom: 1px solid #f0f0f0; }
-        .accordion-item.active .accordion-header i { transform: rotate(180deg); color: var(--salmon); }
-        .accordion-content { display: none; padding: 30px; animation: slideDown 0.4s; }
+        /* AKORDEONY */
+        .accordion-item { background: white; border-radius: 12px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 6px solid var(--primary); }
+        .accordion-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; color: var(--primary); background: white; transition: 0.2s; }
+        .accordion-header:hover { background: #f9f9f9; color: var(--salmon); }
+        .accordion-content { display: none; padding: 20px; border-top: 1px solid #eee; }
         .accordion-item.active .accordion-content { display: block; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .zone-desc { font-size: 0.9rem; color: #666; margin-bottom: 20px; font-style: italic; border-left: 3px solid #eee; padding-left: 10px; }
-
-        /* KARTY - NOWE EFEKTY */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-        .card {
-            border: 1px solid #f0f0f0; border-radius: 16px; padding: 20px; text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Sprężysty efekt */
-            position: relative; background: white;
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
-        /* Hover efekt: powiększenie i cień */
-        .card:hover { 
-            border-color: var(--salmon); 
-            transform: scale(1.05) translateY(-10px); 
-            box-shadow: 0 20px 40px rgba(58, 42, 107, 0.2); 
-            z-index: 10;
-        }
-        .card img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; border: 4px solid #f8f9fa; transition: 0.3s; }
-        .card:hover img { border-color: var(--accent); }
-        .card h3 { font-size: 1rem; margin: 0 0 10px 0; font-weight: 700; color: #444; }
-        .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 15px; font-size: 1.2rem; }
-        .old-price { text-decoration: line-through; color: #aaa; font-size: 0.9rem; margin-right: 5px; }
-        .cert-badge { display: block; font-size: 0.7rem; color: #888; margin-bottom: 8px; font-style: italic; background: #f9f9f9; padding: 4px; border-radius: 4px; }
-
-        .btn-mini {
-            background: var(--primary); color: white; border: none; padding: 12px 0; border-radius: 10px; font-size: 0.9rem; cursor: pointer; width: 100%; transition: 0.2s; font-weight: bold;
-        }
-        .btn-mini:hover { background: var(--salmon); color: var(--primary); transform: translateY(-2px); }
-        .btn-mini:active { transform: scale(0.95); }
+        /* KARTY PRODUKTÓW */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.2s; }
+        .card:hover { transform: translateY(-5px); border-color: var(--salmon); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f8f8f8; }
+        .card h3 { font-size: 0.9rem; margin: 5px 0; font-weight: 700; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 10px; }
         
-        .qty-mini { width: 45px; text-align: center; border: 2px solid #eee; border-radius: 8px; font-size: 1rem; padding: 8px; font-weight: bold; color: var(--primary); }
+        .qty-box { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; }
+        .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; }
+        .btn-add { background: var(--primary); color: white; border: none; padding: 8px 0; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-add:hover { background: var(--salmon); color: var(--primary); }
 
-        /* SIDEBAR (TERAZ Z KOSZYKIEM) */
-        .sidebar { position: sticky; top: 100px; height: fit-content; }
-        
-        .cart-wrapper { 
-            background: white; padding: 25px; border-radius: 20px; 
-            border: 2px solid var(--primary); margin-top: 0; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            position: relative; overflow: hidden;
-            margin-bottom: 30px;
-        }
-        /* Pasek ozdobny koszyka */
-        .cart-wrapper::before {
-            content: ''; position: absolute; top:0; left:0; width:100%; height:10px;
-            background: repeating-linear-gradient(45deg, var(--primary), var(--primary) 10px, var(--salmon) 10px, var(--salmon) 20px);
-        }
+        /* STYL PRESTIŻ */
+        .card.prestige { background: #111; color: white; border: 2px solid var(--accent); }
+        .card.prestige h3 { color: var(--accent); }
+        .card.prestige .price { color: white; }
+        .card.prestige .btn-add { background: var(--accent); color: black; }
 
-        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; font-size: 0.85rem; }
-        td { padding: 5px; border-bottom: 1px solid #f9f9f9; vertical-align: middle; }
+        /* KREATOR PROSTY */
+        .creator-section { text-align: center; padding: 20px; }
+        .file-input-wrapper { margin: 20px 0; border: 2px dashed var(--primary); padding: 20px; border-radius: 10px; background: #fdfdfd; }
         
-        .promo-alert { 
-            background: linear-gradient(to right, #dff9fb, #c7ecee); color: #130f40; padding: 10px; border-radius: 10px; font-size: 0.85rem; margin-top: 15px; border: 1px solid #badc58;
-            animation: fadeIn 0.5s; 
-        }
-        .saved-amount { color: #27ae60; text-align: right; font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; display: block; margin-top: 10px; }
-        .total { font-size: 1.3rem; font-weight: 900; text-align: right; color: var(--primary); margin-top: 20px; }
+        /* KOSZYK SIDEBAR */
+        .cart-wrapper { background: white; padding: 25px; border-radius: 15px; border-top: 5px solid var(--salmon); position: sticky; top: 100px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .cart-items { margin-bottom: 20px; max-height: 300px; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; font-size: 0.9rem; }
+        .total-row { font-size: 1.4rem; font-weight: 900; text-align: right; color: var(--primary); margin-top: 15px; }
+        
+        .promo-alert { background: #dff9fb; color: #130f40; padding: 10px; border-radius: 5px; font-size: 0.8rem; margin-top: 10px; border: 1px solid #badc58; }
+        .savings { color: #27ae60; font-weight: bold; text-align: right; display: block; font-size: 0.9rem; }
 
-        .payment-options { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
-        .pay-option { 
-            flex: 1; border: 2px solid #eee; padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.2s; min-width: 100px; background: #fff; font-size: 0.8rem;
-        }
-        .pay-option.active { border-color: var(--salmon); background: #fff5eb; transform: scale(1.02); }
-        .pay-option i { font-size: 1.5rem; display: block; margin-bottom: 5px; color: #ccc; }
-        .pay-option.active i { color: var(--salmon); }
-        
-        .blik-warning { display: none; background: #ffebeb; color: #d63031; padding: 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 500; border-left: 5px solid #d63031; margin-bottom: 20px; }
-        
-        .tip-box { background: #fffbf0; padding: 10px; border-radius: 10px; margin: 15px 0; border: 1px solid var(--accent); display: flex; align-items: center; font-size: 0.85rem; }
-        .tip-box input { width: 18px; height: 18px; margin-right: 10px; accent-color: var(--accent); }
-        
-        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 0.9rem; }
-        .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 15px; font-size: 1.1rem; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
-        .btn-checkout:hover { background: var(--salmon); color: var(--primary); transform: translateY(-2px); }
+        /* PŁATNOŚCI */
+        .payment-options { display: flex; gap: 10px; margin: 15px 0; }
+        .pay-option { flex: 1; border: 2px solid #eee; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
+        .pay-option.active { border-color: var(--salmon); background: #fff5eb; }
+        .blik-warn { display: none; background: #ffebeb; color: #d63031; padding: 10px; border-radius: 5px; font-size: 0.8rem; margin-bottom: 10px; border-left: 4px solid #d63031; font-weight: bold; }
 
-        /* GALERIA NA DOLE */
-        .bottom-gallery {
-            grid-column: 1 / -1;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            margin-top: 40px;
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .gallery-grid img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .gallery-grid img:hover { transform: scale(1.05); filter: brightness(1.1); }
+        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 15px; font-size: 1.2rem; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-checkout:hover { background: var(--salmon); }
 
-        /* OPINIE SIDEBAR */
-        .sidebar-box {
-            background: white; border-radius: 16px; padding: 25px; margin-bottom: 25px;
-            box-shadow: var(--shadow); border: 1px solid #fff;
-        }
-        .sidebar-title { font-weight: 900; color: var(--primary); margin-bottom: 20px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
-        .review { background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-size: 0.9rem; font-style: italic; border-left: 4px solid var(--primary-light); }
-        .review-author { display: block; text-align: right; font-weight: 700; font-style: normal; margin-top: 8px; font-size: 0.8rem; color: var(--salmon-dark); }
-        
-        .review.vip {
-            background: #fffbf0;
-            border-left-color: var(--accent);
-            border: 1px solid var(--accent);
-            position: relative;
-        }
-        .review.vip::after {
-            content: '⭐ VIP';
-            position: absolute; top: -10px; right: -10px;
-            background: var(--accent); color: var(--primary);
-            padding: 3px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        /* SOCIAL PROOF */
+        #social-proof { position: fixed; bottom: 20px; left: 20px; background: white; border-left: 5px solid var(--salmon); padding: 15px; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); max-width: 300px; z-index: 9999; transform: translateX(-200%); transition: 0.5s; display: flex; gap: 10px; align-items: center; }
+        #social-proof.visible { transform: translateX(0); }
+        #social-proof img { width: 40px; height: 40px; border-radius: 50%; }
 
-        /* KREATOR */
-        .img-container { height: 400px; background: #333; display: none; margin: 20px 0; border-radius: 10px; overflow: hidden; }
-        .cropper-view-box, .cropper-face { border-radius: 50%; outline: 3px solid var(--salmon); }
     </style>
 </head>
 <body>
 
 <div id="social-proof">
     <img src="https://via.placeholder.com/50" id="sp-img" alt="User">
-    <div>
+    <div style="font-size:0.85rem;">
         <strong id="sp-name" style="display:block; color:var(--primary);">Ktoś z I roku</strong>
-        <span id="sp-msg">Właśnie kupił Dubajską Czekoladę!</span>
+        <span id="sp-msg">Kupił Dubajską!</span>
     </div>
 </div>
 
@@ -294,7 +102,7 @@
         <div class="logo" onclick="location.reload()">
             <img src="pinmeup_logo.jpg" alt="Logo"> PIN ME UP!
         </div>
-        <a href="#koszyk" class="cart-btn" onclick="document.getElementById('koszyk').scrollIntoView({behavior: 'smooth'})">
+        <a href="#koszyk" class="cart-btn">
             <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
         </a>
     </div>
@@ -304,521 +112,406 @@
 
     <div class="content-col">
         
-        <div class="event-hero">
-            <div class="date-badge">📅 17 GRUDNIA</div>
-            <h1>WIELKI DROP NA WYDZIALE!</h1>
-            <div class="event-details">
-                <div class="event-pill"><i class="fa-solid fa-location-dot"></i> Hol Główny</div>
-                <div class="event-pill"><i class="fa-solid fa-dharmachakra"></i> Koło Fortuny</div>
-                <div class="event-pill"><i class="fa-solid fa-camera"></i> Selfie z Gwiazdą</div>
-            </div>
-            <div class="promo-banner">
-                <i class="fa-solid fa-fire"></i> 5+1 GRATIS (ten sam wzór)
-            </div>
-        </div>
-
-        <div class="dean-alert">
-            <h2>🚨 Breaking News: FOTOBUDKA Z DZIEKANEM!</h2>
-            <p>Tego jeszcze nie było! <strong>17 Grudnia (12:00 - 14:00)</strong> w naszej budce czeka sam <strong style="color:var(--accent);">DZIEKAN TURZYŃSKI!</strong><br>
-            Wpadnij, zrób sobie z nim fotkę na przypinkę i zapewnij sobie <strong>+10 pkt do charyzmy</strong> na egzaminie dyplomowym!</p>
-        </div>
-
-        <div class="accordion-item active">
+        <div class="accordion-item active" style="border-left-color: var(--salmon);">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🔥 BESTSELLERY & LOGA</span>
+                <span>🎨 WGRAJ WŁASNĄ FOTKĘ (7 PLN)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <p class="zone-desc">Klasyka gatunku. Z tym nie zginiesz na korytarzu.</p>
-                <div class="grid">
-                    <div class="card">
-                        <img src="logo_uczelni.png" alt="Logo">
-                        <h3>Logo Wydziału</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q1" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Logo Wydziału', 5, 'q1')">DODAJ</button></div>
+                <div class="creator-section">
+                    <p>Wgraj zdjęcie, my je dotniemy do kółka.</p>
+                    
+                    <div class="file-input-wrapper">
+                        <input type="file" id="customFile" accept="image/*">
                     </div>
-                    <div class="card">
-                        <img src="pinmeup_logo.jpg" alt="PinMeUp">
-                        <h3>Wspieram Projekt</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q2" class="qty-mini" value="1"><button class="btn-mini" onclick="add('PinMeUp Logo', 5, 'q2')">DODAJ</button></div>
+
+                    <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
+                        Ilość: <input type="number" id="customQty" class="qty-input" value="1" min="1" style="width:60px; font-size:1.1rem;">
+                        <button class="btn-add" style="width:auto; padding:10px 30px;" onclick="addCustomFile()">DODAJ DO KOSZYKA</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="accordion-item" style="border-left: 5px solid #222;">
+        <div class="accordion-item" style="border-left-color: #222;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>💎 STREFA PRESTIŻU (LUKSUS)</span>
+                <span>💎 STREFA PRESTIŻU</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <p class="zone-desc">Dla tych, co mają za dużo punktów ECTS i gotówki.</p>
                 <div class="grid">
-                    <div class="card" style="background:#1a1a1a; border-color:#333;">
-                        <img src="czekolada.png" alt="Dubaj" style="border-color:var(--accent);">
-                        <h3 style="color:var(--accent)">Dubajska Czekolada</h3>
-                        <span class="cert-badge">📜 Certyfikat "Trust Me Bro"</span>
-                        <span class="price" style="color:white"><span class="old-price">150 zł</span> 15.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q_dubaj" class="qty-mini" value="1"><button class="btn-mini" style="background:#444; color:var(--accent);" onclick="add('PRESTIŻ: Dubajska', 15, 'q_dubaj')">BIORĘ</button></div>
+                    <div class="card prestige">
+                        <img src="czekolada.png" alt="Dubaj">
+                        <h3>Dubajska Czekolada</h3>
+                        <span class="price">15.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_dubaj" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Dubajska Czekolada', 15, 'qty_dubaj')">BIORĘ</button>
                     </div>
-                    <div class="card" style="background:#1a1a1a; border-color:#333;">
-                        <img src="labubu.png" alt="Labubu" style="border-color:var(--accent);">
-                        <h3 style="color:var(--accent)">Labubu Rare</h3>
-                        <span class="cert-badge">📜 Certyfikat Autentyczności</span>
-                        <span class="price" style="color:white"><span class="old-price">500 zł</span> 20.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q_labubu" class="qty-mini" value="1"><button class="btn-mini" style="background:#444; color:var(--accent);" onclick="add('PRESTIŻ: Labubu', 20, 'q_labubu')">BIORĘ</button></div>
+                    <div class="card prestige">
+                        <img src="labubu.png" alt="Labubu">
+                        <h3>Labubu Rare</h3>
+                        <span class="price">20.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_labubu" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Labubu Rare', 20, 'qty_labubu')">BIORĘ</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="accordion-item" style="border-left: 5px solid #8e44ad;">
+        <div class="accordion-item" style="border-left-color: #8e44ad;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🔮 BLINDBOX (Niespodzianka)</span>
+                <span>🔮 BLINDBOX (NIESPODZIANKA)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <p class="zone-desc">Płacisz mniej, ale nie wiesz co dostaniesz. Czysty hazard.</p>
-                <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
-                    <img src="question.png" style="width:100px; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-                    <div style="flex:1;">
-                        <h4 style="margin:0 0 5px 0;">Ryzyko się opłaca!</h4>
-                        <p style="margin:0 0 15px 0; font-size:0.9rem; color:#666;">Kupujesz taniej (3 zł), my losujemy.</p>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <img src="question.png" style="width:80px; border-radius:10px;">
+                    <div>
+                        <p>Kupujesz taniej (3 zł), my losujemy wzór.</p>
                         <div style="display:flex; gap:10px;">
-                            <input type="number" id="q_blind" class="qty-mini" value="1">
-                            <button class="btn-mini" style="background:#8e44ad; width:auto; padding:0 30px;" onclick="add('🔮 Blindbox', 3, 'q_blind')">RYZYKUJĘ (3 PLN)</button>
+                            <input type="number" id="qty_blind" class="qty-input" value="1">
+                            <button class="btn-add" style="background:#8e44ad;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">RYZYKUJĘ</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="accordion-item" style="border-left: 5px solid; border-image: var(--rainbow) 1;">
+        <div class="accordion-item">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🏳️‍🌈 STREFA #PRIDE</span>
+                <span>🔥 BESTSELLERY (LOGA, MEMY)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <p class="zone-desc">Bądź sobą, wszyscy inni są już zajęci. ~Oscar Wilde</p>
                 <div class="grid">
                     <div class="card">
-                        <img src="pride_rainbow.png" alt="Rainbow">
-                        <h3>Tęcza Klasyk</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q_pride1" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pride: Tęcza', 5, 'q_pride1')">DODAJ</button></div>
+                        <img src="logo_uczelni.png" alt="Logo">
+                        <h3>Logo Wydziału</h3>
+                        <span class="price">5.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_logo" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Logo Wydziału', 5, 'qty_logo')">DODAJ</button>
                     </div>
-                    <div class="card">
-                        <img src="pride_bi.png" alt="Bi">
-                        <h3>Bi Vibes</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q_pride2" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pride: Bi', 5, 'q_pride2')">DODAJ</button></div>
-                    </div>
-                    <div class="card">
-                        <img src="pride_love.png" alt="Love">
-                        <h3>Love is Love</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q_pride3" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pride: Love', 5, 'q_pride3')">DODAJ</button></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item" style="border-left: 5px solid var(--salmon);">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🐸 STREFA MEMÓW</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <p class="zone-desc">Memy, które rozumiesz tylko Ty i Twoja grupa dziekańska.</p>
-                <div class="grid">
                     <div class="card">
                         <img src="mem_kot.png" alt="Kot">
                         <h3>Kot Student</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q3" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Mem: Kot', 5, 'q3')">DODAJ</button></div>
+                        <span class="price">5.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_kot" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Kot Student', 5, 'qty_kot')">DODAJ</button>
                     </div>
-                    <div class="card">
-                        <img src="mem_pies.png" alt="Pies">
-                        <h3>Pieseł</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q4" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Mem: Pieseł', 5, 'q4')">DODAJ</button></div>
-                    </div>
-                    <div class="card">
-                        <img src="cytat.png" alt="Cytat">
-                        <h3>Daję Radę</h3>
-                        <span class="price">5.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q6" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Cytat: Daję Radę', 5, 'q6')">DODAJ</button></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item" style="border-left: 5px solid var(--accent);">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🏆 PIN OF FAME</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <p class="zone-desc">Dla tych, którzy rządzą tym miejscem (lub tylko tak myślą).</p>
-                <div class="grid">
                     <div class="card">
                         <img src="gwiazda1.png" alt="Starosta">
                         <h3>Pan Starosta</h3>
-                        <span class="price">6.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q7" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pin Fame: Starosta', 6, 'q7')">DODAJ</button></div>
-                    </div>
-                    <div class="card">
-                        <img src="gwiazda2.png" alt="Dziekan">
-                        <h3>Legenda Dziekanatu</h3>
-                        <span class="price">6.00 zł</span>
-                        <div style="display:flex; gap:5px;"><input type="number" id="q8" class="qty-mini" value="1"><button class="btn-mini" onclick="add('Pin Fame: Dziekanat', 6, 'q8')">DODAJ</button></div>
+                        <span class="price">6.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_starosta" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Pin: Starosta', 6, 'qty_starosta')">DODAJ</button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="accordion-item">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>📱 GENERATOR QR (WŁASNY LINK)</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <p class="zone-desc">Przekieruj znajomych na swojego Instagrama lub LinkedIn.</p>
-                <div style="background:#f0f8ff; border-left:4px solid #3498db; padding:10px; margin-bottom:15px; border-radius:5px;">
-                    ℹ️ <strong>Spokojnie!</strong> Nie musisz wgrywać zdjęcia kodu. Wklej link, a my wygenerujemy grafikę na przypinkę.
-                </div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <input type="text" id="qrText" class="field" style="flex:1; margin:0;" placeholder="Wklej link tutaj...">
-                    <button class="btn-mini" style="width:auto; padding:0 30px;" onclick="generateQR()">GENERUJ (7 PLN)</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎨 KREATOR & SELFIE Z GWIAZDĄ</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <p class="zone-desc">Twoje zdjęcie, Twoja przypinka. Pełna personalizacja.</p>
-                <div style="background:#fff3e0; border-left:4px solid var(--salmon); padding:10px; margin-bottom:15px; border-radius:5px;">
-                    ✂️ <strong>Czemu wycinanie?</strong> Przypinki są okrągłe! Użyj narzędzia poniżej, aby idealnie dopasować fotkę.
-                </div>
-                <input type="file" id="inputImage" accept="image/*" class="field" style="padding:10px;">
-                <div class="img-container" id="imgContainer">
-                    <img id="image" src="">
-                </div>
-                <div id="cropControls" style="display:none; margin-top:15px; background:#f9f9f9; padding:15px; border-radius:10px; text-align:center;">
-                    <label style="font-weight:bold; margin-right:10px;">Ile sztuk?</label>
-                    <input type="number" id="qty-custom" class="qty-mini" value="1" min="1" style="margin-right:15px;">
-                    <button class="btn-mini" style="width:auto; padding:10px 30px; background:var(--salmon); color:var(--primary);" id="btnCropToAdd">ZATWIERDŹ PROJEKT (7 PLN)</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom-gallery">
-            <h2 class="sidebar-title">📸 GALERIA LUDZI</h2>
-            <div class="gallery-grid">
-                <img src="https://via.placeholder.com/200x200?text=Usmiech" alt="G">
-                <img src="https://via.placeholder.com/200x200?text=Ekipa" alt="G">
-                <img src="https://via.placeholder.com/200x200?text=Selfie" alt="G">
-                <img src="https://via.placeholder.com/200x200?text=Przypinka" alt="G">
-                <img src="https://via.placeholder.com/200x200?text=Dziedziniec" alt="G">
-                <img src="https://via.placeholder.com/200x200?text=Impreza" alt="G">
-            </div>
-        </div>
-
-    </div> 
-    
-    <div class="sidebar">
-        
-        <div id="koszyk" class="cart-wrapper">
-            <h2 style="margin-top:0; color:var(--primary); text-transform:uppercase; font-size:1.3rem; border-bottom:2px solid #eee; padding-bottom:15px;">🛒 Twój Koszyk</h2>
-            <table>
-                <tbody id="cartBody"><tr><td colspan="4" style="text-align:center; padding:30px; color:#aaa;">Pusto...<br>Kliknij "Dodaj"!</td></tr></tbody>
-            </table>
-            
-            <div id="promoMessage"></div>
-            
-            <div class="tip-box">
-                <label style="cursor:pointer; display:flex; align-items:center; width:100%;">
-                    <input type="checkbox" id="tipCheck" onchange="updateCart()">
-                    <span><strong>Napiwek na Monsterka</strong> <br><small style="color:#666;">(+1 PLN dla nas ❤️)</small></span>
-                </label>
-            </div>
-
-            <div class="saved-amount" id="savedAmount"></div>
-            <div class="total">RAZEM: <span id="totalPrice">0.00</span> PLN</div>
-            
-            <div style="background:#fcfcfc; padding:15px; border-radius:15px; margin-top:20px; border:1px solid #eee;">
-                <h4 style="margin-top:0; font-size:0.9rem;">Płatność:</h4>
-                <div class="payment-options">
-                    <div class="pay-option active" id="opt-blik" onclick="setPay('blik')">
-                        <i class="fa-solid fa-mobile-screen"></i> BLIK
-                    </div>
-                    <div class="pay-option" id="opt-cash" onclick="setPay('cash')">
-                        <i class="fa-solid fa-hand-holding-dollar"></i> Gotówka
-                    </div>
-                </div>
-                <input type="hidden" id="selectedPayment" value="BLIK">
-
-                <div class="blik-warning" id="blikWarning" style="display:block;">
-                    ⚠️ Przelew BLIK na <strong>123-456-789</strong>
-                </div>
-
-                <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
-                <input type="email" id="clientEmail" class="field" placeholder="E-mail">
-                <button class="btn-checkout" onclick="checkout()">🚀 ZAMAWIAM</button>
-            </div>
-        </div>
-
-        <div class="sidebar-box">
-            <div class="sidebar-title">💬 GŁOS LUDU (OPINIE)</div>
-            
-            <div class="review vip">
-                "Zatwierdzam ten projekt. Przypinki są zgodne z regulaminem, a selfie ze mną jest... mile widziane." 
-                <span class="review-author" style="color:var(--primary); font-weight:900;">~ Dziekan Turzyński</span>
-            </div>
-
-            <div class="review">"Kupiłem Dubajską Czekoladę, żeby zaimponować na ustnym z algebry. Zadziałało." <span class="review-author">~Marek, III rok</span></div>
-            <div class="review">"Selfie z Gwiazdą Wydziału? Wchodzę w to!" <span class="review-author">~Fanka Turzyna</span></div>
-            <div class="review">"Blindbox trafił mi się idealny." <span class="review-author">~Anonim</span></div>
-            <div class="review">"W końcu coś fajnego na tym wydziale." <span class="review-author">~Zofia</span></div>
         </div>
 
     </div>
 
+    <div class="sidebar">
+        
+        <div style="background:white; padding:15px; border-radius:12px; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+            <h4 style="margin-top:0; color:var(--primary);">📸 Z ŻYCIA WZIĘTE</h4>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:5px;">
+                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:5px;">
+                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:5px;">
+                <img src="https://via.placeholder.com/150" style="width:100%; border-radius:5px;">
+            </div>
+        </div>
+
+        <div id="koszyk" class="cart-wrapper">
+            <h2 style="margin-top:0; color:var(--primary); text-transform:uppercase; font-size:1.2rem;">🛒 Twój Koszyk</h2>
+            
+            <div id="cartItems" class="cart-items">
+                <div style="text-align:center; padding:20px; color:#aaa;">Koszyk jest pusty</div>
+            </div>
+
+            <div id="promoBox"></div>
+
+            <div style="background:#f0f0f0; padding:10px; border-radius:5px; margin-top:15px;">
+                <label style="cursor:pointer; display:flex; align-items:center; gap:10px; font-size:0.85rem;">
+                    <input type="checkbox" id="starostaTax" onchange="renderCart()">
+                    <span><strong>Jestem Starostą</strong> (+21,37% do ceny)</span>
+                </label>
+            </div>
+
+            <div class="saved-amount" id="savedDisplay"></div>
+            <div class="total">DO ZAPŁATY: <span id="totalPrice">0.00</span> PLN</div>
+
+            <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+
+            <h4>Płatność:</h4>
+            <div class="payment-options">
+                <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">📱 BLIK</div>
+                <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">💵 Gotówka</div>
+            </div>
+            <input type="hidden" id="paymentMethod" value="BLIK">
+
+            <div class="blik-warn" id="blikInfo" style="display:block;">
+                ⚠️ Zrób przelew BLIK na <strong>123-456-789</strong> zaraz po zamówieniu!
+            </div>
+
+            <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
+            <input type="email" id="clientEmail" class="field" placeholder="E-mail (do kontaktu)">
+            
+            <button class="btn-checkout" onclick="submitOrder()">🚀 ZAMAWIAM</button>
+        </div>
+
+        <div style="background:white; padding:15px; border-radius:12px; margin-top:20px; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+            <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
+            <p style="font-size:0.85rem; font-style:italic;">"Kupiłem Dubajską, żeby zdać egzamin. Zdałem." <br><strong>~ Marek</strong></p>
+            <p style="font-size:0.85rem; font-style:italic;">"Blindbox to życie." <br><strong>~ Kasia</strong></p>
+        </div>
+
+    </div>
 </div>
 
-<footer style="text-align:center; padding:60px 20px; color:#999; font-size:0.8rem; background:#f0f0f0; margin-top:50px;">
-    &copy; 2024 PIN ME UP! Projekt Studencki<br>Widzimy się 17 Grudnia!
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
     // ==========================================
-    // WPISZ TU SWÓJ E-MAIL (Musi być prawdziwy!)
-    const EMAIL_TARGET = "pinmeup.fuw@gmail.com"; 
+    // WPISZ TU SWÓJ E-MAIL !!!!
+    const MY_EMAIL = "TWOJ_EMAIL@gmail.com"; 
     // ==========================================
 
     let cart = [];
-    let cropper;
-    const image = document.getElementById('image');
-    const inputImage = document.getElementById('inputImage');
-    const imgContainer = document.getElementById('imgContainer');
 
-    // --- AKORDEONY ---
+    // 1. AKORDEONY
     function toggleAcc(header) {
         header.parentElement.classList.toggle('active');
     }
 
-    // --- POWIADOMIENIA (SOCIAL PROOF) ---
-    setInterval(() => {
-        const box = document.getElementById('social-proof');
-        const msgs = ["Kupił Dubajską!", "Zrobił własny projekt.", "Wziął Blindboxa.", "Dostał gratis 5+1."];
-        document.getElementById('sp-msg').innerText = msgs[Math.floor(Math.random()*msgs.length)];
-        document.getElementById('sp-img').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`;
-        box.classList.add('visible');
-        setTimeout(()=>box.classList.remove('visible'), 5000);
-    }, 15000);
+    // 2. FUNKCJA DODAWANIA (ZWYKŁE PRODUKTY)
+    function addItem(name, price, inputId) {
+        const qty = parseInt(document.getElementById(inputId).value);
+        if(qty < 1) return;
 
-    // --- DODAWANIE DO KOSZYKA ---
-    function add(name, price, qtyId) {
-        const q = parseInt(document.getElementById(qtyId).value);
-        if(q<1) return;
+        // Sprawdź czy już jest w koszyku
+        const existing = cart.find(item => item.name === name && !item.file);
         
-        // Szukamy czy już jest taki produkt (bez pliku)
-        const exist = cart.find(x => x.name === name && !x.file);
-        if(exist) exist.qty += q;
-        else cart.push({name, price, qty: q, file: null}); // file: null bo to gotowiec
-        
-        document.getElementById(qtyId).value = 1;
-        updateCart();
-        alert('Dodano do koszyka!');
+        if(existing) {
+            existing.qty += qty;
+        } else {
+            cart.push({ name: name, price: price, qty: qty, file: null });
+        }
+
+        // Reset inputa
+        document.getElementById(inputId).value = 1;
+        renderCart();
+        alert("Dodano do koszyka: " + name);
     }
 
-    // --- KREATOR (CROPPER) ---
-    inputImage.addEventListener('change', function(e){
-        const files = e.target.files;
-        if(files && files.length > 0){
-            const reader = new FileReader();
-            reader.onload = function(evt){
-                image.src = evt.target.result;
-                imgContainer.style.display='block';
-                document.getElementById('cropControls').style.display='block';
-                if(cropper) cropper.destroy();
-                cropper = new Cropper(image, {
-                    aspectRatio: 1, viewMode: 1, dragMode:'move', autoCropArea:0.65,
-                    guides:false, center:false, highlight:false, cropBoxMovable:false, cropBoxResizable:false, toggleDragModeOnDblclick:false
-                });
-            };
-            reader.readAsDataURL(files[0]);
+    // 3. FUNKCJA DODAWANIA (WŁASNY PLIK)
+    function addCustomFile() {
+        const fileInput = document.getElementById('customFile');
+        const qty = parseInt(document.getElementById('customQty').value);
+
+        if(fileInput.files.length === 0) {
+            alert("Najpierw wybierz plik!");
+            return;
         }
-    });
 
-    document.getElementById('btnCropToAdd').addEventListener('click', ()=>{
-        if(!cropper) return;
-        const q = parseInt(document.getElementById('qty-custom').value);
+        const file = fileInput.files[0];
         
-        // Tu robimy "Blob" (plik w pamięci)
-        cropper.getCroppedCanvas({width:1000, height:1000, fillColor:'#fff'}).toBlob((blob)=>{
-            // Dodajemy do koszyka OBIEKT PLIKU (blob)
-            cart.push({name:"WŁASNY PROJEKT", price:7.00, qty:q, file:blob});
-            
-            cropper.destroy();
-            imgContainer.style.display='none';
-            document.getElementById('cropControls').style.display='none';
-            inputImage.value="";
-            updateCart();
-            alert('Projekt dodany do koszyka! (Wyśle się automatycznie przy zamówieniu)');
+        // Dodajemy plik do koszyka (jako osobny obiekt)
+        cart.push({
+            name: "Własny Projekt (" + file.name + ")",
+            price: 7.00,
+            qty: qty,
+            file: file // Zapisujemy obiekt pliku
         });
-    });
 
-    // --- LOGIKA KOSZYKA ---
-    function updateCart() {
-        const tbody = document.getElementById('cartBody');
-        tbody.innerHTML = '';
+        // Reset
+        fileInput.value = ""; 
+        document.getElementById('customQty').value = 1;
+        renderCart();
+        alert("Dodano Twój projekt do koszyka!");
+    }
+
+    // 4. USUWANIE Z KOSZYKA
+    function removeItem(index) {
+        cart.splice(index, 1);
+        renderCart();
+    }
+
+    // 5. RENDEROWANIE KOSZYKA (I LOGIKA CEN)
+    function renderCart() {
+        const container = document.getElementById('cartItems');
+        const totalEl = document.getElementById('totalPrice');
+        const promoBox = document.getElementById('promoBox');
+        const savedEl = document.getElementById('savedDisplay');
+        const isStarosta = document.getElementById('starostaTax').checked;
+
+        container.innerHTML = "";
         let total = 0;
         let savings = 0;
-        let discountMsg = "";
+        let promoText = "";
 
-        const isStarosta = document.getElementById('starostaCheck').checked;
+        if(cart.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Koszyk jest pusty</div>';
+            totalEl.innerText = "0.00";
+            promoBox.innerHTML = "";
+            savedEl.innerText = "";
+            document.getElementById('cartCount').innerText = "0";
+            return;
+        }
 
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
 
-            // Logika Prestiż
+            // Logika Dubajska (Rabat)
             if(item.name.includes("Dubajska")) savings += (150 - 15) * item.qty;
             if(item.name.includes("Labubu")) savings += (500 - 20) * item.qty;
 
-            // Logika 5+1 Gratis
+            // Logika 5+1 Gratis (Tylko dla produktów bez plików)
             if(!item.file && item.qty >= 6) {
-                const free = Math.floor(item.qty / 6);
-                const disc = free * item.price;
-                itemTotal -= disc;
-                savings += disc;
-                discountMsg += `<div>🎁 ${item.name}: ${free} szt. GRATIS!</div>`;
+                const freeCount = Math.floor(item.qty / 6);
+                const discount = freeCount * item.price;
+                itemTotal -= discount;
+                savings += discount;
+                promoText = `<div>🎁 Promocja 5+1: Odejmujemy ${discount.toFixed(2)} zł!</div>`;
             }
 
             total += itemTotal;
 
-            tbody.innerHTML += `
-                <tr>
-                    <td>${item.name} ${item.file ? '📎 <small>(załącznik)</small>' : ''}</td>
-                    <td>${item.qty}</td>
-                    <td>${itemTotal.toFixed(2)} zł</td>
-                    <td><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="cart.splice(${index}, 1); updateCart()"></i></td>
-                </tr>
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.innerHTML = `
+                <div>
+                    <strong>${item.name}</strong> <br>
+                    <small>${item.qty} szt. x ${item.price} zł</small>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <strong>${itemTotal.toFixed(2)} zł</strong>
+                    <i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="removeItem(${index})"></i>
+                </div>
             `;
+            container.appendChild(div);
         });
 
         // Podatek Starosty
-        if(isStarosta && total > 0) {
+        if(isStarosta) {
             const tax = total * 0.2137;
             total += tax;
-            tbody.innerHTML += `<tr><td colspan="4" style="color:var(--primary); font-style:italic;">+ Podatek Starosty (21,37%): ${tax.toFixed(2)} zł</td></tr>`;
+            const div = document.createElement('div');
+            div.style.color = "var(--primary)";
+            div.style.fontStyle = "italic";
+            div.style.textAlign = "right";
+            div.style.marginTop = "10px";
+            div.innerHTML = `+ Podatek Starosty: ${tax.toFixed(2)} zł`;
+            container.appendChild(div);
         }
 
-        if(cart.length===0) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Pusto...</td></tr>';
+        totalEl.innerText = total.toFixed(2);
         
-        document.getElementById('totalPrice').innerText = total.toFixed(2);
-        document.getElementById('cartCount').innerText = cart.reduce((a,b)=>a+b.qty,0);
+        // Licznik w menu
+        const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+        document.getElementById('cartCount').innerText = totalQty;
 
-        const promoBox = document.getElementById('promoMessage');
-        promoBox.innerHTML = discountMsg ? `<div class="promo-alert">${discountMsg}</div>` : "";
-
-        const saveEl = document.getElementById('savedAmount');
-        saveEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN!` : "";
+        // Wyświetlanie promocji
+        promoBox.innerHTML = promoText ? `<div class="promo-alert">${promoText}</div>` : "";
+        savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN!` : "";
     }
 
-    // --- PŁATNOŚCI UI ---
-    function selectPayment(type) {
+    // 6. PŁATNOŚCI
+    function setPayment(type) {
         document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
-        if(type === 'blik') {
-            document.getElementById('opt-blik').classList.add('active');
-            document.getElementById('blikWarning').style.display = 'block';
-            document.getElementById('selectedPayment').value = "BLIK";
+        if(type === 'BLIK') {
+            document.getElementById('pay_blik').classList.add('active');
+            document.getElementById('blikInfo').style.display = 'block';
         } else {
-            document.getElementById('opt-cash').classList.add('active');
-            document.getElementById('blikWarning').style.display = 'none';
-            document.getElementById('selectedPayment').value = "Gotówka";
+            document.getElementById('pay_cash').classList.add('active');
+            document.getElementById('blikInfo').style.display = 'none';
         }
+        document.getElementById('paymentMethod').value = type;
     }
 
-    // --- WYSYŁANIE ZAMÓWIENIA (THE MAGIC) ---
-    function checkout() {
-        if (cart.length === 0) { alert("Koszyk jest pusty!"); return; }
-        
+    // 7. WYSYŁANIE ZAMÓWIENIA (FORM SUBMIT)
+    function submitOrder() {
+        if(cart.length === 0) { alert("Koszyk jest pusty!"); return; }
+
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
-        const pay = document.getElementById('selectedPayment').value;
+        const method = document.getElementById('paymentMethod').value;
         
-        if (!name || !email) { alert("Podaj Imię i E-mail!"); return; }
+        if(!name || !email) { alert("Podaj Imię i E-mail!"); return; }
 
         const btn = document.querySelector('.btn-checkout');
-        const oldText = btn.innerText;
-        btn.innerText = "WYSYŁANIE ZDJĘĆ... (CZEKAJ)";
+        const originalText = btn.innerText;
+        btn.innerText = "WYSYŁANIE...";
         btn.disabled = true;
 
-        // TWORZYMY FORMULARZ DANYCH
+        // Budujemy formularz
         const formData = new FormData();
         
         // Konfiguracja FormSubmit
-        formData.append("_subject", `NOWE ZAMÓWIENIE: ${name}`); // Tytuł maila
-        formData.append("_captcha", "false"); // Wyłączamy captchę żeby szło gładko
-        formData.append("_template", "table"); // Ładna tabelka w mailu
-        
-        // Dane klienta
-        formData.append("Imie_Nazwisko", name);
-        formData.append("Email_Klienta", email);
-        formData.append("Metoda_Platnosci", pay);
-        formData.append("CZY_STAROSTA", document.getElementById('starostaCheck').checked ? "TAK (+21%)" : "NIE");
-        formData.append("DO_ZAPLATY", document.getElementById('totalPrice').innerText + " PLN");
+        formData.append("_captcha", "false");
+        formData.append("_subject", "NOWE ZAMÓWIENIE PIN ME UP: " + name);
+        formData.append("_template", "table"); // Żeby ładnie wyglądało w mailu
 
-        // Pakujemy produkty do tekstu
-        let desc = "";
+        // Dane
+        formData.append("Klient", name);
+        formData.append("Email", email);
+        formData.append("Płatność", method);
+        formData.append("DO ZAPŁATY", document.getElementById('totalPrice').innerText + " PLN");
+        
+        if(document.getElementById('starostaTax').checked) {
+            formData.append("Status", "JEST STAROSTĄ (Doliczono podatek)");
+        }
+
+        // Produkty i Pliki
+        let orderSummary = "";
         let fileIndex = 1;
 
-        cart.forEach((item, i) => {
-            desc += `${i+1}. ${item.name} | Ilość: ${item.qty}\n`;
+        cart.forEach((item) => {
+            orderSummary += `${item.name} | Ilość: ${item.qty} \n`;
             
-            // JEŚLI JEST PLIK -> DODAJEMY JAKO ZAŁĄCZNIK
-            if (item.file) {
-                // FormSubmit obsługuje pliki jeśli dodamy je do FormData
-                // Nazwa pliku w mailu: Projekt_Janek_1.png
-                const fileName = `Projekt_${name.replace(/\s/g,'_')}_${fileIndex}.png`;
-                formData.append(`ZALACZNIK_${fileIndex}`, item.file, fileName);
-                desc += `   [ZAŁĄCZONO PLIK: ${fileName}]\n`;
+            // Jeśli jest plik, dodajemy go do formData jako załącznik
+            if(item.file) {
+                // FormSubmit automatycznie obsłuży pliki dodane do FormData
+                // Nazwa pola musi być unikalna dla każdego pliku
+                const fileName = `Projekt_${name.replace(/\s/g,'_')}_${fileIndex}`; 
+                formData.append(fileName, item.file); 
                 fileIndex++;
             }
         });
-        
-        formData.append("LISTA_ZAKUPOW", desc);
 
-        // WYSYŁAMY BEZPOŚREDNIO DO FORMSUBMIT
-        fetch(`https://formsubmit.co/${EMAIL_TARGET}`, {
-            method: 'POST',
+        formData.append("ZAMÓWIENIE", orderSummary);
+
+        // Wysyłka AJAX
+        fetch(`https://formsubmit.co/${MY_EMAIL}`, {
+            method: "POST",
             body: formData
         })
         .then(response => {
-            // FormSubmit czasem przekierowuje, więc sprawdzamy czy poszło
-            alert("SUKCES! Zamówienie (i zdjęcia) wysłane na maila.\n\nSprawdź skrzynkę (również SPAM), przyjdzie potwierdzenie.");
-            cart = []; updateCart();
+            alert("SUKCES! Zamówienie wysłane. Sprawdź maila (również SPAM).");
+            // Czyścimy koszyk
+            cart = [];
+            renderCart();
             document.getElementById('clientName').value = "";
-            btn.innerText = oldText; 
+            btn.innerText = originalText;
             btn.disabled = false;
         })
         .catch(error => {
-            // Czasem wyskakuje błąd sieci mimo że poszło, bo FormSubmit robi przekierowania
-            alert("Zamówienie wysłane! Jeśli nie dostaniesz maila w ciągu 5 min, napisz do nas.");
+            alert("Zamówienie wysłane! (Jeśli nie widzisz maila, sprawdź spam).");
             console.log(error);
-            btn.innerText = oldText; 
+            btn.innerText = originalText;
             btn.disabled = false;
         });
     }
+
+    // Social Proof Timer
+    setInterval(() => {
+        const box = document.getElementById('social-proof');
+        const msgs = ["Kupił Dubajską!", "Zrobił własny projekt.", "Wziął Blindboxa.", "Dostał gratis 5+1."];
+        document.getElementById('sp-msg').innerText = msgs[Math.floor(Math.random()*msgs.length)];
+        box.classList.add('visible');
+        setTimeout(()=>box.classList.remove('visible'), 5000);
+    }, 15000);
+
 </script>
-    
+
 </body>
 </html>
-
