@@ -19,7 +19,7 @@
             --shadow: 0 10px 40px -10px rgba(72, 52, 212, 0.15);
             --radius: 16px;
             --banner-height: 40px;
-            --header-height: 70px; /* Zwiększone dla menu */
+            --header-height: 70px;
         }
 
         html { scroll-behavior: smooth; }
@@ -31,248 +31,201 @@
             background-size: 20px 20px;
             color: #2d3436; 
             margin: 0; 
-            padding-top: calc(var(--banner-height) + var(--header-height) + 50px); /* Odstęp od góry */
+            padding-top: calc(var(--banner-height) + var(--header-height) + 30px);
         }
 
-        /* --- 1. EVENT BANNER (GÓRA) --- */
+        /* --- 1. TOAST NOTIFICATION (ZAMIAST ALERTÓW) --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+        #toast i { margin-right: 10px; color: var(--accent); }
+
+        /* --- 2. EVENT BANNER --- */
         .event-banner {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--banner-height);
+            top: 0; left: 0; width: 100%; height: var(--banner-height);
             background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24);
             background-size: 200% 200%;
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.85rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 1002;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.5px; z-index: 1002;
             animation: gradientMove 5s ease infinite;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .event-highlight { background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 4px; margin: 0 5px; }
 
-        .event-highlight {
-            background: rgba(0,0,0,0.2);
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin: 0 5px;
-        }
-
-        /* --- 2. HEADER (POD BANNEREM) --- */
+        /* --- 3. HEADER --- */
         header { 
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            position: fixed; 
-            top: var(--banner-height); 
-            left: 0;
-            width: 100%; 
-            height: var(--header-height);
-            z-index: 1001; 
-            border-bottom: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            display: flex;
-            align-items: center;
+            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            position: fixed; top: var(--banner-height); left: 0; width: 100%; height: var(--header-height);
+            z-index: 1001; border-bottom: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            display: flex; align-items: center;
         }
-
         .nav-inner { 
-            max-width: 1200px; 
-            width: 100%;
-            margin: 0 auto; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 0 20px; 
+            max-width: 1200px; width: 100%; margin: 0 auto; display: flex; 
+            justify-content: space-between; align-items: center; padding: 0 20px; 
         }
-
-        .logo { 
-            font-weight: 900; 
-            font-size: 1.4rem; 
-            color: var(--primary); 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            cursor: pointer; 
-            text-decoration: none;
-        }
+        .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
         .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        /* NOWE MENU KATEGORII */
-        .main-menu {
-            display: flex;
-            gap: 15px;
+        .main-menu { display: flex; gap: 10px; }
+        .menu-link { 
+            text-decoration: none; color: #555; font-weight: 700; font-size: 0.8rem; 
+            padding: 8px 12px; border-radius: 20px; transition: 0.3s; text-transform: uppercase; 
         }
-        .menu-link {
-            text-decoration: none;
-            color: #555;
-            font-weight: 700;
-            font-size: 0.85rem;
-            padding: 8px 12px;
-            border-radius: 20px;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-        .menu-link:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-        }
-        .menu-link.highlight {
-            color: var(--salmon);
-            border: 1px solid var(--salmon);
-        }
+        .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
+        .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
 
         .cart-btn { 
-            background: var(--primary); 
-            color: white; 
-            padding: 8px 20px; 
-            border-radius: 50px; 
-            font-weight: 700; 
-            text-decoration: none; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            transition: 0.3s; 
-            font-size: 0.9rem;
+            background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; 
+            font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; 
+            transition: 0.3s; font-size: 0.9rem; 
         }
         .cart-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
 
-        /* UKRYWANIE MENU NA MAŁYCH EKRANACH */
         @media (max-width: 900px) {
-            .main-menu { display: none; } /* Uproszczenie dla mobile */
-            .logo span { display: none; } /* Tylko ikonka loga na mobile */
+            .main-menu { display: none; } 
+            .logo span { display: none; } 
         }
 
-        /* --- UKŁAD STRONY --- */
+        /* --- UKŁAD --- */
         .main-wrapper { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 0 20px; 
-            display: grid; 
-            grid-template-columns: 2fr 1.1fr; 
-            gap: 40px; 
-            align-items: start; 
-            min-height: 80vh;
+            max-width: 1200px; margin: 0 auto; padding: 0 20px; 
+            display: grid; grid-template-columns: 2fr 1.1fr; gap: 40px; align-items: start; 
         }
         @media (max-width: 900px) { .main-wrapper { grid-template-columns: 1fr; } }
 
         /* --- AKORDEONY --- */
         .accordion-item { 
-            background: white; 
-            border-radius: var(--radius); 
-            margin-bottom: 20px; 
-            box-shadow: var(--shadow); 
-            overflow: hidden;
-            scroll-margin-top: 130px; /* Żeby header nie zasłaniał po kliknięciu w menu */
+            background: white; border-radius: var(--radius); margin-bottom: 20px; 
+            box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 130px; 
+            /* Domyślny pasek z lewej - nadpiszemy go inline w HTML lub klasami */
+            border-left: 6px solid #ccc; 
         }
+        
+        /* Specjalny styl dla Tęczowego PRIDE */
+        .accordion-item.rainbow-border {
+            border-left: none; /* Usuwamy standardowy border */
+            background-image: linear-gradient(to bottom, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 6px 100%; /* Pasek szerokości 6px */
+            background-repeat: no-repeat;
+            background-position: left top;
+        }
+
         .accordion-header { 
-            padding: 20px; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            font-weight: 800; 
-            color: var(--primary); 
-            background: white; 
-            transition: 0.3s; 
+            padding: 20px; cursor: pointer; display: flex; justify-content: space-between; 
+            align-items: center; font-weight: 800; color: var(--primary); background: white; transition: 0.3s; 
         }
         .accordion-header:hover { background: #fafafa; color: var(--salmon); }
         .accordion-content { display: none; padding: 25px; border-top: 1px solid #f0f0f0; }
         .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* --- KARTY --- */
+        /* --- KARTY PRODUKTÓW --- */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .card { 
-            border: 1px solid #eee; border-radius: 12px; padding: 15px; 
-            text-align: center; background: white; transition: 0.3s; 
-        }
+        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.3s; }
         .card:hover { transform: translateY(-5px); border-color: var(--salmon); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f5f5f5; }
         .card h3 { font-size: 0.9rem; margin: 5px 0; height: 35px; display: flex; align-items: center; justify-content: center; }
-        
         .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
         .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; }
         .btn-add { background: var(--primary); color: white; border: none; padding: 8px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top:5px; transition:0.2s; }
         .btn-add:hover { background: var(--salmon); }
 
-        /* PRESTIŻ STYLE */
         .card.prestige { background: #222; color: white; border: 1px solid var(--accent); }
         .card.prestige h3 { color: var(--accent); }
         .card.prestige .price { color: #fff; }
         .card.prestige .btn-add { background: var(--accent); color: black; }
 
-        /* --- SIDEBAR / KOSZYK --- */
+        /* --- KOSZYK (SIDEBAR) --- */
         .cart-wrapper { 
             background: white; padding: 25px; border-radius: var(--radius); 
-            border-top: 5px solid var(--salmon); position: sticky; top: 130px; 
-            box-shadow: var(--shadow); 
+            position: sticky; top: 130px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1); 
+            border: 1px solid #eee;
         }
-        .cart-items { margin-bottom: 20px; max-height: 250px; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #eee; padding: 10px 0; font-size: 0.85rem; }
-        
-        .tip-box { background: #fffdf0; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px dashed var(--accent); display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        
-        /* Płatności */
-        .payment-options { display: flex; gap: 10px; margin: 15px 0; }
-        .pay-option { flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
-        .pay-option.active { border-color: var(--primary); background: #eee; color: var(--primary); font-weight: bold; }
-        .btn-checkout { background: var(--primary); color: white; width: 100%; padding: 15px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .btn-checkout:hover { background: var(--salmon); transform: translateY(-2px); }
-
-        /* --- GALERIA NA DOLE --- */
-        .gallery-section {
-            max-width: 1200px; margin: 60px auto 20px; padding: 0 20px;
+        /* Header koszyka z efektem paska */
+        .cart-header {
+            border-bottom: 2px dashed #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
             text-align: center;
         }
-        .gallery-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;
-        }
-        .gallery-item {
-            border-radius: 12px; overflow: hidden; height: 200px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;
-        }
-        .gallery-item img {
-            width: 100%; height: 100%; object-fit: cover; transition: 0.5s;
-        }
-        .gallery-item:hover img { transform: scale(1.1); }
+        .cart-items { margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding-right: 5px; }
+        .cart-items::-webkit-scrollbar { width: 5px; }
+        .cart-items::-webkit-scrollbar-thumb { background: #eee; border-radius: 3px; }
 
-        /* --- OPINIE --- */
-        .review-form {
-            background: #fff; padding: 20px; border-radius: 12px; margin-top: 20px; border: 1px solid #eee;
+        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 12px 0; font-size: 0.85rem; }
+        
+        /* Sekcja sumy - ładniejsza */
+        .cart-total-section {
+            background: #fdfdfd;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #eee;
+            margin-top: 15px;
         }
-        .review-box { margin-bottom: 15px; border-left: 3px solid #ddd; padding-left: 10px; }
 
-        input.field, textarea.field { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .payment-options { display: flex; gap: 10px; margin: 15px 0; }
+        .pay-option { flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+        .pay-option:hover { background: #fafafa; }
+        .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); font-weight: bold; }
+        
+        .btn-checkout { 
+            background: linear-gradient(135deg, var(--primary), #6c5ce7); 
+            color: white; width: 100%; padding: 15px; font-weight: 900; 
+            border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; 
+            box-shadow: 0 4px 15px rgba(72, 52, 212, 0.3);
+            margin-top: 10px;
+        }
+        .btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(72, 52, 212, 0.4); }
+
+        /* --- OPINIE I GALERIA (TERAZ W LEWEJ KOLUMNIE) --- */
+        .extra-content-box {
+            background: white; padding: 25px; border-radius: var(--radius); 
+            box-shadow: var(--shadow); margin-top: 30px; border: 1px solid #eee;
+        }
+        .review-box { margin-bottom: 15px; border-left: 3px solid #ddd; padding-left: 15px; background: #fafafa; padding: 10px; border-radius: 0 8px 8px 0; }
+        
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
+        .gallery-item img { width: 100%; border-radius: 8px; transition: 0.3s; cursor: pointer; }
+        .gallery-item img:hover { transform: scale(1.05); }
+
+        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
 
     </style>
 </head>
 <body>
 
-<div id="social-proof" style="position:fixed; bottom:20px; left:20px; background:white; padding:15px; border-radius:10px; border-left:5px solid var(--salmon); box-shadow:0 10px 30px rgba(0,0,0,0.15); transform:translateX(-200%); transition:0.5s; z-index:9999; display:flex; gap:10px; align-items:center;">
-    <img src="https://via.placeholder.com/50" id="sp-img" style="width:40px; height:40px; border-radius:50%;" alt="User">
-    <div style="font-size:0.8rem;">
-        <strong id="sp-name" style="color:var(--primary); display:block;">Student/ka</strong>
-        <span id="sp-msg">Kupił Dubajską!</span>
-    </div>
-</div>
+<div id="toast"><i class="fa-solid fa-check-circle"></i> Dodano do koszyka!</div>
 
 <div class="event-banner">
     🚨 STOISKO: 15 & 18 GRUDNIA! 
     <span class="event-highlight">🎡 Koło Fortuny</span> 
     <span class="event-highlight">📦 Odbiór</span> 
     <span class="event-highlight">📸 Fotobudka</span>
-    <span style="color:yellow; margin-left:10px;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM!</span>
+    <span style="color:yellow; margin-left:10px; text-shadow:0 1px 2px black;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM!</span>
 </div>
 
 <header>
@@ -286,11 +239,10 @@
             <a href="#acc-custom" class="menu-link">Własny</a>
             <a href="#acc-prestige" class="menu-link">Prestiż</a>
             <a href="#acc-blind" class="menu-link">Blindbox</a>
-            <a href="#acc-bestsellers" class="menu-link">Memy/Logo</a>
+            <a href="#acc-bestsellers" class="menu-link">Memy</a>
             <a href="#acc-xmas" class="menu-link highlight">XMAS 🎄</a>
             <a href="#acc-pride" class="menu-link">#PRIDE 🏳️‍🌈</a>
-            <a href="#acc-border" class="menu-link">Borderkicia</a>
-            <a href="#galeria" class="menu-link">Galeria</a>
+            <a href="#acc-border" class="menu-link">Pieski</a>
         </nav>
 
         <a href="#koszyk" class="cart-btn">
@@ -303,7 +255,7 @@
 
     <div class="content-col">
         
-        <div id="acc-custom" class="accordion-item active" style="border-left: 6px solid var(--salmon);">
+        <div id="acc-custom" class="accordion-item active" style="border-left-color: var(--salmon);">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🎨 KREATOR (WGRAJ FOTKĘ) - 7 PLN</span>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -311,16 +263,17 @@
             <div class="accordion-content">
                 <div style="text-align:center;">
                     <p>Wgraj zdjęcie, my je dotniemy.</p>
-                    <div style="border: 2px dashed #ddd; padding: 20px; border-radius: 10px; margin-bottom: 10px;">
-                        <input type="file" id="customFile" accept="image/*">
+                    <div style="border: 2px dashed #ddd; padding: 20px; border-radius: 10px; margin-bottom: 10px; background:#fafafa;">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; color:#ccc;"></i><br>
+                        <input type="file" id="customFile" accept="image/*" style="margin-top:10px;">
                     </div>
                     Ilość: <input type="number" id="customQty" class="qty-input" value="1" min="1">
-                    <button class="btn-add" style="width:auto; padding:5px 20px;" onclick="addCustomFile()">DODAJ</button>
+                    <button class="btn-add" style="width:auto; padding:8px 30px;" onclick="addCustomFile()">DODAJ</button>
                 </div>
             </div>
         </div>
 
-        <div id="acc-prestige" class="accordion-item" style="border-left: 6px solid #222;">
+        <div id="acc-prestige" class="accordion-item" style="border-left-color: #222;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>💎 STREFA PRESTIŻU</span>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -345,19 +298,24 @@
             </div>
         </div>
 
-        <div id="acc-blind" class="accordion-item" style="border-left: 6px solid #8e44ad;">
+        <div id="acc-blind" class="accordion-item" style="border-left-color: #8e44ad;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🔮 BLINDBOX (NIESPODZIANKA)</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <p>Płacisz 3 zł, dostajesz losowy wzór.</p>
-                <input type="number" id="qty_blind" class="qty-input" value="1">
-                <button class="btn-add" style="background:#8e44ad; width:auto;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">RYZYKUJĘ</button>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <img src="question.png" style="width:70px; border-radius:10px;">
+                    <div>
+                        <p style="margin:0 0 5px 0;">Płacisz 3 zł, dostajesz losowy wzór.</p>
+                        <input type="number" id="qty_blind" class="qty-input" value="1">
+                        <button class="btn-add" style="background:#8e44ad; width:auto;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">RYZYKUJĘ</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="acc-bestsellers" class="accordion-item active">
+        <div id="acc-bestsellers" class="accordion-item" style="border-left-color: #e67e22;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🔥 BESTSELLERY (LOGA, MEMY)</span>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -389,7 +347,7 @@
             </div>
         </div>
 
-        <div id="acc-xmas" class="accordion-item" style="border-left: 6px solid #c0392b;">
+        <div id="acc-xmas" class="accordion-item" style="border-left-color: #c0392b;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🎄 KOLEKCJA XMAS</span>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -414,7 +372,7 @@
             </div>
         </div>
 
-        <div id="acc-pride" class="accordion-item" style="border-left: 6px solid #e1b12c;">
+        <div id="acc-pride" class="accordion-item rainbow-border">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🏳️‍🌈 #PRIDE COLLECTION</span>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -432,7 +390,7 @@
             </div>
         </div>
 
-        <div id="acc-border" class="accordion-item" style="border-left: 6px solid #74b9ff;">
+        <div id="acc-border" class="accordion-item" style="border-left-color: #74b9ff;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🐶 BORDERKICIA & FRIENDS</span>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -450,96 +408,111 @@
             </div>
         </div>
 
+        <div class="extra-content-box">
+            <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase;">📸 Z Życia Wzięte</h4>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO1"></div>
+                <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO2"></div>
+                <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO3"></div>
+                <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO4"></div>
+            </div>
+
+            <hr style="margin:25px 0; border:0; border-top:1px dashed #eee;">
+
+            <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ LUDZIE?</h4>
+            <div class="review-box">
+                <small>⭐⭐⭐⭐⭐</small>
+                <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Kupiłem Dubajską, żeby zdać egzamin. Zdałem."</p>
+                <strong>~ Marek, II rok</strong>
+            </div>
+            <div class="review-box">
+                <small>⭐⭐⭐⭐⭐</small>
+                <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Super jakość, a koło fortuny to sztos!"</p>
+                <strong>~ Kasia</strong>
+            </div>
+
+            <p style="font-size:0.8rem; margin-top:20px;">Dodaj swoją opinię:</p>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="reviewText" class="field" placeholder="Napisz coś miłego..." style="margin-bottom:0;">
+                <button class="btn-add" style="width:auto; background:#555; margin-top:0;" onclick="sendReview()">Wyślij</button>
+            </div>
+        </div>
+
     </div>
 
     <div class="sidebar">
         
         <div id="koszyk" class="cart-wrapper">
-            <h2 style="margin-top:0; color:var(--primary); font-size:1.3rem;">TWOJE ZAMÓWIENIE</h2>
+            <div class="cart-header">
+                <h2 style="margin:0; color:var(--primary); font-size:1.3rem;">TWÓJ RACHUNEK</h2>
+                <small style="color:#888;">PIN ME UP STORE</small>
+            </div>
             
             <div id="cartItems" class="cart-items">
-                <div style="text-align:center; padding:20px; color:#aaa;">Pusto :(</div>
+                <div style="text-align:center; padding:40px; color:#aaa;">
+                    <i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>
+                    Koszyk jest pusty
+                </div>
             </div>
 
             <div id="promoBox"></div>
 
-            <label class="tip-box">
-                <input type="checkbox" id="tipCheck" onchange="renderCart()">
-                <span>Napiwek (+1 PLN) ❤️</span>
-            </label>
+            <div class="cart-total-section">
+                <label class="tip-box" style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:10px;">
+                    <input type="checkbox" id="tipCheck" onchange="renderCart()" style="transform:scale(1.2);">
+                    <span style="font-size:0.9rem;">Napiwek na monstera (+1 PLN) ❤️</span>
+                </label>
 
-            <div class="saved-amount" id="savedDisplay" style="color:#27ae60; text-align:right; font-weight:bold; font-size:0.9rem;"></div>
-            <div style="text-align:right; font-size:1.4rem; font-weight:900; color:var(--primary); margin-top:10px;">
-                <span id="totalPrice">0.00</span> PLN
+                <div class="saved-amount" id="savedDisplay" style="color:#27ae60; text-align:right; font-weight:bold; font-size:0.85rem; margin-bottom:5px;"></div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <span style="font-weight:bold; color:#555;">SUMA:</span>
+                    <span style="font-size:1.6rem; font-weight:900; color:var(--primary);"><span id="totalPrice">0.00</span> PLN</span>
+                </div>
             </div>
 
-            <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+            <div style="margin-top:20px;">
+                <h4 style="margin:0 0 10px 0; font-size:0.9rem;">Metoda płatności:</h4>
+                <div class="payment-options">
+                    <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">📱 BLIK</div>
+                    <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">💵 GOTÓWKA</div>
+                </div>
+                <input type="hidden" id="paymentMethod" value="BLIK">
 
-            <h4>Płatność:</h4>
-            <div class="payment-options">
-                <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">BLIK</div>
-                <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">GOTÓWKA</div>
+                <div class="blik-warn" id="blikInfo" style="display:block; background:#ffebeb; color:#d63031; padding:10px; border-radius:5px; font-size:0.8rem; margin-bottom:10px; border-left:4px solid #d63031;">
+                    ⚠️ Przelew BLIK na numer: <br> <strong style="font-size:1.1rem; color:black;">123-456-789</strong>
+                </div>
+
+                <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
+                <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
+                
+                <button class="btn-checkout" onclick="submitOrder()">
+                    <i class="fa-solid fa-paper-plane"></i> ZAMAWIAM
+                </button>
             </div>
-            <input type="hidden" id="paymentMethod" value="BLIK">
-
-            <div class="blik-warn" id="blikInfo" style="display:block; background:#ffebeb; color:red; padding:10px; border-radius:5px; font-size:0.8rem; margin-bottom:10px;">
-                ⚠️ Przelew BLIK na <strong>123-456-789</strong>
-            </div>
-
-            <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
-            <input type="email" id="clientEmail" class="field" placeholder="E-mail">
-            
-            <button class="btn-checkout" onclick="submitOrder()">ZAMAWIAM</button>
-        </div>
-
-        <div style="background:white; padding:20px; border-radius:12px; margin-top:20px; box-shadow:var(--shadow);">
-            <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
-            
-            <div class="review-box">
-                <small>⭐⭐⭐⭐⭐</small>
-                <p style="font-size:0.85rem; font-style:italic; margin:5px 0;">"Kupiłem Dubajską, żeby zdać egzamin. Zdałem."</p>
-                <strong>~ Marek</strong>
-            </div>
-            <div class="review-box">
-                <small>⭐⭐⭐⭐⭐</small>
-                <p style="font-size:0.85rem; font-style:italic; margin:5px 0;">"Super jakość!"</p>
-                <strong>~ Kasia</strong>
-            </div>
-
-            <hr>
-            <p style="font-size:0.8rem; text-align:center;">Chcesz coś dodać?</p>
-            <input type="text" id="reviewText" class="field" placeholder="Twoja opinia..." style="font-size:0.8rem;">
-            <button class="btn-add" style="background:#555;" onclick="sendReview()">WYŚLIJ OPINIĘ</button>
         </div>
 
     </div>
 </div>
 
-<section id="galeria" class="gallery-section">
-    <h2 style="color:var(--primary); text-transform:uppercase; letter-spacing:2px;">📸 Galeria: Z życia wzięte</h2>
-    <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=FOTO+1"></div>
-        <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=FOTO+2"></div>
-        <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=FOTO+3"></div>
-        <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=FOTO+4"></div>
-        <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=FOTO+5"></div>
-    </div>
-</section>
-
-<footer style="text-align:center; padding:30px; color:#888; font-size:0.8rem;">
-    &copy; 2024 PIN ME UP! <br> Sklep studencki created with ❤️
+<footer style="text-align:center; padding:40px; color:#888; font-size:0.8rem; margin-top:40px;">
+    &copy; 2024 PIN ME UP! <br> Sklep studencki created with ❤️ and caffeine.
 </footer>
 
 <script>
     const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
-
-    // --- LOGIKA SKLEPU (Ta sama co wcześniej) ---
     let cart = [];
 
+    // --- TOAST NOTIFICATION FUNKCJA ---
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
+        toast.className = "show";
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+
     function toggleAcc(header) {
-        // Zamyka inne, otwiera wybrane
-        const item = header.parentElement;
-        item.classList.toggle('active');
+        header.parentElement.classList.toggle('active');
     }
 
     function addItem(name, price, inputId) {
@@ -550,10 +523,8 @@
         document.getElementById(inputId).value = 1;
         renderCart();
         
-        // Animacja koszyka
-        const icon = document.querySelector('.cart-btn i');
-        icon.style.transform = "scale(1.5)";
-        setTimeout(()=>icon.style.transform = "scale(1)", 300);
+        // WYWOŁANIE TOASTA ZAMIAST ALERTA
+        showToast(`Dodano: ${name}`);
     }
 
     function addCustomFile() {
@@ -562,7 +533,8 @@
         if(fileInput.files.length === 0) { alert("Wybierz plik!"); return; }
         cart.push({ name: "Własny Projekt", price: 7.00, qty: qty, file: fileInput.files[0] });
         fileInput.value = ""; document.getElementById('customQty').value = 1;
-        renderCart(); alert("Dodano projekt!");
+        renderCart(); 
+        showToast("Dodano Twój projekt!");
     }
 
     function removeItem(index) { cart.splice(index, 1); renderCart(); }
@@ -580,7 +552,7 @@
         let promoText = "";
 
         if(cart.length === 0 && !isTip) {
-            container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Pusto :(</div>';
+            container.innerHTML = '<div style="text-align:center; padding:30px; color:#aaa;"><i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>Twój koszyk jest pusty</div>';
             totalEl.innerText = "0.00"; promoBox.innerHTML=""; savedEl.innerText=""; document.getElementById('cartCount').innerText="0"; return;
         }
 
@@ -590,21 +562,21 @@
             if(item.name.includes("Labubu")) savings += (500 - 20) * item.qty;
             if(!item.file && item.qty >= 6) {
                 const discount = Math.floor(item.qty / 6) * item.price;
-                itemTotal -= discount; savings += discount; promoText = "Promocja 5+1 aktywna!";
+                itemTotal -= discount; savings += discount; promoText = "🔥 Promocja 5+1 aktywna!";
             }
             total += itemTotal;
             container.innerHTML += `<div class="cart-item">
-                <div>${item.name}<br><small>${item.qty}x${item.price}zł</small></div>
-                <div>${itemTotal.toFixed(2)} zł <i class="fa-solid fa-trash" style="color:red; cursor:pointer; margin-left:5px;" onclick="removeItem(${index})"></i></div>
+                <div><strong>${item.name}</strong><br><small style="color:#888;">${item.qty} szt. x ${item.price} zł</small></div>
+                <div>${itemTotal.toFixed(2)} zł <i class="fa-solid fa-trash" style="color:#ff7675; cursor:pointer; margin-left:8px;" onclick="removeItem(${index})"></i></div>
             </div>`;
         });
 
-        if(isTip) { total += 1.00; container.innerHTML += `<div class="cart-item" style="color:var(--salmon)"><div>❤️ Napiwek</div><div>1.00 zł</div></div>`; }
+        if(isTip) { total += 1.00; container.innerHTML += `<div class="cart-item" style="color:var(--salmon); border-bottom:none;"><div>❤️ Napiwek</div><div>1.00 zł</div></div>`; }
 
         totalEl.innerText = total.toFixed(2);
         document.getElementById('cartCount').innerText = cart.reduce((acc, i) => acc + i.qty, 0);
-        promoBox.innerHTML = promoText ? `<div style="background:#e0ffe0; color:green; padding:5px; font-size:0.8rem; border-radius:5px;">${promoText}</div>` : "";
-        savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} zł` : "";
+        promoBox.innerHTML = promoText ? `<div style="background:#e0ffe0; color:#009432; padding:8px; font-size:0.8rem; border-radius:5px; margin-bottom:10px; border:1px solid #b8e994;">${promoText}</div>` : "";
+        savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN` : "";
     }
 
     function setPayment(type) {
@@ -615,13 +587,14 @@
     }
 
     function submitOrder() {
-        if(cart.length === 0 && !document.getElementById('tipCheck').checked) return alert("Koszyk pusty!");
+        if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
         if(!name || !email) return alert("Podaj imię i email!");
 
         const btn = document.querySelector('.btn-checkout');
-        btn.innerText = "WYSYŁANIE..."; btn.disabled = true;
+        const oldText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> WYSYŁANIE...'; btn.disabled = true;
 
         const fd = new FormData();
         fd.append("_captcha", "false"); fd.append("_subject", "ZAMÓWIENIE: " + name);
@@ -636,34 +609,23 @@
         fd.append("ZAMÓWIENIE", summary);
 
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
-        .then(() => { alert("Wysłano!"); cart=[]; renderCart(); btn.innerText="ZAMAWIAM"; btn.disabled=false; })
-        .catch(() => { alert("Wysłano (sprawdź spam)."); btn.innerText="ZAMAWIAM"; btn.disabled=false; });
+        .then(() => { 
+            alert("SUKCES! Zamówienie wysłane. Sprawdź maila."); 
+            cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
+        })
+        .catch(() => { 
+            alert("Wysłano (sprawdź spam)."); btn.innerHTML=oldText; btn.disabled=false; 
+        });
     }
 
-    // --- FUNKCJA WYSYŁANIA OPINII ---
     function sendReview() {
         const text = document.getElementById('reviewText').value;
-        if(!text) return alert("Wpisz opinię!");
-        
-        // Wysyłamy opinię jako zwykły formularz do Ciebie
+        if(!text) return showToast("Wpisz treść opinii!");
         const fd = new FormData();
-        fd.append("_captcha", "false");
-        fd.append("_subject", "NOWA OPINIA O SKLEPIE");
-        fd.append("Treść", text);
-        
+        fd.append("_captcha", "false"); fd.append("_subject", "NOWA OPINIA"); fd.append("Treść", text);
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
-        .then(() => { alert("Dzięki za opinię! Przejrzymy ją i dodamy na stronę."); document.getElementById('reviewText').value = ""; })
-        .catch(() => alert("Błąd wysyłania opinii."));
+        .then(() => { showToast("Dzięki za opinię!"); document.getElementById('reviewText').value = ""; });
     }
-
-    // Social Proof
-    setInterval(() => {
-        const box = document.getElementById('social-proof');
-        box.classList.add('visible');
-        box.style.transform = "translateX(0)";
-        setTimeout(() => box.style.transform = "translateX(-200%)", 5000);
-    }, 15000);
-
 </script>
 
 </body>
