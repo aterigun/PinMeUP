@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIN ME UP! - Wersja Finalna</title>
+    <title>PIN ME UP! - Sklep Studencki</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #3A2A6B; /* Fiolet z logo */
-            --salmon: #FF9F68;  /* Łososiowy z logo */
-            --accent: #FFD700;  /* Złoty */
+            --primary: #3A2A6B; 
+            --salmon: #FF9F68;  
+            --accent: #FFD700;  
             --bg: #f4f1f8;
             --text: #333;
         }
@@ -69,6 +69,10 @@
         
         .promo-alert { background: #dff9fb; color: #130f40; padding: 10px; border-radius: 5px; font-size: 0.8rem; margin-top: 10px; border: 1px solid #badc58; }
         .savings { color: #27ae60; font-weight: bold; text-align: right; display: block; font-size: 0.9rem; }
+
+        /* NAPIWEK */
+        .tip-box { background: #fffdf0; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px dashed var(--accent); font-size: 0.85rem; display: flex; align-items: center; gap: 10px; }
+        .tip-box input { transform: scale(1.3); cursor: pointer; }
 
         /* PŁATNOŚCI */
         .payment-options { display: flex; gap: 10px; margin: 15px 0; }
@@ -232,11 +236,9 @@
 
             <div id="promoBox"></div>
 
-            <div style="background:#f0f0f0; padding:10px; border-radius:5px; margin-top:15px;">
-                <label style="cursor:pointer; display:flex; align-items:center; gap:10px; font-size:0.85rem;">
-                    <input type="checkbox" id="starostaTax" onchange="renderCart()">
-                    <span><strong>Jestem Starostą</strong> (+21,37% do ceny)</span>
-                </label>
+            <div class="tip-box">
+                <input type="checkbox" id="tipCheck" onchange="renderCart()">
+                <span><strong>Napiwek dla twórców</strong> (+1 PLN) ❤️</span>
             </div>
 
             <div class="saved-amount" id="savedDisplay"></div>
@@ -273,7 +275,7 @@
 <script>
     // ==========================================
     // WPISZ TU SWÓJ E-MAIL !!!!
-    const MY_EMAIL = "TWOJ_EMAIL@gmail.com"; 
+    const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
     // ==========================================
 
     let cart = [];
@@ -342,14 +344,16 @@
         const totalEl = document.getElementById('totalPrice');
         const promoBox = document.getElementById('promoBox');
         const savedEl = document.getElementById('savedDisplay');
-        const isStarosta = document.getElementById('starostaTax').checked;
+        
+        // Czy zaznaczono napiwek?
+        const isTip = document.getElementById('tipCheck').checked;
 
         container.innerHTML = "";
         let total = 0;
         let savings = 0;
         let promoText = "";
 
-        if(cart.length === 0) {
+        if(cart.length === 0 && !isTip) {
             container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Koszyk jest pusty</div>';
             totalEl.innerText = "0.00";
             promoBox.innerHTML = "";
@@ -391,22 +395,19 @@
             container.appendChild(div);
         });
 
-        // Podatek Starosty
-        if(isStarosta) {
-            const tax = total * 0.2137;
-            total += tax;
+        // Obsługa Napiwku
+        if(isTip) {
+            total += 1.00;
             const div = document.createElement('div');
-            div.style.color = "var(--primary)";
-            div.style.fontStyle = "italic";
-            div.style.textAlign = "right";
-            div.style.marginTop = "10px";
-            div.innerHTML = `+ Podatek Starosty: ${tax.toFixed(2)} zł`;
+            div.className = 'cart-item';
+            div.style.color = 'var(--salmon)';
+            div.innerHTML = `<div>❤️ <strong>Napiwek</strong></div><div>1.00 zł</div>`;
             container.appendChild(div);
         }
 
         totalEl.innerText = total.toFixed(2);
         
-        // Licznik w menu
+        // Licznik w menu (ilość przedmiotów)
         const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
         document.getElementById('cartCount').innerText = totalQty;
 
@@ -430,7 +431,7 @@
 
     // 7. WYSYŁANIE ZAMÓWIENIA (FORM SUBMIT)
     function submitOrder() {
-        if(cart.length === 0) { alert("Koszyk jest pusty!"); return; }
+        if(cart.length === 0 && !document.getElementById('tipCheck').checked) { alert("Koszyk jest pusty!"); return; }
 
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
@@ -457,8 +458,8 @@
         formData.append("Płatność", method);
         formData.append("DO ZAPŁATY", document.getElementById('totalPrice').innerText + " PLN");
         
-        if(document.getElementById('starostaTax').checked) {
-            formData.append("Status", "JEST STAROSTĄ (Doliczono podatek)");
+        if(document.getElementById('tipCheck').checked) {
+            formData.append("Napiwek", "TAK (+1 PLN)");
         }
 
         // Produkty i Pliki
@@ -489,6 +490,7 @@
             alert("SUKCES! Zamówienie wysłane. Sprawdź maila (również SPAM).");
             // Czyścimy koszyk
             cart = [];
+            document.getElementById('tipCheck').checked = false;
             renderCart();
             document.getElementById('clientName').value = "";
             btn.innerText = originalText;
@@ -505,7 +507,7 @@
     // Social Proof Timer
     setInterval(() => {
         const box = document.getElementById('social-proof');
-        const msgs = ["Kupił Dubajską!", "Zrobił własny projekt.", "Wziął Blindboxa.", "Dostał gratis 5+1."];
+        const msgs = ["Zrobił zdjęcie z Dziekanem", "Kupił Dubajską!", "Zrobił własny projekt.", "Wziął Blindboxa.", "Dostał gratis 5+1."];
         document.getElementById('sp-msg').innerText = msgs[Math.floor(Math.random()*msgs.length)];
         box.classList.add('visible');
         setTimeout(()=>box.classList.remove('visible'), 5000);
