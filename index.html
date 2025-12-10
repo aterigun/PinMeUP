@@ -287,7 +287,7 @@
         <span class="event-highlight">🎡 Koło Fortuny - Wylosuj sobie zniżkę! </span> 
         <span class="event-highlight">📦 Odbiór zamówień </span> 
         <br style="display:none;" class="mobile-break">
-        <span class="event-highlight">📸 Fotobudka świąteczna - selfie z przyjacielem! </span>
+        <span class="event-highlight">📸 Fotobudka świąteczna do zdjęć </span>
         <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM TURZYŃSKIM!!!</span>
     </div>
 </div>
@@ -299,7 +299,7 @@
         </button>
 
         <a href="#" class="logo" onclick="location.reload()">
-            <img src="pinmeup_logo.jpg" alt="Logo"> 
+            <img src="pinmeup_logo.png" alt="Logo"> 
             <span>PIN ME UP!</span>
         </a>
 
@@ -335,7 +335,7 @@
             <div class="accordion-content">
                 <div style="text-align:center;">
                     <p style="font-size:0.9rem; margin-bottom: 15px;">
-                        Przyjaciółka? Brat? Kotek? A może... Dziekan Turzyński...? To nie problem! Wgraj swoje ulubione zdjęcie - serio, cokolwiek chcesz! - a my zrobimy z niego Twoją personalną przypinkę! ❤️
+                        Przyjaciółka? Brat? Kotek? A może... Dziekan Turzyński...? To nie problem! Wgraj swoje ulubione zdjęcie - serio, cokolwiek chcesz! - a my zrobimy z niego Twoją spersonalizowaną przypinkę! ❤️
                     </p>
                     
                     <div style="border: 2px dashed #ff7675; padding: 20px; border-radius: 10px; margin-bottom: 20px; background:#fff5f5;">
@@ -369,7 +369,6 @@
                     <script>
                         const logos = [
                             {name: "FUW (EN) Pełne", file: "[EN] fuw __ pełne.png"},
-                            {name: "Wydział Medyczny", file: "wmed (20).png"},
                             {name: "MIMUW (EN)", file: "[EN] mimuw __ pełne.png"},
                             {name: "WCHEM (EN)", file: "[EN] wchem.png"},
                             {name: "MIMUW (Łacina)", file: "[łac] mimuw __ pełne vel 2.png"},
@@ -381,6 +380,7 @@
                             {name: "FUW Skrót 2", file: "fuw __ skrót.png"},
                             {name: "Pin Me Up", file: "pinmeup (3).png"},
                             {name: "Wydział Biologii", file: "wb.png"},
+                            {name: "Wydział Medyczny", file: "wmed (20).png"},
                             {name: "QuantMol", file: "quantmol.png"}
                         ];
                         logos.forEach((item, i) => {
@@ -398,22 +398,39 @@
             </div>
         </div>
 
-        <div id="acc-fuw" class="accordion-item" style="border-left-color: #0984e3;">
+        <div id="acc-fuw" class="accordion-item" style="border-left-color: #f37034;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🪐 FUW VIBE</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                
+                <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
+                    <p style="margin: 0; font-style: italic; line-height: 1.5;">
+                        Zbiór wszystkiego co związane z FUW-em.<br>
+                        <strong style="color: #f37034;">Od studentów FUW-u dla studentów FUW-u</strong><br>
+                        – w jednym miejscu, żeby nie przeszukiwać wszystkich sekcji (chociaż serdecznie zachęcamy!).
+                    </p>
+                </div>
+        
                 <div class="grid">
                     <script>
                         // WPISZ TUTAJ PLIKI DLA SEKCJI FUW
                         const fuwItems = [
-                            { file: "fuw_vibe1.png", name: "Fizyka to styl życia" },
-                            { file: "fuw_vibe2.png", name: "Pasteura Gang" },
-                            { file: "fuw_vibe3.png", name: "Kocham Fizykę" },
-                            { file: "fuw_vibe4.png", name: "E=mc2" }
+                            { file: "[PL] fuw __ pełne.png", name: "logo wydziału #1" },
+                            { file: "[EN] fuw __ pełne.png", name: "logo wydziału #1 eng" },
+                            { file: "fuw __ skrót (2).png", name: "logo wydziału #2" },
+                            { file: "fuw __ skrót (3).png", name: "logo wydziału #3" },
+                            { file: "wmed (35).png", name: "tak, umiem pisać xi" },
+                            { file: "wmed (24).png", name: "wiara czyni cuda" },
+                            { file: "wmed (27).png", name: "trywialne" },
+                            { file: "wmed (26).png", name: "załóżmy, że jestem kulą" },
+                            { file: "fizykburger.png", name: "certified fan of fizykburger" },
+                            { file: "wmed (33).png", name: "szrodinger" },
+                            { file: "wmed (19).png", name: "najwazniejszy filar wydziału" },
+                            { file: "wmed (3).png", name: "czarna dziura" }
                         ];
-
+        
                         fuwItems.forEach((item, i) => {
                             document.write(`
                             <div class="card">
@@ -421,7 +438,7 @@
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_fuw_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #0984e3;" onclick="addItem('${item.name}', 5, 'qty_fuw_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #f37034;" onclick="addItem('${item.name}', 5, 'qty_fuw_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -452,10 +469,11 @@
                 <div class="grid">
                     <div class="card gold-edition">
                         <img src="dziekan.png" alt="Dziekan Turzyński" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=DZIEKAN'">
-                        <h3>DZIEKAN TURZYŃSKI<br><span style="font-size: 10px; color: #555; font-weight: normal;">(Legendary Edition)</span></h3>
-                        <span class="price" style="color:#b7950b;">6.00 PLN</span>
+                        <span style="font-size: 10px; color: #555; font-weight: normal;">(Legendary Edition)</span>
+                        <h3>DZIEKAN TURZYŃSKI<br></h3>
+                        <span class="price" style="color:#b7950b;">10.00 PLN</span>
                         <div class="qty-box"><input type="number" id="qty_fame_1" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Dziekan Turzyński (Gold)', 6, 'qty_fame_1')">BIORĘ TO ZŁOTO</button>
+                        <button class="btn-add" onclick="addItem('Dziekan Turzyński (Gold)', 6, 'qty_fame_1')">BIORĘ TO</button>
                     </div>
                 </div>
             </div>
@@ -510,11 +528,9 @@
                     <script>
                         // Twoja lista
                         const xmas = [
-                            {name: "XMAS Tree", file: "xmas_tree.png"}, 
-                            {name: "Santa Vibe", file: "xmas_santa.png"},
-                            {name: "Świąteczny 1", file: "wmed (46).png"},
-                            {name: "Świąteczny 2", file: "wmed (47).png"},
-                            {name: "Świąteczny 3", file: "wmed (48).png"}
+                            {name: "Merry Christmas", file: "wmed (46).png"},
+                            {name: "Meowy Christmas", file: "wmed (47).png"},
+                            {name: "Christmas Pain", file: "wmed (48).png"}
                         ];
         
                         xmas.forEach((item, i) => {
@@ -555,12 +571,13 @@
                     <script>
                         // WPISZ SWOJE NAZWY TUTAJ
                         const prideItems = [
-                            { file: "wmed (57).png", name: "Wzór Pride 1" },
-                            { file: "wmed (52).png", name: "Wzór Pride 2" },
-                            { file: "wmed (53).png", name: "Wzór Pride 3" },
-                            { file: "wmed (54).png", name: "Wzór Pride 4" },
-                            { file: "wmed (55).png", name: "Wzór Pride 5" },
-                            { file: "wmed (56).png", name: "Wzór Pride 6" }
+                            { file: "wmed (57).png", name: "nonbinary" },
+                            { file: "wmed (52).png", name: "LGBT" },
+                            { file: "wmed (53).png", name: "bi" },
+                            { file: "wmed (54).png", name: "lesbian" },
+                            { file: "wmed (55).png", name: "gay" },
+                            { file: "wmed (56).png", name: "trans" },
+                            { file: "begaydocrimes.png", name: "#begaydocrimes" }
                         ];
         
                         prideItems.forEach((item, i) => {
@@ -611,7 +628,7 @@
             </div>
         </div>
 
-        <div id="acc-pins" class="accordion-item" style="border-left-color: #9b59b6;">
+        <div id="acc-border" class="accordion-item" style="border-left-color: #9b59b6;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span style="display: flex; align-items: center; gap: 10px;">
                     BORDERKICIA 
@@ -626,16 +643,16 @@
                     <script>
                         // WPISZ SWOJE NAZWY TUTAJ
                         const items = [
-                            { file: "wmed (45).png", name: "NAZWA 1" },
-                            { file: "wmed (36).png", name: "NAZWA 2" },
-                            { file: "wmed (37).png", name: "NAZWA 3" },
-                            { file: "wmed (38).png", name: "NAZWA 4" },
-                            { file: "wmed (39).png", name: "NAZWA 5" },
-                            { file: "wmed (40).png", name: "NAZWA 6" },
-                            { file: "wmed (41).png", name: "NAZWA 7" },
-                            { file: "wmed (42).png", name: "NAZWA 8" },
-                            { file: "wmed (43).png", name: "NAZWA 9" },
-                            { file: "wmed (44).png", name: "NAZWA 10" }
+                            { file: "wmed (36).png", name: "i'm just a physicist" },
+                            { file: "wmed (37).png", name: "i'm just a physicist (bow edition)" },
+                            { file: "wmed (38).png", name: "borderkicia" },
+                            { file: "wmed (39).png", name: "mONSTER" },
+                            { file: "wmed (40).png", name: "zip zip zap zap" },
+                            { file: "wmed (41).png", name: "piwo to moje paliwo" },
+                            { file: "wmed (42).png", name: "jest we mnie BESTIA" },
+                            { file: "wmed (43).png", name: "bojem siem kombiemt" },
+                            { file: "wmed (44).png", name: "eepy sleepy" },
+                            { file: "wmed (45).png", name: "zakazane słowa" }
                         ];
         
                         items.forEach((item, i) => {
@@ -1021,3 +1038,4 @@
 
 </body>
 </html>
+
