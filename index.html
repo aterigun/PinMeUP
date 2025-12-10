@@ -479,12 +479,20 @@
             </div>
         </div>
 
-        <div id="acc-memy" class="accordion-item" style="border-left-color: #e67e22;">
+        <div id="acc-memy" class="accordion-item" style="border-left-color: #88b148;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span>🐸 STREFA MEMÓW </span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                
+                <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
+                    <p style="margin: 0; font-style: italic; line-height: 1.5;">
+                        Kiedy słowa to za mało, a sesja wjeżdża za mocno.<br>
+                        <span style="font-size: 0.85rem; opacity: 0.8;">(Emotional Support Pins)</span>
+                    </p>
+                </div>
+        
                 <div class="grid">
                     <script>
                         const memy = [
@@ -500,7 +508,7 @@
                                 <h3>Mem Wzór #${i+1}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_mem_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" onclick="addItem('Mem Wzór #${i+1}', 5, 'qty_mem_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #88b148;" onclick="addItem('Mem Wzór #${i+1}', 5, 'qty_mem_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -597,7 +605,7 @@
 
         <div id="acc-blind" class="accordion-item" style="border-left-color: #2d3436;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span style="letter-spacing: 1px;">🔮 MYSTERY BOX - 4 PLN </span>
+                <span style="letter-spacing: 1px;">🔮 MYSTERY BOX </span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
@@ -1038,6 +1046,7 @@
 
 </body>
 </html>
+
 
 
 
