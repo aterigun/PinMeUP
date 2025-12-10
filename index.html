@@ -90,6 +90,7 @@
         }
         .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
         .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
+        .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
 
         .cart-btn-desktop { 
             background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; 
@@ -194,6 +195,16 @@
         .card.prestige .price { color: #fff; }
         .card.prestige .btn-add { background: var(--accent); color: black; }
 
+        /* Karta Gold dla Dziekana */
+        .card.gold-edition {
+            background: linear-gradient(135deg, #fffbf0, #fff);
+            border: 2px solid #f1c40f;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
+        }
+        .card.gold-edition img { border-color: #f1c40f; }
+        .card.gold-edition h3 { color: #b7950b; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .card.gold-edition .btn-add { background: #f1c40f; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.2); }
+
         /* --- LIGHTBOX --- */
         #lightbox {
             display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%;
@@ -295,6 +306,8 @@
         <nav class="main-menu" id="navMenu">
             <a href="#acc-custom" class="menu-link">Kreator</a>
             <a href="#acc-logo" class="menu-link">Loga</a>
+            <a href="#acc-fuw" class="menu-link" style="color: #0984e3;">FUW Vibe</a>
+            <a href="#acc-fame" class="menu-link gold">BADGE OF FAME 🏆</a>
             <a href="#acc-memy" class="menu-link">Memy</a>
             <a href="#acc-xmas" class="menu-link highlight">XMAS 🎄</a>
             <a href="#acc-pride" class="menu-link">#PRIDE 🏳️‍🌈</a>
@@ -381,6 +394,69 @@
                             </div>`);
                         });
                     </script>
+                </div>
+            </div>
+        </div>
+
+        <div id="acc-fuw" class="accordion-item" style="border-left-color: #0984e3;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🪐 FUW VIBE</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        // WPISZ TUTAJ PLIKI DLA SEKCJI FUW
+                        const fuwItems = [
+                            { file: "fuw_vibe1.png", name: "Fizyka to styl życia" },
+                            { file: "fuw_vibe2.png", name: "Pasteura Gang" },
+                            { file: "fuw_vibe3.png", name: "Kocham Fizykę" },
+                            { file: "fuw_vibe4.png", name: "E=mc2" }
+                        ];
+
+                        fuwItems.forEach((item, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=FUW'">
+                                <h3>${item.name}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_fuw_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" style="background-color: #0984e3;" onclick="addItem('${item.name}', 5, 'qty_fuw_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div id="acc-fame" class="accordion-item" style="border-left-color: #f1c40f;">
+            <div class="accordion-header" onclick="toggleAcc(this)" style="background: linear-gradient(to right, #fff, #fffdf0);">
+                <span style="display: flex; align-items: center; gap: 10px; color: #b7950b;">
+                    🏆 BADGE OF FAME
+                    <span style="font-size: 11px; background: #f1c40f; color: black; padding: 2px 8px; border-radius: 12px; font-weight: normal;">
+                        Hall of Fame
+                    </span>
+                </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div style="text-align:center; color:#b7950b; margin-bottom:25px; padding: 0 10px;">
+                    <p style="margin:0; font-style:italic; font-size:1rem; font-weight: bold;">
+                        "Jedyny. Niepowtarzalny. Legenda Kampusu."
+                    </p>
+                    <small style="color:#999; display:block; margin-top:5px;">
+                        Kupując ten pin, +10 do zdawalności egzaminów. (Niepotwierdzone info)
+                    </small>
+                </div>
+                
+                <div class="grid">
+                    <div class="card gold-edition">
+                        <img src="dziekan.png" alt="Dziekan Turzyński" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=DZIEKAN'">
+                        <h3>DZIEKAN TURZYŃSKI<br><span style="font-size: 10px; color: #555; font-weight: normal;">(Legendary Edition)</span></h3>
+                        <span class="price" style="color:#b7950b;">6.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_fame_1" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Dziekan Turzyński (Gold)', 6, 'qty_fame_1')">BIORĘ TO ZŁOTO</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -945,5 +1021,3 @@
 
 </body>
 </html>
-
-
