@@ -156,12 +156,12 @@
         .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* --- KARTY (TERAZ Z ZOOMEM) --- */
+        /* --- KARTY --- */
         .card { 
             border: 1px solid #eee; border-radius: 12px; padding: 15px; 
             text-align: center; background: white; transition: 0.3s; height: 100%; 
             display: flex; flex-direction: column; justify-content: space-between; 
-            box-sizing: border-box; overflow: hidden; /* Ważne do zoomu */
+            box-sizing: border-box; overflow: hidden; 
         }
         .card:hover { 
             border-color: var(--salmon); box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
@@ -172,15 +172,12 @@
         .card img { 
             width: 90px; height: 90px; border-radius: 50%; object-fit: cover; 
             margin-bottom: 10px; border: 3px solid #f5f5f5; align-self: center; 
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Sprężysty efekt */
-            cursor: zoom-in; /* Ikonka lupy */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            cursor: zoom-in;
         }
-        
-        .card:hover img { 
-            transform: scale(1.15) rotate(3deg); /* Powiekszenie i lekki obrót */
-        }
+        .card:hover img { transform: scale(1.15) rotate(3deg); }
 
-        .card h3 { font-size: 0.9rem; margin: 5px 0; min-height: 35px; display: flex; align-items: center; justify-content: center; }
+        .card h3 { font-size: 0.85rem; margin: 5px 0; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.2; word-break: break-word; }
         .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
         .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; font-size: 16px; }
         .btn-add { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top:5px; transition:0.2s; font-size: 0.85rem; }
@@ -188,7 +185,7 @@
         @media (max-width: 900px) {
             .card { padding: 10px; }
             .card img { width: 70px; height: 70px; }
-            .card h3 { font-size: 0.8rem; line-height: 1.2; }
+            .card h3 { font-size: 0.75rem; }
             .btn-add { padding: 8px 0; font-size: 0.75rem; }
         }
 
@@ -197,7 +194,7 @@
         .card.prestige .price { color: #fff; }
         .card.prestige .btn-add { background: var(--accent); color: black; }
 
-        /* --- LIGHTBOX (POWIĘKSZANIE) --- */
+        /* --- LIGHTBOX --- */
         #lightbox {
             display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center;
@@ -225,7 +222,7 @@
         .btn-checkout { background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 15px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-size: 1rem; }
         input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
 
-        /* MOBILE STICKY CART BAR */
+        /* MOBILE STICKY CART */
         #mobile-sticky-cart {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: white; border-top: 1px solid #eee;
@@ -252,14 +249,15 @@
         .payment-options { display: flex; gap: 10px; margin: 15px 0; }
         .pay-option { flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
         .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); font-weight: bold; }
-
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
     </style>
 </head>
 <body>
 
 <div id="lightbox" onclick="closeLightbox()">
     <div class="close-lightbox">&times;</div>
-    <img id="lightbox-img" src="" onclick="event.stopPropagation()"> </div>
+    <img id="lightbox-img" src="" onclick="event.stopPropagation()">
+</div>
 
 <div id="toast"><i class="fa-solid fa-check-circle"></i> Dodano!</div>
 
@@ -295,13 +293,15 @@
         </a>
 
         <nav class="main-menu" id="navMenu">
-            <a href="#acc-custom" class="menu-link">Własny</a>
+            <a href="#acc-custom" class="menu-link">Kreator</a>
             <a href="#acc-prestige" class="menu-link">Prestiż</a>
             <a href="#acc-blind" class="menu-link">Blindbox</a>
-            <a href="#acc-bestsellers" class="menu-link">Bestsellery</a>
+            <a href="#acc-logo" class="menu-link">Loga</a>
+            <a href="#acc-memy" class="menu-link">Memy</a>
             <a href="#acc-xmas" class="menu-link highlight">XMAS 🎄</a>
             <a href="#acc-pride" class="menu-link">#PRIDE 🏳️‍🌈</a>
             <a href="#acc-border" class="menu-link">Pieski</a>
+            <a href="#acc-inne" class="menu-link">Inne</a>
         </nav>
 
         <a href="#koszyk" class="cart-btn-desktop">
@@ -363,45 +363,84 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <img src="question.png" style="width:60px; border-radius:10px;" onclick="openLightbox(this.src)">
+                <div style="display:flex; align-items:center; gap:15px; background: #f8f0ff; padding:15px; border-radius:12px;">
+                    <div style="font-size:3rem; width:80px; text-align:center;">🎱</div>
                     <div>
-                        <p style="margin:0 0 5px 0; font-size:0.9rem;">Taniej (3 zł), ale losowy wzór.</p>
-                        <input type="number" id="qty_blind" class="qty-input" value="1">
-                        <button class="btn-add" style="background:#8e44ad; width:auto; padding:8px 15px;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">RYZYKUJĘ</button>
+                        <strong style="color: #8e44ad;">TAJEMNICZA KULA LOZU</strong>
+                        <p style="margin:5px 0 10px 0; font-size:0.9rem;">W środku losowy wzór. Może unikat? Ryzykujesz?</p>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="qty_blind" class="qty-input" value="1">
+                            <button class="btn-add" style="background:#8e44ad; width:auto; padding:8px 20px;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">BIORĘ W CIEMNO</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="acc-bestsellers" class="accordion-item" style="border-left-color: #e67e22;">
+        <div id="acc-logo" class="accordion-item" style="border-left-color: var(--primary);">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🔥 BESTSELLERY</span>
+                <span>🎓 LOGA UCZELNI / WYDZIAŁY</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
                 <div class="grid">
-                    <div class="card">
-                        <img src="logo_uczelni.png" alt="Logo" onclick="openLightbox(this.src)">
-                        <h3>Logo Wydziału</h3>
-                        <span class="price">5.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_logo" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Logo Wydziału', 5, 'qty_logo')">DODAJ</button>
-                    </div>
-                    <div class="card">
-                        <img src="mem_kot.png" alt="Kot" onclick="openLightbox(this.src)">
-                        <h3>Kot Student</h3>
-                        <span class="price">5.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_kot" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Kot Student', 5, 'qty_kot')">DODAJ</button>
-                    </div>
-                    <div class="card">
-                        <img src="gwiazda1.png" alt="Starosta" onclick="openLightbox(this.src)">
-                        <h3>Pan Starosta</h3>
-                        <span class="price">6.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_starosta" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Pin: Starosta', 6, 'qty_starosta')">DODAJ</button>
-                    </div>
+                    <script>
+                        const logos = [
+                            {name: "FUW (EN) Pełne", file: "[EN] fuw __ pełne.png"},
+                            {name: "Wydział Medyczny", file: "wmed (20).png"},
+                            {name: "MIMUW (EN)", file: "[EN] mimuw __ pełne.png"},
+                            {name: "WCHEM (EN)", file: "[EN] wchem.png"},
+                            {name: "MIMUW (Łacina)", file: "[łac] mimuw __ pełne vel 2.png"},
+                            {name: "FUW (PL) Pełne", file: "[PL] fuw __ pełne.png"},
+                            {name: "MIMUW (PL)", file: "[PL] mimuw __ pełne.png"},
+                            {name: "MIMUW Sygnet", file: "[PL] mimuw __ sygnet.png"},
+                            {name: "WCHEM (PL)", file: "[PL] wchem.png"},
+                            {name: "FUW Skrót 1", file: "fuw __ skrót (3).png"},
+                            {name: "FUW Skrót 2", file: "fuw __ skrót.png"},
+                            {name: "Pin Me Up", file: "pinmeup (3).png"},
+                            {name: "Wydział Biologii", file: "wb.png"},
+                            {name: "QuantMol", file: "quantmol.png"}
+                        ];
+                        logos.forEach((item, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${item.file}" alt="${item.name}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=LOGO'">
+                                <h3>${item.name}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_logo_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('${item.name}', 5, 'qty_logo_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div id="acc-memy" class="accordion-item" style="border-left-color: #e67e22;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🐸 STREFA MEMÓW</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        const memy = [
+                            "wmed (19).png", "wmed (21).png", "wmed (23).png", "wmed (24).png", 
+                            "wmed (25).png", "wmed (26).png", "wmed (27).png", "wmed (28).png", 
+                            "wmed (29).png", "wmed (30).png", "wmed (31).png", "wmed (35).png", 
+                            "wmed (4).png", "wmed (5).png", "wmed (18).png"
+                        ];
+                        memy.forEach((file, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=MEM'">
+                                <h3>Mem Wzór #${i+1}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_mem_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('Mem Wzór #${i+1}', 5, 'qty_mem_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -413,20 +452,25 @@
             </div>
             <div class="accordion-content">
                 <div class="grid">
-                    <div class="card">
-                        <img src="xmas_tree.png" alt="Choinka" onclick="openLightbox(this.src)">
-                        <h3>Choinka Pin</h3>
-                        <span class="price">6.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_xmas1" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Pin Choinka', 6, 'qty_xmas1')">DODAJ</button>
-                    </div>
-                    <div class="card">
-                        <img src="xmas_santa.png" alt="Mikołaj" onclick="openLightbox(this.src)">
-                        <h3>Santa Vibe</h3>
-                        <span class="price">6.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_xmas2" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Pin Mikołaj', 6, 'qty_xmas2')">DODAJ</button>
-                    </div>
+                    <script>
+                        const xmas = [
+                            {name: "XMAS Tree", file: "xmas_tree.png"}, 
+                            {name: "Santa Vibe", file: "xmas_santa.png"},
+                            {name: "Świąteczny 1", file: "wmed (46).png"},
+                            {name: "Świąteczny 2", file: "wmed (47).png"},
+                            {name: "Świąteczny 3", file: "wmed (48).png"}
+                        ];
+                        xmas.forEach((item, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=XMAS'">
+                                <h3>${item.name}</h3>
+                                <span class="price">6.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_xmas_n_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('${item.name}', 6, 'qty_xmas_n_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -438,13 +482,29 @@
             </div>
             <div class="accordion-content">
                 <div class="grid">
-                    <div class="card">
-                        <img src="pride_flag.png" alt="Flaga" onclick="openLightbox(this.src)">
+                     <div class="card">
+                        <img src="pride_flag.png" onclick="openLightbox(this.src)">
                         <h3>Flaga Rainbow</h3>
                         <span class="price">5.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_pride1" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Pin Pride Flag', 5, 'qty_pride1')">DODAJ</button>
+                        <div class="qty-box"><input type="number" id="qty_pride_main" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Flaga Rainbow', 5, 'qty_pride_main')">DODAJ</button>
                     </div>
+                    <script>
+                        const pride = [
+                            "wmed (57).png", "wmed (52).png", "wmed (53).png", 
+                            "wmed (54).png", "wmed (55).png", "wmed (56).png"
+                        ];
+                        pride.forEach((file, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=PRIDE'">
+                                <h3>Pride Wzór #${i+1}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_pride_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('Pride Wzór #${i+1}', 5, 'qty_pride_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -457,15 +517,61 @@
             <div class="accordion-content">
                 <div class="grid">
                     <div class="card">
-                        <img src="border_dog.png" alt="Pies" onclick="openLightbox(this.src)">
+                        <img src="border_dog.png" onclick="openLightbox(this.src)">
                         <h3>Border Collie</h3>
                         <span class="price">6.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_border" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Pin Borderkicia', 6, 'qty_border')">DODAJ</button>
+                        <div class="qty-box"><input type="number" id="qty_border_main" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Border Collie', 6, 'qty_border_main')">DODAJ</button>
                     </div>
+                    <script>
+                        const animals = [
+                            "wmed (45).png", "wmed (36).png", "wmed (37).png", "wmed (38).png",
+                            "wmed (39).png", "wmed (40).png", "wmed (41).png", "wmed (42).png",
+                            "wmed (43).png", "wmed (44).png"
+                        ];
+                        animals.forEach((file, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=PET'">
+                                <h3>Zwierzak #${i+1}</h3>
+                                <span class="price">6.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_anim_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('Zwierzak #${i+1}', 6, 'qty_anim_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
                 </div>
             </div>
         </div>
+
+        <div id="acc-inne" class="accordion-item" style="border-left-color: #95a5a6;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🎲 INNE RÓŻNOŚCI</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        const inne = [
+                            "wmed (7).png", "wmed (8).png", "wmed (9).png", "wmed (10).png",
+                            "wmed (11).png", "wmed (12).png", "wmed (13).png", "wmed (14).png",
+                            "wmed (15).png", "wmed (16).png", "wmed (17).png", "wmed (2).png", "wmed (6).png"
+                        ];
+                        inne.forEach((file, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=PIN'">
+                                <h3>Pin Wzór #${i+1}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_inne_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('Pin Wzór #${i+1}', 5, 'qty_inne_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="sidebar">
@@ -559,7 +665,6 @@
     const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
     let cart = [];
 
-    // --- LIGHTBOX FUNKCJE ---
     function openLightbox(src) {
         const lb = document.getElementById('lightbox');
         const img = document.getElementById('lightbox-img');
@@ -571,13 +676,11 @@
         document.getElementById('lightbox').classList.remove('visible');
     }
 
-    // --- TOGGLE MENU DLA MOBILE ---
     function toggleMenu() {
         const menu = document.getElementById('navMenu');
         menu.classList.toggle('open');
     }
 
-    // --- NAWIGACJA ---
     document.querySelectorAll('.menu-link').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -707,36 +810,47 @@
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
         if(!name || !email) return showToast("Podaj imię i email!");
+        if(!email.includes('@')) return showToast("Podaj poprawny e-mail!");
 
         const btn = document.querySelector('.btn-checkout');
         const oldText = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> WYSYŁANIE...'; btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> WYSYŁANIE...'; 
+        btn.disabled = true;
 
         const fd = new FormData();
-        fd.append("_captcha", "false"); fd.append("_subject", "ZAMÓWIENIE: " + name);
-        fd.append("Klient", name); fd.append("Email", email); fd.append("Metoda", document.getElementById('paymentMethod').value);
-        fd.append("DoZapłaty", document.getElementById('totalPrice').innerText);
+        fd.append("_captcha", "false"); 
+        fd.append("_subject", "NOWE ZAMÓWIENIE: " + name);
+        fd.append("_template", "table");
+        fd.append("_cc", email);
+
+        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 15 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 18.12 zdjęcie z Dziekanem! 🎓\n\nJeśli wybrałeś płatność BLIK, prosimy o przelew na numer: 123-456-789.\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
+        fd.append("_autoresponse", autoMessage);
+
+        fd.append("Klient", name); 
+        fd.append("email", email); 
+        fd.append("Metoda Płatności", document.getElementById('paymentMethod').value);
+        fd.append("Do Zapłaty", document.getElementById('totalPrice').innerText + " PLN");
 
         let summary = "";
         cart.forEach((item, i) => {
-            summary += `${item.name} (${item.qty} szt)\n`;
+            summary += `${item.name} | Ilość: ${item.qty}\n`;
             if(item.file) fd.append(`Plik_${i}`, item.file);
         });
-        
-        // --- NAPRAWA NAPIWKU W MAILU ---
         if(document.getElementById('tipCheck').checked) {
             summary += `-------------------\n❤️ DODATKOWO: NAPIWEK (+1 PLN)\n`;
         }
-
-        fd.append("ZAMÓWIENIE", summary);
+        fd.append("ZAMÓWIENIE (Szczegóły)", summary);
 
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
         .then(() => { 
-            alert("SUKCES! Zamówienie wysłane. Sprawdź maila."); 
+            alert("SUKCES! Zamówienie wysłane. Sprawdź swoją skrzynkę mailową (również SPAM), wysłaliśmy Ci potwierdzenie!"); 
             cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
+            document.getElementById('clientName').value = "";
+            document.getElementById('clientEmail').value = "";
         })
         .catch(() => { 
-            alert("Wysłano (sprawdź spam)."); btn.innerHTML=oldText; btn.disabled=false; 
+            alert("Zamówienie wysłane! (Jeśli nie widzisz maila, sprawdź spam)."); 
+            btn.innerHTML=oldText; btn.disabled=false; 
         });
     }
 
