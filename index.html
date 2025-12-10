@@ -427,8 +427,8 @@
                             { file: "wmed (35).png", name: "tak, umiem pisać xi" },
                             { file: "wmed (24).png", name: "wiara czyni cuda" },
                             { file: "wmed (27).png", name: "trywialne" },
-                            { file: "wmed (36).png", name: "i'm just a physicist" },
-                            { file: "wmed (37).png", name: "i'm just a physicist (bow edition)" },
+                            { file: "wmed (36).png", name: "i\\'m just a physicist" },
+                            { file: "wmed (37).png", name: "i\\'m just a physicist (bow edition)" },
                             { file: "wmed (26).png", name: "załóżmy, że jestem kulą" },
                             { file: "fizykburger.png", name: "certified fan of fizykburger" },
                             { file: "wmed (33).png", name: "szrodinger" },
@@ -670,10 +670,10 @@
             <div class="accordion-content">
                 <div class="grid">
                     <script>
-                        // WPISZ SWOJE NAZWY TUTAJ
-                        const items = [
-                            { file: "wmed (36).png", name: "i'm just a physicist" },
-                            { file: "wmed (37).png", name: "i'm just a physicist (bow edition)" },
+                        // NAPRAWIONA LISTA (zabezpieczone apostrofy)
+                        const borderItems = [
+                            { file: "wmed (36).png", name: "i\\'m just a physicist" },
+                            { file: "wmed (37).png", name: "i\\'m just a physicist (bow edition)" },
                             { file: "wmed (38).png", name: "borderkicia" },
                             { file: "wmed (39).png", name: "mONSTER" },
                             { file: "wmed (40).png", name: "zip zip zap zap" },
@@ -684,14 +684,14 @@
                             { file: "wmed (45).png", name: "zakazane słowa" }
                         ];
         
-                        items.forEach((item, i) => {
+                        borderItems.forEach((item, i) => {
                             document.write(`
                             <div class="card">
                                 <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_pin_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" onclick="addItem('${item.name}', 6, 'qty_pin_${i}')">DODAJ</button>
+                                <div class="qty-box"><input type="number" id="qty_border_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" style="background-color: #9b59b6;" onclick="addItem('${item.name}', 5, 'qty_border_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -809,12 +809,19 @@
                 <h4 style="margin:0 0 10px 0; font-size:0.9rem;">Płatność:</h4>
                 <div class="payment-options">
                     <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">BLIK</div>
+                    <div class="pay-option active" id="pay_przelew" onclick="setPayment('PRZELEW NA KONTO')">PRZELEW NA KONTO</div>
                     <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">GOTÓWKA</div>
                 </div>
                 <input type="hidden" id="paymentMethod" value="BLIK">
 
                 <div class="blik-warn" id="blikInfo" style="display:block; background:#ffebeb; color:#d63031; padding:10px; border-radius:5px; font-size:0.8rem; margin-bottom:10px; border-left:4px solid #d63031;">
-                    ⚠️ Przelew BLIK na: <strong style="color:black;">123-456-789</strong>
+                    ⚠️ Przelew BLIK na: <strong style="color:black;"> +48 698 793 950 </strong>
+                </div>
+
+                <input type="hidden" id="paymentMethod" value="PRZELEW NA KONTO">
+
+                <div class="przelew-warn" id="przelewInfo" style="display:block; background:#ffebeb; color:#d63031; padding:10px; border-radius:5px; font-size:0.8rem; margin-bottom:10px; border-left:4px solid #d63031;">
+                    ⚠️ Przelew na konto: <strong style="color:black;"> 39 1050 1054 1000 0098 3308 4693 </strong> na nazwisko <strong style="color:black;"> Jan Dziubak </strong>
                 </div>
 
                 <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
@@ -1024,7 +1031,7 @@
         fd.append("_template", "table");
         fd.append("_cc", email);
 
-        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 15 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 18.12 zdjęcie z Dziekanem! 🎓\n\nJeśli wybrałeś płatność BLIK, prosimy o przelew na numer: 123-456-789.\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
+        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 15 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 16.12 zdjęcie z Dziekanem! 🎓\n\nJeśli wybrałeś płatność BLIK, prosimy o przelew na numer: +48 698 793 950. Jeśli wybrałeś płatność przelewem na konto, prosimy o przelew na nazwisko Jan Dziubak na konto: 39 1050 1054 1000 0098 3308 4693\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
         fd.append("_autoresponse", autoMessage);
 
         fd.append("Klient", name); 
@@ -1067,6 +1074,7 @@
 
 </body>
 </html>
+
 
 
 
