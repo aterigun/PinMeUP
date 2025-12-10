@@ -853,7 +853,7 @@
                 <input type="hidden" id="paymentMethod" value="BLIK">
     
                 <div class="pay-info-box" id="info_blik" style="display:block; background:#ffebeb; color:#d63031; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #fab1a0;">
-                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew na telefon BLIK:</strong>
+                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew BLIK na telefon:</strong>
                     <span style="font-size: 1.1rem; font-weight: 900; letter-spacing: 1px;">+48 698 793 950</span>
                 </div>
     
@@ -862,6 +862,13 @@
                     Odbiorca: <b>Jan Dziubak</b><br>
                     Nr konta:<br>
                     <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
+                </div>
+
+                <div class="pay-info-box" id="info_cash" style="display:none; background:#edf7ed; color:#2e7d32; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #a5d6a7;">
+                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-hand-holding-dollar"></i> Płatność przy odbiorze:</strong>
+                    Zapraszamy na nasze stoisko:<br>
+                    <span style="font-weight: 900; font-size: 1rem;">16 i 18 GRUDNIA</span><br>
+                    (Wydział Fizyki, hall główny)
                 </div>
     
                 <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
@@ -1047,17 +1054,18 @@
     }
 
     function setPayment(type) {
-            // 1. Zaktualizuj ukryte pole
+            // 1. Ustaw wartość w ukrytym polu
             document.getElementById('paymentMethod').value = type;
     
-            // 2. Usuń klasę 'active' ze wszystkich przycisków
+            // 2. Usuń "active" ze wszystkich przycisków
             document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
     
-            // 3. Ukryj wszystkie okienka z informacjami
+            // 3. Ukryj WSZYSTKIE okienka informacyjne
             document.getElementById('info_blik').style.display = 'none';
             document.getElementById('info_transfer').style.display = 'none';
+            document.getElementById('info_cash').style.display = 'none'; // Ukrywamy też gotówkę na start
     
-            // 4. Logika dla konkretnego wyboru
+            // 4. Pokaz odpowiednie okienko i podświetl przycisk
             if (type === 'BLIK') {
                 document.getElementById('opt_blik').classList.add('active');
                 document.getElementById('info_blik').style.display = 'block';
@@ -1067,9 +1075,9 @@
                 document.getElementById('info_transfer').style.display = 'block';
             } 
             else {
-                // Gotówka
+                // GOTÓWKA
                 document.getElementById('opt_cash').classList.add('active');
-                // Przy gotówce nie pokazujemy żadnego info boxa
+                document.getElementById('info_cash').style.display = 'block'; // Tu się pokazuje info o stoisku
             }
         }
 
@@ -1134,6 +1142,7 @@
 
 </body>
 </html>
+
 
 
 
