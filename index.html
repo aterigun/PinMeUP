@@ -283,12 +283,12 @@
 
 <div class="event-banner">
     <div>
-        🚨 STOISKO: 15 & 18 GRUDNIA! FUW, HALL GŁÓWNY
+        🚨 STOISKO: 16 & 18 GRUDNIA! FUW, HALL GŁÓWNY
         <span class="event-highlight">🎡 Koło Fortuny - Wylosuj sobie zniżkę! </span> 
         <span class="event-highlight">📦 Odbiór zamówień </span> 
         <br style="display:none;" class="mobile-break">
         <span class="event-highlight">📸 Fotobudka świąteczna do zdjęć </span>
-        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM TURZYŃSKIM!!!</span>
+        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 16.12 - ZDJĘCIE Z DZIEKANEM TURZYŃSKIM!!!</span>
     </div>
 </div>
 
@@ -427,8 +427,8 @@
                             { file: "wmed (35).png", name: "tak, umiem pisać xi" },
                             { file: "wmed (24).png", name: "wiara czyni cuda" },
                             { file: "wmed (27).png", name: "trywialne" },
-                            { file: "wmed (36).png", name: "i\\'m just a physicist" },
-                            { file: "wmed (37).png", name: "i\\'m just a physicist (bow edition)" },
+                            { file: "wmed (36).png", name: "i\'m just a physicist" },
+                            { file: "wmed (37).png", name: "i\'m just a physicist (bow edition)" },
                             { file: "wmed (26).png", name: "załóżmy, że jestem kulą" },
                             { file: "fizykburger.png", name: "certified fan of fizykburger" },
                             { file: "wmed (33).png", name: "szrodinger" },
@@ -485,7 +485,7 @@
                         <div style="height: 90px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #b7950b;">
                             <i class="fa-solid fa-camera-retro"></i>
                         </div>
-                        <span style="font-size: 10px; color: #d35400; font-weight: bold;">📅 18 GRUDNIA @ STOISKO</span>
+                        <span style="font-size: 10px; color: #d35400; font-weight: bold;">📅 16 GRUDNIA @ STOISKO</span>
                         <h3>TY + DZIEKAN<br><span style="font-size: 0.8rem; font-weight: normal;">(Custom Foto Pin)</span></h3>
                         
                         <p style="font-size: 0.75rem; margin: 5px 0 10px 0; line-height: 1.3;">
@@ -672,8 +672,8 @@
                     <script>
                         // NAPRAWIONA LISTA (zabezpieczone apostrofy)
                         const borderItems = [
-                            { file: "wmed (36).png", name: "i\\'m just a physicist" },
-                            { file: "wmed (37).png", name: "i\\'m just a physicist (bow edition)" },
+                            { file: "wmed (36).png", name: "i\'m just a physicist" },
+                            { file: "wmed (37).png", name: "i\'m just a physicist (bow edition)" },
                             { file: "wmed (38).png", name: "borderkicia" },
                             { file: "wmed (39).png", name: "mONSTER" },
                             { file: "wmed (40).png", name: "zip zip zap zap" },
@@ -788,15 +788,15 @@
                     Koszyk jest pusty :<
                 </div>
             </div>
-
+    
             <div id="promoBox"></div>
-
+    
             <div class="cart-total-section">
                 <label class="tip-box" style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:10px;">
                     <input type="checkbox" id="tipCheck" onchange="renderCart()" style="transform:scale(1.2);">
                     <span style="font-size:0.9rem;">Napiwek na monsterka (+1 PLN) ❤️</span>
                 </label>
-
+    
                 <div class="saved-amount" id="savedDisplay" style="color:#27ae60; text-align:right; font-weight:bold; font-size:0.85rem; margin-bottom:5px;"></div>
                 
                 <div style="display:flex; justify-content:space-between; align-items:flex-end;">
@@ -804,26 +804,39 @@
                     <span style="font-size:1.6rem; font-weight:900; color:var(--primary);"><span id="totalPrice">0.00</span> PLN</span>
                 </div>
             </div>
-
+    
             <div style="margin-top:20px;">
-                <h4 style="margin:0 0 10px 0; font-size:0.9rem;">Płatność:</h4>
-                <div class="payment-options">
-                    <div class="pay-option active" id="pay_blik" onclick="setPayment('BLIK')">BLIK</div>
-                    <div class="pay-option active" id="pay_przelew" onclick="setPayment('PRZELEW NA KONTO')">PRZELEW NA KONTO</div>
-                    <div class="pay-option" id="pay_cash" onclick="setPayment('GOTÓWKA')">GOTÓWKA</div>
+                <h4 style="margin:0 0 10px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Wybierz metodę płatności:</h4>
+                
+                <div class="payment-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
+                    <div class="pay-option active" id="opt_blik" onclick="setPayment('BLIK')">
+                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
+                        <span>BLIK</span>
+                    </div>
+                    <div class="pay-option" id="opt_transfer" onclick="setPayment('PRZELEW')">
+                        <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
+                        <span style="font-size: 0.75rem;">PRZELEW</span>
+                    </div>
+                    <div class="pay-option" id="opt_cash" onclick="setPayment('GOTÓWKA')">
+                        <i class="fa-solid fa-money-bill-wave" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
+                        <span>GOTÓWKA</span>
+                    </div>
                 </div>
+    
                 <input type="hidden" id="paymentMethod" value="BLIK">
-
-                <div class="blik-warn" id="blikInfo" style="display:block; background:#ffebeb; color:#d63031; padding:10px; border-radius:5px; font-size:0.8rem; margin-bottom:10px; border-left:4px solid #d63031;">
-                    ⚠️ Przelew BLIK na: <strong style="color:black;"> +48 698 793 950 </strong>
+    
+                <div class="pay-info-box" id="info_blik" style="display:block; background:#ffebeb; color:#d63031; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #fab1a0;">
+                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew na telefon BLIK:</strong>
+                    <span style="font-size: 1.1rem; font-weight: 900; letter-spacing: 1px;">+48 698 793 950</span>
                 </div>
-
-                <input type="hidden" id="paymentMethod" value="PRZELEW NA KONTO">
-
-                <div class="przelew-warn" id="przelewInfo" style="display:block; background:#ffebeb; color:#d63031; padding:10px; border-radius:5px; font-size:0.8rem; margin-bottom:10px; border-left:4px solid #d63031;">
-                    ⚠️ Przelew na konto: <strong style="color:black;"> 39 1050 1054 1000 0098 3308 4693 </strong> na nazwisko <strong style="color:black;"> Jan Dziubak </strong>
+    
+                <div class="pay-info-box" id="info_transfer" style="display:none; background:#e3f2fd; color:#0984e3; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #74b9ff;">
+                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-bank"></i> Dane do przelewu:</strong>
+                    Odbiorca: <b>Jan Dziubak</b><br>
+                    Nr konta:<br>
+                    <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
                 </div>
-
+    
                 <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
                 <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
                 
@@ -1074,6 +1087,7 @@
 
 </body>
 </html>
+
 
 
 
