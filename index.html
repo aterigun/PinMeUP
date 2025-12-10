@@ -24,6 +24,33 @@
 
         html { scroll-behavior: smooth; }
 
+        /* Nowy styl dla opcji płatności */
+        .pay-option { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            border: 1px solid #ddd; 
+            padding: 10px 5px; 
+            text-align: center; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 0.8rem; 
+            transition: all 0.2s;
+            background: #fafafa;
+            color: #777;
+        }
+        .pay-option:hover {
+            background: #f0f0f0;
+        }
+        .pay-option.active { 
+            border-color: var(--primary); 
+            background: #f0edff; 
+            color: var(--primary); 
+            font-weight: bold; 
+            box-shadow: 0 4px 10px rgba(72, 52, 212, 0.15);
+        }
+
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg-color); 
@@ -1020,11 +1047,31 @@
     }
 
     function setPayment(type) {
-        document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
-        if(type === 'BLIK') { document.getElementById('pay_blik').classList.add('active'); document.getElementById('blikInfo').style.display='block'; }
-        else { document.getElementById('pay_cash').classList.add('active'); document.getElementById('blikInfo').style.display='none'; }
-        document.getElementById('paymentMethod').value = type;
-    }
+            // 1. Zaktualizuj ukryte pole
+            document.getElementById('paymentMethod').value = type;
+    
+            // 2. Usuń klasę 'active' ze wszystkich przycisków
+            document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
+    
+            // 3. Ukryj wszystkie okienka z informacjami
+            document.getElementById('info_blik').style.display = 'none';
+            document.getElementById('info_transfer').style.display = 'none';
+    
+            // 4. Logika dla konkretnego wyboru
+            if (type === 'BLIK') {
+                document.getElementById('opt_blik').classList.add('active');
+                document.getElementById('info_blik').style.display = 'block';
+            } 
+            else if (type === 'PRZELEW') {
+                document.getElementById('opt_transfer').classList.add('active');
+                document.getElementById('info_transfer').style.display = 'block';
+            } 
+            else {
+                // Gotówka
+                document.getElementById('opt_cash').classList.add('active');
+                // Przy gotówce nie pokazujemy żadnego info boxa
+            }
+        }
 
     function submitOrder() {
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
@@ -1087,6 +1134,7 @@
 
 </body>
 </html>
+
 
 
 
