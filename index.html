@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PIN ME UP! - Sklep Studencki</title>
+    <title>PinMeUP! - Przypnij Siebie! </title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -272,12 +272,12 @@
 
 <div class="event-banner">
     <div>
-        🚨 STOISKO: 15 & 18 GRUDNIA! 
-        <span class="event-highlight">🎡 Koło Fortuny</span> 
-        <span class="event-highlight">📦 Odbiór</span> 
+        🚨 STOISKO: 15 & 18 GRUDNIA! FUW, HALL GŁÓWNY
+        <span class="event-highlight">🎡 Koło Fortuny - Wylosuj sobie zniżkę! </span> 
+        <span class="event-highlight">📦 Odbiór zamówień </span> 
         <br style="display:none;" class="mobile-break">
-        <span class="event-highlight">📸 Fotobudka</span>
-        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM!</span>
+        <span class="event-highlight">📸 Fotobudka świąteczna - zrób zdjęcie z przyjacielem! </span>
+        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 18.12 - ZDJĘCIE Z DZIEKANEM TURZYŃSKIM!!!</span>
     </div>
 </div>
 
@@ -294,13 +294,13 @@
 
         <nav class="main-menu" id="navMenu">
             <a href="#acc-custom" class="menu-link">Kreator</a>
-            <a href="#acc-prestige" class="menu-link">Prestiż</a>
-            <a href="#acc-blind" class="menu-link">Blindbox</a>
             <a href="#acc-logo" class="menu-link">Loga</a>
             <a href="#acc-memy" class="menu-link">Memy</a>
             <a href="#acc-xmas" class="menu-link highlight">XMAS 🎄</a>
             <a href="#acc-pride" class="menu-link">#PRIDE 🏳️‍🌈</a>
-            <a href="#acc-border" class="menu-link">Pieski</a>
+            <a href="#acc-border" class="menu-link">Borderkicia</a>
+            <a href="#acc-blind" class="menu-link">Blindbox</a>
+            <a href="#acc-prestige" class="menu-link">Prestiż</a>
             <a href="#acc-inne" class="menu-link">Inne</a>
         </nav>
 
@@ -321,7 +321,7 @@
             </div>
             <div class="accordion-content">
                 <div style="text-align:center;">
-                    <p style="font-size:0.9rem;">Wgraj fotkę (kota, psa, mema), my dotniemy.</p>
+                    <p style="font-size:0.9rem;">Przyjaciółka? Brat? Kotek? A może... Dziekan Turzyński...? To nie problem! Wgraj swoje ulubione zdjęcie - serio, cokolwiek chcesz! - a my zrobimy z niego Twoją personalną przypinkę! Noś najbliższych zawsze przy sobie. ❤️ </p>
                     <div style="border: 2px dashed #ddd; padding: 15px; border-radius: 10px; margin-bottom: 10px; background:#fafafa;">
                         <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.5rem; color:#ccc;"></i><br>
                         <input type="file" id="customFile" accept="image/*" style="margin-top:10px; max-width:100%;">
@@ -332,54 +332,10 @@
             </div>
         </div>
 
-        <div id="acc-prestige" class="accordion-item" style="border-left-color: #222;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>💎 STREFA PRESTIŻU</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content" style="background:#1a1a1a;">
-                <div class="grid">
-                    <div class="card prestige">
-                        <img src="czekolada.png" alt="Dubaj" onclick="openLightbox(this.src)">
-                        <h3>Dubajska Czekolada</h3>
-                        <span class="price">15.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_dubaj" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Dubajska Czekolada', 15, 'qty_dubaj')">BIORĘ</button>
-                    </div>
-                    <div class="card prestige">
-                        <img src="labubu.png" alt="Labubu" onclick="openLightbox(this.src)">
-                        <h3>Labubu Rare</h3>
-                        <span class="price">20.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_labubu" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Labubu Rare', 20, 'qty_labubu')">BIORĘ</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="acc-blind" class="accordion-item" style="border-left-color: #8e44ad;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🔮 BLINDBOX (LOSOWE)</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div style="display:flex; align-items:center; gap:15px; background: #f8f0ff; padding:15px; border-radius:12px;">
-                    <div style="font-size:3rem; width:80px; text-align:center;">🎱</div>
-                    <div>
-                        <strong style="color: #8e44ad;">TAJEMNICZA KULA LOZU</strong>
-                        <p style="margin:5px 0 10px 0; font-size:0.9rem;">W środku losowy wzór. Może unikat? Ryzykujesz?</p>
-                        <div style="display:flex; gap:10px;">
-                            <input type="number" id="qty_blind" class="qty-input" value="1">
-                            <button class="btn-add" style="background:#8e44ad; width:auto; padding:8px 20px;" onclick="addItem('🔮 Blindbox', 3, 'qty_blind')">BIORĘ W CIEMNO</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div id="acc-logo" class="accordion-item" style="border-left-color: var(--primary);">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎓 LOGA UCZELNI / WYDZIAŁY</span>
+                <span>🎓 LOGA UCZELNI / WYDZIAŁY - 5 PLN </span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
@@ -418,7 +374,7 @@
 
         <div id="acc-memy" class="accordion-item" style="border-left-color: #e67e22;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🐸 STREFA MEMÓW</span>
+                <span>🐸 STREFA MEMÓW - 5 PLN</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
@@ -447,12 +403,18 @@
 
         <div id="acc-xmas" class="accordion-item" style="border-left-color: #c0392b;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎄 KOLEKCJA XMAS</span>
+                <span style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #c0392b; font-weight: bold;">🎄 KOLEKCJA XMAS</span>
+                    <span style="font-size: 11px; background: #27ae60; color: white; padding: 2px 8px; border-radius: 12px; font-weight: normal;">
+                        Ho ho ho! 🎅 Święta w lipcu? Świąteczny vajb z naszą przypinką możesz mieć cały rok!
+                    </span>
+                </span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                <div class="grid">
+                <div class="grid" style="background-image: radial-gradient(#e74c3c22 1px, transparent 1px); background-size: 20px 20px;">
                     <script>
+                        // Twoja lista
                         const xmas = [
                             {name: "XMAS Tree", file: "xmas_tree.png"}, 
                             {name: "Santa Vibe", file: "xmas_santa.png"},
@@ -460,14 +422,15 @@
                             {name: "Świąteczny 2", file: "wmed (47).png"},
                             {name: "Świąteczny 3", file: "wmed (48).png"}
                         ];
+        
                         xmas.forEach((item, i) => {
                             document.write(`
-                            <div class="card">
+                            <div class="card" style="border: 1px solid #fab1a0;">
                                 <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=XMAS'">
                                 <h3>${item.name}</h3>
                                 <span class="price">6.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_xmas_n_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" onclick="addItem('${item.name}', 6, 'qty_xmas_n_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 6, 'qty_xmas_n_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -475,33 +438,45 @@
             </div>
         </div>
 
-        <div id="acc-pride" class="accordion-item rainbow-border">
+        <div id="acc-pride" class="accordion-item rainbow-border" style="border-left: 5px solid #e84393;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🏳️‍🌈 #PRIDE COLLECTION</span>
+                <span style="display: flex; align-items: center; gap: 10px;">
+                    🏳️‍🌈 #PRIDE COLLECTION
+                    <span style="font-size: 11px; font-weight: bold; background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet); -webkit-background-clip: text; color: transparent; letter-spacing: 1px;">
+                        LOVE IS LOVE
+                    </span>
+                </span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                
+                <div style="text-align: center; padding: 10px; margin-bottom: 15px; color: #636e72;">
+                    <p style="margin: 0; font-style: italic;">
+                        Bądź sobą, kochaj kogo chcesz i noś te barwy z dumą! 💖<br>
+                        <b>Equality, Respect & Gay Power.</b>
+                    </p>
+                </div>
+        
                 <div class="grid">
-                     <div class="card">
-                        <img src="pride_flag.png" onclick="openLightbox(this.src)">
-                        <h3>Flaga Rainbow</h3>
-                        <span class="price">5.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_pride_main" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Flaga Rainbow', 5, 'qty_pride_main')">DODAJ</button>
-                    </div>
                     <script>
-                        const pride = [
-                            "wmed (57).png", "wmed (52).png", "wmed (53).png", 
-                            "wmed (54).png", "wmed (55).png", "wmed (56).png"
+                        // WPISZ SWOJE NAZWY TUTAJ
+                        const prideItems = [
+                            { file: "wmed (57).png", name: "Wzór Pride 1" },
+                            { file: "wmed (52).png", name: "Wzór Pride 2" },
+                            { file: "wmed (53).png", name: "Wzór Pride 3" },
+                            { file: "wmed (54).png", name: "Wzór Pride 4" },
+                            { file: "wmed (55).png", name: "Wzór Pride 5" },
+                            { file: "wmed (56).png", name: "Wzór Pride 6" }
                         ];
-                        pride.forEach((file, i) => {
+        
+                        prideItems.forEach((item, i) => {
                             document.write(`
                             <div class="card">
-                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=PRIDE'">
-                                <h3>Pride Wzór #${i+1}</h3>
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=PRIDE'">
+                                <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_pride_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" onclick="addItem('Pride Wzór #${i+1}', 5, 'qty_pride_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background: #e84393;" onclick="addItem('${item.name}', 5, 'qty_pride_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -509,47 +484,133 @@
             </div>
         </div>
 
-        <div id="acc-border" class="accordion-item" style="border-left-color: #74b9ff;">
+        <div id="acc-blind" class="accordion-item" style="border-left-color: #2d3436;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🐶 BORDERKICIA & FRIENDS</span>
+                <span style="letter-spacing: 1px;">🔮 MYSTERY BOX - 4 PLN </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div style="display:flex; align-items:center; gap:15px; background: linear-gradient(145deg, #2d3436, #000000); color: #fff; padding:20px; border-radius:12px; border: 1px solid #444;">
+                    
+                    <div style="font-size:3.5rem; width:80px; text-align:center; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">❓</div>
+                    
+                    <div style="flex: 1;">
+                        <strong style="color: #a29bfe; font-size: 1.1rem; letter-spacing: 1px;">TOTALNY RANDOM</strong>
+                        <p style="margin:5px 0 15px 0; font-size:0.9rem; opacity: 0.8; line-height: 1.4;">
+                            W środku może być <b>DOSŁOWNIE WSZYSTKO</b>. Unikat, prototyp, albo coś z głównej kolekcji... Może znajdziesz tutaj Dziekana?<br>
+                            <span style="font-style: italic;">Ryzykujesz 4 ziko?</span>
+                        </p>
+                        
+                        <div style="display:flex; gap:10px; align-items: center;">
+                            <input type="number" id="qty_blind" class="qty-input" value="1" style="background: #fff; color: #000; border: none;">
+                            
+                            <button class="btn-add" 
+                                style="background: #a29bfe; color: #000; width:auto; padding:8px 25px; font-weight: bold; border:none; transition: 0.3s;" 
+                                onclick="addItem('🔮 Mystery Box', 4, 'qty_blind')"
+                                onmouseover="this.style.background='#fff'" 
+                                onmouseout="this.style.background='#a29bfe'">
+                                BIORĘ W CIEMNO 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="acc-pins" class="accordion-item" style="border-left-color: #9b59b6;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span style="display: flex; align-items: center; gap: 10px;">
+                    BORDERKICIA - 5 PLN
+                    <span style="font-size: 11px; font-weight: normal; opacity: 0.6; font-style: italic; letter-spacing: 1px;">
+                        ✨ slay details ✨
+                    </span>
+                </span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
                 <div class="grid">
-                    <div class="card">
-                        <img src="border_dog.png" onclick="openLightbox(this.src)">
-                        <h3>Border Collie</h3>
-                        <span class="price">6.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_border_main" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Border Collie', 6, 'qty_border_main')">DODAJ</button>
-                    </div>
                     <script>
-                        const animals = [
-                            "wmed (45).png", "wmed (36).png", "wmed (37).png", "wmed (38).png",
-                            "wmed (39).png", "wmed (40).png", "wmed (41).png", "wmed (42).png",
-                            "wmed (43).png", "wmed (44).png"
+                        // WPISZ SWOJE NAZWY TUTAJ
+                        const items = [
+                            { file: "wmed (45).png", name: "NAZWA 1" },
+                            { file: "wmed (36).png", name: "NAZWA 2" },
+                            { file: "wmed (37).png", name: "NAZWA 3" },
+                            { file: "wmed (38).png", name: "NAZWA 4" },
+                            { file: "wmed (39).png", name: "NAZWA 5" },
+                            { file: "wmed (40).png", name: "NAZWA 6" },
+                            { file: "wmed (41).png", name: "NAZWA 7" },
+                            { file: "wmed (42).png", name: "NAZWA 8" },
+                            { file: "wmed (43).png", name: "NAZWA 9" },
+                            { file: "wmed (44).png", name: "NAZWA 10" }
                         ];
-                        animals.forEach((file, i) => {
+        
+                        items.forEach((item, i) => {
                             document.write(`
                             <div class="card">
-                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=PET'">
-                                <h3>Zwierzak #${i+1}</h3>
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150'">
+                                <h3>${item.name}</h3>
                                 <span class="price">6.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_anim_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" onclick="addItem('Zwierzak #${i+1}', 6, 'qty_anim_${i}')">DODAJ</button>
+                                <div class="qty-box"><input type="number" id="qty_pin_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('${item.name}', 6, 'qty_pin_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
+                </div>
+            </div>
+        </div>
+
+         <div id="acc-prestige" class="accordion-item" style="border-left-color: #222;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>💎 STREFA PRESTIŻU 💎</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content" style="background:#1a1a1a;">
+                
+                <div style="text-align:center; color:#ddd; margin-bottom:25px; padding: 0 10px;">
+                    <p style="margin:0; font-style:italic; font-size:0.95rem; line-height:1.4;">
+                        "Poczuj się jak szejk na stołówce. Te piny krzyczą: <br> 
+                        <strong style="color:var(--accent);">'Dostałem stypendium Rektora'</strong> <br>
+                        (albo pożyczyłem od mamy)."
+                    </p>
+                    <small style="color:#888; display:block; margin-top:5px;">
+                        ✨ 100% prestiżu ✨
+                    </small>
+                </div>
+                <div class="grid">
+                    <div class="card prestige">
+                        <img src="czekolada.png" alt="Dubaj" onclick="openLightbox(this.src)">
+                        <h3>Dubajska Czekolada (prosto z Dubaju) </h3>
+                        <span class="price">15.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_dubaj" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Dubajska Czekolada', 15, 'qty_dubaj')">BIORĘ</button>
+                    </div>
+                    <div class="card prestige">
+                        <img src="labubu.png" alt="Labubu" onclick="openLightbox(this.src)">
+                        <h3>Labubu </h3>
+                        <span class="price">20.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_labubu" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Labubu Rare', 20, 'qty_labubu')">BIORĘ</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="acc-inne" class="accordion-item" style="border-left-color: #95a5a6;">
             <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎲 INNE RÓŻNOŚCI</span>
+                <span>🎲 INNE RÓŻNOŚCI - 5 PLN</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
+                
+                <div style="text-align:center; color:#666; margin-bottom:25px; padding: 0 10px;">
+                    <p style="margin:0; font-style:italic; font-size:0.9rem;">
+                        "Tu trafiają piny, które miały problem z tożsamością.<br>
+                        Zbyt dziwne na memy, zbyt ładne na blindbox."
+                    </p>
+                    <small style="color:#999; display:block; margin-top:5px;">
+                        🥔 Kategoria: Studencki Bigos (wszystko i nic) 🥔
+                    </small>
+                </div>
                 <div class="grid">
                     <script>
                         const inne = [
@@ -584,7 +645,7 @@
             <div id="cartItems" class="cart-items">
                 <div style="text-align:center; padding:30px; color:#aaa;">
                     <i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>
-                    Koszyk jest pusty
+                    Koszyk jest pusty :<
                 </div>
             </div>
 
@@ -593,7 +654,7 @@
             <div class="cart-total-section">
                 <label class="tip-box" style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:10px;">
                     <input type="checkbox" id="tipCheck" onchange="renderCart()" style="transform:scale(1.2);">
-                    <span style="font-size:0.9rem;">Napiwek na monstera (+1 PLN) ❤️</span>
+                    <span style="font-size:0.9rem;">Napiwek na monsterka (+1 PLN) ❤️</span>
                 </label>
 
                 <div class="saved-amount" id="savedDisplay" style="color:#27ae60; text-align:right; font-weight:bold; font-size:0.85rem; margin-bottom:5px;"></div>
@@ -866,3 +927,4 @@
 
 </body>
 </html>
+
