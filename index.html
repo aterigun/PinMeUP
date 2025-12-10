@@ -1085,6 +1085,8 @@
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
+        
+        // Walidacja
         if(!name || !email) return showToast("Podaj imię i email!");
         if(!email.includes('@')) return showToast("Podaj poprawny e-mail!");
 
@@ -1094,16 +1096,23 @@
         btn.disabled = true;
 
         const fd = new FormData();
+        
+        // --- KONFIGURACJA FORMSUBMIT ---
         fd.append("_captcha", "false"); 
         fd.append("_subject", "NOWE ZAMÓWIENIE: " + name);
-        fd.append("_template", "table");
-        fd.append("_cc", email);
+        fd.append("_template", "table"); // To formatuje maila DLA CIEBIE (tabelka)
 
-        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 15 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 16.12 zdjęcie z Dziekanem! 🎓\n\nJeśli wybrałeś płatność BLIK, prosimy o przelew na numer: +48 698 793 950. Jeśli wybrałeś płatność przelewem na konto, prosimy o przelew na nazwisko Jan Dziubak na konto: 39 1050 1054 1000 0098 3308 4693\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
-        fd.append("_autoresponse", autoMessage);
+        // WAŻNE: Usunąłem _cc, żeby klient nie dostawał kopii Twojego maila.
+        // FormSubmit wyśle autoresponder na adres podany w polu 'email' poniżej.
+        
+        // --- TREŚĆ DLA KLIENTA ---
+        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 16 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 18.12 zdjęcie z Dziekanem! 🎓\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
+        
+        fd.append("_autoresponse", autoMessage); // To jest treść maila zwrotnego dla klienta
 
+        // --- DANE ZAMÓWIENIA ---
         fd.append("Klient", name); 
-        fd.append("email", email); 
+        fd.append("email", email); // To pole wskazuje FormSubmit, gdzie wysłać autoresponse
         fd.append("Metoda Płatności", document.getElementById('paymentMethod').value);
         fd.append("Do Zapłaty", document.getElementById('totalPrice').innerText + " PLN");
 
@@ -1112,14 +1121,16 @@
             summary += `${item.name} | Ilość: ${item.qty}\n`;
             if(item.file) fd.append(`Plik_${i}`, item.file);
         });
+        
         if(document.getElementById('tipCheck').checked) {
             summary += `-------------------\n❤️ DODATKOWO: NAPIWEK (+1 PLN)\n`;
         }
         fd.append("ZAMÓWIENIE (Szczegóły)", summary);
 
+        // --- WYSYŁKA ---
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
         .then(() => { 
-            alert("SUKCES! Zamówienie wysłane. Sprawdź swoją skrzynkę mailową (również SPAM), wysłaliśmy Ci potwierdzenie!"); 
+            alert("SUKCES! Zamówienie wysłane. Sprawdź maila (również SPAM), wysłaliśmy Ci potwierdzenie i dane do płatności!"); 
             cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
             document.getElementById('clientName').value = "";
             document.getElementById('clientEmail').value = "";
@@ -1142,6 +1153,7 @@
 
 </body>
 </html>
+
 
 
 
