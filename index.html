@@ -23,7 +23,7 @@
             --banner-1-height: 60px;
             --banner-2-height: 45px;
             --header-height: 70px;
-            /* Suma wysokości banerów, żeby wiedzieć gdzie zacząć Header */
+
             --top-gap: 0px;
         }
 
@@ -906,7 +906,7 @@
                     </div>
                 </div>
     
-                <input type="hidden" id="paymentMethod" value="BLIK">
+                <input type="hidden" id="paymentMethod" name="payment" value="BLIK">
     
                 <div class="pay-info-box" id="info_blik" style="display:block; background:#ffebeb; color:#d63031; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #fab1a0;">
                     <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew BLIK na telefon:</strong>
@@ -927,8 +927,8 @@
                     (Wydział Fizyki, hall główny)
                 </div>
     
-                <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
-                <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
+                <input type="text" id="clientName" name="name" class="field" placeholder="Imię i Nazwisko" required>
+                <input type="email" id="clientEmail" name="email" class="field" placeholder="Twój E-mail" required>
                 
                 <button class="btn-checkout" onclick="submitOrder()">
                     ZAMAWIAM 🚀
@@ -976,6 +976,7 @@
     const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
     let cart = [];
 
+    // --- FUNKCJE UI ---
     function openLightbox(src) {
         const lb = document.getElementById('lightbox');
         const img = document.getElementById('lightbox-img');
@@ -997,19 +998,14 @@
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetItem = document.getElementById(targetId);
-            
             document.getElementById('navMenu').classList.remove('open');
-
             if(targetItem) {
                 document.querySelectorAll('.accordion-item').forEach(item => item.classList.remove('active'));
                 targetItem.classList.add('active');
-                
                 const isMobile = window.innerWidth <= 900;
                 const headerHeight = isMobile ? 180 : 140; 
-                
                 const elementPosition = targetItem.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
             }
         });
@@ -1035,6 +1031,7 @@
         item.classList.toggle('active');
     }
 
+    // --- FUNKCJE KOSZYKA ---
     function addItem(name, price, inputId) {
         const qty = parseInt(document.getElementById(inputId).value);
         if(qty < 1) return;
@@ -1087,18 +1084,16 @@
 
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
-            
             if (!qtyByPrice[item.price]) qtyByPrice[item.price] = 0;
             qtyByPrice[item.price] += item.qty;
-
             total += itemTotal;
-            
             container.innerHTML += `<div class="cart-item">
                 <div><strong>${item.name}</strong><br><small style="color:#888;">${item.qty} szt. x ${item.price} zł</small></div>
                 <div>${itemTotal.toFixed(2)} zł <i class="fa-solid fa-trash" style="color:#ff7675; cursor:pointer; margin-left:8px;" onclick="removeItem(${index})"></i></div>
             </div>`;
         });
 
+        // Promocja 3+1
         let promo3plus1 = 0;
         for (const [price, qty] of Object.entries(qtyByPrice)) {
             const freeItems = Math.floor(qty / 4); 
@@ -1108,10 +1103,10 @@
                 promoText += `<div>🎁 3+1 GRATIS (${price}zł): -${discount.toFixed(2)} zł</div>`;
             }
         }
-        
         total -= promo3plus1;
         savings += promo3plus1;
 
+        // Rabat >15 sztuk
         const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
         if (totalQty > 15) {
             const bulkDiscount = total * 0.10; 
@@ -1125,7 +1120,6 @@
         const finalTotal = total.toFixed(2);
         totalEl.innerText = finalTotal;
         mobileTotalEl.innerText = finalTotal + " PLN";
-        
         document.getElementById('cartCount').innerText = totalQty;
         promoBox.innerHTML = promoText ? `<div style="background:#e0ffe0; color:#009432; padding:8px; font-size:0.8rem; border-radius:5px; margin-bottom:10px; border:1px solid #b8e994;">${promoText}</div>` : "";
         savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN` : "";
@@ -1150,13 +1144,18 @@
         }
     }
 
+    // --- WYSYŁANIE ZAMÓWIENIA ---
     function submitOrder() {
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
-        const name = document.getElementById('clientName').value;
-        const email = document.getElementById('clientEmail').value;
         
-        if(!name || !email) return showToast("Podaj imię i email!");
-        if(!email.includes('@')) return showToast("Podaj poprawny e-mail!");
+        const name = document.getElementById('clientName').value.trim();
+        const email = document.getElementById('clientEmail').value.trim();
+        
+        // Lepsza walidacja
+        if(!name || name.length < 2) return showToast("Podaj imię i nazwisko!");
+        // Prosty regex do maila
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(email)) return showToast("Podaj poprawny e-mail!");
 
         const btn = document.querySelector('.btn-checkout');
         const oldText = btn.innerHTML;
@@ -1165,14 +1164,19 @@
 
         const fd = new FormData();
         
+        // KONFIGURACJA FORMSUBMIT
         fd.append("_captcha", "false"); 
         fd.append("_subject", "NOWE ZAMÓWIENIE: " + name);
         fd.append("_template", "table"); 
-
-        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 17.12, 14:00 - zdjęcie z Dziekanem Turzyńskim! 🎓\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
         
+        // _replyto ustawione na mail klienta
+        fd.append("_replyto", email); 
+
+        // AUTO-ODPOWIEDŹ
+        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 17.12 o 14:00 zdjęcie z Dziekanem Turzyńskim! 🎓\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
         fd.append("_autoresponse", autoMessage); 
 
+        // DANE FORMULARZA (Musi być pole o nazwie 'email' żeby FormSubmit wiedział gdzie słać odpowiedź)
         fd.append("Klient", name); 
         fd.append("email", email); 
         fd.append("Metoda Płatności", document.getElementById('paymentMethod').value);
@@ -1190,14 +1194,18 @@
         fd.append("ZAMÓWIENIE (Szczegóły)", summary);
 
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
-        .then(() => { 
-            alert("SUKCES! Zamówienie wysłane. Sprawdź maila (również SPAM), wysłaliśmy Ci potwierdzenie i dane do płatności!"); 
-            cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
-            document.getElementById('clientName').value = "";
-            document.getElementById('clientEmail').value = "";
+        .then(response => {
+            if (response.ok) {
+                alert("SUKCES! Sprawdź maila (również SPAM). Jeśli nie widzisz maila, sprawdź folder Oferty/Społeczności."); 
+                cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
+                document.getElementById('clientName').value = "";
+                document.getElementById('clientEmail').value = "";
+            } else {
+                throw new Error('Błąd wysyłania');
+            }
         })
         .catch(() => { 
-            alert("Zamówienie wysłane! (Jeśli nie widzisz maila, sprawdź spam)."); 
+            alert("Błąd połączenia. Spróbuj ponownie lub napisz do nas bezpośrednio."); 
             btn.innerHTML=oldText; btn.disabled=false; 
         });
     }
@@ -1214,6 +1222,7 @@
 
 </body>
 </html>
+
 
 
 
