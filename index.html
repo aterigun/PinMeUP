@@ -1196,7 +1196,7 @@
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
         .then(response => {
             if (response.ok) {
-                alert("SUKCES! Sprawdź maila (również SPAM). Jeśli nie widzisz maila, sprawdź folder Oferty/Społeczności."); 
+                alert("Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 17.12 o 14:00 zdjęcie z Dziekanem Turzyńskim! 🎓\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`"); 
                 cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
                 document.getElementById('clientName').value = "";
                 document.getElementById('clientEmail').value = "";
@@ -1222,6 +1222,7 @@
 
 </body>
 </html>
+
 
 
 
