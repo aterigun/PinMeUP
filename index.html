@@ -24,7 +24,6 @@
 
         html { scroll-behavior: smooth; }
 
-        /* Nowy styl dla opcji płatności */
         .pay-option { 
             display: flex; 
             flex-direction: column; 
@@ -63,7 +62,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- TOAST NOTIFICATION --- */
         #toast {
             visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center;
             border-radius: 50px; padding: 12px 20px; position: fixed; z-index: 9999; left: 50%; bottom: 80px;
@@ -72,7 +70,6 @@
         }
         #toast.show { visibility: visible; opacity: 1; bottom: 90px; }
 
-        /* --- EVENT BANNER --- */
         .event-banner {
             position: fixed; top: 0; left: 0; width: 100%; 
             min-height: var(--banner-height); 
@@ -87,7 +84,6 @@
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .event-highlight { background: rgba(0,0,0,0.2); padding: 1px 6px; border-radius: 4px; margin: 0 3px; display: inline-block; white-space: nowrap; }
 
-        /* --- HEADER --- */
         header { 
             background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             position: fixed; top: 0; margin-top: var(--banner-height); left: 0; width: 100%; 
@@ -109,7 +105,6 @@
         .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
         .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        /* --- MENU --- */
         .main-menu { display: flex; gap: 8px; }
         .menu-link { 
             text-decoration: none; color: #555; font-weight: 700; font-size: 0.75rem; 
@@ -125,7 +120,6 @@
             transition: 0.3s; font-size: 0.9rem; flex-shrink: 0;
         }
 
-        /* MOBILE MENU BUTTON */
         .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
         
         @media (max-width: 900px) {
@@ -143,7 +137,6 @@
         }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- UKŁAD GŁÓWNY --- */
         .main-wrapper { 
             max-width: 1200px; margin: 20px auto; padding: 0 20px; 
             display: grid; 
@@ -166,7 +159,6 @@
             .event-banner { font-size: 0.75rem; padding: 8px; }
         }
 
-        /* --- AKORDEONY --- */
         .accordion-item { 
             background: white; border-radius: var(--radius); margin-bottom: 15px; 
             box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 160px; 
@@ -184,7 +176,6 @@
         .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* --- KARTY --- */
         .card { 
             border: 1px solid #eee; border-radius: 12px; padding: 15px; 
             text-align: center; background: white; transition: 0.3s; height: 100%; 
@@ -196,7 +187,6 @@
             transform: translateY(-5px); 
         }
         
-        /* ZOOM NA OBRAZKU */
         .card img { 
             width: 90px; height: 90px; border-radius: 50%; object-fit: cover; 
             margin-bottom: 10px; border: 3px solid #f5f5f5; align-self: center; 
@@ -222,7 +212,6 @@
         .card.prestige .price { color: #fff; }
         .card.prestige .btn-add { background: var(--accent); color: black; }
 
-        /* Karta Gold dla Dziekana */
         .card.gold-edition {
             background: linear-gradient(135deg, #fffbf0, #fff);
             border: 2px solid #f1c40f;
@@ -232,7 +221,6 @@
         .card.gold-edition h3 { color: #b7950b; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
         .card.gold-edition .btn-add { background: #f1c40f; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.2); }
 
-        /* --- LIGHTBOX --- */
         #lightbox {
             display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center;
@@ -250,7 +238,6 @@
             border-radius: 50%; text-align: center; line-height: 40px;
         }
 
-        /* KOSZYK DESKTOP */
         .cart-wrapper { 
             background: white; padding: 25px; border-radius: var(--radius); 
             position: sticky; top: 130px; box-shadow: 0 5px 25px rgba(0,0,0,0.05); border: 1px solid #eee;
@@ -260,7 +247,6 @@
         .btn-checkout { background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 15px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-size: 1rem; }
         input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
 
-        /* MOBILE STICKY CART */
         #mobile-sticky-cart {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: white; border-top: 1px solid #eee;
@@ -279,14 +265,11 @@
             box-shadow: 0 4px 10px rgba(72, 52, 212, 0.4);
         }
 
-        /* INNE */
         .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #eee; }
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
         .gallery-item img { width: 100%; border-radius: 8px; aspect-ratio: 1/1; object-fit: cover; cursor: zoom-in; transition: 0.3s; }
         .gallery-item img:hover { transform: scale(1.05); }
         .payment-options { display: flex; gap: 10px; margin: 15px 0; }
-        .pay-option { flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
-        .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); font-weight: bold; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
     </style>
 </head>
@@ -310,12 +293,10 @@
 
 <div class="event-banner">
     <div>
-        🚨 STOISKO: 17 & 18 GRUDNIA! FUW, HALL GŁÓWNY
-        <span class="event-highlight">🎡 Koło Fortuny - Wylosuj sobie zniżkę! </span> 
-        <span class="event-highlight">📦 Odbiór zamówień </span> 
-        <br style="display:none;" class="mobile-break">
-        <span class="event-highlight">📸 Fotobudka świąteczna do zdjęć </span>
-        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 17.12 - ZRÓB SOBIE ZDJĘCIE Z DZIEKANEM TURZYŃSKIM!!!</span>
+        🚨 PROMOCJA: <span style="background: yellow; color: red; padding: 0 5px; border-radius: 3px;">3+1 GRATIS!</span> (NA KAŻDY 4. PRODUKT W TEJ SAMEJ CENIE)
+        <span class="event-highlight">🎡 Koło Fortuny </span> 
+        <span class="event-highlight">📸 Fotobudka 17.12 </span> 
+        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 17.12 - ZDJĘCIE Z DZIEKANEM!</span>
     </div>
 </div>
 
@@ -444,7 +425,6 @@
         
                 <div class="grid">
                     <script>
-                        // NOWA LISTA FUW
                         const fuwItems = [
                             { file: "[PL] fuw __ pełne.png", name: "logo wydziału #1" },
                             { file: "[EN] fuw __ pełne.png", name: "logo wydziału #1 eng" },
@@ -537,6 +517,7 @@
                 <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
                     <p style="margin: 0; font-style: italic; line-height: 1.5;">
                         Kiedy słowa to za mało, a sesja wjeżdża za mocno.<br>
+                        Wyraź swój <b>MOOD</b> bez otwierania ust.<br>
                         <span style="font-size: 0.85rem; opacity: 0.8;">(Emotional Support Pins)</span>
                     </p>
                 </div>
@@ -582,9 +563,8 @@
                 </div>
                 <div class="grid" style="background-image: radial-gradient(#e74c3c22 1px, transparent 1px); background-size: 20px 20px;">
                     <script>
-                        // Twoja lista
                         const xmas = [
-                            {name: "Merry Christmas", file: "wmed (46).png"},
+                            {name: "Merry Christmas", file: "wmed (46).png"}, 
                             {name: "Meowy Christmas", file: "wmed (47).png"},
                             {name: "Christmas Pain", file: "wmed (48).png"}
                         ];
@@ -625,7 +605,6 @@
         
                 <div class="grid">
                     <script>
-                        // WPISZ SWOJE NAZWY TUTAJ
                         const prideItems = [
                             { file: "wmed (57).png", name: "nonbinary" },
                             { file: "wmed (52).png", name: "LGBT" },
@@ -697,7 +676,6 @@
             <div class="accordion-content">
                 <div class="grid">
                     <script>
-                        // NAPRAWIONA LISTA (zabezpieczone apostrofy)
                         const borderItems = [
                             { file: "wmed (36).png", name: "im just a physicist" },
                             { file: "wmed (37).png", name: "im just a physicist (bow edition)" },
@@ -748,17 +726,19 @@
                 <div class="grid">
                     <div class="card prestige">
                         <img src="dubajska_czekolada.png" alt="Dubaj" onclick="openLightbox(this.src)">
-                        <s> 150 PLN</s>
+                        <s style="color: #666; font-size: 0.8rem;"> 150 PLN</s>
                         <h3>Dubajska Czekolada (prosto z Dubaju) </h3>
                         <span class="price">15.00 PLN</span>
+                        <div style="color: #666; font-size: 0.7rem; margin-bottom: 5px;">(najniższa cena z 30 dni: 150 PLN)</div>
                         <div class="qty-box"><input type="number" id="qty_dubaj" class="qty-input" value="1"></div>
                         <button class="btn-add" onclick="addItem('Dubajska Czekolada', 15, 'qty_dubaj')">BIORĘ</button>
                     </div>
                     <div class="card prestige">
                         <img src="labubu.png" alt="Labubu" onclick="openLightbox(this.src)">
-                        <h3>Labubu </h3>
-                        <s> 500 PLN</s>
+                        <s style="color: #666; font-size: 0.8rem;"> 500 PLN</s>
                         <span class="price">20.00 PLN</span>
+                        <div style="color: #666; font-size: 0.7rem; margin-bottom: 5px;">(najniższa cena z 30 dni: 500 PLN)</div>
+                        <h3>laFUWu </h3>
                         <div class="qty-box"><input type="number" id="qty_labubu" class="qty-input" value="1"></div>
                         <button class="btn-add" onclick="addItem('Labubu Rare', 20, 'qty_labubu')">BIORĘ</button>
                     </div>
@@ -1031,20 +1011,51 @@
 
         mobileBar.classList.add('visible');
 
+        // GRUPOWANIE PRODUKTÓW DO PROMOCJI 3+1
+        let qtyByPrice = {}; // np. { 5: 10 szt, 7: 4 szt }
+
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
-            if(item.name.includes("Dubajska")) savings += (150 - 15) * item.qty;
-            if(item.name.includes("Labubu")) savings += (500 - 20) * item.qty;
-            if(!item.file && item.qty >= 6) {
-                const discount = Math.floor(item.qty / 6) * item.price;
-                itemTotal -= discount; savings += discount; promoText = "🔥 Promocja 5+1 aktywna!";
-            }
+            
+            // Logika "Stara cena / Omnibus" (tylko wizualnie w karcie produktu, tu nie wpływa na koszyk)
+            // Ale zliczamy produkty do promocji 3+1 tylko jeśli nie są "specjalne" (chyba że chcesz wszystkie)
+            // Zakładam, że promocja dotyczy standardowych pinów (5, 6, 7 zł) a nie np. Dubajskiej za 15 zł.
+            // Ale w Twoim opisie "wszystkich przypinek z tej samej ceny", więc liczę wszystko.
+
+            if (!qtyByPrice[item.price]) qtyByPrice[item.price] = 0;
+            qtyByPrice[item.price] += item.qty;
+
             total += itemTotal;
+            
             container.innerHTML += `<div class="cart-item">
                 <div><strong>${item.name}</strong><br><small style="color:#888;">${item.qty} szt. x ${item.price} zł</small></div>
                 <div>${itemTotal.toFixed(2)} zł <i class="fa-solid fa-trash" style="color:#ff7675; cursor:pointer; margin-left:8px;" onclick="removeItem(${index})"></i></div>
             </div>`;
         });
+
+        // OBLICZANIE RABATU 3+1
+        let promo3plus1 = 0;
+        for (const [price, qty] of Object.entries(qtyByPrice)) {
+            // Co czwarta sztuka gratis
+            const freeItems = Math.floor(qty / 4); 
+            if (freeItems > 0) {
+                const discount = freeItems * price;
+                promo3plus1 += discount;
+                promoText += `<div>🎁 3+1 GRATIS (${price}zł): -${discount.toFixed(2)} zł</div>`;
+            }
+        }
+        
+        total -= promo3plus1;
+        savings += promo3plus1;
+
+        // OBLICZANIE RABATU -10% ZA ILOŚĆ > 15
+        const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
+        if (totalQty > 15) {
+            const bulkDiscount = total * 0.10; // 10% od kwoty już po rabacie 3+1
+            total -= bulkDiscount;
+            savings += bulkDiscount;
+            promoText += `<div>🔥 RABAT HURTOWY (-10%): -${bulkDiscount.toFixed(2)} zł</div>`;
+        }
 
         if(isTip) { total += 1.00; container.innerHTML += `<div class="cart-item" style="color:var(--salmon); border-bottom:none;"><div>❤️ Napiwek</div><div>1.00 zł</div></div>`; }
 
@@ -1052,45 +1063,35 @@
         totalEl.innerText = finalTotal;
         mobileTotalEl.innerText = finalTotal + " PLN";
         
-        document.getElementById('cartCount').innerText = cart.reduce((acc, i) => acc + i.qty, 0);
+        document.getElementById('cartCount').innerText = totalQty;
         promoBox.innerHTML = promoText ? `<div style="background:#e0ffe0; color:#009432; padding:8px; font-size:0.8rem; border-radius:5px; margin-bottom:10px; border:1px solid #b8e994;">${promoText}</div>` : "";
         savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN` : "";
     }
 
     function setPayment(type) {
-            // 1. Ustaw wartość w ukrytym polu
-            document.getElementById('paymentMethod').value = type;
-    
-            // 2. Usuń "active" ze wszystkich przycisków
-            document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
-    
-            // 3. Ukryj WSZYSTKIE okienka informacyjne
-            document.getElementById('info_blik').style.display = 'none';
-            document.getElementById('info_transfer').style.display = 'none';
-            document.getElementById('info_cash').style.display = 'none'; // Ukrywamy też gotówkę na start
-    
-            // 4. Pokaz odpowiednie okienko i podświetl przycisk
-            if (type === 'BLIK') {
-                document.getElementById('opt_blik').classList.add('active');
-                document.getElementById('info_blik').style.display = 'block';
-            } 
-            else if (type === 'PRZELEW') {
-                document.getElementById('opt_transfer').classList.add('active');
-                document.getElementById('info_transfer').style.display = 'block';
-            } 
-            else {
-                // GOTÓWKA
-                document.getElementById('opt_cash').classList.add('active');
-                document.getElementById('info_cash').style.display = 'block'; // Tu się pokazuje info o stoisku
-            }
+        document.getElementById('paymentMethod').value = type;
+        document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
+        document.getElementById('info_blik').style.display = 'none';
+        document.getElementById('info_transfer').style.display = 'none';
+        document.getElementById('info_cash').style.display = 'none';
+        
+        if (type === 'BLIK') {
+            document.getElementById('opt_blik').classList.add('active');
+            document.getElementById('info_blik').style.display = 'block';
+        } else if (type === 'PRZELEW') {
+            document.getElementById('opt_transfer').classList.add('active');
+            document.getElementById('info_transfer').style.display = 'block';
+        } else {
+            document.getElementById('opt_cash').classList.add('active');
+            document.getElementById('info_cash').style.display = 'block';
         }
+    }
 
     function submitOrder() {
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
         const name = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
         
-        // Walidacja
         if(!name || !email) return showToast("Podaj imię i email!");
         if(!email.includes('@')) return showToast("Podaj poprawny e-mail!");
 
@@ -1101,22 +1102,16 @@
 
         const fd = new FormData();
         
-        // --- KONFIGURACJA FORMSUBMIT ---
         fd.append("_captcha", "false"); 
         fd.append("_subject", "NOWE ZAMÓWIENIE: " + name);
-        fd.append("_template", "table"); // To formatuje maila DLA CIEBIE (tabelka)
+        fd.append("_template", "table"); 
 
-        // WAŻNE: Usunąłem _cc, żeby klient nie dostawał kopii Twojego maila.
-        // FormSubmit wyśle autoresponder na adres podany w polu 'email' poniżej.
+        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 17.12 zdjęcie z Dziekanem! 🎓\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
         
-        // --- TREŚĆ DLA KLIENTA ---
-        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\nBędzie na Ciebie czekać:\n- Koło Fortuny 🎡\n- Fotobudka 📸\n- A 18.12 zdjęcie z Dziekanem! 🎓\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
-        
-        fd.append("_autoresponse", autoMessage); // To jest treść maila zwrotnego dla klienta
+        fd.append("_autoresponse", autoMessage); 
 
-        // --- DANE ZAMÓWIENIA ---
         fd.append("Klient", name); 
-        fd.append("email", email); // To pole wskazuje FormSubmit, gdzie wysłać autoresponse
+        fd.append("email", email); 
         fd.append("Metoda Płatności", document.getElementById('paymentMethod').value);
         fd.append("Do Zapłaty", document.getElementById('totalPrice').innerText + " PLN");
 
@@ -1131,7 +1126,6 @@
         }
         fd.append("ZAMÓWIENIE (Szczegóły)", summary);
 
-        // --- WYSYŁKA ---
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
         .then(() => { 
             alert("SUKCES! Zamówienie wysłane. Sprawdź maila (również SPAM), wysłaliśmy Ci potwierdzenie i dane do płatności!"); 
@@ -1157,23 +1151,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
