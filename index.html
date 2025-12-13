@@ -176,6 +176,7 @@
             max-width: 1200px; margin: 20px auto; padding: 0 20px; 
             display: grid; 
             grid-template-columns: 2fr 1.1fr; 
+            /* TO JEST KLUCZOWE: */
             grid-template-areas: "products cart" "gallery cart";
             gap: 40px; align-items: start; 
         }
@@ -346,6 +347,7 @@
         .sticky-group {
             position: sticky;
             top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px);
+            height: fit-content;
         }
         .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 10px 0; font-size: 0.85rem; }
 
@@ -363,7 +365,7 @@
           font-size: 0.9rem;
         }
         .custom-upload-btn:hover {
-          background-color: #ffvlvl; /* nieco ciemniejszy róż */
+          background-color: #ffeaea; /* nieco ciemniejszy róż */
           border-color: #d63031;
           color: #d63031;
           transform: scale(0.98);
@@ -481,7 +483,6 @@
                   </div>
                 </div>
             </div>
-        </div>
 
 
         <div id="acc-logo" class="accordion-item" style="border-left-color: var(--primary);">
@@ -911,6 +912,33 @@
             </div>
         </div>
 
+    <div class="extra-content-box">
+        <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase;">📸 Galeria </h4>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="1000006864.jpg" onclick="openLightbox(this.src)"></div>
+            <div class="gallery-item"><img src="Messenger_creation_75E75DD8-C19C-42AC-AFD5-2ECB8DC7B6FC.png" onclick="openLightbox(this.src)"></div>
+        </div>
+
+        <hr style="margin:20px 0; border:0; border-top:1px dashed #eee;">
+
+        <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
+        <div class="review-box">
+            <small>⭐⭐⭐⭐⭐</small>
+            <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Kupiłem laFUWu na szczęście, żeby zdać egzamin. Zdałem."</p>
+            <strong>~ Marek, II rok</strong>
+        </div>
+        <div class="review-box">
+            <small>⭐⭐⭐⭐⭐</small>
+            <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Koło fortuny to sztos! Dostałam przypinkę za darmo!"</p>
+            <strong>~ Kasia</strong>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <input type="text" id="reviewText" class="field" placeholder="Twoja opinia..." style="margin-bottom:0;">
+            <button class="btn-add" style="width:auto; background:#555; margin-top:0;" onclick="sendReview()">OK</button>
+        </div>
+    </div>
+
     </div>
 
     <div class="sidebar">
@@ -1012,33 +1040,6 @@
         </div>
 
     </div> </div>
-
-    <div class="extra-content-box">
-        <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase;">📸 Galeria </h4>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="1000006864.jpg" onclick="openLightbox(this.src)"></div>
-            <div class="gallery-item"><img src="Messenger_creation_75E75DD8-C19C-42AC-AFD5-2ECB8DC7B6FC.png" onclick="openLightbox(this.src)"></div>
-        </div>
-
-        <hr style="margin:20px 0; border:0; border-top:1px dashed #eee;">
-
-        <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
-        <div class="review-box">
-            <small>⭐⭐⭐⭐⭐</small>
-            <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Kupiłem laFUWu na szczęście, żeby zdać egzamin. Zdałem."</p>
-            <strong>~ Marek, II rok</strong>
-        </div>
-        <div class="review-box">
-            <small>⭐⭐⭐⭐⭐</small>
-            <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Koło fortuny to sztos! Dostałam przypinkę za darmo!"</p>
-            <strong>~ Kasia</strong>
-        </div>
-
-        <div style="display:flex; gap:10px; margin-top:15px;">
-            <input type="text" id="reviewText" class="field" placeholder="Twoja opinia..." style="margin-bottom:0;">
-            <button class="btn-add" style="width:auto; background:#555; margin-top:0;" onclick="sendReview()">OK</button>
-        </div>
-    </div>
 
 </div>
 
@@ -1341,4 +1342,3 @@
 
 </body>
 </html>
-
