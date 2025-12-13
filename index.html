@@ -258,11 +258,13 @@
                     </p>
                 
                     <div style="margin-bottom: 20px;">
-                      <input type="file" id="customFileSelector" accept="image/*" style="display: none;" onchange="previewCustomImage(this)">
+                      <div id="creatorInputWrapper">
+                          <input type="file" id="activeFileInput" accept="image/*" style="display: none;" onchange="previewCustomImage(this)">
+                      </div>
                       
-                      <label for="customFileSelector" class="custom-upload-btn">
+                      <label for="activeFileInput" class="custom-upload-btn">
                         <i class="fa-regular fa-images" style="font-size: 2rem; margin-bottom: 8px;"></i><br>
-                        <span>Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸</span>
+                        <span>Kliknij, aby wybrać zdjęcie<br>z galerii 📸</span>
                       </label>
                 
                       <div id="previewContainer" style="display:none; margin-top: 15px; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
@@ -493,7 +495,7 @@
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_xmas_n_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 6, 'qty_xmas_n_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 5, 'qty_xmas_n_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -576,7 +578,7 @@
         <div id="acc-border" class="accordion-item" style="border-left-color: #9b59b6;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span style="display: flex; align-items: center; gap: 10px;">
-                    BORDERKICIA & friends
+                    🐱 BORDERKICIA & friends
                     <span style="font-size: 11px; font-weight: normal; opacity: 0.6; font-style: italic; letter-spacing: 1px;">
                         ✨ slay ✨
                     </span>
@@ -789,7 +791,7 @@
                 
                 <textarea name="ZAMOWIENIE_SZCZEGOLY" id="hiddenDetails" style="display:none;"></textarea>
                 
-                <div id="fileInputContainer" style="display:none;"></div>
+                <div id="hiddenFileContainer" style="display:none;"></div>
 
                 <button type="button" class="btn-checkout" onclick="prepareAndSubmit()">
                     ZAMAWIAM 🚀
@@ -824,7 +826,8 @@
 
 <script>
     let cart = [];
-    let customFileObject = null; // Przechowuje plik tymczasowo
+    // Licznik załączników, żeby miały unikalne nazwy (attachment1, attachment2...)
+    let attachmentCounter = 0; 
 
     // --- FUNKCJE UI ---
     function openLightbox(src) {
@@ -881,7 +884,7 @@
         renderCart(); showToast(`Dodano: ${name}`);
     }
 
-    // --- KREATOR (ZDJĘCIE) ---
+    // --- KREATOR (OBSŁUGA WIELU ZDJĘĆ) ---
     function previewCustomImage(input) {
       const container = document.getElementById('previewContainer');
       const preview = document.getElementById('imgPreview');
@@ -898,40 +901,63 @@
     }
     
     function clearSelection() {
-      document.getElementById('customFileSelector').value = "";
+      // Czyścimy obecny input
+      document.getElementById('activeFileInput').value = "";
       document.getElementById('previewContainer').style.display = 'none';
       document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
-      customFileObject = null;
     }
     
     function addCustomFile() {
-      const fileInput = document.getElementById('customFileSelector');
+      const fileInput = document.getElementById('activeFileInput');
       const qty = parseInt(document.getElementById('customQty').value);
+      
       if(fileInput.files.length === 0) { showToast("Najpierw wybierz zdjęcie!"); return; }
       
-      // Zapisujemy referencję do pliku w globalnej zmiennej (uproszczenie)
-      // W tym prostym modelu obsługujemy 1 customowy plik na zamówienie w formularzu HTML
-      // Jeśli użytkownik doda więcej, nadpiszemy (dla prostoty HTML form)
-      
-      customFileObject = fileInput.files[0]; 
+      attachmentCounter++;
+      // Nadajemy unikalne ID inputowi, żebyśmy wiedzieli który to
+      const uniqueId = 'file_input_' + attachmentCounter;
+      fileInput.id = uniqueId;
+      fileInput.name = 'attachment' + attachmentCounter; // Unikalna nazwa dla FormSubmit
 
-      cart.push({ name: "Własny Projekt (Custom)", price: 7.00, qty: qty, isCustom: true });
-      
-      // Nie czyścimy inputa, bo będziemy go potrzebować do wysyłki!
-      // Ukrywamy tylko podgląd w kreatorze, żeby wyglądało że "poszło do koszyka"
+      // PRZENOSIMY INPUT DO FORMULARZA (SCHOWKA)
+      document.getElementById('hiddenFileContainer').appendChild(fileInput);
+
+      // Dodajemy do koszyka z referencją do ID inputa
+      cart.push({ 
+          name: "Własny Projekt (Custom) #" + attachmentCounter, 
+          price: 7.00, 
+          qty: qty, 
+          isCustom: true,
+          inputId: uniqueId 
+      });
+
+      // TWORZYMY NOWY CZYSTY INPUT W MIEJSCE STAREGO
+      const newWrapper = document.getElementById('creatorInputWrapper');
+      const newInput = document.createElement('input');
+      newInput.type = 'file';
+      newInput.id = 'activeFileInput'; // Przywracamy standardowe ID dla kreatora
+      newInput.accept = 'image/*';
+      newInput.style.display = 'none';
+      newInput.onchange = function() { previewCustomImage(this); };
+      newWrapper.appendChild(newInput);
+
+      // Reset wizualny kreatora
       document.getElementById('previewContainer').style.display = 'none';
-      document.querySelector('.custom-upload-btn span').innerHTML = "ZDJĘCIE W KOSZYKU! (Dodaj kolejne tylko jeśli inne)";
+      document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
       document.getElementById('customQty').value = 1;
+      
       renderCart();
-      showToast("Dodano Twój projekt!");
+      showToast("Dodano projekt!");
     }
 
     function removeItem(index) { 
-        if(cart[index].isCustom) {
-            // Jeśli usuwamy custom, resetujemy input pliku
-            document.getElementById('customFileSelector').value = "";
-            document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
-            customFileObject = null;
+        const item = cart[index];
+        if(item.isCustom && item.inputId) {
+            // Jeśli usuwamy custom, usuwamy też fizycznie input z formularza
+            const inputToRemove = document.getElementById(item.inputId);
+            if(inputToRemove) {
+                inputToRemove.remove();
+            }
         }
         cart.splice(index, 1); 
         renderCart(); 
@@ -1009,7 +1035,6 @@
         else { document.getElementById('opt_cash').classList.add('active'); document.getElementById('info_cash').style.display = 'block'; }
     }
 
-    // --- KLUCZOWA ZMIANA: WYSYŁKA FORMULARZEM ---
     function prepareAndSubmit() {
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
         
@@ -1019,11 +1044,9 @@
         if(!name || name.length < 2) { alert("Podaj Imię i Nazwisko!"); return; }
         if(!email.includes('@')) { alert("Podaj poprawny E-mail!"); return; }
 
-        // 1. Uzupełnij ukryte pola
         document.getElementById('hiddenTotal').value = document.getElementById('totalPrice').innerText + " PLN";
         document.getElementById('formSubject').value = "NOWE ZAMÓWIENIE: " + name;
 
-        // 2. Generuj tekst zamówienia do textarea
         let details = "";
         cart.forEach(item => {
             details += `- ${item.name} | Ilość: ${item.qty} szt.\n`;
@@ -1033,19 +1056,7 @@
         
         document.getElementById('hiddenDetails').value = details;
 
-        // 3. PRZENOSZENIE PLIKU DO FORMULARZA (Magia HTML)
-        // Jeśli mamy plik customowy, musimy upewnić się, że INPUT FILE jest fizycznie wewnątrz <form>
-        const fileInput = document.getElementById('customFileSelector');
-        const fileContainer = document.getElementById('fileInputContainer');
-        
-        // Przenosimy input z sekcji kreatora do formularza tuż przed wysłaniem
-        // Tylko jeśli wybrano plik
-        if(fileInput.files.length > 0) {
-            fileInput.name = "attachment"; // FormSubmit lubi nazwę 'attachment'
-            fileContainer.appendChild(fileInput); 
-        }
-
-        // 4. WYSYŁAMY FORMULARZ "PO STAREMU"
+        // Formularz jest już gotowy (pliki są w #hiddenFileContainer wewnątrz forma)
         const btn = document.querySelector('.btn-checkout');
         btn.innerHTML = 'PRZEKIEROWYWANIE...';
         btn.disabled = true;
@@ -1053,7 +1064,7 @@
         document.getElementById('orderForm').submit();
     }
 
-    // --- ODDZIELNA FUNKCJA DLA OPINII (ZOSTAWIAMY FETCH BO MNIEJ WAŻNE) ---
+    const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
     function sendReview() {
         const text = document.getElementById('reviewText').value;
         if(!text) return showToast("Wpisz treść opinii!");
