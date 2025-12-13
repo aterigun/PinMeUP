@@ -328,6 +328,35 @@
         .gallery-item img:hover { transform: scale(1.05); }
         .payment-options { display: flex; gap: 10px; margin: 15px 0; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+
+        /* --- NOWE STYLE DLA KONTAKTU --- */
+        .contact-box {
+            background: white; 
+            padding: 25px; 
+            border-radius: var(--radius); 
+            box-shadow: var(--shadow); 
+            border: 1px solid #eee; 
+            margin-top: 20px; 
+            text-align: center;
+        }
+        .contact-btn {
+            flex: 1; 
+            padding: 10px; 
+            border-radius: 8px; 
+            text-decoration: none;
+            font-weight: bold; 
+            font-size: 0.85rem; 
+            display: flex; 
+            align-items: center;
+            justify-content: center; 
+            gap: 8px; 
+            transition: 0.2s; 
+            color: white !important; /* Wymuszenie bieli */
+        }
+        .contact-btn:hover { transform: translateY(-2px); }
+        .contact-btn.fb { background: #1877F2; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3); }
+        .contact-btn.mail { background: #2d3436; box-shadow: 0 4px 10px rgba(45, 52, 54, 0.3); }
+        
     </style>
 </head>
 <body>
@@ -906,7 +935,7 @@
                     </div>
                 </div>
     
-                <input type="hidden" id="paymentMethod" name="payment" value="BLIK">
+                <input type="hidden" id="paymentMethod" value="BLIK">
     
                 <div class="pay-info-box" id="info_blik" style="display:block; background:#ffebeb; color:#d63031; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #fab1a0;">
                     <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew BLIK na telefon:</strong>
@@ -919,7 +948,7 @@
                     Nr konta:<br>
                     <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
                 </div>
-
+    
                 <div class="pay-info-box" id="info_cash" style="display:none; background:#edf7ed; color:#2e7d32; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #a5d6a7;">
                     <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-hand-holding-dollar"></i> Płatność przy odbiorze:</strong>
                     Zapraszamy na nasze stoisko:<br>
@@ -927,12 +956,29 @@
                     (Wydział Fizyki, hall główny)
                 </div>
     
-                <input type="text" id="clientName" name="name" class="field" placeholder="Imię i Nazwisko" required>
-                <input type="email" id="clientEmail" name="email" class="field" placeholder="Twój E-mail" required>
+                <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
+                <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
                 
                 <button class="btn-checkout" onclick="submitOrder()">
                     ZAMAWIAM 🚀
                 </button>
+            </div>
+        </div>
+    
+        <div class="contact-box">
+            <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase; margin-bottom: 5px;">
+                <i class="fa-regular fa-comments"></i> Masz pytania?
+            </h4>
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">
+                Nie wiesz co wybrać? Napisz do nas!
+            </p>
+            <div style="display: flex; gap: 10px;">
+                <a href="https://www.facebook.com/profile.php?id=61584627429588" target="_blank" class="contact-btn fb">
+                    <i class="fa-brands fa-facebook"></i> Facebook
+                </a>
+                <a href="mailto:pinmeup.fuw@gmail.com" class="contact-btn mail">
+                    <i class="fa-solid fa-envelope"></i> E-mail
+                </a>
             </div>
         </div>
     </div>
@@ -1222,6 +1268,7 @@
 
 </body>
 </html>
+
 
 
 
