@@ -279,13 +279,14 @@
                             {name: "SKuNKs", file: "skunks.png"}
                         ];
                         logos.forEach((item, i) => {
+                            const escapedName = item.name.replace(/'/g, "\\'");
                             document.write(`
                             <div class="card">
                                 <img src="${item.file}" alt="${item.name}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=LOGO'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_logo_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" onclick="addItem('${item.name}', 5, 'qty_logo_${i}')">DODAJ</button>
+                                <button class="btn-add" onclick="addItem('${escapedName}', 5, 'qty_logo_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -328,13 +329,14 @@
                             { file: "wmed (3).png", name: "czarna dziura" }
                         ];
                         fuwItems.forEach((item, i) => {
+                            const escapedName = item.name.replace(/'/g, "\\'");
                             document.write(`
                             <div class="card">
                                 <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=FUW'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_fuw_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #f37034;" onclick="addItem('${item.name}', 5, 'qty_fuw_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #f37034;" onclick="addItem('${escapedName}', 5, 'qty_fuw_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -451,13 +453,14 @@
                             {name: "the only gift i want", file: "alliwantforchristmas.png"}
                         ];
                         xmas.forEach((item, i) => {
+                            const escapedName = item.name.replace(/'/g, "\\'");
                             document.write(`
                             <div class="card" style="border: 1px solid #fab1a0;">
                                 <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=XMAS'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_xmas_n_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 6, 'qty_xmas_n_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${escapedName}', 5, 'qty_xmas_n_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -496,13 +499,14 @@
                             { file: "begaydocrime.png", name: "#begaydocrime" }
                         ];
                         prideItems.forEach((item, i) => {
+                            const escapedName = item.name.replace(/'/g, "\\'");
                             document.write(`
                             <div class="card">
                                 <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=PRIDE'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_pride_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background: #e84393;" onclick="addItem('${item.name}', 5, 'qty_pride_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background: #e84393;" onclick="addItem('${escapedName}', 5, 'qty_pride_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -566,13 +570,14 @@
                             { file: "dontworrybecappy.png", name: "dont worry be cappy" }
                         ];
                         borderItems.forEach((item, i) => {
+                            const escapedName = item.name.replace(/'/g, "\\'");
                             document.write(`
                             <div class="card">
                                 <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_border_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #9b59b6;" onclick="addItem('${item.name}', 5, 'qty_border_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #9b59b6;" onclick="addItem('${escapedName}', 5, 'qty_border_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -714,7 +719,7 @@
     
             <form id="orderForm" action="https://formsubmit.co/pinmeup.fuw@gmail.com" method="POST" enctype="multipart/form-data" onsubmit="return debugPrepare()" style="margin-top:20px;">
                 
-                <input type="hidden" name="_captcha" value="true">
+                <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_subject" id="formSubject" value="NOWE ZAMÓWIENIE">
                 <input type="hidden" name="_cc" id="ccEmail" value="">
@@ -790,6 +795,9 @@
     console.log("Skrypt załadowany.");
     let cart = [];
     let attachmentCounter = 0; 
+
+    // --- HELPERS ---
+    // String escaping is handled inline in each forEach loop
 
     // --- UI ---
     function openLightbox(src) {
