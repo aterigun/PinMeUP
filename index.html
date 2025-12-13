@@ -264,7 +264,7 @@
                       
                       <label for="activeFileInput" class="custom-upload-btn">
                         <i class="fa-regular fa-images" style="font-size: 2rem; margin-bottom: 8px;"></i><br>
-                        <span>Kliknij, aby wybrać zdjęcie<br>z galerii 📸</span>
+                        <span>Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸</span>
                       </label>
                 
                       <div id="previewContainer" style="display:none; margin-top: 15px; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
@@ -578,7 +578,7 @@
         <div id="acc-border" class="accordion-item" style="border-left-color: #9b59b6;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span style="display: flex; align-items: center; gap: 10px;">
-                    🐱 BORDERKICIA & friends
+                    BORDERKICIA & friends
                     <span style="font-size: 11px; font-weight: normal; opacity: 0.6; font-style: italic; letter-spacing: 1px;">
                         ✨ slay ✨
                     </span>
@@ -750,11 +750,11 @@
                 </div>
             </div>
     
-            <form id="orderForm" action="https://formsubmit.co/pinmeup.fuw@gmail.com" method="POST" enctype="multipart/form-data" style="margin-top:20px;">
+            <form id="orderForm" action="https://formsubmit.co/pinmeup.fuw@gmail.com" method="POST" enctype="multipart/form-data" onsubmit="return prepareAndSubmit()" style="margin-top:20px;">
                 
-                <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_subject" id="formSubject" value="NOWE ZAMÓWIENIE">
+                <input type="hidden" name="_cc" id="ccEmail" value="">
                 <input type="hidden" name="_autoresponse" value="Hej! Dzięki za zamówienie w PIN ME UP! Twoje przypinki są już w drodze do realizacji. Odbiór 17-18 Grudnia na FUW. Płatność: BLIK (+48 698 793 950) lub Przelew. Do zobaczenia!">
                 
                 <h4 style="margin:0 0 10px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Wybierz metodę płatności:</h4>
@@ -793,9 +793,12 @@
                 
                 <div id="hiddenFileContainer" style="display:none;"></div>
 
-                <button type="button" class="btn-checkout" onclick="prepareAndSubmit()">
+                <button type="submit" class="btn-checkout">
                     ZAMAWIAM 🚀
                 </button>
+                <div style="font-size:0.75rem; color:red; text-align:center; margin-top:5px;">
+                    * Po kliknięciu potwierdź, że nie jesteś robotem!
+                </div>
             </form>
         </div>
 
@@ -826,7 +829,6 @@
 
 <script>
     let cart = [];
-    // Licznik załączników, żeby miały unikalne nazwy (attachment1, attachment2...)
     let attachmentCounter = 0; 
 
     // --- FUNKCJE UI ---
@@ -904,7 +906,7 @@
       // Czyścimy obecny input
       document.getElementById('activeFileInput').value = "";
       document.getElementById('previewContainer').style.display = 'none';
-      document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
+      document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z galerii 📸";
     }
     
     function addCustomFile() {
@@ -1035,14 +1037,21 @@
         else { document.getElementById('opt_cash').classList.add('active'); document.getElementById('info_cash').style.display = 'block'; }
     }
 
+    // --- WAŻNE: TA FUNKCJA TERAZ TYLKO PRZYGOTOWUJE DANE, ALE NIE WYSYŁA SAMA ---
     function prepareAndSubmit() {
-        if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
+        if(cart.length === 0 && !document.getElementById('tipCheck').checked) {
+            showToast("Koszyk jest pusty!");
+            return false; // ZATRZYMUJE WYSYŁANIE
+        }
         
         const name = document.getElementById('clientName').value.trim();
         const email = document.getElementById('clientEmail').value.trim();
 
-        if(!name || name.length < 2) { alert("Podaj Imię i Nazwisko!"); return; }
-        if(!email.includes('@')) { alert("Podaj poprawny E-mail!"); return; }
+        if(!name || name.length < 2) { alert("Podaj Imię i Nazwisko!"); return false; }
+        if(!email.includes('@')) { alert("Podaj poprawny E-mail!"); return false; }
+
+        // Ustawiamy CC na mail klienta (żeby widział czy doszło)
+        document.getElementById('ccEmail').value = email;
 
         document.getElementById('hiddenTotal').value = document.getElementById('totalPrice').innerText + " PLN";
         document.getElementById('formSubject').value = "NOWE ZAMÓWIENIE: " + name;
@@ -1056,12 +1065,8 @@
         
         document.getElementById('hiddenDetails').value = details;
 
-        // Formularz jest już gotowy (pliki są w #hiddenFileContainer wewnątrz forma)
-        const btn = document.querySelector('.btn-checkout');
-        btn.innerHTML = 'PRZEKIEROWYWANIE...';
-        btn.disabled = true;
-        
-        document.getElementById('orderForm').submit();
+        // Pozwalamy formularzowi się wysłać
+        return true;
     }
 
     const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
