@@ -18,12 +18,9 @@
             --glass: rgba(255, 255, 255, 0.98);
             --shadow: 0 10px 40px -10px rgba(72, 52, 212, 0.15);
             --radius: 16px;
-            
-            /* WYMIARY BANERÓW */
             --banner-1-height: 60px;
             --banner-2-height: 45px;
             --header-height: 70px;
-
             --top-gap: 0px;
         }
 
@@ -41,283 +38,122 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- TOAST NOTIFICATION --- */
         #toast {
-            visibility: hidden; 
-            min-width: 200px; 
-            background-color: #2d3436; 
-            color: #fff; 
-            text-align: center;
-            border-radius: 50px; 
-            padding: 12px 25px; 
-            position: fixed; 
-            z-index: 10000; 
-            left: 50%; 
-            bottom: 20px; 
-            transform: translateX(-50%); 
-            font-size: 0.9rem; 
-            font-weight: 600;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            opacity: 0; 
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            white-space: nowrap; 
+            visibility: hidden; min-width: 200px; background-color: #2d3436; color: #fff; text-align: center;
+            border-radius: 50px; padding: 12px 25px; position: fixed; z-index: 10000; left: 50%; bottom: 20px; 
+            transform: translateX(-50%); font-size: 0.9rem; font-weight: 600; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            opacity: 0; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); white-space: nowrap; 
         }
-        
-        #toast.show { 
-            visibility: visible; 
-            opacity: 1; 
-            bottom: 100px;
-        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
 
-        /* --- 1. STARY BANER (EVENT) --- */
         .event-banner {
-            position: fixed; 
-            top: var(--top-gap); 
-            left: 0; width: 100%; 
-            height: var(--banner-1-height); 
-            background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); 
-            background-size: 200% 200%; color: white;
-            display: flex; justify-content: center; align-items: center; 
-            font-size: 0.85rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.5px; z-index: 1003; 
-            animation: gradientMove 5s ease infinite;
-            text-align: center; padding: 0 10px; box-sizing: border-box;
+            position: fixed; top: var(--top-gap); left: 0; width: 100%; height: var(--banner-1-height); 
+            background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200% 200%; color: white;
+            display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 0.5px; z-index: 1003; animation: gradientMove 5s ease infinite; text-align: center; padding: 0 10px; box-sizing: border-box;
         }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .event-highlight { background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; margin: 0 3px; display: inline-block; }
 
-        /* --- 2. NOWY BANER (SALE) --- */
         .promo-banner {
-            position: fixed; 
-            top: calc(var(--top-gap) + var(--banner-1-height)); 
-            left: 0; width: 100%; 
-            height: var(--banner-2-height);
-            background: #fff200; 
-            color: #d63031; 
-            display: flex; align-items: center; overflow: hidden;
-            border-bottom: 3px solid #d63031;
-            z-index: 1002;
-            white-space: nowrap;
+            position: fixed; top: calc(var(--top-gap) + var(--banner-1-height)); left: 0; width: 100%; height: var(--banner-2-height);
+            background: #fff200; color: #d63031; display: flex; align-items: center; overflow: hidden; border-bottom: 3px solid #d63031;
+            z-index: 1002; white-space: nowrap;
         }
-        
-        .marquee {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 25s linear infinite;
-            font-weight: 900;
-            font-size: 1rem;
-            text-transform: uppercase;
-        }
-        @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
+        .marquee { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; font-weight: 900; font-size: 1rem; text-transform: uppercase; }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* --- HEADER --- */
         header { 
             background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            position: fixed; 
-            top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height)); 
-            left: 0; width: 100%; 
+            position: fixed; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height)); left: 0; width: 100%; 
             height: var(--header-height); z-index: 1001; border-bottom: 1px solid rgba(255,255,255,0.3); 
             box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s;
         }
         
         @media (max-width: 900px) {
-            :root { --top-gap: 0px; }
-            header { height: auto; padding: 10px 0; flex-wrap: wrap; }
+            :root { --top-gap: 0px; } header { height: auto; padding: 10px 0; flex-wrap: wrap; }
             .marquee { animation: marquee 30s linear infinite; font-size: 0.85rem; } 
-            .event-banner { font-size: 0.7rem; line-height: 1.1; }
-            .mobile-break { display: inline !important; }
+            .event-banner { font-size: 0.7rem; line-height: 1.1; } .mobile-break { display: inline !important; }
         }
 
-        .nav-inner { 
-            max-width: 1200px; width: 100%; margin: 0 auto; display: flex; 
-            justify-content: space-between; align-items: center; padding: 0 20px; 
-        }
-
+        .nav-inner { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
         .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
         .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
 
         .main-menu { display: flex; gap: 8px; }
-        .menu-link { 
-            text-decoration: none; color: #555; font-weight: 700; font-size: 0.75rem; 
-            padding: 8px 12px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer;
-        }
+        .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.75rem; padding: 8px 12px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; }
         .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
         .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
         .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
 
-        .cart-btn-desktop { 
-            background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; 
-            font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; 
-            transition: 0.3s; font-size: 0.9rem; flex-shrink: 0;
-        }
-
+        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.9rem; flex-shrink: 0; }
         .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
         
         @media (max-width: 900px) {
-            .nav-inner { flex-wrap: wrap; }
-            .logo { flex: 1; justify-content: flex-start; }
-            .cart-btn-desktop { display: none; }
+            .nav-inner { flex-wrap: wrap; } .logo { flex: 1; justify-content: flex-start; } .cart-btn-desktop { display: none; }
             .mobile-menu-toggle { display: block; } 
-            .main-menu { 
-                display: none; flex-direction: column; width: 100%; background: white; margin-top: 10px; border-top: 1px solid #eee; padding: 10px 0;
-                animation: fadeInMenu 0.3s ease;
-                max-height: 60vh; overflow-y: auto;
-            }
-            .main-menu.open { display: flex; }
-            .menu-link { display: block; width: 100%; text-align: left; padding: 12px 10px; border-bottom: 1px solid #f9f9f9; border-radius: 0; }
+            .main-menu { display: none; flex-direction: column; width: 100%; background: white; margin-top: 10px; border-top: 1px solid #eee; padding: 10px 0; animation: fadeInMenu 0.3s ease; max-height: 60vh; overflow-y: auto; }
+            .main-menu.open { display: flex; } .menu-link { display: block; width: 100%; text-align: left; padding: 12px 10px; border-bottom: 1px solid #f9f9f9; border-radius: 0; }
             .menu-link:active { background: #f0f0f0; }
         }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
         .main-wrapper { 
-            max-width: 1200px; margin: 20px auto; padding: 0 20px; 
-            display: grid; 
-            grid-template-columns: 2fr 1.1fr; 
-            /* TO JEST KLUCZOWE: */
-            grid-template-areas: "products cart" "gallery cart";
-            gap: 40px; align-items: start; 
+            max-width: 1200px; margin: 20px auto; padding: 0 20px; display: grid; 
+            grid-template-columns: 2fr 1.1fr; grid-template-areas: "products cart" "gallery cart"; gap: 40px; align-items: start; 
         }
-
-        .content-col { grid-area: products; }
-        .sidebar { grid-area: cart; }
-        .extra-content-box { grid-area: gallery; }
-
+        .content-col { grid-area: products; } .sidebar { grid-area: cart; } .extra-content-box { grid-area: gallery; }
         @media (max-width: 900px) {
-            .main-wrapper { 
-                grid-template-columns: 1fr; 
-                grid-template-areas: "products" "cart" "gallery";
-                padding: 0 15px; gap: 20px; margin-top: 10px;
-            }
+            .main-wrapper { grid-template-columns: 1fr; grid-template-areas: "products" "cart" "gallery"; padding: 0 15px; gap: 20px; margin-top: 10px; }
             .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
         }
 
-        .accordion-item { 
-            background: white; border-radius: var(--radius); margin-bottom: 15px; 
-            box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 240px;
-            border-left: 5px solid #ccc; transition: transform 0.2s;
-        }
-        .accordion-item.rainbow-border {
-            border-left: none !important;
-            background-image: linear-gradient(to bottom, #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff);
-            background-size: 6px 100%; background-repeat: no-repeat;
-        }
+        .accordion-item { background: white; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 240px; border-left: 5px solid #ccc; transition: transform 0.2s; }
+        .accordion-item.rainbow-border { border-left: none !important; background-image: linear-gradient(to bottom, #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff); background-size: 6px 100%; background-repeat: no-repeat; }
         .accordion-item.rainbow-border .accordion-header, .accordion-item.rainbow-border .accordion-content { margin-left: 6px; background: white; }
-
         .accordion-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; color: var(--primary); background: white; }
         .accordion-content { display: none; padding: 20px; border-top: 1px solid #f0f0f0; background: white; }
         .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-        .card { 
-            border: 1px solid #eee; border-radius: 12px; padding: 15px; 
-            text-align: center; background: white; transition: 0.3s; height: 100%; 
-            display: flex; flex-direction: column; justify-content: space-between; 
-            box-sizing: border-box; overflow: hidden; 
-        }
-        .card:hover { 
-            border-color: var(--salmon); box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
-            transform: translateY(-5px); 
-        }
-        
-        .card img { 
-            width: 90px; height: 90px; border-radius: 50%; object-fit: cover; 
-            margin-bottom: 10px; border: 3px solid #f5f5f5; align-self: center; 
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            cursor: zoom-in;
-        }
+        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.3s; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; overflow: hidden; }
+        .card:hover { border-color: var(--salmon); box-shadow: 0 15px 30px rgba(0,0,0,0.1); transform: translateY(-5px); }
+        .card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f5f5f5; align-self: center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: zoom-in; }
         .card:hover img { transform: scale(1.15) rotate(3deg); }
-
         .card h3 { font-size: 0.85rem; margin: 5px 0; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.2; word-break: break-word; }
         .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
         .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; font-size: 16px; }
         .btn-add { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top:5px; transition:0.2s; font-size: 0.85rem; }
-        
-        @media (max-width: 900px) {
-            .card { padding: 10px; }
-            .card img { width: 70px; height: 70px; }
-            .card h3 { font-size: 0.75rem; }
-            .btn-add { padding: 8px 0; font-size: 0.75rem; }
-        }
+        @media (max-width: 900px) { .card { padding: 10px; } .card img { width: 70px; height: 70px; } .card h3 { font-size: 0.75rem; } .btn-add { padding: 8px 0; font-size: 0.75rem; } }
 
-        .card.prestige { background: #222; color: white; border: 1px solid var(--accent); }
-        .card.prestige h3 { color: var(--accent); }
-        .card.prestige .price { color: #fff; }
-        .card.prestige .btn-add { background: var(--accent); color: black; }
+        .card.prestige { background: #222; color: white; border: 1px solid var(--accent); } .card.prestige h3 { color: var(--accent); } .card.prestige .price { color: #fff; } .card.prestige .btn-add { background: var(--accent); color: black; }
+        .card.gold-edition { background: linear-gradient(135deg, #fffbf0, #fff); border: 2px solid #f1c40f; box-shadow: 0 0 15px rgba(241, 196, 15, 0.3); }
+        .card.gold-edition img { border-color: #f1c40f; } .card.gold-edition h3 { color: #b7950b; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; } .card.gold-edition .btn-add { background: #f1c40f; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.2); }
 
-        .card.gold-edition {
-            background: linear-gradient(135deg, #fffbf0, #fff);
-            border: 2px solid #f1c40f;
-            box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
-        }
-        .card.gold-edition img { border-color: #f1c40f; }
-        .card.gold-edition h3 { color: #b7950b; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
-        .card.gold-edition .btn-add { background: #f1c40f; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.2); }
-
-        #lightbox {
-            display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
+        #lightbox { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         #lightbox.visible { display: flex; opacity: 1; }
-        #lightbox img { 
-            max-width: 90%; max-height: 80%; border-radius: 10px; 
-            box-shadow: 0 0 20px rgba(255,255,255,0.2); transform: scale(0.8); transition: transform 0.3s;
-        }
+        #lightbox img { max-width: 90%; max-height: 80%; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2); transform: scale(0.8); transition: transform 0.3s; }
         #lightbox.visible img { transform: scale(1); }
-        .close-lightbox {
-            position: absolute; top: 20px; right: 20px; color: white; font-size: 2rem; 
-            cursor: pointer; background: rgba(0,0,0,0.5); width: 40px; height: 40px; 
-            border-radius: 50%; text-align: center; line-height: 40px;
-        }
+        .close-lightbox { position: absolute; top: 20px; right: 20px; color: white; font-size: 2rem; cursor: pointer; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; }
 
-        .pay-option { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            border: 1px solid #ddd; padding: 10px 5px; text-align: center; border-radius: 8px; 
-            cursor: pointer; font-size: 0.8rem; transition: all 0.2s; background: #fafafa; color: #777;
-        }
+        .pay-option { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #ddd; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; background: #fafafa; color: #777; }
         .pay-option:hover { background: #f0f0f0; }
         .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); font-weight: bold; box-shadow: 0 4px 10px rgba(72, 52, 212, 0.15); }
 
         .cart-wrapper { 
-            background: white; padding: 25px; border-radius: var(--radius); 
-            position: static !important; top: auto !important; 
-            border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.03); 
-            border: 1px solid #eee;
+            background: white; padding: 25px; border-radius: var(--radius); position: static !important; top: auto !important; 
+            border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none; box-shadow: 0 -5px 25px rgba(0,0,0,0.03); border: 1px solid #eee;
         }
-        .cart-items { 
-            margin-bottom: 15px; 
-            max-height: 25vh; min-height: 50px;
-            overflow-y: auto; 
-            padding-right: 5px; 
-        }
-        .cart-items::-webkit-scrollbar { width: 6px; }
-        .cart-items::-webkit-scrollbar-track { background: #f1f1f1; }
-        .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+        .cart-items { margin-bottom: 15px; max-height: 25vh; min-height: 50px; overflow-y: auto; padding-right: 5px; }
+        .cart-items::-webkit-scrollbar { width: 6px; } .cart-items::-webkit-scrollbar-track { background: #f1f1f1; } .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
         .btn-checkout { background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 15px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-size: 1rem; }
         input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
 
-        #mobile-sticky-cart {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: white; border-top: 1px solid #eee;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-            padding: 12px 20px; display: none; 
-            justify-content: space-between; align-items: center; z-index: 2000;
-            box-sizing: border-box;
-        }
+        #mobile-sticky-cart { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #eee; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); padding: 12px 20px; display: none; justify-content: space-between; align-items: center; z-index: 2000; box-sizing: border-box; }
         @media (max-width: 900px) { #mobile-sticky-cart.visible { display: flex; } }
-
-        .m-cart-info { font-size: 0.9rem; color: #333; }
-        .m-cart-total { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
-        .m-cart-btn { 
-            background: var(--primary); color: white; padding: 10px 20px; 
-            border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 0.9rem;
-            box-shadow: 0 4px 10px rgba(72, 52, 212, 0.4);
-        }
+        .m-cart-info { font-size: 0.9rem; color: #333; } .m-cart-total { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
+        .m-cart-btn { background: var(--primary); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(72, 52, 212, 0.4); }
 
         .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #eee; }
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
@@ -326,50 +162,17 @@
         .payment-options { display: flex; gap: 10px; margin: 15px 0; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
 
-        /* --- KONTAKT & SIDEBAR --- */
-        .contact-box {
-            background: #fdfdfd; padding: 20px; 
-            border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius);
-            border-top-left-radius: 0; border-top-right-radius: 0;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee; 
-            border-top: 1px dashed #ddd; margin-top: 0; text-align: center;
-        }
-        .contact-btn {
-            flex: 1; padding: 10px; border-radius: 8px; 
-            text-decoration: none; font-weight: bold; font-size: 0.85rem; 
-            display: flex; align-items: center; justify-content: center; gap: 8px; 
-            transition: 0.2s; color: white !important;
-        }
+        .contact-box { background: #fdfdfd; padding: 20px; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); border-top-left-radius: 0; border-top-right-radius: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee; border-top: 1px dashed #ddd; margin-top: 0; text-align: center; }
+        .contact-btn { flex: 1; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; color: white !important; }
         .contact-btn:hover { transform: translateY(-2px); }
         .contact-btn.fb { background: #1877F2; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3); }
         .contact-btn.mail { background: #2d3436; box-shadow: 0 4px 10px rgba(45, 52, 54, 0.3); }
 
-        .sticky-group {
-            position: sticky;
-            top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px);
-            height: fit-content;
-        }
+        .sticky-group { position: sticky; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); height: fit-content; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 10px 0; font-size: 0.85rem; }
 
-        /* --- STYL DLA KREATORA --- */
-        .custom-upload-btn {
-          display: block;
-          border: 2px dashed #ff7675;
-          background-color: #fff5f5;
-          color: #ff7675;
-          padding: 25px 10px;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: 0.3s;
-          font-weight: bold;
-          font-size: 0.9rem;
-        }
-        .custom-upload-btn:hover {
-          background-color: #ffeaea; /* nieco ciemniejszy róż */
-          border-color: #d63031;
-          color: #d63031;
-          transform: scale(0.98);
-        }
+        .custom-upload-btn { display: block; border: 2px dashed #ff7675; background-color: #fff5f5; color: #ff7675; padding: 25px 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 0.9rem; }
+        .custom-upload-btn:hover { background-color: #ffeaea; border-color: #d63031; color: #d63031; transform: scale(0.98); }
         
     </style>
 </head>
@@ -455,9 +258,9 @@
                     </p>
                 
                     <div style="margin-bottom: 20px;">
-                      <input type="file" id="customFile" accept="image/*" style="display: none;" onchange="previewCustomImage(this)">
+                      <input type="file" id="customFileSelector" accept="image/*" style="display: none;" onchange="previewCustomImage(this)">
                       
-                      <label for="customFile" class="custom-upload-btn">
+                      <label for="customFileSelector" class="custom-upload-btn">
                         <i class="fa-regular fa-images" style="font-size: 2rem; margin-bottom: 8px;"></i><br>
                         <span>Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸</span>
                       </label>
@@ -481,9 +284,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
             </div>
-
+        </div>
 
         <div id="acc-logo" class="accordion-item" style="border-left-color: var(--primary);">
             <div class="accordion-header" onclick="toggleAcc(this)">
@@ -535,7 +337,6 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                
                 <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
                     <p style="margin: 0; font-style: italic; line-height: 1.5;">
                         Zbiór wszystkiego co związane z FUW-em.<br>
@@ -543,7 +344,6 @@
                         – w jednym miejscu, żeby nie przeszukiwać wszystkich sekcji (chociaż serdecznie zachęcamy!).
                     </p>
                 </div>
-        
                 <div class="grid">
                     <script>
                         const fuwItems = [
@@ -563,7 +363,6 @@
                             { file: "wmed (19).png", name: "najwazniejszy filar wydziału" },
                             { file: "wmed (3).png", name: "czarna dziura" }
                         ];
-        
                         fuwItems.forEach((item, i) => {
                             document.write(`
                             <div class="card">
@@ -598,7 +397,6 @@
                         Kupując ten pin, +10 do zdawalności egzaminów. (Niepotwierdzone info)
                     </small>
                 </div>
-                
                 <div class="grid">
                     <div class="card gold-edition">
                         <img src="dziekan.png" alt="Dziekan Turzyński" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=DZIEKAN'">
@@ -608,18 +406,15 @@
                         <div class="qty-box"><input type="number" id="qty_fame_1" class="qty-input" value="1"></div>
                         <button class="btn-add" onclick="addItem('Dziekan Turzyński (Gold)', 10, 'qty_fame_1')">BIORĘ TO</button>
                     </div>
-        
                     <div class="card gold-edition">
                         <div style="height: 90px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #b7950b;">
                             <i class="fa-solid fa-camera-retro"></i>
                         </div>
                         <span style="font-size: 10px; color: #d35400; font-weight: bold;">📅 17 GRUDNIA @ STOISKO</span>
                         <h3>TY + DZIEKAN<br><span style="font-size: 0.8rem; font-weight: normal;">(Custom Foto Pin)</span></h3>
-                        
                         <p style="font-size: 0.75rem; margin: 5px 0 10px 0; line-height: 1.3;">
                             Wpadnij na stoisko, strzel sobie <b>fotkę z Dziekanem Turzyńskim</b> w fotobudce i zrobimy Ci z tego pina na miejscu!
                         </p>
-        
                         <span class="price" style="color:#b7950b;">10.00 PLN</span>
                         <div class="qty-box"><input type="number" id="qty_fame_2" class="qty-input" value="1"></div>
                         <button class="btn-add" onclick="addItem('Foto z Dziekanem (Fotobudka)', 10, 'qty_fame_2')">REZERWUJĘ SLOT</button>
@@ -634,7 +429,6 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                
                 <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
                     <p style="margin: 0; font-style: italic; line-height: 1.5;">
                         Kiedy słowa to za mało, a sesja wjeżdża za mocno.<br>
@@ -642,7 +436,6 @@
                         <span style="font-size: 0.85rem; opacity: 0.8;">(Emotional Support Pins)</span>
                     </p>
                 </div>
-        
                 <div class="grid">
                     <script>
                         const memy = [
@@ -693,7 +486,6 @@
                             {name: "purrfect lights", file: "purrfect_lights.png"},
                             {name: "the only gift i want", file: "alliwantforchristmas.png"}
                         ];
-        
                         xmas.forEach((item, i) => {
                             document.write(`
                             <div class="card" style="border: 1px solid #fab1a0;">
@@ -720,14 +512,12 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                
                 <div style="text-align: center; padding: 10px; margin-bottom: 15px; color: #636e72;">
                     <p style="margin: 0; font-style: italic;">
                         Bądź sobą, kochaj kogo chcesz i noś te barwy z dumą! 💖<br>
                         <b>Equality, Respect & Gay Power.</b>
                     </p>
                 </div>
-        
                 <div class="grid">
                     <script>
                         const prideItems = [
@@ -741,7 +531,6 @@
                             { file: "aseks.png", name: "aseks" },
                             { file: "begaydocrime.png", name: "#begaydocrime" }
                         ];
-        
                         prideItems.forEach((item, i) => {
                             document.write(`
                             <div class="card">
@@ -764,24 +553,18 @@
             </div>
             <div class="accordion-content">
                 <div style="display:flex; align-items:center; gap:15px; background: linear-gradient(145deg, #2d3436, #000000); color: #fff; padding:20px; border-radius:12px; border: 1px solid #444;">
-                    
                     <div style="font-size:3.5rem; width:80px; text-align:center; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">❓</div>
-                    
                     <div style="flex: 1;">
                         <strong style="color: #a29bfe; font-size: 1.1rem; letter-spacing: 1px;">TOTALNY RANDOM</strong>
                         <p style="margin:5px 0 15px 0; font-size:0.9rem; opacity: 0.8; line-height: 1.4;">
                             W środku może być <b>DOSŁOWNIE WSZYSTKO</b>. Unikat, prototyp, albo coś z głównej kolekcji... Może znajdziesz tutaj Dziekana?<br>
                             <span style="font-style: italic;">Ryzykujesz 4 ziko?</span>
                         </p>
-                        
                         <div style="display:flex; gap:10px; align-items: center;">
                             <input type="number" id="qty_blind" class="qty-input" value="1" style="background: #fff; color: #000; border: none;">
-                            
-                            <button class="btn-add" 
-                                style="background: #a29bfe; color: #000; width:auto; padding:8px 25px; font-weight: bold; border:none; transition: 0.3s;" 
+                            <button class="btn-add" style="background: #a29bfe; color: #000; width:auto; padding:8px 25px; font-weight: bold; border:none; transition: 0.3s;" 
                                 onclick="addItem('🔮 Mystery Box', 4, 'qty_blind')"
-                                onmouseover="this.style.background='#fff'" 
-                                onmouseout="this.style.background='#a29bfe'">
+                                onmouseover="this.style.background='#fff'" onmouseout="this.style.background='#a29bfe'">
                                 BIORĘ W CIEMNO 
                             </button>
                         </div>
@@ -818,7 +601,6 @@
                             { file: "kapibara_książkara.png", name: "kapibara książkara" },
                             { file: "dontworrybecappy.png", name: "dont worry be cappy" }
                         ];
-        
                         borderItems.forEach((item, i) => {
                             document.write(`
                             <div class="card">
@@ -840,7 +622,6 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content" style="background:#1a1a1a;">
-                
                 <div style="text-align:center; color:#ddd; margin-bottom:25px; padding: 0 10px;">
                     <p style="margin:0; font-style:italic; font-size:0.95rem; line-height:1.4;">
                         "Poczuj się jak szejk na stołówce. Te piny krzyczą: <br> 
@@ -880,7 +661,6 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                
                 <div style="text-align:center; color:#666; margin-bottom:25px; padding: 0 10px;">
                     <p style="margin:0; font-style:italic; font-size:0.9rem;">
                         "Tu trafiają piny, które miały problem z tożsamością.<br>
@@ -918,9 +698,7 @@
             <div class="gallery-item"><img src="1000006864.jpg" onclick="openLightbox(this.src)"></div>
             <div class="gallery-item"><img src="Messenger_creation_75E75DD8-C19C-42AC-AFD5-2ECB8DC7B6FC.png" onclick="openLightbox(this.src)"></div>
         </div>
-
         <hr style="margin:20px 0; border:0; border-top:1px dashed #eee;">
-
         <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
         <div class="review-box">
             <small>⭐⭐⭐⭐⭐</small>
@@ -932,7 +710,6 @@
             <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Koło fortuny to sztos! Dostałam przypinkę za darmo!"</p>
             <strong>~ Kasia</strong>
         </div>
-
         <div style="display:flex; gap:10px; margin-top:15px;">
             <input type="text" id="reviewText" class="field" placeholder="Twoja opinia..." style="margin-bottom:0;">
             <button class="btn-add" style="width:auto; background:#555; margin-top:0;" onclick="sendReview()">OK</button>
@@ -942,7 +719,6 @@
     </div>
 
     <div class="sidebar">
-    
     <div class="sticky-group">
 
         <div id="koszyk" class="cart-wrapper">
@@ -965,61 +741,60 @@
                     <input type="checkbox" id="tipCheck" onchange="renderCart()" style="transform:scale(1.2);">
                     <span style="font-size:0.9rem;">Napiwek na monsterka (+1 PLN) ❤️</span>
                 </label>
-    
                 <div class="saved-amount" id="savedDisplay" style="color:#27ae60; text-align:right; font-weight:bold; font-size:0.85rem; margin-bottom:5px;"></div>
-                
                 <div style="display:flex; justify-content:space-between; align-items:flex-end;">
                     <span style="font-weight:bold; color:#555;">SUMA:</span>
                     <span style="font-size:1.6rem; font-weight:900; color:var(--primary);"><span id="totalPrice">0.00</span> PLN</span>
                 </div>
             </div>
     
-            <div style="margin-top:20px;">
-                <h4 style="margin:0 0 10px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Wybierz metodę płatności:</h4>
+            <form id="orderForm" action="https://formsubmit.co/pinmeup.fuw@gmail.com" method="POST" enctype="multipart/form-data" style="margin-top:20px;">
                 
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_subject" id="formSubject" value="NOWE ZAMÓWIENIE">
+                <input type="hidden" name="_autoresponse" value="Hej! Dzięki za zamówienie w PIN ME UP! Twoje przypinki są już w drodze do realizacji. Odbiór 17-18 Grudnia na FUW. Płatność: BLIK (+48 698 793 950) lub Przelew. Do zobaczenia!">
+                
+                <h4 style="margin:0 0 10px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Wybierz metodę płatności:</h4>
                 <div class="payment-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
                     <div class="pay-option active" id="opt_blik" onclick="setPayment('BLIK')">
-                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
-                        <span>BLIK</span>
+                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span>BLIK</span>
                     </div>
                     <div class="pay-option" id="opt_transfer" onclick="setPayment('PRZELEW')">
-                        <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
-                        <span style="font-size: 0.75rem;">PRZELEW</span>
+                        <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span style="font-size: 0.75rem;">PRZELEW</span>
                     </div>
                     <div class="pay-option" id="opt_cash" onclick="setPayment('GOTÓWKA')">
-                        <i class="fa-solid fa-money-bill-wave" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
-                        <span>GOTÓWKA</span>
+                        <i class="fa-solid fa-money-bill-wave" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span>GOTÓWKA</span>
                     </div>
                 </div>
-    
-                <input type="hidden" id="paymentMethod" value="BLIK">
-    
+
                 <div class="pay-info-box" id="info_blik" style="display:block; background:#ffebeb; color:#d63031; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #fab1a0;">
                     <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew BLIK na telefon:</strong>
                     <span style="font-size: 1.1rem; font-weight: 900; letter-spacing: 1px;">+48 698 793 950</span>
                 </div>
-    
                 <div class="pay-info-box" id="info_transfer" style="display:none; background:#e3f2fd; color:#0984e3; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #74b9ff;">
                     <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-bank"></i> Dane do przelewu:</strong>
-                    Odbiorca: <b>Jan Dziubak</b><br>
-                    Nr konta:<br>
-                    <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
+                    Odbiorca: <b>Jan Dziubak</b><br> Nr konta: <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
                 </div>
-
                 <div class="pay-info-box" id="info_cash" style="display:none; background:#edf7ed; color:#2e7d32; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #a5d6a7;">
                     <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-hand-holding-dollar"></i> Płatność przy odbiorze:</strong>
-                    Zapraszamy na nasze stoisko:<br>
-                    <span style="font-weight: 900; font-size: 1rem;">17 i 18 GRUDNIA</span><br>
-                    (Wydział Fizyki, hall główny)
+                    Zapraszamy na nasze stoisko: <span style="font-weight: 900; font-size: 1rem;">17 i 18 GRUDNIA</span> (Wydział Fizyki)
                 </div>
-    
-                <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
-                <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
+
+                <input type="text" name="Imie_i_Nazwisko" id="clientName" class="field" placeholder="Imię i Nazwisko" required>
+                <input type="email" name="email" id="clientEmail" class="field" placeholder="Twój E-mail" required>
+
+                <input type="hidden" name="Metoda_Platnosci" id="hiddenPayment" value="BLIK">
+                <input type="hidden" name="Do_Zaplaty" id="hiddenTotal" value="">
                 
-                <button class="btn-checkout" onclick="submitOrder()">
+                <textarea name="ZAMOWIENIE_SZCZEGOLY" id="hiddenDetails" style="display:none;"></textarea>
+                
+                <div id="fileInputContainer" style="display:none;"></div>
+
+                <button type="button" class="btn-checkout" onclick="prepareAndSubmit()">
                     ZAMAWIAM 🚀
                 </button>
-            </div>
+            </form>
         </div>
 
         <div class="contact-box">
@@ -1048,25 +823,18 @@
 </footer>
 
 <script>
-    const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
     let cart = [];
+    let customFileObject = null; // Przechowuje plik tymczasowo
 
     // --- FUNKCJE UI ---
     function openLightbox(src) {
         const lb = document.getElementById('lightbox');
         const img = document.getElementById('lightbox-img');
-        img.src = src;
-        lb.classList.add('visible');
+        img.src = src; lb.classList.add('visible');
     }
+    function closeLightbox() { document.getElementById('lightbox').classList.remove('visible'); }
 
-    function closeLightbox() {
-        document.getElementById('lightbox').classList.remove('visible');
-    }
-
-    function toggleMenu() {
-        const menu = document.getElementById('navMenu');
-        menu.classList.toggle('open');
-    }
+    function toggleMenu() { document.getElementById('navMenu').classList.toggle('open'); }
 
     document.querySelectorAll('.menu-link').forEach(link => {
         link.addEventListener('click', function(e) {
@@ -1101,74 +869,73 @@
         setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
     }
 
-    function toggleAcc(header) {
-        const item = header.parentElement;
-        item.classList.toggle('active');
-    }
+    function toggleAcc(header) { header.parentElement.classList.toggle('active'); }
 
     // --- FUNKCJE KOSZYKA ---
     function addItem(name, price, inputId) {
         const qty = parseInt(document.getElementById(inputId).value);
         if(qty < 1) return;
-        const existing = cart.find(item => item.name === name && !item.file);
-        if(existing) { existing.qty += qty; } else { cart.push({ name: name, price: price, qty: qty, file: null }); }
+        const existing = cart.find(item => item.name === name && !item.isCustom);
+        if(existing) { existing.qty += qty; } else { cart.push({ name: name, price: price, qty: qty, isCustom: false }); }
         document.getElementById(inputId).value = 1;
-        renderCart(); 
-        showToast(`Dodano: ${name}`);
+        renderCart(); showToast(`Dodano: ${name}`);
     }
 
-    // --- NOWE FUNKCJE DLA KREATORA ---
-
+    // --- KREATOR (ZDJĘCIE) ---
     function previewCustomImage(input) {
       const container = document.getElementById('previewContainer');
       const preview = document.getElementById('imgPreview');
       const label = document.querySelector('.custom-upload-btn span');
-      
       if (input.files && input.files[0]) {
         const reader = new FileReader();
-        
         reader.onload = function(e) {
           preview.src = e.target.result;
           container.style.display = 'block';
           label.innerText = "Zdjęcie załadowane! (Kliknij, aby zmienić)";
         }
-        
         reader.readAsDataURL(input.files[0]);
       }
     }
     
     function clearSelection() {
-      document.getElementById('customFile').value = "";
+      document.getElementById('customFileSelector').value = "";
       document.getElementById('previewContainer').style.display = 'none';
       document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
+      customFileObject = null;
     }
     
-    // ZAKTUALIZOWANA funkcja dodawania (podmień istniejącą funkcję addCustomFile)
     function addCustomFile() {
-      const fileInput = document.getElementById('customFile');
+      const fileInput = document.getElementById('customFileSelector');
       const qty = parseInt(document.getElementById('customQty').value);
-    
-      if(fileInput.files.length === 0) { 
-        showToast("Najpierw wybierz zdjęcie!"); 
-        return; 
-      }
-    
-      cart.push({ 
-        name: "Własny Projekt (Custom)", 
-        price: 7.00, 
-        qty: qty, 
-        file: fileInput.files[0] 
-      });
-    
-      // Resetowanie formularza po dodaniu
-      clearSelection(); 
+      if(fileInput.files.length === 0) { showToast("Najpierw wybierz zdjęcie!"); return; }
+      
+      // Zapisujemy referencję do pliku w globalnej zmiennej (uproszczenie)
+      // W tym prostym modelu obsługujemy 1 customowy plik na zamówienie w formularzu HTML
+      // Jeśli użytkownik doda więcej, nadpiszemy (dla prostoty HTML form)
+      
+      customFileObject = fileInput.files[0]; 
+
+      cart.push({ name: "Własny Projekt (Custom)", price: 7.00, qty: qty, isCustom: true });
+      
+      // Nie czyścimy inputa, bo będziemy go potrzebować do wysyłki!
+      // Ukrywamy tylko podgląd w kreatorze, żeby wyglądało że "poszło do koszyka"
+      document.getElementById('previewContainer').style.display = 'none';
+      document.querySelector('.custom-upload-btn span').innerHTML = "ZDJĘCIE W KOSZYKU! (Dodaj kolejne tylko jeśli inne)";
       document.getElementById('customQty').value = 1;
-    
       renderCart();
       showToast("Dodano Twój projekt!");
     }
 
-    function removeItem(index) { cart.splice(index, 1); renderCart(); }
+    function removeItem(index) { 
+        if(cart[index].isCustom) {
+            // Jeśli usuwamy custom, resetujemy input pliku
+            document.getElementById('customFileSelector').value = "";
+            document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
+            customFileObject = null;
+        }
+        cart.splice(index, 1); 
+        renderCart(); 
+    }
 
     function renderCart() {
         const container = document.getElementById('cartItems');
@@ -1180,24 +947,18 @@
         const isTip = document.getElementById('tipCheck').checked;
 
         container.innerHTML = "";
-        let total = 0;
-        let savings = 0;
-        let promoText = "";
+        let total = 0; let savings = 0; let promoText = "";
 
         if(cart.length === 0 && !isTip) {
             container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;"><i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>Pusto...</div>';
-            totalEl.innerText = "0.00"; 
-            mobileTotalEl.innerText = "0.00 PLN";
-            promoBox.innerHTML=""; savedEl.innerText=""; 
-            document.getElementById('cartCount').innerText="0"; 
+            totalEl.innerText = "0.00"; mobileTotalEl.innerText = "0.00 PLN";
+            promoBox.innerHTML=""; savedEl.innerText=""; document.getElementById('cartCount').innerText="0"; 
             mobileBar.classList.remove('visible');
             return;
         }
-
         mobileBar.classList.add('visible');
 
         let qtyByPrice = {};
-
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
             if (!qtyByPrice[item.price]) qtyByPrice[item.price] = 0;
@@ -1209,7 +970,7 @@
             </div>`;
         });
 
-        // Promocja 3+1
+        // 3+1
         let promo3plus1 = 0;
         for (const [price, qty] of Object.entries(qtyByPrice)) {
             const freeItems = Math.floor(qty / 4); 
@@ -1219,122 +980,85 @@
                 promoText += `<div>🎁 3+1 GRATIS (${price}zł): -${discount.toFixed(2)} zł</div>`;
             }
         }
-        total -= promo3plus1;
-        savings += promo3plus1;
+        total -= promo3plus1; savings += promo3plus1;
 
-        // Rabat >15 sztuk
+        // Rabat >15
         const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
         if (totalQty > 15) {
-            const bulkDiscount = total * 0.10; 
-            total -= bulkDiscount;
-            savings += bulkDiscount;
+            const bulkDiscount = total * 0.10; total -= bulkDiscount; savings += bulkDiscount;
             promoText += `<div>🔥 RABAT HURTOWY (-10%): -${bulkDiscount.toFixed(2)} zł</div>`;
         }
 
         if(isTip) { total += 1.00; container.innerHTML += `<div class="cart-item" style="color:var(--salmon); border-bottom:none;"><div>❤️ Napiwek</div><div>1.00 zł</div></div>`; }
 
         const finalTotal = total.toFixed(2);
-        totalEl.innerText = finalTotal;
-        mobileTotalEl.innerText = finalTotal + " PLN";
+        totalEl.innerText = finalTotal; mobileTotalEl.innerText = finalTotal + " PLN";
         document.getElementById('cartCount').innerText = totalQty;
         promoBox.innerHTML = promoText ? `<div style="background:#e0ffe0; color:#009432; padding:8px; font-size:0.8rem; border-radius:5px; margin-bottom:10px; border:1px solid #b8e994;">${promoText}</div>` : "";
         savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN` : "";
     }
 
     function setPayment(type) {
-        document.getElementById('paymentMethod').value = type;
+        document.getElementById('hiddenPayment').value = type;
         document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
         document.getElementById('info_blik').style.display = 'none';
         document.getElementById('info_transfer').style.display = 'none';
         document.getElementById('info_cash').style.display = 'none';
-        
-        if (type === 'BLIK') {
-            document.getElementById('opt_blik').classList.add('active');
-            document.getElementById('info_blik').style.display = 'block';
-        } else if (type === 'PRZELEW') {
-            document.getElementById('opt_transfer').classList.add('active');
-            document.getElementById('info_transfer').style.display = 'block';
-        } else {
-            document.getElementById('opt_cash').classList.add('active');
-            document.getElementById('info_cash').style.display = 'block';
-        }
+        if (type === 'BLIK') { document.getElementById('opt_blik').classList.add('active'); document.getElementById('info_blik').style.display = 'block'; }
+        else if (type === 'PRZELEW') { document.getElementById('opt_transfer').classList.add('active'); document.getElementById('info_transfer').style.display = 'block'; }
+        else { document.getElementById('opt_cash').classList.add('active'); document.getElementById('info_cash').style.display = 'block'; }
     }
 
-    // --- WYSYŁANIE ZAMÓWIENIA (POPRAWIONE) ---
-    function submitOrder() {
+    // --- KLUCZOWA ZMIANA: WYSYŁKA FORMULARZEM ---
+    function prepareAndSubmit() {
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
         
         const name = document.getElementById('clientName').value.trim();
         const email = document.getElementById('clientEmail').value.trim();
-        const finalPrice = document.getElementById('totalPrice').innerText;
-        
-        if(!name || name.length < 2) return showToast("Podaj imię i nazwisko!");
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(!emailRegex.test(email)) return showToast("Podaj poprawny e-mail!");
 
-        const btn = document.querySelector('.btn-checkout');
-        const oldText = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> WYSYŁANIE...'; 
-        btn.disabled = true;
+        if(!name || name.length < 2) { alert("Podaj Imię i Nazwisko!"); return; }
+        if(!email.includes('@')) { alert("Podaj poprawny E-mail!"); return; }
 
-        const fd = new FormData();
-        
-        fd.append("_subject", "NOWE ZAMÓWIENIE: " + name);
-        fd.append("_template", "table"); 
-        
-        // --- KLUCZOWE POPRAWKI DLA MAILA KLIENTA ---
-        fd.append("email", email);  // Wymagane, żeby FormSubmit wiedział kto to klient
-        fd.append("_cc", email);    // Wymuszenie kopii dla klienta (Carbon Copy)
+        // 1. Uzupełnij ukryte pola
+        document.getElementById('hiddenTotal').value = document.getElementById('totalPrice').innerText + " PLN";
+        document.getElementById('formSubject').value = "NOWE ZAMÓWIENIE: " + name;
 
-        let orderString = "";
-        
-        // Dodawanie plików
-        cart.forEach((item, i) => {
-            orderString += `- ${item.name} (${item.qty} szt.)\n`;
-            if(item.file) {
-                // attachment jest najbezpieczniejszą nazwą dla plików
-                fd.append(`attachment${i+1}`, item.file, `projekt_${i+1}.jpg`);
-            }
+        // 2. Generuj tekst zamówienia do textarea
+        let details = "";
+        cart.forEach(item => {
+            details += `- ${item.name} | Ilość: ${item.qty} szt.\n`;
         });
+        if(document.getElementById('tipCheck').checked) details += `- NAPIWEK (+1.00 PLN) ❤️\n`;
+        details += `\nRAZEM: ${document.getElementById('totalPrice').innerText} PLN`;
         
-        if(document.getElementById('tipCheck').checked) {
-            orderString += `- NAPIWEK (+1.00 PLN) ❤️\n`;
+        document.getElementById('hiddenDetails').value = details;
+
+        // 3. PRZENOSZENIE PLIKU DO FORMULARZA (Magia HTML)
+        // Jeśli mamy plik customowy, musimy upewnić się, że INPUT FILE jest fizycznie wewnątrz <form>
+        const fileInput = document.getElementById('customFileSelector');
+        const fileContainer = document.getElementById('fileInputContainer');
+        
+        // Przenosimy input z sekcji kreatora do formularza tuż przed wysłaniem
+        // Tylko jeśli wybrano plik
+        if(fileInput.files.length > 0) {
+            fileInput.name = "attachment"; // FormSubmit lubi nazwę 'attachment'
+            fileContainer.appendChild(fileInput); 
         }
-        orderString += `\nRAZEM DO ZAPŁATY: ${finalPrice} PLN`;
 
-        // Auto odpowiedź (jako dodatek, bo _cc wyśle tabelkę)
-        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
-        fd.append("_autoresponse", autoMessage); 
-
-        // Dane tekstowe
-        fd.append("Klient", name); 
-        fd.append("Metoda Płatności", document.getElementById('paymentMethod').value);
-        fd.append("Do Zapłaty", finalPrice + " PLN");
-        fd.append("ZAMÓWIENIE SZCZEGÓŁY", orderString);
-
-        fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
-        .then(response => {
-            alert(`Hej ${name} 👋\n\nDzięki za zamówienie!\nSprawdź e-mail (też SPAM).\n\nUWAGA: Jeśli dodawałeś zdjęcie, upewnij się, że dostałeś potwierdzenie. Jeśli nie - napisz do nas na FB!`); 
-            
-            cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
-            document.getElementById('clientName').value = "";
-            document.getElementById('clientEmail').value = "";
-        })
-        .catch((error) => { 
-            console.error(error);
-            alert("⚠️ Wystąpił błąd wysyłania (częste przy dużych zdjęciach na telefonie).\n\nSpróbuj ponownie lub wyślij zamówienie mailem na pinmeup.fuw@gmail.com!"); 
-            btn.innerHTML=oldText; btn.disabled=false; 
-        });
+        // 4. WYSYŁAMY FORMULARZ "PO STAREMU"
+        const btn = document.querySelector('.btn-checkout');
+        btn.innerHTML = 'PRZEKIEROWYWANIE...';
+        btn.disabled = true;
+        
+        document.getElementById('orderForm').submit();
     }
 
+    // --- ODDZIELNA FUNKCJA DLA OPINII (ZOSTAWIAMY FETCH BO MNIEJ WAŻNE) ---
     function sendReview() {
         const text = document.getElementById('reviewText').value;
         if(!text) return showToast("Wpisz treść opinii!");
         const fd = new FormData();
-        fd.append("_captcha", "false"); 
-        fd.append("_subject", "NOWA OPINIA"); 
-        fd.append("Treść", text);
-        
+        fd.append("_captcha", "false"); fd.append("_subject", "NOWA OPINIA"); fd.append("Treść", text);
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
         .then(() => { showToast("Dzięki za opinię!"); document.getElementById('reviewText').value = ""; });
     }
