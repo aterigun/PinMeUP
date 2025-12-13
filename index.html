@@ -359,30 +359,57 @@
 
         /* --- POPRAWKA PRZESUWANIA KOSZYKA --- */
 
-        /* 1. Wyłączamy sticky z samego koszyka, żeby nie latał sam */
+        /* --- POPRAWIONY SIDEBAR (Bez paska przewijania dla całości) --- */
+
+        /* 1. Wyłączamy sticky z samego koszyka */
         .cart-wrapper { 
             position: static !important; 
             top: auto !important; 
+            /* Ważne: usuwamy cień i zaokrąglenie z dołu, żeby zlało się z kontaktem */
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: none;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.03); /* Cień tylko góra/boki */
         }
         
-        /* 2. Nowy kontener, który trzyma Koszyk + Kontakt razem i przykleja oba */
+        /* 2. Kontener trzymający całość */
         .sticky-group {
             position: sticky;
-            /* Oblicza pozycję pod banerami i headerem */
-            top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 10px);
-            
-            /* Jeśli ekran jest niski, dodajemy przewijanie wewnątrz paska bocznego */
-            max-height: 85vh;
-            overflow-y: auto;
-            
-            /* Ukrycie brzydkiego paska przewijania */
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
-            padding-bottom: 10px; /* Lekki odstęp na dole */
+            /* Pozycja pod banerami i nagłówkiem */
+            top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px);
+            /* USUNĄŁEM max-height i overflow - brak suwaka dla całości */
         }
-        .sticky-group::-webkit-scrollbar { 
-            display: none; 
+        
+        /* 3. Lista produktów - TYLKO ONA SIĘ PRZEWIJA jak jest dużo rzeczy */
+        .cart-items { 
+            margin-bottom: 15px; 
+            max-height: 25vh; /* Dynamiczna wysokość (np. 25% ekranu) */
+            min-height: 50px;
+            overflow-y: auto; 
+            padding-right: 5px; /* Miejsce na suwak */
         }
+        
+        /* 4. Kontakt "doklejony" wizualnie do koszyka */
+        .contact-box {
+            background: #fdfdfd; /* Minimalnie inny odcień, żeby odróżnić sekcje */
+            padding: 20px; 
+            /* Zaokrąglenie tylko na dole */
+            border-bottom-left-radius: var(--radius); 
+            border-bottom-right-radius: var(--radius);
+            border-top-left-radius: 0; 
+            border-top-right-radius: 0;
+            
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Cień na dole */
+            border: 1px solid #eee; 
+            border-top: 1px dashed #ddd; /* Oddzielenie przerywaną linią */
+            margin-top: 0; /* Sklejamy z koszykiem */
+            text-align: center;
+        }
+        
+        /* Styl dla suwaka w liście produktów (żeby był ładniejszy) */
+        .cart-items::-webkit-scrollbar { width: 6px; }
+        .cart-items::-webkit-scrollbar-track { background: #f1f1f1; }
+        .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
         
     </style>
 </head>
@@ -999,7 +1026,7 @@
             <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase; margin-bottom: 5px;">
                 <i class="fa-regular fa-comments"></i> Masz pytania?
             </h4>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">
                 Nie wiesz co wybrać? Napisz do nas!
             </p>
             <div style="display: flex; gap: 10px;">
@@ -1299,6 +1326,7 @@
 
 </body>
 </html>
+
 
 
 
