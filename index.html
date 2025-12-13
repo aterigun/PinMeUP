@@ -434,7 +434,7 @@
                     <div style="border: 2px dashed #ff7675; padding: 20px; border-radius: 10px; margin-bottom: 20px; background:#fff5f5;">
                         <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; color:#ff7675; margin-bottom: 10px;"></i><br>
                         
-                        <input type="file" id="customFile" accept="image/*" capture style="margin-top:10px; max-width:100%;">
+                        <input type="file" id="customFile" accept="image/*" style="margin-top:10px; max-width:100%;">
                         
                         <div style="font-size: 0.75rem; color: #d63031; margin-top: 5px; font-weight: bold;">UWAGA: Maksymalny rozmiar pliku 15MB!</div>
                     </div>
@@ -1102,8 +1102,6 @@
 
         cart.push({ name: "Własny Projekt", price: 7.00, qty: qty, file: file });
         
-        // UWAGA: Nie czyścimy value na mobile, bo to czasem ubija referencję do pliku w 'cart'
-        // fileInput.value = ""; 
         document.getElementById('customQty').value = 1;
         renderCart(); 
         showToast("Dodano projekt!");
@@ -1220,21 +1218,20 @@
 
         const fd = new FormData();
         
-        // --- KLUCZOWE POPRAWKI DLA FORM SUBMIT I PLIKÓW ---
-        // 1. Wyłączamy _captcha:false (bo pliki wymagają weryfikacji)
-        // fd.append("_captcha", "false");  <-- USUNIĘTE, żeby działały pliki
-        
         fd.append("_subject", "NOWE ZAMÓWIENIE: " + name);
         fd.append("_template", "table"); 
-        fd.append("email", email); // Email klienta do odpowiedzi
+        
+        // --- KLUCZOWE POPRAWKI DLA MAILA KLIENTA ---
+        fd.append("email", email);  // Wymagane, żeby FormSubmit wiedział kto to klient
+        fd.append("_cc", email);    // Wymuszenie kopii dla klienta (Carbon Copy)
 
         let orderString = "";
         
-        // 2. Dodawanie plików z prefiksem "attachment", który FormSubmit lubi
+        // Dodawanie plików
         cart.forEach((item, i) => {
             orderString += `- ${item.name} (${item.qty} szt.)\n`;
             if(item.file) {
-                // Używamy nazwy attachment, żeby ominąć filtry spamu
+                // attachment jest najbezpieczniejszą nazwą dla plików
                 fd.append(`attachment${i+1}`, item.file, `projekt_${i+1}.jpg`);
             }
         });
@@ -1244,8 +1241,8 @@
         }
         orderString += `\nRAZEM DO ZAPŁATY: ${finalPrice} PLN`;
 
-        // Auto odpowiedź
-        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📝 TWOJE ZAMÓWIENIE:\n--------------------------------\n${orderString}\n--------------------------------\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
+        // Auto odpowiedź (jako dodatek, bo _cc wyśle tabelkę)
+        const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
         fd.append("_autoresponse", autoMessage); 
 
         // Dane tekstowe
@@ -1254,11 +1251,8 @@
         fd.append("Do Zapłaty", finalPrice + " PLN");
         fd.append("ZAMÓWIENIE SZCZEGÓŁY", orderString);
 
-        // Fetch z obsługą błędów
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
         .then(response => {
-            // FormSubmit z plikami czasem zwraca redirect, który fetch ignoruje,
-            // ale jeśli nie ma błędu sieci, uznajemy to za sukces.
             alert(`Hej ${name} 👋\n\nDzięki za zamówienie!\nSprawdź e-mail (też SPAM).\n\nUWAGA: Jeśli dodawałeś zdjęcie, upewnij się, że dostałeś potwierdzenie. Jeśli nie - napisz do nas na FB!`); 
             
             cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
@@ -1276,7 +1270,6 @@
         const text = document.getElementById('reviewText').value;
         if(!text) return showToast("Wpisz treść opinii!");
         const fd = new FormData();
-        // Tutaj captcha może być wyłączona (tylko tekst)
         fd.append("_captcha", "false"); 
         fd.append("_subject", "NOWA OPINIA"); 
         fd.append("Treść", text);
