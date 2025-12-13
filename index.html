@@ -282,7 +282,7 @@
                             const escapedName = item.name.replace(/'/g, "\\'");
                             document.write(`
                             <div class="card">
-                                <img src="${item.file}" alt="${escapeHtml(item.name)}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=LOGO'">
+                                <img src="${item.file}" alt="${item.name}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=LOGO'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_logo_${i}" class="qty-input" value="1"></div>
@@ -797,11 +797,7 @@
     let attachmentCounter = 0; 
 
     // --- HELPERS ---
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
+    // (escapeHtml removed - not needed for template literals)
 
     // --- UI ---
     function openLightbox(src) {
