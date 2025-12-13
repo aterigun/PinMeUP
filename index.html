@@ -37,12 +37,11 @@
             color: #2d3436; 
             margin: 0; 
             padding-bottom: 90px;
-            /* Padding od góry: banery + header + odstęp */
             padding-top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); 
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- TOAST NOTIFICATION (POPRAWIONY) --- */
+        /* --- TOAST NOTIFICATION --- */
         #toast {
             visibility: hidden; 
             min-width: 200px; 
@@ -54,20 +53,20 @@
             position: fixed; 
             z-index: 10000; 
             left: 50%; 
-            bottom: 20px; /* Startuje niżej i jest niewidoczny */
+            bottom: 20px; 
             transform: translateX(-50%); 
             font-size: 0.9rem; 
             font-weight: 600;
             box-shadow: 0 5px 20px rgba(0,0,0,0.4);
             opacity: 0; 
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Sprężysta animacja */
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             white-space: nowrap; 
         }
         
         #toast.show { 
             visibility: visible; 
             opacity: 1; 
-            bottom: 100px; /* Wyskakuje do góry */
+            bottom: 100px;
         }
 
         /* --- 1. STARY BANER (EVENT) --- */
@@ -90,7 +89,6 @@
         /* --- 2. NOWY BANER (SALE) --- */
         .promo-banner {
             position: fixed; 
-            /* Zaczyna się pod odstępem i pierwszym banerem */
             top: calc(var(--top-gap) + var(--banner-1-height)); 
             left: 0; width: 100%; 
             height: var(--banner-2-height);
@@ -119,25 +117,15 @@
         header { 
             background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             position: fixed; 
-            /* Zaczyna się pod odstępem i oboma banerami */
             top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height)); 
             left: 0; width: 100%; 
             height: var(--header-height); z-index: 1001; border-bottom: 1px solid rgba(255,255,255,0.3); 
             box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s;
         }
         
-        /* --- MOBILE FIXES --- */
         @media (max-width: 900px) {
-            :root {
-                --top-gap: 0px; 
-            }
-
-            header { 
-                height: auto; 
-                padding: 10px 0; 
-                flex-wrap: wrap; 
-            }
-            
+            :root { --top-gap: 0px; }
+            header { height: auto; padding: 10px 0; flex-wrap: wrap; }
             .marquee { animation: marquee 30s linear infinite; font-size: 0.85rem; } 
             .event-banner { font-size: 0.7rem; line-height: 1.1; }
             .mobile-break { display: inline !important; }
@@ -176,7 +164,7 @@
             .main-menu { 
                 display: none; flex-direction: column; width: 100%; background: white; margin-top: 10px; border-top: 1px solid #eee; padding: 10px 0;
                 animation: fadeInMenu 0.3s ease;
-                max-height: 60vh; overflow-y: auto; /* Scroll w menu */
+                max-height: 60vh; overflow-y: auto;
             }
             .main-menu.open { display: flex; }
             .menu-link { display: block; width: 100%; text-align: left; padding: 12px 10px; border-bottom: 1px solid #f9f9f9; border-radius: 0; }
@@ -207,7 +195,7 @@
 
         .accordion-item { 
             background: white; border-radius: var(--radius); margin-bottom: 15px; 
-            box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 240px; /* Poprawka scrolla */
+            box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 240px;
             border-left: 5px solid #ccc; transition: transform 0.2s;
         }
         .accordion-item.rainbow-border {
@@ -294,13 +282,21 @@
 
         .cart-wrapper { 
             background: white; padding: 25px; border-radius: var(--radius); 
-            position: sticky; 
-            /* Sticky cart musi uwzględniać wysokość wszystkich banerów i odstęp */
-            top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 10px); 
-            box-shadow: 0 5px 25px rgba(0,0,0,0.05); border: 1px solid #eee;
+            position: static !important; top: auto !important; 
+            border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.03); 
+            border: 1px solid #eee;
         }
-        .cart-items { margin-bottom: 15px; max-height: 300px; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 10px 0; font-size: 0.85rem; }
+        .cart-items { 
+            margin-bottom: 15px; 
+            max-height: 25vh; min-height: 50px;
+            overflow-y: auto; 
+            padding-right: 5px; 
+        }
+        .cart-items::-webkit-scrollbar { width: 6px; }
+        .cart-items::-webkit-scrollbar-track { background: #f1f1f1; }
+        .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
         .btn-checkout { background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 15px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-size: 1rem; }
         input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
 
@@ -329,88 +325,29 @@
         .payment-options { display: flex; gap: 10px; margin: 15px 0; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
 
-        /* --- NOWE STYLE DLA KONTAKTU --- */
+        /* --- KONTAKT & SIDEBAR --- */
         .contact-box {
-            background: white; 
-            padding: 25px; 
-            border-radius: var(--radius); 
-            box-shadow: var(--shadow); 
-            border: 1px solid #eee; 
-            margin-top: 20px; 
-            text-align: center;
+            background: #fdfdfd; padding: 20px; 
+            border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius);
+            border-top-left-radius: 0; border-top-right-radius: 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee; 
+            border-top: 1px dashed #ddd; margin-top: 0; text-align: center;
         }
         .contact-btn {
-            flex: 1; 
-            padding: 10px; 
-            border-radius: 8px; 
-            text-decoration: none;
-            font-weight: bold; 
-            font-size: 0.85rem; 
-            display: flex; 
-            align-items: center;
-            justify-content: center; 
-            gap: 8px; 
-            transition: 0.2s; 
-            color: white !important; /* Wymuszenie bieli */
+            flex: 1; padding: 10px; border-radius: 8px; 
+            text-decoration: none; font-weight: bold; font-size: 0.85rem; 
+            display: flex; align-items: center; justify-content: center; gap: 8px; 
+            transition: 0.2s; color: white !important;
         }
+        .contact-btn:hover { transform: translateY(-2px); }
         .contact-btn.fb { background: #1877F2; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3); }
         .contact-btn.mail { background: #2d3436; box-shadow: 0 4px 10px rgba(45, 52, 54, 0.3); }
-        .contact-btn:hover { transform: translateY(-2px); }
 
-        /* --- POPRAWKA PRZESUWANIA KOSZYKA --- */
-
-        /* --- POPRAWIONY SIDEBAR (Bez paska przewijania dla całości) --- */
-
-        /* 1. Wyłączamy sticky z samego koszyka */
-        .cart-wrapper { 
-            position: static !important; 
-            top: auto !important; 
-            /* Ważne: usuwamy cień i zaokrąglenie z dołu, żeby zlało się z kontaktem */
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            border-bottom: none;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.03); /* Cień tylko góra/boki */
-        }
-        
-        /* 2. Kontener trzymający całość */
         .sticky-group {
             position: sticky;
-            /* Pozycja pod banerami i nagłówkiem */
             top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px);
-            /* USUNĄŁEM max-height i overflow - brak suwaka dla całości */
         }
-        
-        /* 3. Lista produktów - TYLKO ONA SIĘ PRZEWIJA jak jest dużo rzeczy */
-        .cart-items { 
-            margin-bottom: 15px; 
-            max-height: 25vh; /* Dynamiczna wysokość (np. 25% ekranu) */
-            min-height: 50px;
-            overflow-y: auto; 
-            padding-right: 5px; /* Miejsce na suwak */
-        }
-        
-        /* 4. Kontakt "doklejony" wizualnie do koszyka */
-        .contact-box {
-            background: #fdfdfd; /* Minimalnie inny odcień, żeby odróżnić sekcje */
-            padding: 20px; 
-            /* Zaokrąglenie tylko na dole */
-            border-bottom-left-radius: var(--radius); 
-            border-bottom-right-radius: var(--radius);
-            border-top-left-radius: 0; 
-            border-top-right-radius: 0;
-            
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Cień na dole */
-            border: 1px solid #eee; 
-            border-top: 1px dashed #ddd; /* Oddzielenie przerywaną linią */
-            margin-top: 0; /* Sklejamy z koszykiem */
-            text-align: center;
-        }
-        
-        /* Styl dla suwaka w liście produktów (żeby był ładniejszy) */
-        .cart-items::-webkit-scrollbar { width: 6px; }
-        .cart-items::-webkit-scrollbar-track { background: #f1f1f1; }
-        .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-        
+        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 10px 0; font-size: 0.85rem; }
     </style>
 </head>
 <body>
@@ -496,7 +433,9 @@
                     
                     <div style="border: 2px dashed #ff7675; padding: 20px; border-radius: 10px; margin-bottom: 20px; background:#fff5f5;">
                         <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; color:#ff7675; margin-bottom: 10px;"></i><br>
-                        <input type="file" id="customFile" accept="image/*" style="margin-top:10px; max-width:100%;">
+                        
+                        <input type="file" id="customFile" accept="image/*" capture style="margin-top:10px; max-width:100%;">
+                        
                         <div style="font-size: 0.75rem; color: #d63031; margin-top: 5px; font-weight: bold;">UWAGA: Maksymalny rozmiar pliku 15MB!</div>
                     </div>
         
@@ -732,7 +671,7 @@
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_xmas_n_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 5, 'qty_xmas_n_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 6, 'qty_xmas_n_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -1050,7 +989,7 @@
         <div class="gallery-grid">
             <div class="gallery-item"><img src="1000006864.jpg" onclick="openLightbox(this.src)"></div>
             <div class="gallery-item"><img src="Messenger_creation_75E75DD8-C19C-42AC-AFD5-2ECB8DC7B6FC.png" onclick="openLightbox(this.src)"></div>
-            </div>
+        </div>
 
         <hr style="margin:20px 0; border:0; border-top:1px dashed #eee;">
 
@@ -1154,16 +1093,18 @@
         
         if(fileInput.files.length === 0) { showToast("Wybierz plik!"); return; }
         
-        // --- FIX DLA TELEFONÓW: SPRAWDZANIE ROZMIARU PLIKU ---
         const file = fileInput.files[0];
-        // Limit 15MB (w bajtach)
+        // Limit 15MB
         if(file.size > 15 * 1024 * 1024) {
-            alert("⚠️ Zdjęcie jest za duże (powyżej 15MB)!\n\nFormularz może nie przesłać tak dużego pliku.\n\nProsimy o zrobienie zrzutu ekranu zdjęcia (screenshot) i dodanie go ponownie - zajmuje on mniej miejsca.");
+            alert("⚠️ Zdjęcie jest za duże (powyżej 15MB)!\n\nProsimy o zrzut ekranu lub mniejszy plik.");
             return;
         }
 
         cart.push({ name: "Własny Projekt", price: 7.00, qty: qty, file: file });
-        fileInput.value = ""; document.getElementById('customQty').value = 1;
+        
+        // UWAGA: Nie czyścimy value na mobile, bo to czasem ubija referencję do pliku w 'cart'
+        // fileInput.value = ""; 
+        document.getElementById('customQty').value = 1;
         renderCart(); 
         showToast("Dodano projekt!");
     }
@@ -1260,7 +1201,7 @@
         }
     }
 
-    // --- WYSYŁANIE ZAMÓWIENIA ---
+    // --- WYSYŁANIE ZAMÓWIENIA (POPRAWIONE) ---
     function submitOrder() {
         if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
         
@@ -1268,7 +1209,6 @@
         const email = document.getElementById('clientEmail').value.trim();
         const finalPrice = document.getElementById('totalPrice').innerText;
         
-        // Lepsza walidacja
         if(!name || name.length < 2) return showToast("Podaj imię i nazwisko!");
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if(!emailRegex.test(email)) return showToast("Podaj poprawny e-mail!");
@@ -1280,44 +1220,46 @@
 
         const fd = new FormData();
         
-        // KONFIGURACJA FORMSUBMIT
-        fd.append("_captcha", "false"); 
+        // --- KLUCZOWE POPRAWKI DLA FORM SUBMIT I PLIKÓW ---
+        // 1. Wyłączamy _captcha:false (bo pliki wymagają weryfikacji)
+        // fd.append("_captcha", "false");  <-- USUNIĘTE, żeby działały pliki
+        
         fd.append("_subject", "NOWE ZAMÓWIENIE: " + name);
         fd.append("_template", "table"); 
-        
-        // WAŻNE DLA KOPII ZAMÓWIENIA:
-        // FormSubmit wyśle kopię do klienta TYLKO jeśli input nazywa się dokładnie 'email'
-        // i jest poprawnym adresem.
-        fd.append("email", email); 
+        fd.append("email", email); // Email klienta do odpowiedzi
 
-        // --- BUDOWANIE PODSUMOWANIA DLA KLIENTA (DO AUTO-ODPOWIEDZI) ---
         let orderString = "";
+        
+        // 2. Dodawanie plików z prefiksem "attachment", który FormSubmit lubi
         cart.forEach((item, i) => {
             orderString += `- ${item.name} (${item.qty} szt.)\n`;
-            if(item.file) fd.append(`Plik_${i}`, item.file);
+            if(item.file) {
+                // Używamy nazwy attachment, żeby ominąć filtry spamu
+                fd.append(`attachment${i+1}`, item.file, `projekt_${i+1}.jpg`);
+            }
         });
         
         if(document.getElementById('tipCheck').checked) {
             orderString += `- NAPIWEK (+1.00 PLN) ❤️\n`;
         }
-
         orderString += `\nRAZEM DO ZAPŁATY: ${finalPrice} PLN`;
 
-        // --- AUTO-ODPOWIEDŹ ZAWIERAJĄCA KOPIĘ ZAMÓWIENIA ---
+        // Auto odpowiedź
         const autoMessage = `Hej ${name}! 👋\n\nDzięki za zamówienie w PIN ME UP!\nTwoje przypinki są już w drodze do realizacji.\n\n📝 TWOJE ZAMÓWIENIE:\n--------------------------------\n${orderString}\n--------------------------------\n\n📍 ODBIÓR OSOBISTY:\nZapraszamy na nasze stoisko 17 i 18 GRUDNIA (Wydział Fizyki).\n\n💰 PŁATNOŚĆ:\n1. BLIK na telefon: +48 698 793 950\n2. PRZELEW NA KONTO:\nJan Dziubak\nNr konta: 39 1050 1054 1000 0098 3308 4693\n(W tytule podaj swoje Imię i Nazwisko)\n\nDo zobaczenia!\nEkipa PIN ME UP!`;
-        
         fd.append("_autoresponse", autoMessage); 
 
-        // DANE FORMULARZA (DLA WŁAŚCICIELA SKLEPU)
+        // Dane tekstowe
         fd.append("Klient", name); 
         fd.append("Metoda Płatności", document.getElementById('paymentMethod').value);
         fd.append("Do Zapłaty", finalPrice + " PLN");
-        fd.append("ZAMÓWIENIE (Szczegóły)", orderString); // Właściciel też dostanie ładną listę
+        fd.append("ZAMÓWIENIE SZCZEGÓŁY", orderString);
 
+        // Fetch z obsługą błędów
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
         .then(response => {
-            // FormSubmit czasem zwraca opaque response przy CORS, więc zakładamy sukces jeśli nie rzuci błędem sieci
-            alert(`Hej ${name} 👋\n\nDzięki za zamówienie!\nSprawdź swój e-mail (również SPAM) - wysłaliśmy tam potwierdzenie i dane do płatności.\n\nDo zobaczenia na stoisku!`); 
+            // FormSubmit z plikami czasem zwraca redirect, który fetch ignoruje,
+            // ale jeśli nie ma błędu sieci, uznajemy to za sukces.
+            alert(`Hej ${name} 👋\n\nDzięki za zamówienie!\nSprawdź e-mail (też SPAM).\n\nUWAGA: Jeśli dodawałeś zdjęcie, upewnij się, że dostałeś potwierdzenie. Jeśli nie - napisz do nas na FB!`); 
             
             cart=[]; renderCart(); btn.innerHTML=oldText; btn.disabled=false; 
             document.getElementById('clientName').value = "";
@@ -1325,7 +1267,7 @@
         })
         .catch((error) => { 
             console.error(error);
-            alert("Błąd połączenia. Spróbuj ponownie. Jeśli błąd się powtarza, napisz do nas na FB/Maila, a przyjmiemy zamówienie ręcznie!"); 
+            alert("⚠️ Wystąpił błąd wysyłania (częste przy dużych zdjęciach na telefonie).\n\nSpróbuj ponownie lub wyślij zamówienie mailem na pinmeup.fuw@gmail.com!"); 
             btn.innerHTML=oldText; btn.disabled=false; 
         });
     }
@@ -1334,7 +1276,11 @@
         const text = document.getElementById('reviewText').value;
         if(!text) return showToast("Wpisz treść opinii!");
         const fd = new FormData();
-        fd.append("_captcha", "false"); fd.append("_subject", "NOWA OPINIA"); fd.append("Treść", text);
+        // Tutaj captcha może być wyłączona (tylko tekst)
+        fd.append("_captcha", "false"); 
+        fd.append("_subject", "NOWA OPINIA"); 
+        fd.append("Treść", text);
+        
         fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
         .then(() => { showToast("Dzięki za opinię!"); document.getElementById('reviewText').value = ""; });
     }
@@ -1342,4 +1288,3 @@
 
 </body>
 </html>
-
