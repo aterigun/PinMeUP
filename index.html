@@ -356,6 +356,33 @@
         .contact-btn:hover { transform: translateY(-2px); }
         .contact-btn.fb { background: #1877F2; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3); }
         .contact-btn.mail { background: #2d3436; box-shadow: 0 4px 10px rgba(45, 52, 54, 0.3); }
+
+        /* --- POPRAWKA PRZESUWANIA KOSZYKA --- */
+
+        /* 1. Wyłączamy sticky z samego koszyka, żeby nie latał sam */
+        .cart-wrapper { 
+            position: static !important; 
+            top: auto !important; 
+        }
+        
+        /* 2. Nowy kontener, który trzyma Koszyk + Kontakt razem i przykleja oba */
+        .sticky-group {
+            position: sticky;
+            /* Oblicza pozycję pod banerami i headerem */
+            top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 10px);
+            
+            /* Jeśli ekran jest niski, dodajemy przewijanie wewnątrz paska bocznego */
+            max-height: 85vh;
+            overflow-y: auto;
+            
+            /* Ukrycie brzydkiego paska przewijania */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+            padding-bottom: 10px; /* Lekki odstęp na dole */
+        }
+        .sticky-group::-webkit-scrollbar { 
+            display: none; 
+        }
         
     </style>
 </head>
@@ -888,6 +915,9 @@
     </div>
 
     <div class="sidebar">
+    
+    <div class="sticky-group">
+
         <div id="koszyk" class="cart-wrapper">
             <div class="cart-header">
                 <h2 style="margin:0; color:var(--primary); font-size:1.3rem;">TWÓJ RACHUNEK</h2>
@@ -948,7 +978,7 @@
                     Nr konta:<br>
                     <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
                 </div>
-    
+
                 <div class="pay-info-box" id="info_cash" style="display:none; background:#edf7ed; color:#2e7d32; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #a5d6a7;">
                     <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-hand-holding-dollar"></i> Płatność przy odbiorze:</strong>
                     Zapraszamy na nasze stoisko:<br>
@@ -964,7 +994,7 @@
                 </button>
             </div>
         </div>
-    
+
         <div class="contact-box">
             <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase; margin-bottom: 5px;">
                 <i class="fa-regular fa-comments"></i> Masz pytania?
@@ -981,15 +1011,16 @@
                 </a>
             </div>
         </div>
-    </div>
+
+    </div> </div>
 
     <div class="extra-content-box">
         <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase;">📸 Galeria </h4>
         <div class="gallery-grid">
-            <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO1" onclick="openLightbox(this.src)"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO2" onclick="openLightbox(this.src)"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO3" onclick="openLightbox(this.src)"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO4" onclick="openLightbox(this.src)"></div>
+            <div class="gallery-item"><img src="1000006864.jpg" onclick="openLightbox(this.src)"></div>
+            <div class="gallery-item"><img src="Messenger_creation_75E75DD8-C19C-42AC-AFD5-2ECB8DC7B6FC.png" onclick="openLightbox(this.src)"></div>
+            <!-- <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO3" onclick="openLightbox(this.src)"></div>
+            <div class="gallery-item"><img src="https://via.placeholder.com/150x150?text=FOTO4" onclick="openLightbox(this.src)"></div> -->
         </div>
 
         <hr style="margin:20px 0; border:0; border-top:1px dashed #eee;">
@@ -1268,6 +1299,7 @@
 
 </body>
 </html>
+
 
 
 
