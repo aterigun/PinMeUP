@@ -353,9 +353,9 @@
             transition: 0.2s; 
             color: white !important; /* Wymuszenie bieli */
         }
-        .contact-btn:hover { transform: translateY(-2px); }
         .contact-btn.fb { background: #1877F2; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3); }
         .contact-btn.mail { background: #2d3436; box-shadow: 0 4px 10px rgba(45, 52, 54, 0.3); }
+        .contact-btn:hover { transform: translateY(-2px); }
 
         /* --- POPRAWKA PRZESUWANIA KOSZYKA --- */
 
@@ -497,7 +497,7 @@
                     <div style="border: 2px dashed #ff7675; padding: 20px; border-radius: 10px; margin-bottom: 20px; background:#fff5f5;">
                         <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; color:#ff7675; margin-bottom: 10px;"></i><br>
                         <input type="file" id="customFile" accept="image/*" style="margin-top:10px; max-width:100%;">
-                        <div style="font-size: 0.75rem; color: #d63031; margin-top: 5px; font-weight: bold;">UWAGA: Maksymalny rozmiar pliku 5MB!</div>
+                        <div style="font-size: 0.75rem; color: #d63031; margin-top: 5px; font-weight: bold;">UWAGA: Maksymalny rozmiar pliku 15MB!</div>
                     </div>
         
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
@@ -1156,9 +1156,9 @@
         
         // --- FIX DLA TELEFONÓW: SPRAWDZANIE ROZMIARU PLIKU ---
         const file = fileInput.files[0];
-        // Limit 5MB (w bajtach)
-        if(file.size > 5 * 1024 * 1024) {
-            alert("⚠️ Zdjęcie jest za duże (powyżej 5MB)!\n\nFormularz może nie przesłać tak dużego pliku.\n\nProsimy o zrobienie zrzutu ekranu zdjęcia (screenshot) i dodanie go ponownie - zajmuje on mniej miejsca.");
+        // Limit 15MB (w bajtach)
+        if(file.size > 15 * 1024 * 1024) {
+            alert("⚠️ Zdjęcie jest za duże (powyżej 15MB)!\n\nFormularz może nie przesłać tak dużego pliku.\n\nProsimy o zrobienie zrzutu ekranu zdjęcia (screenshot) i dodanie go ponownie - zajmuje on mniej miejsca.");
             return;
         }
 
