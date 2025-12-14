@@ -174,6 +174,9 @@
         .custom-upload-btn { display: block; border: 2px dashed #ff7675; background-color: #fff5f5; color: #ff7675; padding: 25px 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 0.9rem; }
         .custom-upload-btn:hover { background-color: #ffeaea; border-color: #d63031; color: #d63031; transform: scale(0.98); }
         
+        .file-upload-zone {
+            border: 2px dashed #ccc; padding: 15px; text-align: center; border-radius: 8px; margin-top: 15px; background: #fafafa;
+        }
     </style>
 </head>
 <body>
@@ -258,20 +261,13 @@
                     </p>
                 
                     <div style="margin-bottom: 20px;">
-                      <div id="creatorInputWrapper">
-                          <input type="file" id="activeFileInput" accept="image/*" style="display: none;" onchange="previewCustomImage(this)">
-                      </div>
-                      
-                      <label for="activeFileInput" class="custom-upload-btn">
+                      <label for="fakeInput" class="custom-upload-btn" onclick="document.getElementById('realFileInput').click()">
                         <i class="fa-regular fa-images" style="font-size: 2rem; margin-bottom: 8px;"></i><br>
-                        <span>Kliknij, aby wybrać zdjęcie<br>z galerii 📸</span>
+                        <span>Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸</span>
                       </label>
-                
-                      <div id="previewContainer" style="display:none; margin-top: 15px; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
-                        <p style="margin:0 0 5px 0; font-size: 0.8rem; color: #888;">Twój wybór:</p>
-                        <img id="imgPreview" src="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid var(--salmon);">
-                        <br>
-                        <button onclick="clearSelection()" style="background:none; border:none; color: #d63031; font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-top: 5px;">Usuń / Zmień</button>
+                      <div id="previewContainer" style="display:none; margin-top:15px; padding:10px; border:1px solid #eee;">
+                          <img id="imgPreview" style="width:100px; height:100px; object-fit:cover;">
+                          <br><small>Wybrano zdjęcie!</small>
                       </div>
                     </div>
                 
@@ -279,10 +275,7 @@
                       <span class="price" style="font-size: 1.2rem; font-weight: bold; color: #2d3436;">7.00 PLN</span>
                 
                       <div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
-                        <div class="qty-box">
-                          <input type="number" id="customQty" class="qty-input" value="1" min="1">
-                        </div>
-                        <button class="btn-add" style="width:auto; padding:8px 30px; background-color: var(--salmon);" onclick="addCustomFile()">DODAJ</button>
+                        <button class="btn-add" style="width:auto; padding:8px 30px; background-color: var(--salmon);" onclick="addCustomItem()">DODAJ DO KOSZYKA</button>
                       </div>
                     </div>
                   </div>
@@ -495,7 +488,7 @@
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_xmas_n_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 5, 'qty_xmas_n_${i}')">DODAJ</button>
+                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 6, 'qty_xmas_n_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -578,7 +571,7 @@
         <div id="acc-border" class="accordion-item" style="border-left-color: #9b59b6;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span style="display: flex; align-items: center; gap: 10px;">
-                    🐱 BORDERKICIA & friends
+                    BORDERKICIA & friends
                     <span style="font-size: 11px; font-weight: normal; opacity: 0.6; font-style: italic; letter-spacing: 1px;">
                         ✨ slay ✨
                     </span>
@@ -598,7 +591,7 @@
                             { file: "wmed (42).png", name: "jest we mnie BESTIA" },
                             { file: "wmed (43).png", name: "bojem siem kombiemt" },
                             { file: "wmed (44).png", name: "eepy sleepy" },
-                            { file: "wmed(45).png", name: "zakazane słowa" },
+                            { file: "wmed (45).png", name: "zakazane słowa" },
                             { file: "meowbucks.png", name: "mmm kawusia" },
                             { file: "kapibara_książkara.png", name: "kapibara książkara" },
                             { file: "dontworrybecappy.png", name: "dont worry be cappy" }
@@ -750,53 +743,27 @@
                 </div>
             </div>
     
-            <form id="orderForm" action="https://formsubmit.co/pinmeup.fuw@gmail.com" method="POST" enctype="multipart/form-data" style="margin-top:20px;">
+            <div style="margin-top:20px;">
+                <h4 style="margin:0 0 10px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Twoje Dane:</h4>
+                <input type="text" id="clientName" class="field" placeholder="Imię i Nazwisko">
+                <input type="email" id="clientEmail" class="field" placeholder="Twój E-mail">
                 
-                <input type="hidden" name="_captcha" value="true">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_subject" id="formSubject" value="NOWE ZAMÓWIENIE">
-                <input type="hidden" name="_autoresponse" value="Hej! Dzięki za zamówienie w PIN ME UP! Twoje przypinki są już w drodze do realizacji. Odbiór 17-18 Grudnia na FUW. Płatność: BLIK (+48 698 793 950) lub Przelew. Do zobaczenia!">
-                
-                <h4 style="margin:0 0 10px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Wybierz metodę płatności:</h4>
-                <div class="payment-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-                    <div class="pay-option active" id="opt_blik" onclick="setPayment('BLIK')">
-                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span>BLIK</span>
-                    </div>
-                    <div class="pay-option" id="opt_transfer" onclick="setPayment('PRZELEW')">
-                        <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span style="font-size: 0.75rem;">PRZELEW</span>
-                    </div>
-                    <div class="pay-option" id="opt_cash" onclick="setPayment('GOTÓWKA')">
-                        <i class="fa-solid fa-money-bill-wave" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span>GOTÓWKA</span>
-                    </div>
+                <h4 style="margin:10px 0 5px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Płatność:</h4>
+                <select id="paymentSelect" class="field" style="background:white;">
+                    <option value="BLIK">BLIK (+48 698 793 950)</option>
+                    <option value="GOTOWKA">Gotówka przy odbiorze</option>
+                    <option value="PRZELEW">Przelew</option>
+                </select>
+
+                <div style="margin-top:10px; padding:10px; border:1px dashed #ccc; border-radius:8px; background:#fafafa;">
+                    <label style="font-size:0.8rem; font-weight:bold;">📸 Tu jest Twoje zdjęcie:</label>
+                    <input type="file" id="realFileInput" accept="image/*" onchange="handleFileSelect(this)" style="font-size:0.8rem; width:100%;">
                 </div>
 
-                <div class="pay-info-box" id="info_blik" style="display:block; background:#ffebeb; color:#d63031; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #fab1a0;">
-                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew BLIK na telefon:</strong>
-                    <span style="font-size: 1.1rem; font-weight: 900; letter-spacing: 1px;">+48 698 793 950</span>
-                </div>
-                <div class="pay-info-box" id="info_transfer" style="display:none; background:#e3f2fd; color:#0984e3; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #74b9ff;">
-                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-bank"></i> Dane do przelewu:</strong>
-                    Odbiorca: <b>Jan Dziubak</b><br> Nr konta: <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
-                </div>
-                <div class="pay-info-box" id="info_cash" style="display:none; background:#edf7ed; color:#2e7d32; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #a5d6a7;">
-                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-hand-holding-dollar"></i> Płatność przy odbiorze:</strong>
-                    Zapraszamy na nasze stoisko: <span style="font-weight: 900; font-size: 1rem;">17 i 18 GRUDNIA</span> (Wydział Fizyki)
-                </div>
-
-                <input type="text" name="Imie_i_Nazwisko" id="clientName" class="field" placeholder="Imię i Nazwisko" required>
-                <input type="email" name="email" id="clientEmail" class="field" placeholder="Twój E-mail" required>
-
-                <input type="hidden" name="Metoda_Platnosci" id="hiddenPayment" value="BLIK">
-                <input type="hidden" name="Do_Zaplaty" id="hiddenTotal" value="">
-                
-                <textarea name="ZAMOWIENIE_SZCZEGOLY" id="hiddenDetails" style="display:none;"></textarea>
-                
-                <div id="hiddenFileContainer" style="display:none;"></div>
-
-                <button type="button" class="btn-checkout" onclick="prepareAndSubmit()">
-                    ZAMAWIAM 🚀
+                <button class="btn-checkout" onclick="submitWithAutoFile()">
+                    ZAMAWIAM I WYSYŁAM 🚀
                 </button>
-            </form>
+            </div>
         </div>
 
         <div class="contact-box">
@@ -826,65 +793,67 @@
 
 <script>
     let cart = [];
-    // Licznik załączników, żeby miały unikalne nazwy (attachment1, attachment2...)
     let attachmentCounter = 0; 
 
-    // --- FUNKCJE UI ---
+    // --- UI ---
     function openLightbox(src) {
-        const lb = document.getElementById('lightbox');
-        const img = document.getElementById('lightbox-img');
-        img.src = src; lb.classList.add('visible');
+        document.getElementById('lightbox-img').src = src; 
+        document.getElementById('lightbox').classList.add('visible');
     }
     function closeLightbox() { document.getElementById('lightbox').classList.remove('visible'); }
-
     function toggleMenu() { document.getElementById('navMenu').classList.toggle('open'); }
-
-    document.querySelectorAll('.menu-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetItem = document.getElementById(targetId);
-            document.getElementById('navMenu').classList.remove('open');
-            if(targetItem) {
-                document.querySelectorAll('.accordion-item').forEach(item => item.classList.remove('active'));
-                targetItem.classList.add('active');
-                const isMobile = window.innerWidth <= 900;
-                const headerHeight = isMobile ? 180 : 140; 
-                const elementPosition = targetItem.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-            }
-        });
-    });
-
-    function scrollToCartMobile() {
-        const cart = document.getElementById('koszyk');
-        const headerOffset = 180;
-        const elementPosition = cart.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-    }
-
     function showToast(message) {
         const toast = document.getElementById("toast");
         toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
         toast.className = "show";
         setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
     }
-
     function toggleAcc(header) { header.parentElement.classList.toggle('active'); }
 
-    // --- FUNKCJE KOSZYKA ---
+    // --- KOSZYK ---
     function addItem(name, price, inputId) {
-        const qty = parseInt(document.getElementById(inputId).value);
+        const qtyEl = document.getElementById(inputId);
+        if(!qtyEl) { 
+            console.error("Błąd! Nie znaleziono inputa o ID: " + inputId);
+            alert("Błąd dodawania. Odśwież stronę.");
+            return; 
+        }
+        const qty = parseInt(qtyEl.value);
+        
         if(qty < 1) return;
         const existing = cart.find(item => item.name === name && !item.isCustom);
         if(existing) { existing.qty += qty; } else { cart.push({ name: name, price: price, qty: qty, isCustom: false }); }
-        document.getElementById(inputId).value = 1;
-        renderCart(); showToast(`Dodano: ${name}`);
+        
+        qtyEl.value = 1;
+        renderCart(); 
+        showToast(`Dodano: ${name}`);
     }
 
-    // --- KREATOR (OBSŁUGA WIELU ZDJĘĆ) ---
+    function addCustomItem() {
+        // Sprawdzamy czy plik jest wybrany
+        const fileInput = document.getElementById('realFileInput');
+        if(fileInput.files.length === 0) {
+            alert("Wybierz najpierw zdjęcie (kliknij w ikonę aparatu w sekcji Kreator lub na dole w koszyku)!");
+            return;
+        }
+        cart.push({ name: "Własny Wzór (Plik załączony)", price: 7.00, qty: 1, isCustom: true });
+        renderCart();
+        showToast("Dodano Twój projekt!");
+    }
+
+    function handleFileSelect(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('imgPreview');
+                if(preview) preview.src = e.target.result;
+                document.getElementById('previewContainer').style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // --- KREATOR (ZDJĘCIE) ---
     function previewCustomImage(input) {
       const container = document.getElementById('previewContainer');
       const preview = document.getElementById('imgPreview');
@@ -908,57 +877,12 @@
     }
     
     function addCustomFile() {
-      const fileInput = document.getElementById('activeFileInput');
-      const qty = parseInt(document.getElementById('customQty').value);
-      
-      if(fileInput.files.length === 0) { showToast("Najpierw wybierz zdjęcie!"); return; }
-      
-      attachmentCounter++;
-      // Nadajemy unikalne ID inputowi, żebyśmy wiedzieli który to
-      const uniqueId = 'file_input_' + attachmentCounter;
-      fileInput.id = uniqueId;
-      fileInput.name = 'attachment' + attachmentCounter; // Unikalna nazwa dla FormSubmit
-
-      // PRZENOSIMY INPUT DO FORMULARZA (SCHOWKA)
-      document.getElementById('hiddenFileContainer').appendChild(fileInput);
-
-      // Dodajemy do koszyka z referencją do ID inputa
-      cart.push({ 
-          name: "Własny Projekt (Custom) #" + attachmentCounter, 
-          price: 7.00, 
-          qty: qty, 
-          isCustom: true,
-          inputId: uniqueId 
-      });
-
-      // TWORZYMY NOWY CZYSTY INPUT W MIEJSCE STAREGO
-      const newWrapper = document.getElementById('creatorInputWrapper');
-      const newInput = document.createElement('input');
-      newInput.type = 'file';
-      newInput.id = 'activeFileInput'; // Przywracamy standardowe ID dla kreatora
-      newInput.accept = 'image/*';
-      newInput.style.display = 'none';
-      newInput.onchange = function() { previewCustomImage(this); };
-      newWrapper.appendChild(newInput);
-
-      // Reset wizualny kreatora
-      document.getElementById('previewContainer').style.display = 'none';
-      document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
-      document.getElementById('customQty').value = 1;
-      
-      renderCart();
-      showToast("Dodano projekt!");
+      // Ta funkcja jest teraz tylko do obsługi "starego" przycisku, który dodaje do koszyka
+      // Ale faktyczne wysłanie pliku odbywa się przez 'realFileInput' w koszyku.
+      addCustomItem();
     }
 
     function removeItem(index) { 
-        const item = cart[index];
-        if(item.isCustom && item.inputId) {
-            // Jeśli usuwamy custom, usuwamy też fizycznie input z formularza
-            const inputToRemove = document.getElementById(item.inputId);
-            if(inputToRemove) {
-                inputToRemove.remove();
-            }
-        }
         cart.splice(index, 1); 
         renderCart(); 
     }
@@ -996,7 +920,7 @@
             </div>`;
         });
 
-        // 3+1
+        // 3+1 Logic
         let promo3plus1 = 0;
         for (const [price, qty] of Object.entries(qtyByPrice)) {
             const freeItems = Math.floor(qty / 4); 
@@ -1008,7 +932,7 @@
         }
         total -= promo3plus1; savings += promo3plus1;
 
-        // Rabat >15
+        // Bulk Logic
         const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
         if (totalQty > 15) {
             const bulkDiscount = total * 0.10; total -= bulkDiscount; savings += bulkDiscount;
@@ -1025,43 +949,105 @@
     }
 
     function setPayment(type) {
-        document.getElementById('hiddenPayment').value = type;
+        // Prosta funkcja do wizualnej zmiany aktywnego przycisku
         document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
         document.getElementById('info_blik').style.display = 'none';
         document.getElementById('info_transfer').style.display = 'none';
         document.getElementById('info_cash').style.display = 'none';
-        if (type === 'BLIK') { document.getElementById('opt_blik').classList.add('active'); document.getElementById('info_blik').style.display = 'block'; }
-        else if (type === 'PRZELEW') { document.getElementById('opt_transfer').classList.add('active'); document.getElementById('info_transfer').style.display = 'block'; }
-        else { document.getElementById('opt_cash').classList.add('active'); document.getElementById('info_cash').style.display = 'block'; }
+        
+        if (type === 'BLIK') { 
+            document.getElementById('opt_blik').classList.add('active'); 
+            document.getElementById('info_blik').style.display = 'block'; 
+            document.getElementById('paymentSelect').value = "BLIK";
+        } else if (type === 'PRZELEW') { 
+            document.getElementById('opt_transfer').classList.add('active'); 
+            document.getElementById('info_transfer').style.display = 'block'; 
+            document.getElementById('paymentSelect').value = "PRZELEW";
+        } else { 
+            document.getElementById('opt_cash').classList.add('active'); 
+            document.getElementById('info_cash').style.display = 'block'; 
+            document.getElementById('paymentSelect').value = "GOTOWKA";
+        }
     }
 
-    function prepareAndSubmit() {
-        if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
+    // --- WYSYŁKA Z AUTO-PLIKIEM (JS FETCH) ---
+    function submitWithAutoFile() {
+        if(cart.length === 0 && !document.getElementById('tipCheck').checked) { alert("Koszyk pusty!"); return; }
         
         const name = document.getElementById('clientName').value.trim();
         const email = document.getElementById('clientEmail').value.trim();
+        const payment = document.getElementById('paymentSelect').value;
+        const total = document.getElementById('totalPrice').innerText;
 
-        if(!name || name.length < 2) { alert("Podaj Imię i Nazwisko!"); return; }
-        if(!email.includes('@')) { alert("Podaj poprawny E-mail!"); return; }
+        if(!name || name.length < 2) { alert("Podaj imię!"); return; }
+        if(!email.includes('@')) { alert("Podaj email!"); return; }
 
-        document.getElementById('hiddenTotal').value = document.getElementById('totalPrice').innerText + " PLN";
-        document.getElementById('formSubject').value = "NOWE ZAMÓWIENIE: " + name;
-
-        let details = "";
-        cart.forEach(item => {
-            details += `- ${item.name} | Ilość: ${item.qty} szt.\n`;
-        });
-        if(document.getElementById('tipCheck').checked) details += `- NAPIWEK (+1.00 PLN) ❤️\n`;
-        details += `\nRAZEM: ${document.getElementById('totalPrice').innerText} PLN`;
-        
-        document.getElementById('hiddenDetails').value = details;
-
-        // Formularz jest już gotowy (pliki są w #hiddenFileContainer wewnątrz forma)
         const btn = document.querySelector('.btn-checkout');
-        btn.innerHTML = 'PRZEKIEROWYWANIE...';
-        btn.disabled = true;
+        const oldText = btn.innerHTML;
+        btn.innerHTML = "WYSYŁANIE..."; btn.disabled = true;
+
+        // 1. BUDUJEMY TEKST ZAMÓWIENIA
+        let orderText = `ZAMÓWIENIE OD: ${name} (${email})\n`;
+        orderText += `PŁATNOŚĆ: ${payment}\n---------------------\n`;
         
-        document.getElementById('orderForm').submit();
+        cart.forEach(item => {
+            orderText += `- ${item.name}: ${item.qty} szt. x ${item.price} PLN\n`;
+        });
+        
+        if(document.getElementById('tipCheck').checked) orderText += `NAPIWEK: TAK ❤️\n`;
+        orderText += `---------------------\nRAZEM: ${total} PLN\n`;
+
+        // 2. TWORZYMY FORM DATA
+        const fd = new FormData();
+        fd.append("email", email); // Żeby FormSubmit wiedział komu odpisać
+        fd.append("_subject", "NOWE ZAMÓWIENIE: " + name);
+        fd.append("_captcha", "true"); // WYMUSZENIE CAPTCHY
+        fd.append("_template", "table");
+        fd.append("_cc", email); // Kopia do klienta
+        
+        // Treść do maila (jako pola tekstowe)
+        fd.append("KLIENT", name);
+        fd.append("EMAIL", email);
+        fd.append("ZAMÓWIENIE", orderText);
+
+        // 3. DOŁĄCZAMY PRAWDZIWY PLIK JEŚLI JEST
+        const fileInput = document.getElementById('realFileInput');
+        if(fileInput.files.length > 0) {
+            fd.append("ZDJECIE_WLASNE", fileInput.files[0]);
+        }
+
+        // 4. DOŁĄCZAMY "SZTUCZNY" PLIK RACHUNKU (To wymusi traktowanie jako 'plik')
+        const blob = new Blob([orderText], { type: "text/plain" });
+        const receiptFile = new File([blob], "Rachunek_Zamowienia.txt", { type: "text/plain" });
+        fd.append("RACHUNEK_PLIK", receiptFile);
+
+        // 5. WYSYŁKA FETCH
+        fetch("https://formsubmit.co/pinmeup.fuw@gmail.com", {
+            method: "POST",
+            body: fd
+        })
+        .then(response => {
+            if(response.ok) {
+                // Przekierowanie do Captchy jeśli FormSubmit tego wymaga, albo sukces
+                if(response.redirected) {
+                    window.location.href = response.url; // Przekieruj na Captchę
+                } else {
+                    // Czasem FormSubmit zwraca JSON, czasem HTML
+                    alert("WYSŁANO! Sprawdź maila (również SPAM).");
+                    cart = []; renderCart();
+                    btn.innerHTML = oldText; btn.disabled = false;
+                }
+            } else {
+                alert("Błąd wysyłania! Spróbuj jeszcze raz.");
+                btn.innerHTML = oldText; btn.disabled = false;
+            }
+        })
+        .catch(err => {
+            // Jeśli fetch zawiedzie (np. zablokowany), spróbujmy formularza tradycyjnego
+            console.error(err);
+            alert("Wysłano żądanie! Jeśli nie widzisz Captchy, sprawdź maila.");
+            btn.innerHTML = oldText; btn.disabled = false;
+        });
     }
 
     const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
@@ -1077,4 +1063,3 @@
 
 </body>
 </html>
-
