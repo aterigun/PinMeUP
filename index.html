@@ -9,44 +9,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
-        window.UPLOADCARE_PUBLIC_KEY = '1ff394ab9d26bf13cb0b'; 
+        window.UPLOADCARE_PUBLIC_KEY = '1ff394ab9d26bf13cb0b'; // TWÓJ KLUCZ
         window.UPLOADCARE_LOCALE = 'pl';
     </script>
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <style>
         * { box-sizing: border-box; }
-        
         html, body {
-            overflow-x: hidden;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            scroll-behavior: smooth;
+            overflow-x: hidden; width: 100%; margin: 0; padding: 0;
+            font-family: 'Montserrat', sans-serif; scroll-behavior: smooth;
         }
 
         :root {
-            --primary: #4834d4; 
-            --primary-dark: #301b9e;
-            --salmon: #ff7979; 
-            --accent: #f9ca24; 
-            --bg-color: #f7f1ff;
-            --glass: rgba(255, 255, 255, 0.98);
+            --primary: #4834d4; --primary-dark: #301b9e; --salmon: #ff7979; --accent: #f9ca24; 
+            --bg-color: #f7f1ff; --glass: rgba(255, 255, 255, 0.98);
             --shadow: 0 10px 40px -10px rgba(72, 52, 212, 0.15);
-            --radius: 16px;
-            --banner-1-height: 60px;
-            --banner-2-height: 45px;
-            --header-height: 70px; 
-            --top-gap: 0px;
+            --radius: 16px; --banner-1-height: 60px; --banner-2-height: 45px; --header-height: 80px; --top-gap: 0px;
         }
 
         body { 
             background-color: var(--bg-color); 
-            background-image: radial-gradient(#e0d4fc 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: #2d3436; 
-            padding-bottom: 120px;
+            background-image: radial-gradient(#e0d4fc 1px, transparent 1px); background-size: 20px 20px;
+            color: #2d3436; padding-bottom: 120px;
             padding-top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); 
             -webkit-tap-highlight-color: transparent;
         }
@@ -91,37 +76,22 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s;
         }
         .nav-inner { 
-            max-width: 1400px; /* Szerzej na desktopie żeby się mieściło */
-            width: 100%; margin: 0 auto; display: flex; 
-            justify-content: space-between; align-items: center; padding: 0 15px; box-sizing: border-box; 
+            max-width: 1300px; width: 100%; margin: 0 auto; display: flex; 
+            justify-content: space-between; align-items: center; padding: 0 20px; box-sizing: border-box; 
         }
-        .logo { font-weight: 900; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
-        .logo img { height: 35px; border-radius: 50%; border: 2px solid var(--primary); }
+        .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
+        .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        /* MENU DESKTOPOWE (Zmieści się wszystko) */
-        .main-menu { 
-            display: flex; gap: 2px; /* Małe odstępy */
-            flex-wrap: nowrap; /* Nie zawijaj */
-            justify-content: center; align-items: center; 
-            margin: 0 10px; 
-            flex-grow: 1; /* Zajmij dostępne miejsce */
-        }
-        .menu-link { 
-            text-decoration: none; color: #555; font-weight: 700; 
-            font-size: 0.65rem; /* Mniejsza czcionka na desktopie */
-            padding: 8px 6px; /* Mniejszy padding */
-            border-radius: 15px; transition: 0.2s; text-transform: uppercase; cursor: pointer; white-space: nowrap; 
-        }
+        .main-menu { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; align-items: center; margin: 0 20px; }
+        .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.7rem; padding: 8px 10px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
         .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
         .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
         .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
+        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.9rem; flex-shrink: 0; }
+        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
         
-        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 15px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.8rem; flex-shrink: 0; }
-        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--primary); font-weight: 900; cursor: pointer; }
-        
-        /* --- MOBILE MENU & VIEW --- */
-        /* Zwiększyłem breakpoint do 1200px, żeby na mniejszych laptopach też włączało się menu mobilne zamiast brzydkiego łamania */
-        @media (max-width: 1200px) {
+        /* MOBILE VIEW FIXES */
+        @media (max-width: 1000px) {
             body { padding-top: 0; } 
             
             .event-banner, .promo-banner {
@@ -131,52 +101,32 @@
             .event-banner { font-size: 0.75rem; }
             .promo-banner { white-space: nowrap; overflow: hidden; }
             
-            header {
-                position: sticky; top: 0; height: auto; padding: 10px 0; flex-wrap: wrap;
-            }
-
+            header { position: sticky; top: 0; height: auto; padding: 10px 0; flex-wrap: wrap; }
             .nav-inner { flex-wrap: wrap; } 
             .logo { flex: 1; justify-content: flex-start; } 
             .cart-btn-desktop { display: none; }
             .mobile-menu-toggle { display: block; margin-left: auto; } 
             
-            /* MENU MOBILNE - PEŁNA WYSOKOŚĆ I PRZEWIJANIE */
             .main-menu { 
-                display: none; 
-                flex-direction: column; 
-                width: 100vw; 
-                background: white; 
-                position: absolute; 
-                top: 100%; 
-                left: 0; 
-                border-top: 1px solid #eee; 
-                padding: 0; 
-                animation: fadeInMenu 0.3s ease; 
-                /* To naprawia brakujące elementy - menu ma max wysokość ekranu i się przewija */
-                max-height: 85vh; 
-                overflow-y: auto; 
-                box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-                margin: 0;
+                display: none; flex-direction: column; width: 100vw; background: white; 
+                position: absolute; top: 100%; left: 0; border-top: 1px solid #eee; padding: 0; 
+                animation: fadeInMenu 0.3s ease; max-height: 85vh; overflow-y: auto; overflow-x: hidden; 
+                box-shadow: 0 15px 30px rgba(0,0,0,0.1); margin: 0;
             }
-            
             .main-menu.open { display: flex; } 
-            
             .menu-link { 
                 display: block; width: 100%; text-align: center; padding: 15px 20px; 
-                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.95rem; 
-                white-space: normal; 
-                line-height: 1.4;
+                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.9rem; 
+                white-space: normal; line-height: 1.4;
             } 
-            /* Margines na dole menu mobilnego, żeby palec nie zasłaniał ostatniego elementu */
-            .menu-link:last-child { margin-bottom: 60px; }
+            .main-menu a:last-child { margin-bottom: 50px; }
         }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- LAYOUT GŁÓWNY --- */
         .main-wrapper { 
             max-width: 1200px; margin: 20px auto; padding: 0 20px; 
-            display: grid; 
-            grid-template-columns: 2fr 1.1fr; 
+            display: grid; grid-template-columns: 2fr 1.1fr; 
             grid-template-areas: "products cart" "gallery cart"; 
             gap: 30px; align-items: start; 
         }
@@ -186,9 +136,7 @@
 
         @media (max-width: 900px) {
             .main-wrapper { 
-                display: flex; flex-direction: column; 
-                gap: 25px; margin-top: 15px;
-                padding: 0 15px;
+                display: flex; flex-direction: column; gap: 25px; margin-top: 15px; padding: 0 15px;
             }
             .content-col { order: 1; }
             .sidebar { order: 2; }
@@ -245,8 +193,7 @@
 
         .payment-options { display: flex; gap: 8px; margin-bottom: 20px; margin-top: 10px; width: 100%; box-sizing: border-box; }
         .pay-option { 
-            flex: 1; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; 
             border: 2px solid #eee; padding: 15px 5px; text-align: center; border-radius: 12px; 
             cursor: pointer; font-size: 0.75rem; transition: all 0.2s; background: #fff; color: #888; font-weight: 600;
         }
@@ -255,22 +202,19 @@
         .pay-option.active i { color: var(--primary); }
 
         .promo-pill {
-            background: linear-gradient(135deg, #e67e22, #f39c12);
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
-            margin-bottom: 15px; 
-            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: 1px solid #d35400;
-            animation: pulse 2s infinite;
+            background: linear-gradient(135deg, #e67e22, #f39c12); color: white; padding: 10px;
+            border-radius: 8px; font-size: 0.8rem; font-weight: 900;
+            display: flex; align-items: center; justify-content: center;
+            margin-top: 10px; margin-bottom: 5px; 
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4); text-transform: uppercase;
+            letter-spacing: 0.5px; border: 1px solid #d35400; animation: pulse 2s infinite;
+        }
+        /* Nowy styl dla rabatu hurtowego */
+        .promo-pill.bulk {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            border-color: #8e44ad;
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+            animation: none;
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
@@ -409,7 +353,6 @@
                 
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
                       <span class="price" style="font-size: 1.2rem; font-weight: bold; color: #2d3436;">7.00 PLN</span>
-                      
                       <div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
                         <div class="qty-box"><input type="number" id="customQty" class="qty-input" value="1" min="1"></div>
                         <button class="btn-add" style="width:auto; padding:8px 30px; background-color: var(--salmon);" onclick="addCustomFromWidget()">DODAJ DO KOSZYKA</button>
@@ -461,7 +404,7 @@
             </div>
         </div>
 
-       <div id="acc-fuw" class="accordion-item" style="border-left-color: #f37034;">
+        <div id="acc-fuw" class="accordion-item" style="border-left-color: #f37034;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span style="display: flex; align-items: center; gap: 10px; color: #f37034;">
                     🪐 FUW VIBE
@@ -490,16 +433,16 @@
                             { file: "wmed (27).png", name: "trywialne" },
                             { file: "wmed (36).png", name: "im just a physicist" },
                             { file: "wmed (37).png", name: "im just a physicist (bow edition)" },
+                            { file: "ackschoually.png", name: "erm, ackschoually" },
+                            { file: "mmmjes.png", name: "mmm, jes fiziks" },
                             { file: "wmed (26).png", name: "załóżmy, że jestem kulą" },
                             { file: "fizykburger.png", name: "certified fan of fizykburger" },
                             { file: "wmed (33).png", name: "szrodinger" },
                             { file: "wmed (19).png", name: "najwazniejszy filar wydziału" },
-                            { file: "powerplant_marchiew.png", name: "power plant ale to power marchiew" },
                             { file: "wmed (3).png", name: "czarna dziura" },
                             { file: "gastro.png", name: "kocham gastro" },
                             { file: "employee.png", name: "im the bestest here" }
                         ];
-                        
                         fuwItems.forEach((item, i) => {
                             document.write(`
                             <div class="card">
@@ -676,7 +619,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="acc-blind" class="accordion-item" style="border-left-color: #2d3436;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span style="letter-spacing: 1px;">🔮 MYSTERY BOX </span>
@@ -710,7 +653,6 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="accordion-content" style="background:#1a1a1a;">
-                
                 <div style="text-align:center; color:#ddd; margin-bottom:25px; padding: 0 10px;">
                     <p style="margin:0; font-style:italic; font-size:0.95rem; line-height:1.4;">
                         "Poczuj się jak szejk na stołówce. Te piny krzyczą: <br> 
@@ -765,13 +707,14 @@
                             { file: "wmed (42).png", name: "jest we mnie BESTIA" },
                             { file: "wmed (43).png", name: "bojem siem kombiemt" },
                             { file: "wmed (44).png", name: "eepy sleepy" },
-                            { file: "im_angy.png", name: "angy kitty" },
-                            { file: "adhd.png", name: "A Dokąd Hasa Dzik?" },
-                            { file: "jedz_plastik.png", name: "omnom" },
                             { file: "wmed (45).png", name: "zakazane słowa" },
                             { file: "meowbucks.png", name: "mmm kawusia" },
+                            { file: "ackschoually.png", name: "erm, ackschoually" },
                             { file: "kapibara_książkara.png", name: "kapibara książkara" },
-                            { file: "dontworrybecappy.png", name: "dont worry be cappy" }
+                            { file: "dontworrybecappy.png", name: "dont worry be cappy" },
+                             { file: "im_angy.png", name: "angy kitty" },
+                             { file: "adhd.png", name: "A Dokąd Hasa Dzik?" },
+                             { file: "jedz_plastik.png", name: "omnom" }
                         ];
                         borderItems.forEach((item, i) => {
                             document.write(`
@@ -900,7 +843,7 @@
         
         <div class="contact-box">
             <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase; margin-bottom: 5px;">
-                <i class="fa-regular fa-comments"></i> Masz pytania? Chcesz odebrać zamówienie w wybranym terminie? Napisz!
+                <i class="fa-regular fa-comments"></i> Masz pytania?
             </h4>
             <div style="display: flex; gap: 10px;">
                 <a href="https://www.facebook.com/profile.php?id=61584627429588" target="_blank" class="contact-btn fb">
@@ -1014,18 +957,18 @@
         let html = ""; let total = 0; let totalOldPrice = 0;
         
         let countsByPrice = {};
+        let totalItemsCount = 0;
 
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
             total += itemTotal;
+            totalItemsCount += item.qty;
             
             // Liczymy "starą cenę"
-            // Jeśli item ma oldPrice > 0, to używamy jej. Jeśli nie, to używamy normalnej ceny (brak rabatu na tym produkcie)
             let itemOldTotal = (item.oldPrice > 0 ? item.oldPrice : item.price) * item.qty;
             totalOldPrice += itemOldTotal;
 
-            // Logika do 3+1 (tylko dla produktów, które nie są Custom ani Prestige, ale tu upraszczamy:
-            // Jeśli cena jest standardowa (np. 5), to wpada do kubka 3+1
+            // Logika do 3+1 (tylko dla standardowych cen)
             let priceKey = item.price.toFixed(2);
             if(!countsByPrice[priceKey]) countsByPrice[priceKey] = 0;
             countsByPrice[priceKey] += item.qty;
@@ -1037,7 +980,7 @@
             </div>`;
         });
 
-        // 3+1 Logic
+        // 1. Logic 3+1
         let promoDiscount = 0;
         let discountInfo = "";
         
@@ -1053,7 +996,14 @@
         
         total -= promoDiscount;
 
-        // Jeśli mamy napiwek, dodajemy go, ale on nie wpływa na "oszczędzasz"
+        // 2. Logic Bulk Discount (-10% powyżej 15 sztuk)
+        if(totalItemsCount > 15) {
+            let bulkDisc = total * 0.10;
+            total -= bulkDisc;
+            discountInfo += `<div class="promo-pill bulk">💎 RABAT HURTOWY (-10%): -${bulkDisc.toFixed(2)} zł</div>`;
+        }
+
+        // 3. Tip
         let tipAmount = 0;
         if(document.getElementById('tipCheck').checked) { 
             tipAmount = 1.00;
@@ -1067,9 +1017,7 @@
         totalEl.innerText = finalTotal.toFixed(2);
         mobileTotal.innerText = finalTotal.toFixed(2) + " PLN";
 
-        // Obliczanie całkowitej oszczędności (Rabat Prestige + Rabat 3+1)
-        // Oszczędność = (Suma starych cen wszystkich produktów) - (Suma nowych cen po rabatach 3+1)
-        // Tip nie jest liczony do oszczędności
+        // Savings calculation
         let totalSaved = totalOldPrice - total; 
 
         if(totalSaved > 0) {
@@ -1127,24 +1075,24 @@
             else paymentInfo = "Płatność gotówką przy odbiorze.";
 
             document.getElementById('success-details-box').innerHTML = `
-                            Do zapłaty: <strong style="font-size:1.2rem; color:#4834d4;">${kwota}</strong><br>
-                            <hr style="margin:10px 0; border:0; border-top:1px dashed #ccc;">
-                            ${paymentInfo}
-                            
-                            <div style="margin-top:15px; background:#f8f9fa; padding:12px; border-radius:8px; font-size:0.85rem; text-align:left; border: 1px solid #eee;">
-                                <div style="margin-bottom:8px;">
-                                    <i class="fa-solid fa-location-dot" style="color:#4834d4;"></i> <strong>Odbiór na stoisku:</strong><br>
-                                    <span style="display:block; margin-left:18px;">17-18 Grudnia, FUW (Hall Główny)</span>
-                                </div>
-                                <div style="border-top:1px solid #e0e0e0; padding-top:8px; margin-top:8px;">
-                                    <i class="fa-solid fa-envelope" style="color:#4834d4;"></i> <strong>Inny termin?</strong><br>
-                                    <span style="display:block; margin-left:18px;">
-                                        Możliwy odbiór w dowolnym terminie po kontakcie: 
-                                        <a href="mailto:pinmeup.fuw@gmail.com" style="color:#4834d4; font-weight:bold; text-decoration:none;">pinmeup.fuw@gmail.com</a>
-                                    </span>
-                                </div>
-                            </div>
-                        `;
+                Do zapłaty: <strong style="font-size:1.2rem; color:#4834d4;">${kwota}</strong><br>
+                <hr style="margin:10px 0; border:0; border-top:1px dashed #ccc;">
+                ${paymentInfo}
+                
+                <div style="margin-top:15px; background:#f8f9fa; padding:12px; border-radius:8px; font-size:0.85rem; text-align:left; border: 1px solid #eee;">
+                    <div style="margin-bottom:8px;">
+                        <i class="fa-solid fa-location-dot" style="color:#4834d4;"></i> <strong>Odbiór na stoisku:</strong><br>
+                        <span style="display:block; margin-left:18px;">17-18 Grudnia, FUW (Hall Główny)</span>
+                    </div>
+                    <div style="border-top:1px solid #e0e0e0; padding-top:8px; margin-top:8px;">
+                        <i class="fa-solid fa-envelope" style="color:#4834d4;"></i> <strong>Inny termin?</strong><br>
+                        <span style="display:block; margin-left:18px;">
+                            Możliwy odbiór w dowolnym terminie po kontakcie: 
+                            <a href="mailto:pinmeup.fuw@gmail.com" style="color:#4834d4; font-weight:bold; text-decoration:none;">pinmeup.fuw@gmail.com</a>
+                        </span>
+                    </div>
+                </div>
+            `;
 
             document.getElementById('success-modal').style.display = "flex";
             
@@ -1160,10 +1108,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
