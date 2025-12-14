@@ -477,6 +477,7 @@
                         – w jednym miejscu, żeby nie przeszukiwać wszystkich sekcji (chociaż serdecznie zachęcamy!).
                     </p>
                 </div>
+
                 <div class="grid">
                     <script>
                         const fuwItems = [
@@ -495,12 +496,13 @@
                             { file: "wmed (33).png", name: "szrodinger" },
                             { file: "wmed (19).png", name: "najwazniejszy filar wydziału" },
                             { file: "wmed (3).png", name: "czarna dziura" },
-                            { file: "gastro.png", name: "kocham (g)astro" }
+                            { file: "gastro.png", name: "kocham (g)astro" } 
                         ];
+                        
                         fuwItems.forEach((item, i) => {
                             document.write(`
                             <div class="card">
-                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=FUW'">
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/150?text=Brak+Foty'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_fuw_${i}" class="qty-input" value="1"></div>
@@ -1154,6 +1156,7 @@
 
 </body>
 </html>
+
 
 
 
