@@ -3,32 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PinMeUP! - Final Version</title>
+    <title>PinMeUP! - Final Release</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
-        window.UPLOADCARE_PUBLIC_KEY = '1ff394ab9d26bf13cb0b'; // TWÓJ KLUCZ
+        window.UPLOADCARE_PUBLIC_KEY = '1ff394ab9d26bf13cb0b'; // TWÓJ KLUCZ (Zostaw ten lub wpisz swój)
         window.UPLOADCARE_LOCALE = 'pl';
     </script>
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <style>
         :root {
-            --primary: #4834d4; --primary-dark: #301b9e; --salmon: #ff7979; --accent: #f9ca24; 
-            --bg-color: #f7f1ff; --glass: rgba(255, 255, 255, 0.98); --shadow: 0 10px 40px -10px rgba(72, 52, 212, 0.15);
-            --radius: 16px; --banner-1-height: 60px; --banner-2-height: 45px; --header-height: 70px; --top-gap: 0px;
-        }
-        html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); 
-            background-image: radial-gradient(#e0d4fc 1px, transparent 1px); background-size: 20px 20px;
-            color: #2d3436; margin: 0; padding-bottom: 150px;
-            padding-top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); 
-            -webkit-tap-highlight-color: transparent;
+            --primary: #4834d4; 
+            --primary-dark: #301b9e;
+            --salmon: #ff7979; 
+            --accent: #f9ca24; 
+            --bg-color: #f7f1ff;
+            --glass: rgba(255, 255, 255, 0.98);
+            --shadow: 0 10px 40px -10px rgba(72, 52, 212, 0.15);
+            --radius: 16px;
+            --banner-1-height: 60px;
+            --banner-2-height: 45px;
+            --header-height: 70px;
+            --top-gap: 0px;
         }
 
+        html { scroll-behavior: smooth; }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(#e0d4fc 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #2d3436; 
+            margin: 0; 
+            padding-bottom: 90px;
+            padding-top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); 
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden; /* Zabezpieczenie przed rozpychaniem */
+        }
+
+        /* --- TOAST --- */
         #toast {
             visibility: hidden; min-width: 200px; background-color: #2d3436; color: #fff; text-align: center;
             border-radius: 50px; padding: 12px 25px; position: fixed; z-index: 10000; left: 50%; bottom: 20px; 
@@ -37,48 +54,84 @@
         }
         #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
 
-        /* SUCCESS MODAL */
+        /* --- MODAL SUKCESU --- */
         #success-modal {
             display: none; position: fixed; z-index: 10001; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center; padding: 20px;
+            background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px);
         }
         .success-content {
             background: white; border-radius: 20px; padding: 30px; max-width: 500px; width: 100%;
             text-align: center; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: popIn 0.3s ease;
+            animation: popIn 0.3s ease; box-sizing: border-box;
         }
         @keyframes popIn { from{transform:scale(0.8); opacity:0;} to{transform:scale(1); opacity:1;} }
         .success-icon { font-size: 4rem; color: #27ae60; margin-bottom: 15px; }
         .success-title { font-size: 1.5rem; color: #2d3436; margin-bottom: 10px; font-weight: 900; }
         .success-details { background: #f9f9f9; padding: 15px; border-radius: 10px; text-align: left; margin: 15px 0; font-size: 0.9rem; border: 1px dashed #ccc; }
-        .success-close { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .success-close { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .success-close:hover { transform: scale(1.05); }
 
-        /* STYLE OGÓLNE */
+        /* --- BANERY --- */
         .event-banner { position: fixed; top: var(--top-gap); left: 0; width: 100%; height: var(--banner-1-height); background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200% 200%; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; z-index: 1003; animation: gradientMove 5s ease infinite; text-align: center; padding: 0 10px; box-sizing: border-box; }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .event-highlight { background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; margin: 0 3px; display: inline-block; }
         .promo-banner { position: fixed; top: calc(var(--top-gap) + var(--banner-1-height)); left: 0; width: 100%; height: var(--banner-2-height); background: #fff200; color: #d63031; display: flex; align-items: center; overflow: hidden; border-bottom: 3px solid #d63031; z-index: 1002; white-space: nowrap; }
         .marquee { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; font-weight: 900; font-size: 1rem; text-transform: uppercase; }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-        header { background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: fixed; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height)); left: 0; width: 100%; height: var(--header-height); z-index: 1001; border-bottom: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s; }
-        @media (max-width: 900px) { :root { --top-gap: 0px; } header { height: auto; padding: 10px 0; flex-wrap: wrap; } .marquee { animation: marquee 30s linear infinite; font-size: 0.85rem; } .event-banner { font-size: 0.7rem; line-height: 1.1; } .mobile-break { display: inline !important; } }
-        .nav-inner { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+
+        /* --- HEADER --- */
+        header { 
+            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            position: fixed; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height)); left: 0; width: 100%; 
+            height: var(--header-height); z-index: 1001; border-bottom: 1px solid rgba(255,255,255,0.3); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s;
+        }
+        .nav-inner { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; box-sizing: border-box; }
         .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
         .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
-        .main-menu { display: flex; gap: 8px; }
+        .main-menu { display: flex; gap: 8px; flex-wrap: wrap; }
         .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.75rem; padding: 8px 12px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; }
         .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
         .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
         .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
         .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.9rem; flex-shrink: 0; }
         .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
-        @media (max-width: 900px) { .nav-inner { flex-wrap: wrap; } .logo { flex: 1; justify-content: flex-start; } .cart-btn-desktop { display: none; } .mobile-menu-toggle { display: block; } .main-menu { display: none; flex-direction: column; width: 100%; background: white; margin-top: 10px; border-top: 1px solid #eee; padding: 10px 0; animation: fadeInMenu 0.3s ease; max-height: 60vh; overflow-y: auto; } .main-menu.open { display: flex; } .menu-link { display: block; width: 100%; text-align: left; padding: 12px 10px; border-bottom: 1px solid #f9f9f9; border-radius: 0; } .menu-link:active { background: #f0f0f0; } }
+        
+        @media (max-width: 900px) {
+            :root { --top-gap: 0px; } header { height: auto; padding: 10px 0; flex-wrap: wrap; }
+            .marquee { animation: marquee 30s linear infinite; font-size: 0.85rem; } 
+            .event-banner { font-size: 0.7rem; line-height: 1.1; } .mobile-break { display: inline !important; }
+            .nav-inner { flex-wrap: wrap; } .logo { flex: 1; justify-content: flex-start; } .cart-btn-desktop { display: none; }
+            .mobile-menu-toggle { display: block; } 
+            .main-menu { display: none; flex-direction: column; width: 100%; background: white; margin-top: 10px; border-top: 1px solid #eee; padding: 10px 0; animation: fadeInMenu 0.3s ease; max-height: 60vh; overflow-y: auto; }
+            .main-menu.open { display: flex; } .menu-link { display: block; width: 100%; text-align: left; padding: 12px 10px; border-bottom: 1px solid #f9f9f9; border-radius: 0; }
+            .menu-link:active { background: #f0f0f0; }
+        }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .main-wrapper { max-width: 1200px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 2fr 1.1fr; grid-template-areas: "products cart" "gallery cart"; gap: 40px; align-items: start; }
-        .content-col { grid-area: products; } .sidebar { grid-area: cart; } .extra-content-box { grid-area: gallery; }
-        @media (max-width: 900px) { .main-wrapper { grid-template-columns: 1fr; grid-template-areas: "products" "cart" "gallery"; padding: 0 15px; gap: 20px; margin-top: 10px; } .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; } }
-        
+
+        /* --- LAYOUT GŁÓWNY (NAPRAWIONY) --- */
+        .main-wrapper { 
+            max-width: 1200px; margin: 20px auto; padding: 0 20px; 
+            display: grid; 
+            grid-template-columns: 2fr 1.1fr; 
+            grid-template-areas: "products cart" "gallery cart"; 
+            gap: 40px; align-items: start; 
+            box-sizing: border-box;
+        }
+        .content-col { grid-area: products; width: 100%; } 
+        .sidebar { grid-area: cart; width: 100%; } 
+        .extra-content-box { grid-area: gallery; width: 100%; }
+
+        @media (max-width: 900px) {
+            .main-wrapper { 
+                grid-template-columns: 1fr; 
+                grid-template-areas: "products" "cart" "gallery"; 
+                padding: 0 15px; gap: 20px; margin-top: 10px; 
+            }
+            .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+        }
+
+        /* --- ELEMENTY --- */
         .accordion-item { background: white; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 240px; border-left: 5px solid #ccc; transition: transform 0.2s; }
         .accordion-item.rainbow-border { border-left: none !important; background-image: linear-gradient(to bottom, #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff); background-size: 6px 100%; background-repeat: no-repeat; }
         .accordion-item.rainbow-border .accordion-header, .accordion-item.rainbow-border .accordion-content { margin-left: 6px; background: white; }
@@ -96,60 +149,90 @@
         .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; font-size: 16px; }
         .btn-add { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top:5px; transition:0.2s; font-size: 0.85rem; }
         @media (max-width: 900px) { .card { padding: 10px; } .card img { width: 70px; height: 70px; } .card h3 { font-size: 0.75rem; } .btn-add { padding: 8px 0; font-size: 0.75rem; } }
+
         .card.prestige { background: #222; color: white; border: 1px solid var(--accent); } .card.prestige h3 { color: var(--accent); } .card.prestige .price { color: #fff; } .card.prestige .btn-add { background: var(--accent); color: black; }
         .card.gold-edition { background: linear-gradient(135deg, #fffbf0, #fff); border: 2px solid #f1c40f; box-shadow: 0 0 15px rgba(241, 196, 15, 0.3); }
         .card.gold-edition img { border-color: #f1c40f; } .card.gold-edition h3 { color: #b7950b; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; } .card.gold-edition .btn-add { background: #f1c40f; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.2); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
 
+        #lightbox { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        #lightbox.visible { display: flex; opacity: 1; }
+        #lightbox img { max-width: 90%; max-height: 80%; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2); transform: scale(0.8); transition: transform 0.3s; }
+        #lightbox.visible img { transform: scale(1); }
+        .close-lightbox { position: absolute; top: 20px; right: 20px; color: white; font-size: 2rem; cursor: pointer; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; }
+
+        /* --- KOSZYK STYLE --- */
         .cart-wrapper { 
             background: white; padding: 25px; border-radius: var(--radius); position: static !important; top: auto !important; 
-            border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none; box-shadow: 0 -5px 25px rgba(0,0,0,0.03); border: 1px solid #eee;
+            border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none; 
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.03); border: 1px solid #eee;
             background-image: linear-gradient(to bottom, #fff, #fcfcfc);
         }
         .cart-items { margin-bottom: 20px; max-height: 25vh; min-height: 50px; overflow-y: auto; padding-right: 5px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding-top: 10px; }
         .cart-items::-webkit-scrollbar { width: 6px; } .cart-items::-webkit-scrollbar-track { background: #f1f1f1; } .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #eee; padding: 12px 0; font-size: 0.9rem; }
-        .btn-checkout { background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 18px; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; margin-top: 20px; font-size: 1rem; box-shadow: 0 10px 20px rgba(72, 52, 212, 0.2); transition: 0.3s; }
-        input.field { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 15px; transition: 0.3s; }
         
-        /* POPRAWIONE PŁATNOŚCI - PEŁNA SZEROKOŚĆ */
+        .btn-checkout { background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 18px; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; margin-top: 20px; font-size: 1rem; box-shadow: 0 10px 20px rgba(72, 52, 212, 0.2); transition: 0.3s; }
+        .btn-checkout:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(72, 52, 212, 0.3); }
+        input.field { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 15px; transition: 0.3s; }
+        input.field:focus { border-color: var(--primary); outline: none; }
+
+        /* PŁATNOŚCI */
         .payment-options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; margin-top: 10px; width: 100%; box-sizing: border-box; }
         .pay-option { 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
             border: 2px solid #eee; padding: 15px 5px; text-align: center; border-radius: 12px; 
             cursor: pointer; font-size: 0.75rem; transition: all 0.2s; background: #fff; color: #888; font-weight: 600;
-            width: 100%; box-sizing: border-box; /* Ważne */
+            width: 100%; box-sizing: border-box; 
         }
         .pay-option:hover { background: #f9f9f9; border-color: #ddd; }
-        .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); }
+        .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); box-shadow: 0 5px 15px rgba(72, 52, 212, 0.1); }
         .pay-option i { font-size: 1.4rem; margin-bottom: 6px; }
 
-        /* ŁADNY STYL RABATU */
+        /* PROMOCJA OGIEŃ */
         .promo-pill {
-            background: linear-gradient(90deg, #55efc4, #00b894);
+            background: linear-gradient(135deg, #ff9f43, #ff6b6b);
             color: white;
-            padding: 8px 12px;
+            padding: 10px 15px;
             border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            font-size: 0.8rem;
+            font-weight: 900;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 8px;
-            box-shadow: 0 4px 10px rgba(0, 184, 148, 0.2);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            animation: pulse 2s infinite;
         }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
+        .price-summary { display: flex; flex-direction: column; align-items: flex-end; }
+        .old-price { font-size: 0.9rem; text-decoration: line-through; color: #aaa; margin-right: 5px; }
+        .final-price { font-size: 1.6rem; font-weight: 900; color: var(--primary); }
+        .savings-badge { font-size: 0.7rem; background: #27ae60; color: white; padding: 2px 6px; border-radius: 4px; margin-top: 3px; font-weight: bold; }
+
+        .sticky-group { position: sticky; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); height: fit-content; }
+        
         .contact-box { background: #fff; padding: 25px; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); border-top-left-radius: 0; border-top-right-radius: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.03); border: 1px solid #eee; border-top: none; margin-top: 0; text-align: center; }
         .contact-btn { flex: 1; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; color: white !important; }
-        .contact-btn.fb { background: #1877F2; } .contact-btn.mail { background: #2d3436; }
-        .sticky-group { position: sticky; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); height: fit-content; }
+        .contact-btn:hover { transform: translateY(-2px); }
+        .contact-btn.fb { background: #1877F2; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.2); }
+        .contact-btn.mail { background: #2d3436; box-shadow: 0 4px 10px rgba(45, 52, 54, 0.2); }
+
         #mobile-sticky-cart { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #eee; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); padding: 12px 20px; display: none; justify-content: space-between; align-items: center; z-index: 2000; box-sizing: border-box; }
         @media (max-width: 900px) { #mobile-sticky-cart.visible { display: flex; } }
         .m-cart-info { font-size: 0.9rem; color: #333; } .m-cart-total { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
         .m-cart-btn { background: var(--primary); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(72, 52, 212, 0.4); }
+        
+        .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #eee; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+        .gallery-item img { width: 100%; border-radius: 8px; aspect-ratio: 1/1; object-fit: cover; cursor: zoom-in; transition: 0.3s; }
+        .gallery-item img:hover { transform: scale(1.05); }
+
         .custom-upload-btn { display: block; border: 2px dashed #ff7675; background-color: #fff5f5; color: #ff7675; padding: 25px 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 0.9rem; }
+        .custom-upload-btn:hover { background-color: #ffeaea; border-color: #d63031; color: #d63031; transform: scale(0.98); }
         .uploadcare--widget__button_type_open { background-color: var(--salmon) !important; color: white !important; border-radius: 50px !important; padding: 10px 20px !important; font-weight: 700 !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     </style>
 </head>
@@ -316,7 +399,7 @@
                     <script>
                         const fuwItems = [
                             { file: "[PL] fuw __ pełne.png", name: "logo wydziału #1" },
-                            { file: "[EN] fuw __ pełne.png", name: "logo wydziału #1 eng" },
+                            { file: "[EN] fuw__pełne.png", name: "logo wydziału #1 eng" },
                             { file: "fuw __ skrót (2).png", name: "logo wydziału #2" },
                             { file: "fuw __ skrót (3).png", name: "logo wydziału #3" },
                             { file: "wmed (20).png", name: "Fuw baloon"},
@@ -515,33 +598,6 @@
             </div>
         </div>
 
-         <div id="acc-prestige" class="accordion-item" style="border-left-color: #222;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>💎 STREFA PRESTIŻU 💎</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content" style="background:#1a1a1a;">
-                <div class="grid">
-                    <div class="card prestige">
-                        <img src="dubajska_czekolada.png" alt="Dubaj" onclick="openLightbox(this.src)">
-                        <s style="color: #666; font-size: 0.8rem;"> 150 PLN</s>
-                        <h3>Dubajska Czekolada (prosto z Dubaju) </h3>
-                        <span class="price">15.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_dubaj" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Dubajska Czekolada', 15, 'qty_dubaj')">BIORĘ</button>
-                    </div>
-                    <div class="card prestige">
-                        <img src="labubu.png" alt="Labubu" onclick="openLightbox(this.src)">
-                        <s style="color: #666; font-size: 0.8rem;"> 500 PLN</s>
-                        <h3>laFUWu </h3>
-                        <span class="price">20.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_labubu" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('laFUWu', 20, 'qty_labubu')">BIORĘ</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="acc-border" class="accordion-item" style="border-left-color: #9b59b6;">
             <div class="accordion-header" onclick="toggleAcc(this)">
                 <span style="display: flex; align-items: center; gap: 10px;">
@@ -565,7 +621,7 @@
                             { file: "wmed (42).png", name: "jest we mnie BESTIA" },
                             { file: "wmed (43).png", name: "bojem siem kombiemt" },
                             { file: "wmed (44).png", name: "eepy sleepy" },
-                            { file: "wmed (45).png", name: "zakazane słowa" },
+                            { file: "wmed(45).png", name: "zakazane słowa" },
                             { file: "meowbucks.png", name: "mmm kawusia" },
                             { file: "kapibara_książkara.png", name: "kapibara książkara" },
                             { file: "dontworrybecappy.png", name: "dont worry be cappy" }
@@ -581,6 +637,33 @@
                             </div>`);
                         });
                     </script>
+                </div>
+            </div>
+        </div>
+
+         <div id="acc-prestige" class="accordion-item" style="border-left-color: #222;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>💎 STREFA PRESTIŻU 💎</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content" style="background:#1a1a1a;">
+                <div class="grid">
+                    <div class="card prestige">
+                        <img src="dubajska_czekolada.png" alt="Dubaj" onclick="openLightbox(this.src)">
+                        <s style="color: #666; font-size: 0.8rem;"> 150 PLN</s>
+                        <h3>Dubajska Czekolada (prosto z Dubaju) </h3>
+                        <span class="price">15.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_dubaj" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Dubajska Czekolada', 15, 'qty_dubaj')">BIORĘ</button>
+                    </div>
+                    <div class="card prestige">
+                        <img src="labubu.png" alt="Labubu" onclick="openLightbox(this.src)">
+                        <s style="color: #666; font-size: 0.8rem;"> 500 PLN</s>
+                        <h3>laFUWu </h3>
+                        <span class="price">20.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_labubu" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('laFUWu', 20, 'qty_labubu')">BIORĘ</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -658,10 +741,15 @@
                     <input type="checkbox" id="tipCheck" onchange="renderCart()" style="transform:scale(1.2);">
                     <span style="font-size:0.9rem;">Napiwek na monsterka (+1 PLN) ❤️</span>
                 </label>
-                <div class="saved-amount" id="savedDisplay" style="color:#27ae60; text-align:right; font-weight:bold; font-size:0.85rem; margin-bottom:5px;"></div>
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <span style="font-weight:bold; color:#555;">DO ZAPŁATY:</span>
-                    <span style="font-size:1.6rem; font-weight:900; color:var(--primary);"><span id="totalPrice">0.00</span> PLN</span>
+                
+                <div class="price-summary">
+                    <div style="display:flex; align-items:baseline; justify-content:flex-end;">
+                        <span id="oldPrice" class="old-price"></span>
+                        <span style="font-weight:bold; color:#555; margin-right:5px;">SUMA:</span>
+                        <span id="totalPrice" class="final-price">0.00</span> 
+                        <span style="font-size:1rem; font-weight:900; color:var(--primary); margin-left:3px;">PLN</span>
+                    </div>
+                    <div id="savedBadge" class="savings-badge" style="display:none;"></div>
                 </div>
             </div>
     
@@ -720,39 +808,30 @@
     let cart = [];
     let uploadedImageUrl = ""; 
 
-    // Widget Uploadcare
     const widget = uploadcare.Widget('[role=uploadcare-uploader]');
     widget.onUploadComplete(info => {
         uploadedImageUrl = info.cdnUrl;
         showToast("Zdjęcie wgrane! Kliknij DODAJ.");
     });
 
-    // Funkcje UI
     function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('visible'); }
     function closeLightbox() { document.getElementById('lightbox').classList.remove('visible'); }
     function toggleMenu() { document.getElementById('navMenu').classList.toggle('open'); }
     
-    // Nowa funkcja otwierania sekcji i zamykania innych
     function openSection(id) {
-        // Zamknij wszystkie
         document.querySelectorAll('.accordion-item').forEach(item => item.classList.remove('active'));
-        // Otwórz wybrany
         const target = document.getElementById(id);
         if(target) {
             target.classList.add('active');
-            // Scrollowanie
             const yOffset = -100; 
             const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
             window.scrollTo({top: y, behavior: 'smooth'});
-            // Zamknij menu mobilne
             document.getElementById('navMenu').classList.remove('open');
         }
     }
 
-    // Obsługa kliknięcia w nagłówek (ręczne zamykanie/otwieranie)
     function toggleAcc(header) {
         const parent = header.parentElement;
-        // Jeśli jest otwarty to zamknij, jeśli zamknięty to otwórz ten i zamknij inne
         if (parent.classList.contains('active')) {
             parent.classList.remove('active');
         } else {
@@ -766,7 +845,6 @@
     }
     function closeSuccessModal() { document.getElementById('success-modal').style.display = "none"; }
 
-    // Logika Koszyka
     function addItem(name, price, inputId) {
         const qty = inputId ? parseInt(document.getElementById(inputId).value) : 1;
         if(qty < 1) return;
@@ -787,23 +865,32 @@
     function renderCart() {
         const container = document.getElementById('cartItems');
         const totalEl = document.getElementById('totalPrice');
-        const mobileTotalEl = document.getElementById('mobileTotal');
-        const mobileBar = document.getElementById('mobile-sticky-cart');
+        const oldPriceEl = document.getElementById('oldPrice');
+        const savedBadge = document.getElementById('savedBadge');
         const promoBox = document.getElementById('promoBox');
+        const mobileBar = document.getElementById('mobile-sticky-cart');
+        const mobileTotal = document.querySelector('.m-cart-total');
         
-        if(cart.length === 0) { container.innerHTML = "Pusto..."; totalEl.innerText = "0.00"; mobileBar.classList.remove('visible'); return; }
+        if(cart.length === 0) { 
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Pusto...</div>'; 
+            totalEl.innerText = "0.00"; 
+            mobileBar.classList.remove('visible'); 
+            promoBox.innerHTML = "";
+            oldPriceEl.innerText = "";
+            savedBadge.style.display = "none";
+            return; 
+        }
         
         mobileBar.classList.add('visible');
-        let html = ""; let total = 0;
+        let html = ""; let total = 0; let originalTotal = 0;
         
-        // Zliczamy przedmioty wg ceny (do promocji)
         let countsByPrice = {};
 
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
+            originalTotal += itemTotal;
             total += itemTotal;
             
-            // Logika liczenia sztuk dla każdej ceny
             let priceKey = item.price.toFixed(2);
             if(!countsByPrice[priceKey]) countsByPrice[priceKey] = 0;
             countsByPrice[priceKey] += item.qty;
@@ -825,40 +912,43 @@
             if (freeItems > 0) {
                 let disc = freeItems * price;
                 totalDiscount += disc;
-                // Dodajemy info o rabacie
-                discountInfo += `<div class="promo-pill">Rabat 3+1 (${price}zł): -${disc.toFixed(2)} zł</div> `;
+                discountInfo += `<div class="promo-pill">🔥 GRATIS 3+1 (${price}zł): -${disc.toFixed(2)} zł</div> `;
             }
         }
         
         total -= totalDiscount;
 
-        // Wyświetlanie promocji
-        promoBox.innerHTML = discountInfo;
-
-        // Napiwek
-        if(document.getElementById('tipCheck').checked) { total += 1; html += `<div class="cart-item"><span>Napiwek</span><span>1.00 zł</span></div>`; }
+        if(document.getElementById('tipCheck').checked) { 
+            total += 1; 
+            originalTotal += 1;
+            html += `<div class="cart-item"><span>Napiwek</span><span>1.00 zł</span></div>`; 
+        }
 
         container.innerHTML = html;
-        const finalTotal = total.toFixed(2);
-        totalEl.innerText = finalTotal;
-        mobileTotalEl.innerText = finalTotal + " PLN";
+        promoBox.innerHTML = discountInfo;
+
+        totalEl.innerText = total.toFixed(2);
+        mobileTotal.innerText = total.toFixed(2) + " PLN";
+
+        // Obsługa starej ceny i oszczędności
+        if(totalDiscount > 0) {
+            oldPriceEl.innerText = originalTotal.toFixed(2) + " zł";
+            savedBadge.innerText = "OSZCZĘDZASZ " + totalDiscount.toFixed(2) + " PLN";
+            savedBadge.style.display = "block";
+        } else {
+            oldPriceEl.innerText = "";
+            savedBadge.style.display = "none";
+        }
     }
 
-    // Nowa funkcja wyboru płatności (Kafelki)
     function selectPayment(method) {
-        // Reset klas
         document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
-        
-        // Ustaw aktywny
         if(method === 'BLIK') document.getElementById('opt_blik').classList.add('active');
         if(method === 'GOTOWKA') document.getElementById('opt_gotowka').classList.add('active');
         if(method === 'PRZELEW') document.getElementById('opt_przelew').classList.add('active');
-
-        // Ustaw wartość w ukrytym polu
         document.getElementById('selectedPaymentMethod').value = method;
     }
 
-    // --- WYSYŁANIE ---
     const form = document.getElementById('googleSheetForm');
     form.addEventListener('submit', e => {
         e.preventDefault();
@@ -880,7 +970,6 @@
         const kwota = document.getElementById('totalPrice').innerText + " PLN";
         const link = uploadedImageUrl || "Brak";
 
-        // Parametry URL
         const targetUrl = GOOGLE_SCRIPT_URL + 
             "?Imie=" + encodeURIComponent(imie) +
             "&Email=" + encodeURIComponent(email) +
@@ -889,10 +978,8 @@
             "&Link_Zdjecie=" + encodeURIComponent(link) +
             "&Koszyk=" + encodeURIComponent(orderString);
 
-        // Wysyłka
         fetch(targetUrl, { method: "POST", mode: "no-cors" })
         .then(() => {
-            // POKAZANIE MODALA SUKCESU
             let paymentInfo = "";
             if(platnosc === 'BLIK') paymentInfo = "BLIK na telefon: <strong>+48 698 793 950</strong> (Jan Dziubak)";
             else if(platnosc === 'PRZELEW') paymentInfo = "Nr konta: <strong>39 1050 1054 1000 0098 3308 4693</strong> (Jan Dziubak)";
@@ -905,12 +992,15 @@
                 📍 Odbiór: <strong>17-18 Grudnia, FUW Hall Główny</strong>
             `;
 
-            // CZYŚCIMY KOSZYK I PROMO
-            document.getElementById('promoBox').innerHTML = ''; // CZYSZCZENIE PROMOCJI
             document.getElementById('success-modal').style.display = "flex";
             
-            cart = []; uploadedImageUrl = ""; renderCart(); form.reset();
-            btn.innerHTML = oldText; btn.disabled = false;
+            // PEŁNE CZYSZCZENIE
+            cart = []; 
+            uploadedImageUrl = ""; 
+            renderCart(); // To wyczyści wizualnie koszyk i rabaty
+            form.reset();
+            btn.innerHTML = oldText; 
+            btn.disabled = false;
         })
         .catch(error => {
             alert("Błąd sieci. Sprawdź połączenie.");
