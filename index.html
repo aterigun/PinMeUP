@@ -499,111 +499,65 @@
 <script>
     // !!! WAŻNE !!! 
     // Wklej tutaj swój URL ze skryptu Google (z KROKU 1, punkt 9)
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-PRZYKLADOWY-LINK-DO-TWOJEGO-SKRYPTU/exec'; 
+    // --- PODMIEŃ TEN FRAGMENT NA SAMYM DOLE SKRYPTU ---
 
-    let cart = [];
-    let uploadedImageUrl = ""; // Tu trzymamy link z Uploadcare
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydfyt26hljm83Wx-mPrQsuBnGpV9l32t_7J1tUJm50fiXfndpbNhe6exkYZCopPnFqeA/exec'; 
 
-    // Obsługa Uploadcare
-    const widget = uploadcare.Widget('[role=uploadcare-uploader]');
-    widget.onUploadComplete(info => {
-        uploadedImageUrl = info.cdnUrl;
-        showToast("Zdjęcie wgrane! Teraz kliknij DODAJ.");
-    });
-
-    function toggleAcc(header) { header.parentElement.classList.toggle('active'); }
-    function toggleAccById(id) { document.getElementById(id).classList.add('active'); }
-    
-    function showToast(msg) {
-        const t = document.getElementById('toast'); t.innerHTML = `<i class="fa-solid fa-check"></i> ${msg}`; t.className = "show"; setTimeout(() => t.className = "", 3000);
-    }
-
-    function addItem(name, price) {
-        cart.push({ name: name, price: price });
-        renderCart();
-        showToast("Dodano: " + name);
-    }
-
-    function addCustomFromWidget() {
-        if(!uploadedImageUrl) { alert("Najpierw wgraj zdjęcie w polu powyżej!"); return; }
-        cart.push({ name: "Własny Wzór (Link w bazie)", price: 7.00 });
-        renderCart();
-        showToast("Dodano Twój projekt!");
-    }
-
-    function removeItem(index) { cart.splice(index, 1); renderCart(); }
-
-    function renderCart() {
-        const container = document.getElementById('cartItems');
-        const totalEl = document.getElementById('totalPrice');
-        
-        if(cart.length === 0) { container.innerHTML = "Pusto..."; totalEl.innerText = "0.00"; return; }
-
-        let html = ""; let total = 0; let qtyMap = {};
-        cart.forEach(item => {
-            if(!qtyMap[item.name]) qtyMap[item.name] = { count: 0, price: item.price };
-            qtyMap[item.name].count++;
-            total += item.price;
-        });
-
-        for(let name in qtyMap) {
-            let item = qtyMap[name];
-            html += `<div class="cart-item"><span>${name} x${item.count}</span><strong>${(item.count*item.price).toFixed(2)} zł</strong><span onclick="removeByName('${name}')" style="color:red; cursor:pointer; margin-left:5px;">&times;</span></div>`;
-        }
-
-        // 3+1
-        if(cart.length >= 4) {
-            let discount = Math.floor(cart.length/4) * 5;
-            total -= discount;
-            html += `<div style="color:green; font-size:0.8rem;">Rabat 3+1: -${discount} zł</div>`;
-        }
-
-        container.innerHTML = html;
-        totalEl.innerText = total.toFixed(2);
-    }
-
-    function removeByName(name) {
-        const idx = cart.findIndex(i => i.name === name);
-        if(idx > -1) removeItem(idx);
-    }
-
-    // WYSYŁANIE DO GOOGLE SHEETS
     const form = document.getElementById('googleSheetForm');
+    
     form.addEventListener('submit', e => {
         e.preventDefault();
         
         if(cart.length === 0) { alert("Koszyk pusty!"); return; }
-        if(GOOGLE_SCRIPT_URL.includes("PRZYKLADOWY")) { alert("BŁĄD: Nie wkleiłeś linku do skryptu Google w kodzie HTML!"); return; }
 
         const btn = form.querySelector('button');
         const oldText = btn.innerHTML;
-        btn.innerHTML = "ZAPISYWANIE..."; btn.disabled = true;
+        btn.innerHTML = "⏳ ZAPISYWANIE..."; btn.disabled = true;
 
-        // Budujemy treść zamówienia
+        // 1. Budujemy treść zamówienia
         let orderString = "";
         let qtyMap = {};
         cart.forEach(item => { if(!qtyMap[item.name]) qtyMap[item.name]=0; qtyMap[item.name]++; });
-        for(let n in qtyMap) { orderString += `${n}: ${qtyMap[n]} szt. \n`; }
+        for(let n in qtyMap) { orderString += `${n}: ${qtyMap[n]} szt. | `; }
 
-        const data = new FormData(form);
-        data.append('Koszyk', orderString);
-        data.append('Kwota', document.getElementById('totalPrice').innerText + " PLN");
-        data.append('Link_Zdjecie', uploadedImageUrl || "Brak");
+        // 2. Pobieramy dane z inputów
+        const imie = document.getElementById('clientName').value;
+        const email = document.getElementById('clientEmail').value;
+        const platnosc = document.querySelector('select[name="Platnosc"]').value;
+        const kwota = document.getElementById('totalPrice').innerText + " PLN";
+        const link = uploadedImageUrl || "Brak zdjęcia";
 
-        fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: data })
-            .then(response => {
-                alert("SUKCES! Twoje zamówienie jest w naszej bazie. Dzięki!");
-                cart = []; uploadedImageUrl = ""; renderCart();
-                form.reset();
-                btn.innerHTML = oldText; btn.disabled = false;
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                alert("Wystąpił błąd zapisu. Pokaż ten ekran obsłudze: " + error.message);
-                btn.innerHTML = oldText; btn.disabled = false;
-            });
+        // 3. Budujemy adres URL z parametrami (To jest metoda w 100% pewna dla Google Scripts)
+        // Tworzymy zapytanie typu: skrypt_url?Imie=Jan&Email=jan@...
+        const targetUrl = GOOGLE_SCRIPT_URL + 
+            "?Imie=" + encodeURIComponent(imie) +
+            "&Email=" + encodeURIComponent(email) +
+            "&Platnosc=" + encodeURIComponent(platnosc) +
+            "&Kwota=" + encodeURIComponent(kwota) +
+            "&Link_Zdjecie=" + encodeURIComponent(link) +
+            "&Koszyk=" + encodeURIComponent(orderString);
+
+        // 4. Wysyłamy "ślepe" żądanie (no-cors)
+        fetch(targetUrl, {
+            method: "POST",
+            mode: "no-cors", // TO JEST KLUCZOWE - pozwala wysłać dane bez błędu przeglądarki
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }).then(() => {
+            // Skoro wyszło i nie ma błędu sieci, uznajemy za sukces
+            alert("✅ SUKCES! Zamówienie zapisane w bazie.");
+            cart = []; uploadedImageUrl = ""; renderCart();
+            form.reset();
+            btn.innerHTML = oldText; btn.disabled = false;
+        }).catch(error => {
+            alert("⚠️ Błąd sieci! Zamówienie mogło nie dojść.");
+            console.error(error);
+            btn.innerHTML = oldText; btn.disabled = false;
+        });
     });
 </script>
 
 </body>
 </html>
+
