@@ -83,7 +83,7 @@
         .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
 
         .main-menu { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; align-items: center; margin: 0 20px; }
-        .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.65rem; padding: 8px 10px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+        .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.60rem; padding: 8px 10px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
         .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
         .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
         .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
@@ -116,10 +116,10 @@
             .main-menu.open { display: flex; } 
             .menu-link { 
                 display: block; width: 100%; text-align: center; padding: 15px 20px; 
-                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.85rem; 
+                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.80rem; 
                 white-space: normal; line-height: 1.4;
             } 
-            .main-menu a:last-child { margin-bottom: 50px; }
+            .menu-link:last-child { margin-bottom: 100px !important; display: block; }
         }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -1109,4 +1109,5 @@
 
 </body>
 </html>
+
 
