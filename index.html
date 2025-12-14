@@ -1,1078 +1,935 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PinMeUP! - Przypnij Siebie! </title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --primary: #4834d4; 
-            --primary-dark: #301b9e;
-            --salmon: #ff7979; 
-            --accent: #f9ca24; 
-            --bg-color: #f7f1ff;
-            --glass: rgba(255, 255, 255, 0.98);
-            --shadow: 0 10px 40px -10px rgba(72, 52, 212, 0.15);
-            --radius: 16px;
-            --banner-1-height: 60px;
-            --banner-2-height: 45px;
-            --header-height: 70px;
-            --top-gap: 0px;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PinMeUP! - Wersja Niezawodna</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        // TUTAJ SKONFIGURUJ SWÓJ KLUCZ!
+        // Zmień 'demopublickey' na swój z uploadcare.com, jeśli chcesz trzymać pliki dłużej
+        window.UPLOADCARE_PUBLIC_KEY = '1ff394ab9d26bf13cb0b'; 
+        window.UPLOADCARE_LOCALE = 'pl'; // Język polski widgetu
+    </script>
+    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
-        html { scroll-behavior: smooth; }
+    <style>
+        :root {
+            --primary: #4834d4; --primary-dark: #301b9e; --salmon: #ff7979; --accent: #f9ca24; 
+            --bg-color: #f7f1ff; --glass: rgba(255, 255, 255, 0.98); --radius: 16px;
+            --banner-1-height: 60px; --banner-2-height: 45px; --header-height: 70px; --top-gap: 0px;
+        }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); 
+            background-image: radial-gradient(#e0d4fc 1px, transparent 1px); background-size: 20px 20px;
+            color: #2d3436; margin: 0; padding-bottom: 150px;
+            padding-top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); 
+        }
 
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--bg-color); 
-            background-image: radial-gradient(#e0d4fc 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: #2d3436; 
-            margin: 0; 
-            padding-bottom: 90px;
-            padding-top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); 
-            -webkit-tap-highlight-color: transparent;
-        }
+        #toast {
+            visibility: hidden; min-width: 200px; background-color: #2d3436; color: #fff; text-align: center;
+            border-radius: 50px; padding: 12px 25px; position: fixed; z-index: 10000; left: 50%; bottom: 20px; 
+            transform: translateX(-50%); font-size: 0.9rem; font-weight: 600; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            opacity: 0; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); white-space: nowrap; 
+        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
 
-        #toast {
-            visibility: hidden; min-width: 200px; background-color: #2d3436; color: #fff; text-align: center;
-            border-radius: 50px; padding: 12px 25px; position: fixed; z-index: 10000; left: 50%; bottom: 20px; 
-            transform: translateX(-50%); font-size: 0.9rem; font-weight: 600; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            opacity: 0; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); white-space: nowrap; 
-        }
-        #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
+        /* Style banerów i nagłówka */
+        .event-banner {
+            position: fixed; top: var(--top-gap); left: 0; width: 100%; height: var(--banner-1-height); 
+            background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200%; color: white;
+            display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 0.5px; z-index: 1003; animation: gradientMove 5s ease infinite; text-align: center; padding: 0 10px; box-sizing: border-box;
+        }
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .event-highlight { background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; margin: 0 3px; display: inline-block; }
 
-        .event-banner {
-            position: fixed; top: var(--top-gap); left: 0; width: 100%; height: var(--banner-1-height); 
-            background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200% 200%; color: white;
-            display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.5px; z-index: 1003; animation: gradientMove 5s ease infinite; text-align: center; padding: 0 10px; box-sizing: border-box;
-        }
-        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .event-highlight { background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; margin: 0 3px; display: inline-block; }
+        .promo-banner {
+            position: fixed; top: calc(var(--top-gap) + var(--banner-1-height)); left: 0; width: 100%; height: var(--banner-2-height);
+            background: #fff200; color: #d63031; display: flex; align-items: center; overflow: hidden; border-bottom: 3px solid #d63031;
+            z-index: 1002; white-space: nowrap;
+        }
+        .marquee { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; font-weight: 900; font-size: 1rem; text-transform: uppercase; }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        .promo-banner {
-            position: fixed; top: calc(var(--top-gap) + var(--banner-1-height)); left: 0; width: 100%; height: var(--banner-2-height);
-            background: #fff200; color: #d63031; display: flex; align-items: center; overflow: hidden; border-bottom: 3px solid #d63031;
-            z-index: 1002; white-space: nowrap;
-        }
-        .marquee { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; font-weight: 900; font-size: 1rem; text-transform: uppercase; }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        header { 
+            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            position: fixed; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height)); left: 0; width: 100%; 
+            height: var(--header-height); z-index: 1001; border-bottom: 1px solid rgba(255,255,255,0.3); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s;
+        }
+        
+        .nav-inner { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+        .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        header { 
-            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            position: fixed; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height)); left: 0; width: 100%; 
-            height: var(--header-height); z-index: 1001; border-bottom: 1px solid rgba(255,255,255,0.3); 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s;
-        }
-        
-        @media (max-width: 900px) {
-            :root { --top-gap: 0px; } header { height: auto; padding: 10px 0; flex-wrap: wrap; }
-            .marquee { animation: marquee 30s linear infinite; font-size: 0.85rem; } 
-            .event-banner { font-size: 0.7rem; line-height: 1.1; } .mobile-break { display: inline !important; }
-        }
+        .main-menu { display: flex; gap: 8px; }
+        .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.75rem; padding: 8px 12px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; }
+        .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
+        .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
+        .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
 
-        .nav-inner { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-        .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
-        .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
+        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.9rem; flex-shrink: 0; }
+        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
+        
+        @media (max-width: 900px) {
+            :root { --top-gap: 0px; } header { height: auto; padding: 10px 0; flex-wrap: wrap; }
+            .marquee { animation: marquee 30s linear infinite; font-size: 0.85rem; } 
+            .event-banner { font-size: 0.7rem; line-height: 1.1; } .mobile-break { display: inline !important; }
+            .nav-inner { flex-wrap: wrap; } .logo { flex: 1; justify-content: flex-start; } .cart-btn-desktop { display: none; }
+            .mobile-menu-toggle { display: block; } 
+            .main-menu { display: none; flex-direction: column; width: 100%; background: white; margin-top: 10px; border-top: 1px solid #eee; padding: 10px 0; animation: fadeInMenu 0.3s ease; max-height: 60vh; overflow-y: auto; }
+            .main-menu.open { display: flex; } .menu-link { display: block; width: 100%; text-align: left; padding: 12px 10px; border-bottom: 1px solid #f9f9f9; border-radius: 0; }
+            .menu-link:active { background: #f0f0f0; }
+        }
+        @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .main-menu { display: flex; gap: 8px; }
-        .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.75rem; padding: 8px 12px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; }
-        .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
-        .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
-        .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
+        .main-wrapper { 
+            max-width: 1200px; margin: 20px auto; padding: 0 20px; display: grid; 
+            grid-template-columns: 2fr 1.1fr; grid-template-areas: "products cart" "gallery cart"; gap: 40px; align-items: start; 
+        }
+        .content-col { grid-area: products; } .sidebar { grid-area: cart; } .extra-content-box { grid-area: gallery; }
+        @media (max-width: 900px) {
+            .main-wrapper { grid-template-columns: 1fr; grid-template-areas: "products" "cart" "gallery"; padding: 0 15px; gap: 20px; margin-top: 10px; }
+            .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+        }
 
-        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.9rem; flex-shrink: 0; }
-        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
-        
-        @media (max-width: 900px) {
-            .nav-inner { flex-wrap: wrap; } .logo { flex: 1; justify-content: flex-start; } .cart-btn-desktop { display: none; }
-            .mobile-menu-toggle { display: block; } 
-            .main-menu { display: none; flex-direction: column; width: 100%; background: white; margin-top: 10px; border-top: 1px solid #eee; padding: 10px 0; animation: fadeInMenu 0.3s ease; max-height: 60vh; overflow-y: auto; }
-            .main-menu.open { display: flex; } .menu-link { display: block; width: 100%; text-align: left; padding: 12px 10px; border-bottom: 1px solid #f9f9f9; border-radius: 0; }
-            .menu-link:active { background: #f0f0f0; }
-        }
-        @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        .accordion-item { background: white; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 240px; border-left: 5px solid #ccc; transition: transform 0.2s; }
+        .accordion-item.rainbow-border { border-left: none !important; background-image: linear-gradient(to bottom, #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff); background-size: 6px 100%; background-repeat: no-repeat; }
+        .accordion-item.rainbow-border .accordion-header, .accordion-item.rainbow-border .accordion-content { margin-left: 6px; background: white; }
+        .accordion-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; color: var(--primary); background: white; }
+        .accordion-content { display: none; padding: 20px; border-top: 1px solid #f0f0f0; background: white; }
+        .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-        .main-wrapper { 
-            max-width: 1200px; margin: 20px auto; padding: 0 20px; display: grid; 
-            grid-template-columns: 2fr 1.1fr; grid-template-areas: "products cart" "gallery cart"; gap: 40px; align-items: start; 
-        }
-        .content-col { grid-area: products; } .sidebar { grid-area: cart; } .extra-content-box { grid-area: gallery; }
-        @media (max-width: 900px) {
-            .main-wrapper { grid-template-columns: 1fr; grid-template-areas: "products" "cart" "gallery"; padding: 0 15px; gap: 20px; margin-top: 10px; }
-            .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
-        }
+        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.3s; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; overflow: hidden; }
+        .card:hover { border-color: var(--salmon); box-shadow: 0 15px 30px rgba(0,0,0,0.1); transform: translateY(-5px); }
+        .card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f5f5f5; align-self: center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: zoom-in; }
+        .card:hover img { transform: scale(1.15) rotate(3deg); }
+        .card h3 { font-size: 0.85rem; margin: 5px 0; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.2; word-break: break-word; }
+        .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
+        .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; font-size: 16px; }
+        .btn-add { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top:5px; transition:0.2s; font-size: 0.85rem; }
+        @media (max-width: 900px) { .card { padding: 10px; } .card img { width: 70px; height: 70px; } .card h3 { font-size: 0.75rem; } .btn-add { padding: 8px 0; font-size: 0.75rem; } }
 
-        .accordion-item { background: white; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 240px; border-left: 5px solid #ccc; transition: transform 0.2s; }
-        .accordion-item.rainbow-border { border-left: none !important; background-image: linear-gradient(to bottom, #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff); background-size: 6px 100%; background-repeat: no-repeat; }
-        .accordion-item.rainbow-border .accordion-header, .accordion-item.rainbow-border .accordion-content { margin-left: 6px; background: white; }
-        .accordion-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; color: var(--primary); background: white; }
-        .accordion-content { display: none; padding: 20px; border-top: 1px solid #f0f0f0; background: white; }
-        .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+        .card.prestige { background: #222; color: white; border: 1px solid var(--accent); } .card.prestige h3 { color: var(--accent); } .card.prestige .price { color: #fff; } .card.prestige .btn-add { background: var(--accent); color: black; }
+        .card.gold-edition { background: linear-gradient(135deg, #fffbf0, #fff); border: 2px solid #f1c40f; box-shadow: 0 0 15px rgba(241, 196, 15, 0.3); }
+        .card.gold-edition img { border-color: #f1c40f; } .card.gold-edition h3 { color: #b7950b; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; } .card.gold-edition .btn-add { background: #f1c40f; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.2); }
 
-        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.3s; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; overflow: hidden; }
-        .card:hover { border-color: var(--salmon); box-shadow: 0 15px 30px rgba(0,0,0,0.1); transform: translateY(-5px); }
-        .card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f5f5f5; align-self: center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: zoom-in; }
-        .card:hover img { transform: scale(1.15) rotate(3deg); }
-        .card h3 { font-size: 0.85rem; margin: 5px 0; min-height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1.2; word-break: break-word; }
-        .price { font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
-        .qty-input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; font-size: 16px; }
-        .btn-add { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top:5px; transition:0.2s; font-size: 0.85rem; }
-        @media (max-width: 900px) { .card { padding: 10px; } .card img { width: 70px; height: 70px; } .card h3 { font-size: 0.75rem; } .btn-add { padding: 8px 0; font-size: 0.75rem; } }
+        #lightbox { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        #lightbox.visible { display: flex; opacity: 1; }
+        #lightbox img { max-width: 90%; max-height: 80%; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2); transform: scale(0.8); transition: transform 0.3s; }
+        #lightbox.visible img { transform: scale(1); }
+        .close-lightbox { position: absolute; top: 20px; right: 20px; color: white; font-size: 2rem; cursor: pointer; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; }
 
-        .card.prestige { background: #222; color: white; border: 1px solid var(--accent); } .card.prestige h3 { color: var(--accent); } .card.prestige .price { color: #fff; } .card.prestige .btn-add { background: var(--accent); color: black; }
-        .card.gold-edition { background: linear-gradient(135deg, #fffbf0, #fff); border: 2px solid #f1c40f; box-shadow: 0 0 15px rgba(241, 196, 15, 0.3); }
-        .card.gold-edition img { border-color: #f1c40f; } .card.gold-edition h3 { color: #b7950b; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; } .card.gold-edition .btn-add { background: #f1c40f; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.2); }
+        .pay-option { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #ddd; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; background: #fafafa; color: #777; }
+        .pay-option:hover { background: #f0f0f0; }
+        .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); font-weight: bold; box-shadow: 0 4px 10px rgba(72, 52, 212, 0.15); }
 
-        #lightbox { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
-        #lightbox.visible { display: flex; opacity: 1; }
-        #lightbox img { max-width: 90%; max-height: 80%; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2); transform: scale(0.8); transition: transform 0.3s; }
-        #lightbox.visible img { transform: scale(1); }
-        .close-lightbox { position: absolute; top: 20px; right: 20px; color: white; font-size: 2rem; cursor: pointer; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; }
+        .cart-wrapper { 
+            background: white; padding: 25px; border-radius: var(--radius); position: static !important; top: auto !important; 
+            border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none; box-shadow: 0 -5px 25px rgba(0,0,0,0.03); border: 1px solid #eee;
+        }
+        .cart-items { margin-bottom: 15px; max-height: 25vh; min-height: 50px; overflow-y: auto; padding-right: 5px; }
+        .cart-items::-webkit-scrollbar { width: 6px; } .cart-items::-webkit-scrollbar-track { background: #f1f1f1; } .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
-        .pay-option { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #ddd; padding: 10px 5px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; background: #fafafa; color: #777; }
-        .pay-option:hover { background: #f0f0f0; }
-        .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); font-weight: bold; box-shadow: 0 4px 10px rgba(72, 52, 212, 0.15); }
+        .btn-checkout { background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 15px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-size: 1rem; }
+        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
 
-        .cart-wrapper { 
-            background: white; padding: 25px; border-radius: var(--radius); position: static !important; top: auto !important; 
-            border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none; box-shadow: 0 -5px 25px rgba(0,0,0,0.03); border: 1px solid #eee;
-        }
-        .cart-items { margin-bottom: 15px; max-height: 25vh; min-height: 50px; overflow-y: auto; padding-right: 5px; }
-        .cart-items::-webkit-scrollbar { width: 6px; } .cart-items::-webkit-scrollbar-track { background: #f1f1f1; } .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+        #mobile-sticky-cart { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #eee; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); padding: 12px 20px; display: none; justify-content: space-between; align-items: center; z-index: 2000; box-sizing: border-box; }
+        @media (max-width: 900px) { #mobile-sticky-cart.visible { display: flex; } }
+        .m-cart-info { font-size: 0.9rem; color: #333; } .m-cart-total { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
+        .m-cart-btn { background: var(--primary); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(72, 52, 212, 0.4); }
 
-        .btn-checkout { background: linear-gradient(135deg, var(--primary), #6c5ce7); color: white; width: 100%; padding: 15px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-size: 1rem; }
-        input.field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #eee; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+        .gallery-item img { width: 100%; border-radius: 8px; aspect-ratio: 1/1; object-fit: cover; cursor: zoom-in; transition: 0.3s; }
+        .gallery-item img:hover { transform: scale(1.05); }
+        .payment-options { display: flex; gap: 10px; margin: 15px 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
 
-        #mobile-sticky-cart { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #eee; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); padding: 12px 20px; display: none; justify-content: space-between; align-items: center; z-index: 2000; box-sizing: border-box; }
-        @media (max-width: 900px) { #mobile-sticky-cart.visible { display: flex; } }
-        .m-cart-info { font-size: 0.9rem; color: #333; } .m-cart-total { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
-        .m-cart-btn { background: var(--primary); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(72, 52, 212, 0.4); }
+        .contact-box { background: #fdfdfd; padding: 20px; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); border-top-left-radius: 0; border-top-right-radius: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee; border-top: 1px dashed #ddd; margin-top: 0; text-align: center; }
+        .contact-btn { flex: 1; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; color: white !important; }
+        .contact-btn:hover { transform: translateY(-2px); }
+        .contact-btn.fb { background: #1877F2; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3); }
+        .contact-btn.mail { background: #2d3436; box-shadow: 0 4px 10px rgba(45, 52, 54, 0.3); }
 
-        .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #eee; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
-        .gallery-item img { width: 100%; border-radius: 8px; aspect-ratio: 1/1; object-fit: cover; cursor: zoom-in; transition: 0.3s; }
-        .gallery-item img:hover { transform: scale(1.05); }
-        .payment-options { display: flex; gap: 10px; margin: 15px 0; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .sticky-group { position: sticky; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); height: fit-content; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 10px 0; font-size: 0.85rem; }
 
-        .contact-box { background: #fdfdfd; padding: 20px; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); border-top-left-radius: 0; border-top-right-radius: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee; border-top: 1px dashed #ddd; margin-top: 0; text-align: center; }
-        .contact-btn { flex: 1; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; color: white !important; }
-        .contact-btn:hover { transform: translateY(-2px); }
-        .contact-btn.fb { background: #1877F2; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3); }
-        .contact-btn.mail { background: #2d3436; box-shadow: 0 4px 10px rgba(45, 52, 54, 0.3); }
-
-        .sticky-group { position: sticky; top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); height: fit-content; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; padding: 10px 0; font-size: 0.85rem; }
-
-        .custom-upload-btn { display: block; border: 2px dashed #ff7675; background-color: #fff5f5; color: #ff7675; padding: 25px 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 0.9rem; }
-        .custom-upload-btn:hover { background-color: #ffeaea; border-color: #d63031; color: #d63031; transform: scale(0.98); }
-        
-    </style>
+        /* Styl widżetu Uploadcare */
+        .uploadcare--widget__button_type_open {
+            background-color: var(--salmon) !important;
+            color: white !important;
+            border-radius: 50px !important;
+            padding: 10px 20px !important;
+            font-family: 'Montserrat', sans-serif !important;
+            font-weight: 700 !important;
+        }
+    </style>
 </head>
 <body>
 
 <div id="lightbox" onclick="closeLightbox()">
-    <div class="close-lightbox">&times;</div>
-    <img id="lightbox-img" src="" onclick="event.stopPropagation()">
+    <div class="close-lightbox">&times;</div>
+    <img id="lightbox-img" src="" onclick="event.stopPropagation()">
 </div>
 
 <div id="toast"><i class="fa-solid fa-check-circle"></i> Dodano!</div>
 
 <div id="mobile-sticky-cart">
-    <div class="m-cart-info">
-        <span>Razem:</span> <span class="m-cart-total" id="mobileTotal">0.00 PLN</span>
-    </div>
-    <a href="#koszyk" class="m-cart-btn" onclick="scrollToCartMobile()">
-        ZAMAWIAM <i class="fa-solid fa-arrow-right"></i>
-    </a>
+    <div class="m-cart-info">
+        <span>Razem:</span> <span class="m-cart-total" id="mobileTotal">0.00 PLN</span>
+    </div>
+    <a href="#koszyk" class="m-cart-btn" onclick="scrollToCartMobile()">
+        ZAMAWIAM <i class="fa-solid fa-arrow-right"></i>
+    </a>
 </div>
 
 <div class="event-banner">
-    <div>
-        🚨 STOISKO: 17 & 18 GRUDNIA! FUW, HALL GŁÓWNY
-        <span class="event-highlight">🎡 Koło Fortuny </span> 
-        <span class="event-highlight">📦 Odbiór zamówień </span> 
-        <br style="display:none;" class="mobile-break">
-        <span class="event-highlight">📸 Fotobudka świąteczna </span>
-        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 17.12, 14:00 - ZDJĘCIE Z DZIEKANEM!</span>
-    </div>
+    <div>
+        🚨 STOISKO: 17 & 18 GRUDNIA! FUW, HALL GŁÓWNY
+        <span class="event-highlight">🎡 Koło Fortuny </span> 
+        <span class="event-highlight">📦 Odbiór zamówień </span> 
+        <br style="display:none;" class="mobile-break">
+        <span class="event-highlight">📸 Fotobudka świąteczna </span>
+        <span style="color:yellow; text-shadow:0 1px 2px black;">🎓 17.12, 14:00 - ZDJĘCIE Z DZIEKANEM!</span>
+    </div>
 </div>
 
 <div class="promo-banner">
-    <div class="marquee">
-        🔥 SALE SALE SALE! 🔥 3+1: KUP 3 - CZWARTĄ DOSTANIESZ GRATIS (NA TĘ SAMĄ CENĘ)! 🔥 DODATKOWO PRZY ZAKUPIE POWYŻEJ 15 SZTUK ŁAPIESZ -10% NA WSZYSTKO! 🔥 ZAPRASZAMY NA STOISKO! 🔥 SALE SALE SALE! 🔥
-    </div>
+    <div class="marquee">
+        🔥 SALE SALE SALE! 🔥 3+1: KUP 3 - CZWARTĄ DOSTANIESZ GRATIS (NA TĘ SAMĄ CENĘ)! 🔥 DODATKOWO PRZY ZAKUPIE POWYŻEJ 15 SZTUK ŁAPIESZ -10% NA WSZYSTKO! 🔥 ZAPRASZAMY NA STOISKO! 🔥 SALE SALE SALE! 🔥
+    </div>
 </div>
 
 <header>
-    <div class="nav-inner">
-        <button class="mobile-menu-toggle" onclick="toggleMenu()">
-            MENU <i class="fa-solid fa-bars"></i>
-        </button>
+    <div class="nav-inner">
+        <button class="mobile-menu-toggle" onclick="toggleMenu()">
+            MENU <i class="fa-solid fa-bars"></i>
+        </button>
 
-        <a href="#" class="logo" onclick="location.reload()">
-            <img src="pinmeup_logo.png" alt="Logo"> 
-            <span>PIN ME UP!</span>
-        </a>
+        <a href="#" class="logo" onclick="location.reload()">
+            <img src="pinmeup_logo.png" alt="Logo"> 
+            <span>PIN ME UP!</span>
+        </a>
 
-        <nav class="main-menu" id="navMenu">
-            <a href="#acc-custom" class="menu-link">Kreator</a>
-            <a href="#acc-logo" class="menu-link">Loga</a>
-            <a href="#acc-fuw" class="menu-link" style="color: #f37034;">FUW Vibe</a>
-            <a href="#acc-fame" class="menu-link gold">BADGE OF FAME 🏆</a>
-            <a href="#acc-memy" class="menu-link">Memy</a>
-            <a href="#acc-xmas" class="menu-link highlight">XMAS 🎄</a>
-            <a href="#acc-pride" class="menu-link">#PRIDE 🏳️‍🌈</a>
-            <a href="#acc-blind" class="menu-link">Blindbox</a>
-            <a href="#acc-border" class="menu-link">Borderkicia & friends</a>
-            <a href="#acc-prestige" class="menu-link">Prestiż</a>
-            <a href="#acc-inne" class="menu-link">Inne</a>
-        </nav>
+        <nav class="main-menu" id="navMenu">
+            <a href="#acc-custom" class="menu-link">Kreator</a>
+            <a href="#acc-logo" class="menu-link">Loga</a>
+            <a href="#acc-fuw" class="menu-link" style="color: #f37034;">FUW Vibe</a>
+            <a href="#acc-fame" class="menu-link gold">BADGE OF FAME 🏆</a>
+            <a href="#acc-memy" class="menu-link">Memy</a>
+            <a href="#acc-xmas" class="menu-link highlight">XMAS 🎄</a>
+            <a href="#acc-pride" class="menu-link">#PRIDE 🏳️‍🌈</a>
+            <a href="#acc-blind" class="menu-link">Blindbox</a>
+            <a href="#acc-border" class="menu-link">Borderkicia & friends</a>
+            <a href="#acc-prestige" class="menu-link">Prestiż</a>
+            <a href="#acc-inne" class="menu-link">Inne</a>
+        </nav>
 
-        <a href="#koszyk" class="cart-btn-desktop">
-            <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
-        </a>
-    </div>
+        <a href="#koszyk" class="cart-btn-desktop">
+            <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
+        </a>
+    </div>
 </header>
 
 <div class="main-wrapper">
 
-    <div class="content-col">
-        
-        <div id="acc-custom" class="accordion-item active" style="border-left-color: var(--salmon);">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎨 KREATOR (WŁASNY WZÓR)</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                  <div style="text-align:center;">
-                    <p style="font-size:0.9rem; margin-bottom: 15px;">
-                      Przyjaciółka? Gojo Satoru? Kotek? A może... Dziekan Turzyński...? To nie problem! Wgraj swoje ulubione zdjęcie z galerii telefonu! ❤️
-                    </p>
-                
-                    <div style="margin-bottom: 20px;">
-                      <div id="creatorInputWrapper">
-                          <input type="file" id="activeFileInput" accept="image/*" style="display: none;" onchange="previewCustomImage(this)">
-                      </div>
-                      
-                      <label for="activeFileInput" class="custom-upload-btn">
-                        <i class="fa-regular fa-images" style="font-size: 2rem; margin-bottom: 8px;"></i><br>
-                        <span>Kliknij, aby wybrać zdjęcie<br>z galerii 📸</span>
-                      </label>
-                
-                      <div id="previewContainer" style="display:none; margin-top: 15px; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
-                        <p style="margin:0 0 5px 0; font-size: 0.8rem; color: #888;">Twój wybór:</p>
-                        <img id="imgPreview" src="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid var(--salmon);">
-                        <br>
-                        <button onclick="clearSelection()" style="background:none; border:none; color: #d63031; font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-top: 5px;">Usuń / Zmień</button>
-                      </div>
-                    </div>
-                
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
-                      <span class="price" style="font-size: 1.2rem; font-weight: bold; color: #2d3436;">7.00 PLN</span>
-                
-                      <div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
-                        <div class="qty-box">
-                          <input type="number" id="customQty" class="qty-input" value="1" min="1">
-                        </div>
-                        <button class="btn-add" style="width:auto; padding:8px 30px; background-color: var(--salmon);" onclick="addCustomFile()">DODAJ</button>
-                      </div>
-                    </div>
-                  </div>
-            </div>
-        </div>
+    <div class="content-col">
+        
+        <div id="acc-custom" class="accordion-item active" style="border-left-color: var(--salmon);">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🎨 KREATOR (WŁASNY WZÓR)</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                  <div style="text-align:center;">
+                    <p style="font-size:0.9rem; margin-bottom: 15px;">
+                      Przyjaciółka? Gojo Satoru? Kotek? A może... Dziekan Turzyński...? To nie problem! Wgraj swoje ulubione zdjęcie z galerii telefonu! ❤️
+                    </p>
+                
+                    <div style="margin-bottom: 20px; padding: 20px; border: 2px dashed #ff7675; border-radius: 12px; background: #fff5f5;">
+                        <p style="font-weight:bold; color:#ff7675; margin-bottom:10px;">👇 WGRAJ ZDJĘCIE TUTAJ 👇</p>
+                        
+                        <input type="hidden" role="uploadcare-uploader" id="uploadcare-widget" />
+                        
+                        <p style="font-size:0.8rem; color:#666; margin-top:10px;">
+                            Po wybraniu zdjęcia kliknij przycisk DODAJ poniżej.
+                        </p>
+                    </div>
+                
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                      <span class="price" style="font-size: 1.2rem; font-weight: bold; color: #2d3436;">7.00 PLN</span>
+                
+                      <div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
+                        <button class="btn-add" style="width:auto; padding:8px 30px; background-color: var(--salmon);" onclick="addCustomFileFromWidget()">DODAJ</button>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
 
-        <div id="acc-logo" class="accordion-item" style="border-left-color: var(--primary);">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎓 LOGA UCZELNI </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div class="grid">
-                    <script>
-                        const logos = [
-                            {name: "FUW (EN) Pełne", file: "[EN] fuw __ pełne.png"},
-                            {name: "MIMUW (EN)", file: "[EN] mimuw __ pełne.png"},
-                            {name: "WCHEM (EN)", file: "[EN] wchem.png"},
-                            {name: "MIMUW (Łacina)", file: "[łac] mimuw __ pełne vel 2.png"},
-                            {name: "FUW (PL) Pełne", file: "[PL] fuw __ pełne.png"},
-                            {name: "MIMUW (PL)", file: "[PL] mimuw __ pełne.png"},
-                            {name: "MIMUW Sygnet", file: "[PL] mimuw __ sygnet.png"},
-                            {name: "WCHEM (PL)", file: "[PL] wchem.png"},
-                            {name: "FUW Skrót 1", file: "fuw __ skrót (3).png"},
-                            {name: "FUW Skrót 2", file: "fuw __ skrót.png"},
-                            {name: "Pin Me Up", file: "pinmeup (3).png"},
-                            {name: "Wydział Biologii", file: "wb.png"},
-                            {name: "Fuw baloon", file: "wmed (20).png"},
-                            {name: "Wydział Medyczny", file: "wmed.png"},
-                            {name: "QuantMol", file: "quantmol.png"},
-                            {name: "santa SKuNKs", file: "santa_skunks.png"},
-                            {name: "SKuNKs", file: "skunks.png"}
-                        ];
-                        logos.forEach((item, i) => {
-                            document.write(`
-                            <div class="card">
-                                <img src="${item.file}" alt="${item.name}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=LOGO'">
-                                <h3>${item.name}</h3>
-                                <span class="price">5.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_logo_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" onclick="addItem('${item.name}', 5, 'qty_logo_${i}')">DODAJ</button>
-                            </div>`);
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
+        <div id="acc-border" class="accordion-item" style="border-left-color: #9b59b6;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span style="display: flex; align-items: center; gap: 10px;">
+                    BORDERKICIA & friends
+                    <span style="font-size: 11px; font-weight: normal; opacity: 0.6; font-style: italic; letter-spacing: 1px;">
+                        ✨ slay ✨
+                    </span>
+                </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        const borderItems = [
+                            { file: "wmed (36).png", name: "im just a physicist" },
+                            { file: "wmed (37).png", name: "im just a physicist (bow edition)" },
+                            { file: "wmed (38).png", name: "borderkicia" },
+                            { file: "wmed (39).png", name: "mONSTER" },
+                            { file: "wmed (40).png", name: "zip zip zap zap" },
+                            { file: "wmed (41).png", name: "piwo to moje paliwo" },
+                            { file: "wmed (42).png", name: "jest we mnie BESTIA" },
+                            { file: "wmed (43).png", name: "bojem siem kombiemt" },
+                            { file: "wmed (44).png", name: "eepy sleepy" },
+                            { file: "wmed (45).png", name: "zakazane słowa" },
+                            { file: "meowbucks.png", name: "mmm kawusia" },
+                            { file: "kapibara_książkara.png", name: "kapibara książkara" },
+                            { file: "dontworrybecappy.png", name: "dont worry be cappy" }
+                        ];
+                        borderItems.forEach((item, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150'">
+                                <h3>${item.name}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_border_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" style="background-color: #9b59b6;" onclick="addItem('${item.name}', 5, 'qty_border_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
 
-        <div id="acc-fuw" class="accordion-item" style="border-left-color: #f37034;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span style="display: flex; align-items: center; gap: 10px; color: #f37034;">
-                    🪐 FUW VIBE
-                </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
-                    <p style="margin: 0; font-style: italic; line-height: 1.5;">
-                        Zbiór wszystkiego co związane z FUW-em.<br>
-                        <strong style="color: #f37034;">Od studentów FUW-u dla studentów FUW-u</strong><br>
-                        – w jednym miejscu, żeby nie przeszukiwać wszystkich sekcji (chociaż serdecznie zachęcamy!).
-                    </p>
-                </div>
-                <div class="grid">
-                    <script>
-                        const fuwItems = [
-                            { file: "[PL] fuw __ pełne.png", name: "logo wydziału #1" },
-                            { file: "[EN] fuw __ pełne.png", name: "logo wydziału #1 eng" },
-                            { file: "fuw __ skrót (2).png", name: "logo wydziału #2" },
-                            { file: "fuw __ skrót (3).png", name: "logo wydziału #3" },
-                            { file: "wmed (20).png", name: "Fuw baloon"},
-                            { file: "wmed (35).png", name: "tak, umiem pisać xi" },
-                            { file: "wmed (24).png", name: "wiara czyni cuda" },
-                            { file: "wmed (27).png", name: "trywialne" },
-                            { file: "wmed (36).png", name: "im just a physicist" },
-                            { file: "wmed (37).png", name: "im just a physicist (bow edition)" },
-                            { file: "wmed (26).png", name: "załóżmy, że jestem kulą" },
-                            { file: "fizykburger.png", name: "certified fan of fizykburger" },
-                            { file: "wmed (33).png", name: "szrodinger" },
-                            { file: "wmed (19).png", name: "najwazniejszy filar wydziału" },
-                            { file: "wmed (3).png", name: "czarna dziura" }
-                        ];
-                        fuwItems.forEach((item, i) => {
-                            document.write(`
-                            <div class="card">
-                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=FUW'">
-                                <h3>${item.name}</h3>
-                                <span class="price">5.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_fuw_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #f37034;" onclick="addItem('${item.name}', 5, 'qty_fuw_${i}')">DODAJ</button>
-                            </div>`);
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
+        <div id="acc-logo" class="accordion-item" style="border-left-color: var(--primary);">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🎓 LOGA UCZELNI </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        const logos = [
+                            {name: "FUW (EN) Pełne", file: "[EN] fuw __ pełne.png"},
+                            {name: "MIMUW (EN)", file: "[EN] mimuw __ pełne.png"},
+                            {name: "WCHEM (EN)", file: "[EN] wchem.png"},
+                            {name: "MIMUW (Łacina)", file: "[łac] mimuw __ pełne vel 2.png"},
+                            {name: "FUW (PL) Pełne", file: "[PL] fuw __ pełne.png"},
+                            {name: "MIMUW (PL)", file: "[PL] mimuw __ pełne.png"},
+                            {name: "MIMUW Sygnet", file: "[PL] mimuw __ sygnet.png"},
+                            {name: "WCHEM (PL)", file: "[PL] wchem.png"},
+                            {name: "FUW Skrót 1", file: "fuw __ skrót (3).png"},
+                            {name: "FUW Skrót 2", file: "fuw __ skrót.png"},
+                            {name: "Pin Me Up", file: "pinmeup (3).png"},
+                            {name: "Wydział Biologii", file: "wb.png"},
+                            {name: "Fuw baloon", file: "wmed (20).png"},
+                            {name: "Wydział Medyczny", file: "wmed.png"},
+                            {name: "QuantMol", file: "quantmol.png"},
+                            {name: "santa SKuNKs", file: "santa_skunks.png"},
+                            {name: "SKuNKs", file: "skunks.png"}
+                        ];
+                        logos.forEach((item, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${item.file}" alt="${item.name}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=LOGO'">
+                                <h3>${item.name}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_logo_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('${item.name}', 5, 'qty_logo_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
 
-        <div id="acc-fame" class="accordion-item" style="border-left-color: #f1c40f;">
-            <div class="accordion-header" onclick="toggleAcc(this)" style="background: linear-gradient(to right, #fff, #fffdf0);">
-                <span style="display: flex; align-items: center; gap: 10px; color: #b7950b;">
-                    🏆 BADGE OF FAME
-                    <span style="font-size: 11px; background: #f1c40f; color: black; padding: 2px 8px; border-radius: 12px; font-weight: normal;">
-                        Hall of Fame
-                    </span>
-                </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div style="text-align:center; color:#b7950b; margin-bottom:25px; padding: 0 10px;">
-                    <p style="margin:0; font-style:italic; font-size:1rem; font-weight: bold;">
-                        "Jedyny. Niepowtarzalny. Legenda Kampusu."
-                    </p>
-                    <small style="color:#999; display:block; margin-top:5px;">
-                        Kupując ten pin, +10 do zdawalności egzaminów. (Niepotwierdzone info)
-                    </small>
-                </div>
-                <div class="grid">
-                    <div class="card gold-edition">
-                        <img src="dziekan.png" alt="Dziekan Turzyński" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=DZIEKAN'">
-                        <span style="font-size: 10px; color: #555; font-weight: normal;">(Legendary Edition)</span>
-                        <h3>DZIEKAN TURZYŃSKI</h3>
-                        <span class="price" style="color:#b7950b;">10.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_fame_1" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Dziekan Turzyński (Gold)', 10, 'qty_fame_1')">BIORĘ TO</button>
-                    </div>
-                    <div class="card gold-edition">
-                        <div style="height: 90px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #b7950b;">
-                            <i class="fa-solid fa-camera-retro"></i>
-                        </div>
-                        <span style="font-size: 10px; color: #d35400; font-weight: bold;">📅 17 GRUDNIA @ STOISKO</span>
-                        <h3>TY + DZIEKAN<br><span style="font-size: 0.8rem; font-weight: normal;">(Custom Foto Pin)</span></h3>
-                        <p style="font-size: 0.75rem; margin: 5px 0 10px 0; line-height: 1.3;">
-                            Wpadnij na stoisko, strzel sobie <b>fotkę z Dziekanem Turzyńskim</b> w fotobudce i zrobimy Ci z tego pina na miejscu!
-                        </p>
-                        <span class="price" style="color:#b7950b;">10.00 PLN</span>
-                        <div class="qty-box"><input type="number" id="qty_fame_2" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Foto z Dziekanem (Fotobudka)', 10, 'qty_fame_2')">REZERWUJĘ SLOT</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="acc-fuw" class="accordion-item" style="border-left-color: #f37034;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span style="display: flex; align-items: center; gap: 10px; color: #f37034;">
+                    🪐 FUW VIBE
+                </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        const fuwItems = [
+                            { file: "[PL] fuw __ pełne.png", name: "logo wydziału #1" },
+                            { file: "[EN] fuw __ pełne.png", name: "logo wydziału #1 eng" },
+                            { file: "fuw __ skrót (2).png", name: "logo wydziału #2" },
+                            { file: "fuw __ skrót (3).png", name: "logo wydziału #3" },
+                            { file: "wmed (20).png", name: "Fuw baloon"},
+                            { file: "wmed (35).png", name: "tak, umiem pisać xi" },
+                            { file: "wmed (24).png", name: "wiara czyni cuda" },
+                            { file: "wmed (27).png", name: "trywialne" },
+                            { file: "wmed (36).png", name: "im just a physicist" },
+                            { file: "wmed (37).png", name: "im just a physicist (bow edition)" },
+                            { file: "wmed (26).png", name: "załóżmy, że jestem kulą" },
+                            { file: "fizykburger.png", name: "certified fan of fizykburger" },
+                            { file: "wmed (33).png", name: "szrodinger" },
+                            { file: "wmed (19).png", name: "najwazniejszy filar wydziału" },
+                            { file: "wmed (3).png", name: "czarna dziura" }
+                        ];
+                        fuwItems.forEach((item, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=FUW'">
+                                <h3>${item.name}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_fuw_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" style="background-color: #f37034;" onclick="addItem('${item.name}', 5, 'qty_fuw_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
 
-        <div id="acc-memy" class="accordion-item" style="border-left-color: #88b148;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🐸 STREFA MEMÓW </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
-                    <p style="margin: 0; font-style: italic; line-height: 1.5;">
-                        Kiedy słowa to za mało, a sesja wjeżdża za mocno.<br>
-                        Wyraź swój <b>MOOD</b> bez otwierania ust.<br>
-                        <span style="font-size: 0.85rem; opacity: 0.8;">(Emotional Support Pins)</span>
-                    </p>
-                </div>
-                <div class="grid">
-                    <script>
-                        const memy = [
-                            "wmed (19).png", "wmed (21).png", "wmed (23).png", "wmed (24).png", 
-                            "wmed (25).png", "wmed (26).png", "wmed (27).png", "wmed (28).png", 
-                            "wmed (29).png", "wmed (30).png", "wmed (31).png", "wmed (35).png", 
-                            "wmed (4).png", "wmed (5).png", "wmed (18).png"
-                        ];
-                        memy.forEach((file, i) => {
-                            document.write(`
-                            <div class="card">
-                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=MEM'">
-                                <h3>Mem Wzór #${i+1}</h3>
-                                <span class="price">5.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_mem_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #88b148;" onclick="addItem('Mem Wzór #${i+1}', 5, 'qty_mem_${i}')">DODAJ</button>
-                            </div>`);
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
+        <div id="acc-fame" class="accordion-item" style="border-left-color: #f1c40f;">
+            <div class="accordion-header" onclick="toggleAcc(this)" style="background: linear-gradient(to right, #fff, #fffdf0);">
+                <span style="display: flex; align-items: center; gap: 10px; color: #b7950b;">
+                    🏆 BADGE OF FAME
+                    <span style="font-size: 11px; background: #f1c40f; color: black; padding: 2px 8px; border-radius: 12px; font-weight: normal;">
+                        Hall of Fame
+                    </span>
+                </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <div class="card gold-edition">
+                        <img src="dziekan.png" alt="Dziekan Turzyński" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=DZIEKAN'">
+                        <span style="font-size: 10px; color: #555; font-weight: normal;">(Legendary Edition)</span>
+                        <h3>DZIEKAN TURZYŃSKI</h3>
+                        <span class="price" style="color:#b7950b;">10.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_fame_1" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Dziekan Turzyński (Gold)', 10, 'qty_fame_1')">BIORĘ TO</button>
+                    </div>
+                    <div class="card gold-edition">
+                        <div style="height: 90px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #b7950b;">
+                            <i class="fa-solid fa-camera-retro"></i>
+                        </div>
+                        <span style="font-size: 10px; color: #d35400; font-weight: bold;">📅 17 GRUDNIA @ STOISKO</span>
+                        <h3>TY + DZIEKAN<br><span style="font-size: 0.8rem; font-weight: normal;">(Custom Foto Pin)</span></h3>
+                        <p style="font-size: 0.75rem; margin: 5px 0 10px 0; line-height: 1.3;">
+                            Wpadnij na stoisko, strzel sobie <b>fotkę z Dziekanem Turzyńskim</b> w fotobudce i zrobimy Ci z tego pina na miejscu!
+                        </p>
+                        <span class="price" style="color:#b7950b;">10.00 PLN</span>
+                        <div class="qty-box"><input type="number" id="qty_fame_2" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Foto z Dziekanem (Fotobudka)', 10, 'qty_fame_2')">REZERWUJĘ SLOT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div id="acc-xmas" class="accordion-item" style="border-left-color: #c0392b;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span style="display: flex; align-items: center; gap: 10px;">
-                    <span style="color: #c0392b; font-weight: bold;">🎄 KOLEKCJA XMAS</span>
-                    <span style="font-size: 11px; background: #27ae60; color: white; padding: 2px 8px; border-radius: 12px; font-weight: normal;">
-                        Ho ho ho! 🎅 
-                    </span>
-                </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div style="text-align: center; padding: 10px; margin-bottom: 15px; color: #636e72;">
-                    <p style="margin: 0; font-style: italic;">
-                        Święta w lipcu? Świąteczny vajb z naszą przypinką możesz mieć cały rok!
-                    </p>
-                </div>
-                <div class="grid" style="background-image: radial-gradient(#e74c3c22 1px, transparent 1px); background-size: 20px 20px;">
-                    <script>
-                        const xmas = [
-                            {name: "Merry Christmas", file: "wmed (46).png"}, 
-                            {name: "Meowy Christmas", file: "wmed (47).png"},
-                            {name: "Christmas panic", file: "wmed (48).png"},
-                            {name: "stan splątany", file: "stan_splątany.png"},
-                            {name: "Santa Paws", file: "santa_paws.png"},
-                            {name: "purrfect lights", file: "purrfect_lights.png"},
-                            {name: "the only gift i want", file: "alliwantforchristmas.png"}
-                        ];
-                        xmas.forEach((item, i) => {
-                            document.write(`
-                            <div class="card" style="border: 1px solid #fab1a0;">
-                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=XMAS'">
-                                <h3>${item.name}</h3>
-                                <span class="price">5.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_xmas_n_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 5, 'qty_xmas_n_${i}')">DODAJ</button>
-                            </div>`);
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
+        <div id="acc-memy" class="accordion-item" style="border-left-color: #88b148;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🐸 STREFA MEMÓW </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        const memy = [
+                            "wmed (19).png", "wmed (21).png", "wmed (23).png", "wmed (24).png", 
+                            "wmed (25).png", "wmed (26).png", "wmed (27).png", "wmed (28).png", 
+                            "wmed (29).png", "wmed (30).png", "wmed (31).png", "wmed (35).png", 
+                            "wmed (4).png", "wmed (5).png", "wmed (18).png"
+                        ];
+                        memy.forEach((file, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=MEM'">
+                                <h3>Mem Wzór #${i+1}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_mem_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" style="background-color: #88b148;" onclick="addItem('Mem Wzór #${i+1}', 5, 'qty_mem_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
 
-        <div id="acc-pride" class="accordion-item rainbow-border" style="border-left: 5px solid #e84393;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span style="display: flex; align-items: center; gap: 10px;">
-                    🏳️‍🌈 #PRIDE COLLECTION
-                    <span style="font-size: 11px; font-weight: bold; background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet); -webkit-background-clip: text; color: transparent; letter-spacing: 1px;">
-                        LOVE IS LOVE
-                    </span>
-                </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div style="text-align: center; padding: 10px; margin-bottom: 15px; color: #636e72;">
-                    <p style="margin: 0; font-style: italic;">
-                        Bądź sobą, kochaj kogo chcesz i noś te barwy z dumą! 💖<br>
-                        <b>Equality, Respect & Gay Power.</b>
-                    </p>
-                </div>
-                <div class="grid">
-                    <script>
-                        const prideItems = [
-                            { file: "wmed (57).png", name: "nonbinary" },
-                            { file: "wmed (52).png", name: "LGBT" },
-                            { file: "wmed (53).png", name: "bi" },
-                            { file: "wmed (54).png", name: "lesbian" },
-                            { file: "wmed (55).png", name: "gay" },
-                            { file: "wmed (56).png", name: "trans" },
-                            { file: "pan.png", name: "pan" },
-                            { file: "aseks.png", name: "aseks" },
-                            { file: "begaydocrime.png", name: "#begaydocrime" }
-                        ];
-                        prideItems.forEach((item, i) => {
-                            document.write(`
-                            <div class="card">
-                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=PRIDE'">
-                                <h3>${item.name}</h3>
-                                <span class="price">5.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_pride_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background: #e84393;" onclick="addItem('${item.name}', 5, 'qty_pride_${i}')">DODAJ</button>
-                            </div>`);
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
+        <div id="acc-xmas" class="accordion-item" style="border-left-color: #c0392b;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #c0392b; font-weight: bold;">🎄 KOLEKCJA XMAS</span>
+                    <span style="font-size: 11px; background: #27ae60; color: white; padding: 2px 8px; border-radius: 12px; font-weight: normal;">
+                        Ho ho ho! 🎅 
+                    </span>
+                </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid" style="background-image: radial-gradient(#e74c3c22 1px, transparent 1px); background-size: 20px 20px;">
+                    <script>
+                        const xmas = [
+                            {name: "Merry Christmas", file: "wmed (46).png"}, 
+                            {name: "Meowy Christmas", file: "wmed (47).png"},
+                            {name: "Christmas panic", file: "wmed (48).png"},
+                            {name: "stan splątany", file: "stan_splątany.png"},
+                            {name: "Santa Paws", file: "santa_paws.png"},
+                            {name: "purrfect lights", file: "purrfect_lights.png"},
+                            {name: "the only gift i want", file: "alliwantforchristmas.png"}
+                        ];
+                        xmas.forEach((item, i) => {
+                            document.write(`
+                            <div class="card" style="border: 1px solid #fab1a0;">
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=XMAS'">
+                                <h3>${item.name}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_xmas_n_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" style="background-color: #27ae60;" onclick="addItem('${item.name}', 6, 'qty_xmas_n_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
 
-        <div id="acc-blind" class="accordion-item" style="border-left-color: #2d3436;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span style="letter-spacing: 1px;">🔮 MYSTERY BOX </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div style="display:flex; align-items:center; gap:15px; background: linear-gradient(145deg, #2d3436, #000000); color: #fff; padding:20px; border-radius:12px; border: 1px solid #444;">
-                    <div style="font-size:3.5rem; width:80px; text-align:center; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">❓</div>
-                    <div style="flex: 1;">
-                        <strong style="color: #a29bfe; font-size: 1.1rem; letter-spacing: 1px;">TOTALNY RANDOM</strong>
-                        <p style="margin:5px 0 15px 0; font-size:0.9rem; opacity: 0.8; line-height: 1.4;">
-                            W środku może być <b>DOSŁOWNIE WSZYSTKO</b>. Unikat, prototyp, albo coś z głównej kolekcji... Może znajdziesz tutaj Dziekana?<br>
-                            <span style="font-style: italic;">Ryzykujesz 4 ziko?</span>
-                        </p>
-                        <div style="display:flex; gap:10px; align-items: center;">
-                            <input type="number" id="qty_blind" class="qty-input" value="1" style="background: #fff; color: #000; border: none;">
-                            <button class="btn-add" style="background: #a29bfe; color: #000; width:auto; padding:8px 25px; font-weight: bold; border:none; transition: 0.3s;" 
-                                onclick="addItem('🔮 Mystery Box', 4, 'qty_blind')"
-                                onmouseover="this.style.background='#fff'" onmouseout="this.style.background='#a29bfe'">
-                                BIORĘ W CIEMNO 
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="acc-pride" class="accordion-item rainbow-border" style="border-left: 5px solid #e84393;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span style="display: flex; align-items: center; gap: 10px;">
+                    🏳️‍🌈 #PRIDE COLLECTION
+                    <span style="font-size: 11px; font-weight: bold; background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet); -webkit-background-clip: text; color: transparent; letter-spacing: 1px;">
+                        LOVE IS LOVE
+                    </span>
+                </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        const prideItems = [
+                            { file: "wmed (57).png", name: "nonbinary" },
+                            { file: "wmed (52).png", name: "LGBT" },
+                            { file: "wmed (53).png", name: "bi" },
+                            { file: "wmed (54).png", name: "lesbian" },
+                            { file: "wmed (55).png", name: "gay" },
+                            { file: "wmed (56).png", name: "trans" },
+                            { file: "pan.png", name: "pan" },
+                            { file: "aseks.png", name: "aseks" },
+                            { file: "begaydocrime.png", name: "#begaydocrime" }
+                        ];
+                        prideItems.forEach((item, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150?text=PRIDE'">
+                                <h3>${item.name}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_pride_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" style="background: #e84393;" onclick="addItem('${item.name}', 5, 'qty_pride_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
 
-        <div id="acc-border" class="accordion-item" style="border-left-color: #9b59b6;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span style="display: flex; align-items: center; gap: 10px;">
-                    🐱 BORDERKICIA & friends
-                    <span style="font-size: 11px; font-weight: normal; opacity: 0.6; font-style: italic; letter-spacing: 1px;">
-                        ✨ slay ✨
-                    </span>
-                </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div class="grid">
-                    <script>
-                        const borderItems = [
-                            { file: "wmed (36).png", name: "im just a physicist" },
-                            { file: "wmed (37).png", name: "im just a physicist (bow edition)" },
-                            { file: "wmed (38).png", name: "borderkicia" },
-                            { file: "wmed (39).png", name: "mONSTER" },
-                            { file: "wmed (40).png", name: "zip zip zap zap" },
-                            { file: "wmed (41).png", name: "piwo to moje paliwo" },
-                            { file: "wmed (42).png", name: "jest we mnie BESTIA" },
-                            { file: "wmed (43).png", name: "bojem siem kombiemt" },
-                            { file: "wmed (44).png", name: "eepy sleepy" },
-                            { file: "wmed(45).png", name: "zakazane słowa" },
-                            { file: "meowbucks.png", name: "mmm kawusia" },
-                            { file: "kapibara_książkara.png", name: "kapibara książkara" },
-                            { file: "dontworrybecappy.png", name: "dont worry be cappy" }
-                        ];
-                        borderItems.forEach((item, i) => {
-                            document.write(`
-                            <div class="card">
-                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/150'">
-                                <h3>${item.name}</h3>
-                                <span class="price">5.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_border_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" style="background-color: #9b59b6;" onclick="addItem('${item.name}', 5, 'qty_border_${i}')">DODAJ</button>
-                            </div>`);
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
+        <div id="acc-blind" class="accordion-item" style="border-left-color: #2d3436;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span style="letter-spacing: 1px;">🔮 MYSTERY BOX </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div style="display:flex; align-items:center; gap:15px; background: linear-gradient(145deg, #2d3436, #000000); color: #fff; padding:20px; border-radius:12px; border: 1px solid #444;">
+                    <div style="font-size:3.5rem; width:80px; text-align:center; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">❓</div>
+                    <div style="flex: 1;">
+                        <strong style="color: #a29bfe; font-size: 1.1rem; letter-spacing: 1px;">TOTALNY RANDOM</strong>
+                        <p style="margin:5px 0 15px 0; font-size:0.9rem; opacity: 0.8; line-height: 1.4;">
+                            W środku może być <b>DOSŁOWNIE WSZYSTKO</b>. Unikat, prototyp, albo coś z głównej kolekcji... Może znajdziesz tutaj Dziekana?<br>
+                            <span style="font-style: italic;">Ryzykujesz 4 ziko?</span>
+                        </p>
+                        <div style="display:flex; gap:10px; align-items: center;">
+                            <input type="number" id="qty_blind" class="qty-input" value="1" style="background: #fff; color: #000; border: none;">
+                            <button class="btn-add" style="background: #a29bfe; color: #000; width:auto; padding:8px 25px; font-weight: bold; border:none; transition: 0.3s;" 
+                                onclick="addItem('🔮 Mystery Box', 4, 'qty_blind')"
+                                onmouseover="this.style.background='#fff'" onmouseout="this.style.background='#a29bfe'">
+                                BIORĘ W CIEMNO 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-         <div id="acc-prestige" class="accordion-item" style="border-left-color: #222;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>💎 STREFA PRESTIŻU 💎</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content" style="background:#1a1a1a;">
-                <div style="text-align:center; color:#ddd; margin-bottom:25px; padding: 0 10px;">
-                    <p style="margin:0; font-style:italic; font-size:0.95rem; line-height:1.4;">
-                        "Poczuj się jak szejk na stołówce. Te piny krzyczą: <br> 
-                        <strong style="color:var(--accent);">'Dostałem stypendium Rektora'</strong> <br>
-                        (albo pożyczyłem od mamy)."
-                    </p>
-                    <small style="color:#888; display:block; margin-top:5px;">
-                        ✨ 100% prestiżu ✨
-                    </small>
-                </div>
-                <div class="grid">
-                    <div class="card prestige">
-                        <img src="dubajska_czekolada.png" alt="Dubaj" onclick="openLightbox(this.src)">
-                        <s style="color: #666; font-size: 0.8rem;"> 150 PLN</s>
-                        <h3>Dubajska Czekolada (prosto z Dubaju) </h3>
-                        <span class="price">15.00 PLN</span>
-                        <div style="color: #666; font-size: 0.7rem; margin-bottom: 5px;">(najniższa cena z 30 dni: 150 PLN)</div>
-                        <div class="qty-box"><input type="number" id="qty_dubaj" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('Dubajska Czekolada', 15, 'qty_dubaj')">BIORĘ</button>
-                    </div>
-                    <div class="card prestige">
-                        <img src="labubu.png" alt="Labubu" onclick="openLightbox(this.src)">
-                        <s style="color: #666; font-size: 0.8rem;"> 500 PLN</s>
-                        <h3>laFUWu </h3>
-                        <span class="price">20.00 PLN</span>
-                        <div style="color: #666; font-size: 0.7rem; margin-bottom: 5px;">(najniższa cena z 30 dni: 500 PLN)</div>
-                        <div class="qty-box"><input type="number" id="qty_labubu" class="qty-input" value="1"></div>
-                        <button class="btn-add" onclick="addItem('laFUWu', 20, 'qty_labubu')">BIORĘ</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+         <div id="acc-prestige" class="accordion-item" style="border-left-color: #222;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>💎 STREFA PRESTIŻU 💎</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content" style="background:#1a1a1a;">
+                <div class="grid">
+                    <div class="card prestige">
+                        <img src="dubajska_czekolada.png" alt="Dubaj" onclick="openLightbox(this.src)">
+                        <s style="color: #666; font-size: 0.8rem;"> 150 PLN</s>
+                        <h3>Dubajska Czekolada (prosto z Dubaju) </h3>
+                        <span class="price">15.00 PLN</span>
+                        <div style="color: #666; font-size: 0.7rem; margin-bottom: 5px;">(najniższa cena z 30 dni: 150 PLN)</div>
+                        <div class="qty-box"><input type="number" id="qty_dubaj" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('Dubajska Czekolada', 15, 'qty_dubaj')">BIORĘ</button>
+                    </div>
+                    <div class="card prestige">
+                        <img src="labubu.png" alt="Labubu" onclick="openLightbox(this.src)">
+                        <s style="color: #666; font-size: 0.8rem;"> 500 PLN</s>
+                        <h3>laFUWu </h3>
+                        <span class="price">20.00 PLN</span>
+                        <div style="color: #666; font-size: 0.7rem; margin-bottom: 5px;">(najniższa cena z 30 dni: 500 PLN)</div>
+                        <div class="qty-box"><input type="number" id="qty_labubu" class="qty-input" value="1"></div>
+                        <button class="btn-add" onclick="addItem('laFUWu', 20, 'qty_labubu')">BIORĘ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div id="acc-inne" class="accordion-item" style="border-left-color: #95a5a6;">
-            <div class="accordion-header" onclick="toggleAcc(this)">
-                <span>🎲 INNE RÓŻNOŚCI</span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="accordion-content">
-                <div style="text-align:center; color:#666; margin-bottom:25px; padding: 0 10px;">
-                    <p style="margin:0; font-style:italic; font-size:0.9rem;">
-                        "Tu trafiają piny, które miały problem z tożsamością.<br>
-                        Zbyt dziwne na memy, zbyt ładne na blindbox."
-                    </p>
-                    <small style="color:#999; display:block; margin-top:5px;">
-                        🥔 Kategoria: Studencki Bigos (wszystko i nic) 🥔
-                    </small>
-                </div>
-                <div class="grid">
-                    <script>
-                        const inne = [
-                            "wmed (7).png", "wmed (8).png", "wmed (9).png", "wmed (10).png",
-                            "wmed (11).png", "wmed (12).png", "wmed (13).png", "wmed (14).png",
-                            "wmed (15).png", "wmed (16).png", "wmed (17).png", "wmed (2).png", "wmed (6).png"
-                        ];
-                        inne.forEach((file, i) => {
-                            document.write(`
-                            <div class="card">
-                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=PIN'">
-                                <h3>Pin Wzór #${i+1}</h3>
-                                <span class="price">5.00 PLN</span>
-                                <div class="qty-box"><input type="number" id="qty_inne_${i}" class="qty-input" value="1"></div>
-                                <button class="btn-add" onclick="addItem('Pin Wzór #${i+1}', 5, 'qty_inne_${i}')">DODAJ</button>
-                            </div>`);
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
+        <div id="acc-inne" class="accordion-item" style="border-left-color: #95a5a6;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🎲 INNE RÓŻNOŚCI</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="grid">
+                    <script>
+                        const inne = [
+                            "wmed (7).png", "wmed (8).png", "wmed (9).png", "wmed (10).png",
+                            "wmed (11).png", "wmed (12).png", "wmed (13).png", "wmed (14).png",
+                            "wmed (15).png", "wmed (16).png", "wmed (17).png", "wmed (2).png", "wmed (6).png"
+                        ];
+                        inne.forEach((file, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${file}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=PIN'">
+                                <h3>Pin Wzór #${i+1}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_inne_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" onclick="addItem('Pin Wzór #${i+1}', 5, 'qty_inne_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
 
-    <div class="extra-content-box">
-        <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase;">📸 Galeria </h4>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="1000006864.jpg" onclick="openLightbox(this.src)"></div>
-            <div class="gallery-item"><img src="Messenger_creation_75E75DD8-C19C-42AC-AFD5-2ECB8DC7B6FC.png" onclick="openLightbox(this.src)"></div>
-        </div>
-        <hr style="margin:20px 0; border:0; border-top:1px dashed #eee;">
-        <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
-        <div class="review-box">
-            <small>⭐⭐⭐⭐⭐</small>
-            <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Kupiłem laFUWu na szczęście, żeby zdać egzamin. Zdałem."</p>
-            <strong>~ Marek, II rok</strong>
-        </div>
-        <div class="review-box">
-            <small>⭐⭐⭐⭐⭐</small>
-            <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Koło fortuny to sztos! Dostałam przypinkę za darmo!"</p>
-            <strong>~ Kasia</strong>
-        </div>
-        <div style="display:flex; gap:10px; margin-top:15px;">
-            <input type="text" id="reviewText" class="field" placeholder="Twoja opinia..." style="margin-bottom:0;">
-            <button class="btn-add" style="width:auto; background:#555; margin-top:0;" onclick="sendReview()">OK</button>
-        </div>
-    </div>
+    <div class="extra-content-box">
+        <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase;">📸 Galeria </h4>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="1000006864.jpg" onclick="openLightbox(this.src)"></div>
+            <div class="gallery-item"><img src="Messenger_creation_75E75DD8-C19C-42AC-AFD5-2ECB8DC7B6FC.png" onclick="openLightbox(this.src)"></div>
+        </div>
+        <hr style="margin:20px 0; border:0; border-top:1px dashed #eee;">
+        <h4 style="margin-top:0; color:var(--primary);">💬 CO MÓWIĄ?</h4>
+        <div class="review-box">
+            <small>⭐⭐⭐⭐⭐</small>
+            <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Kupiłem laFUWu na szczęście, żeby zdać egzamin. Zdałem."</p>
+            <strong>~ Marek, II rok</strong>
+        </div>
+        <div class="review-box">
+            <small>⭐⭐⭐⭐⭐</small>
+            <p style="font-size:0.9rem; font-style:italic; margin:5px 0;">"Koło fortuny to sztos! Dostałam przypinkę za darmo!"</p>
+            <strong>~ Kasia</strong>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <input type="text" id="reviewText" class="field" placeholder="Twoja opinia..." style="margin-bottom:0;">
+            <button class="btn-add" style="width:auto; background:#555; margin-top:0;" onclick="sendReview()">OK</button>
+        </div>
+    </div>
 
-    </div>
+    </div>
 
-    <div class="sidebar">
-    <div class="sticky-group">
+    <div class="sidebar">
+    <div class="sticky-group">
 
-        <div id="koszyk" class="cart-wrapper">
-            <div class="cart-header">
-                <h2 style="margin:0; color:var(--primary); font-size:1.3rem;">TWÓJ RACHUNEK</h2>
-                <small style="color:#888;">PIN ME UP STORE</small>
-            </div>
-            
-            <div id="cartItems" class="cart-items">
-                <div style="text-align:center; padding:30px; color:#aaa;">
-                    <i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>
-                    Koszyk jest pusty :<
-                </div>
-            </div>
-    
-            <div id="promoBox"></div>
-    
-            <div class="cart-total-section">
-                <label class="tip-box" style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:10px;">
-                    <input type="checkbox" id="tipCheck" onchange="renderCart()" style="transform:scale(1.2);">
-                    <span style="font-size:0.9rem;">Napiwek na monsterka (+1 PLN) ❤️</span>
-                </label>
-                <div class="saved-amount" id="savedDisplay" style="color:#27ae60; text-align:right; font-weight:bold; font-size:0.85rem; margin-bottom:5px;"></div>
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <span style="font-weight:bold; color:#555;">SUMA:</span>
-                    <span style="font-size:1.6rem; font-weight:900; color:var(--primary);"><span id="totalPrice">0.00</span> PLN</span>
-                </div>
-            </div>
-    
-            <form id="orderForm" action="https://formsubmit.co/pinmeup.fuw@gmail.com" method="POST" enctype="multipart/form-data" style="margin-top:20px;">
-                
-                <input type="hidden" name="_captcha" value="true">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_subject" id="formSubject" value="NOWE ZAMÓWIENIE">
-                <input type="hidden" name="_autoresponse" value="Hej! Dzięki za zamówienie w PIN ME UP! Twoje przypinki są już w drodze do realizacji. Odbiór 17-18 Grudnia na FUW. Płatność: BLIK (+48 698 793 950) lub Przelew. Do zobaczenia!">
-                
-                <h4 style="margin:0 0 10px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Wybierz metodę płatności:</h4>
-                <div class="payment-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-                    <div class="pay-option active" id="opt_blik" onclick="setPayment('BLIK')">
-                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span>BLIK</span>
-                    </div>
-                    <div class="pay-option" id="opt_transfer" onclick="setPayment('PRZELEW')">
-                        <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span style="font-size: 0.75rem;">PRZELEW</span>
-                    </div>
-                    <div class="pay-option" id="opt_cash" onclick="setPayment('GOTÓWKA')">
-                        <i class="fa-solid fa-money-bill-wave" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span>GOTÓWKA</span>
-                    </div>
-                </div>
+        <div id="koszyk" class="cart-wrapper">
+            <div class="cart-header">
+                <h2 style="margin:0; color:var(--primary); font-size:1.3rem;">TWÓJ RACHUNEK</h2>
+                <small style="color:#888;">PIN ME UP STORE</small>
+            </div>
+            
+            <div id="cartItems" class="cart-items">
+                <div style="text-align:center; padding:30px; color:#aaa;">
+                    <i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>
+                    Koszyk jest pusty :<
+                </div>
+            </div>
+    
+            <div id="promoBox"></div>
+    
+            <div class="cart-total-section">
+                <label class="tip-box" style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:10px;">
+                    <input type="checkbox" id="tipCheck" onchange="renderCart()" style="transform:scale(1.2);">
+                    <span style="font-size:0.9rem;">Napiwek na monsterka (+1 PLN) ❤️</span>
+                </label>
+                <div class="saved-amount" id="savedDisplay" style="color:#27ae60; text-align:right; font-weight:bold; font-size:0.85rem; margin-bottom:5px;"></div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <span style="font-weight:bold; color:#555;">SUMA:</span>
+                    <span style="font-size:1.6rem; font-weight:900; color:var(--primary);"><span id="totalPrice">0.00</span> PLN</span>
+                </div>
+            </div>
+    
+            <form action="https://formsubmit.co/pinmeup.fuw@gmail.com" method="POST" id="mainForm" style="margin-top:20px;">
+                
+                <input type="hidden" name="_subject" value="NOWE ZAMÓWIENIE">
+                <input type="hidden" name="_captcha" value="true">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_cc" id="ccEmail">
+                <input type="hidden" name="_autoresponse" value="Dzięki za zamówienie! Twoje piny się robią.">
 
-                <div class="pay-info-box" id="info_blik" style="display:block; background:#ffebeb; color:#d63031; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #fab1a0;">
-                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew BLIK na telefon:</strong>
-                    <span style="font-size: 1.1rem; font-weight: 900; letter-spacing: 1px;">+48 698 793 950</span>
-                </div>
-                <div class="pay-info-box" id="info_transfer" style="display:none; background:#e3f2fd; color:#0984e3; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #74b9ff;">
-                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-bank"></i> Dane do przelewu:</strong>
-                    Odbiorca: <b>Jan Dziubak</b><br> Nr konta: <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
-                </div>
-                <div class="pay-info-box" id="info_cash" style="display:none; background:#edf7ed; color:#2e7d32; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #a5d6a7;">
-                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-hand-holding-dollar"></i> Płatność przy odbiorze:</strong>
-                    Zapraszamy na nasze stoisko: <span style="font-weight: 900; font-size: 1rem;">17 i 18 GRUDNIA</span> (Wydział Fizyki)
-                </div>
+                <textarea name="ZAMOWIENIE" id="hiddenOrderText" style="display:none;"></textarea>
+                <input type="hidden" name="LINK_DO_ZDJECIA" id="hiddenImageUrl">
+                <input type="hidden" name="DO_ZAPLATY" id="hiddenTotal">
 
-                <input type="text" name="Imie_i_Nazwisko" id="clientName" class="field" placeholder="Imię i Nazwisko" required>
-                <input type="email" name="email" id="clientEmail" class="field" placeholder="Twój E-mail" required>
+                <h4 style="margin:0 0 10px 0; font-size:0.9rem; text-transform: uppercase; color: #555;">Wybierz metodę płatności:</h4>
+                <div class="payment-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
+                    <div class="pay-option active" id="opt_blik" onclick="setPayment('BLIK')">
+                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span>BLIK</span>
+                    </div>
+                    <div class="pay-option" id="opt_transfer" onclick="setPayment('PRZELEW')">
+                        <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span style="font-size: 0.75rem;">PRZELEW</span>
+                    </div>
+                    <div class="pay-option" id="opt_cash" onclick="setPayment('GOTÓWKA')">
+                        <i class="fa-solid fa-money-bill-wave" style="font-size: 1.2rem; margin-bottom: 5px;"></i> <span>GOTÓWKA</span>
+                    </div>
+                </div>
+                <input type="hidden" name="METODA_PLATNOSCI" id="paymentMethod" value="BLIK">
 
-                <input type="hidden" name="Metoda_Platnosci" id="hiddenPayment" value="BLIK">
-                <input type="hidden" name="Do_Zaplaty" id="hiddenTotal" value="">
-                
-                <textarea name="ZAMOWIENIE_SZCZEGOLY" id="hiddenDetails" style="display:none;"></textarea>
-                
-                <div id="hiddenFileContainer" style="display:none;"></div>
+                <div class="pay-info-box" id="info_blik" style="display:block; background:#ffebeb; color:#d63031; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #fab1a0;">
+                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> Przelew BLIK na telefon:</strong>
+                    <span style="font-size: 1.1rem; font-weight: 900; letter-spacing: 1px;">+48 698 793 950</span>
+                </div>
+                <div class="pay-info-box" id="info_transfer" style="display:none; background:#e3f2fd; color:#0984e3; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #74b9ff;">
+                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-bank"></i> Dane do przelewu:</strong>
+                    Odbiorca: <b>Jan Dziubak</b><br> Nr konta: <span style="font-family: monospace; font-size: 1rem; font-weight: 700;">39 1050 1054 1000 0098 3308 4693</span>
+                </div>
+                <div class="pay-info-box" id="info_cash" style="display:none; background:#edf7ed; color:#2e7d32; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:15px; border: 1px solid #a5d6a7;">
+                    <strong style="display:block; margin-bottom:5px;"><i class="fa-solid fa-hand-holding-dollar"></i> Płatność przy odbiorze:</strong>
+                    Zapraszamy na nasze stoisko: <span style="font-weight: 900; font-size: 1rem;">17 i 18 GRUDNIA</span> (Wydział Fizyki)
+                </div>
 
-                <button type="button" class="btn-checkout" onclick="prepareAndSubmit()">
-                    ZAMAWIAM 🚀
-                </button>
-            </form>
-        </div>
+                <input type="text" name="IMIE_NAZWISKO" id="clientName" class="field" placeholder="Imię i Nazwisko" required>
+                <input type="email" name="EMAIL" id="clientEmail" class="field" placeholder="Twój E-mail" required>
 
-        <div class="contact-box">
-            <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase; margin-bottom: 5px;">
-                <i class="fa-regular fa-comments"></i> Masz pytania?
-            </h4>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">
-                Nie wiesz co wybrać? Napisz do nas!
-            </p>
-            <div style="display: flex; gap: 10px;">
-                <a href="https://www.facebook.com/profile.php?id=61584627429588" target="_blank" class="contact-btn fb">
-                    <i class="fa-brands fa-facebook"></i> Facebook
-                </a>
-                <a href="mailto:pinmeup.fuw@gmail.com" class="contact-btn mail">
-                    <i class="fa-solid fa-envelope"></i> E-mail
-                </a>
-            </div>
-        </div>
+                <button type="submit" class="btn-checkout" onclick="return prepareOrder()">
+                    ZAMAWIAM 🚀
+                </button>
+            </form>
+        </div>
 
-    </div> </div>
+        <div class="contact-box">
+            <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase; margin-bottom: 5px;">
+                <i class="fa-regular fa-comments"></i> Masz pytania?
+            </h4>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">
+                Nie wiesz co wybrać? Napisz do nas!
+            </p>
+            <div style="display: flex; gap: 10px;">
+                <a href="https://www.facebook.com/profile.php?id=61584627429588" target="_blank" class="contact-btn fb">
+                    <i class="fa-brands fa-facebook"></i> Facebook
+                </a>
+                <a href="mailto:pinmeup.fuw@gmail.com" class="contact-btn mail">
+                    <i class="fa-solid fa-envelope"></i> E-mail
+                </a>
+            </div>
+        </div>
+
+    </div> </div>
 
 </div>
 
 <footer style="text-align:center; padding:30px; color:#888; font-size:0.8rem; margin-top:20px;">
-    &copy; 2025 PIN ME UP! <br> Badges created with ❤️
+    &copy; 2025 PIN ME UP! <br> Badges created with ❤️
 </footer>
 
 <script>
-    let cart = [];
-    // Licznik załączników, żeby miały unikalne nazwy (attachment1, attachment2...)
-    let attachmentCounter = 0; 
+    let cart = [];
+    let uploadedFileUrl = ""; // Tutaj przechowujemy link do zdjęcia
 
-    // --- FUNKCJE UI ---
-    function openLightbox(src) {
-        const lb = document.getElementById('lightbox');
-        const img = document.getElementById('lightbox-img');
-        img.src = src; lb.classList.add('visible');
-    }
-    function closeLightbox() { document.getElementById('lightbox').classList.remove('visible'); }
+    // --- UPLOADCARE (WIDGET KONFIGURACJA) ---
+    // Widget automatycznie wykrywa <input role="uploadcare-uploader">
+    // Musimy tylko przechwycić moment, gdy plik się załaduje
+    const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+    
+    widget.onUploadComplete(function(info) {
+        uploadedFileUrl = info.cdnUrl; // Zapisujemy link
+        console.log("Plik wgrany! Link:", uploadedFileUrl);
+        // Opcjonalnie: pokaż podgląd
+        showToast("Zdjęcie wgrane pomyślnie!");
+    });
 
-    function toggleMenu() { document.getElementById('navMenu').classList.toggle('open'); }
+    // --- FUNKCJE UI ---
+    function openLightbox(src) {
+        document.getElementById('lightbox-img').src = src; 
+        document.getElementById('lightbox').classList.add('visible');
+    }
+    function closeLightbox() { document.getElementById('lightbox').classList.remove('visible'); }
+    function toggleMenu() { document.getElementById('navMenu').classList.toggle('open'); }
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
+        toast.className = "show";
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+    function toggleAcc(header) { header.parentElement.classList.toggle('active'); }
 
-    document.querySelectorAll('.menu-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetItem = document.getElementById(targetId);
-            document.getElementById('navMenu').classList.remove('open');
-            if(targetItem) {
-                document.querySelectorAll('.accordion-item').forEach(item => item.classList.remove('active'));
-                targetItem.classList.add('active');
-                const isMobile = window.innerWidth <= 900;
-                const headerHeight = isMobile ? 180 : 140; 
-                const elementPosition = targetItem.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-            }
-        });
-    });
+    // --- FUNKCJE KOSZYKA ---
+    function addItem(name, price, inputId) {
+        const qtyEl = document.getElementById(inputId);
+        const qty = qtyEl ? parseInt(qtyEl.value) : 1;
+        
+        if(qty < 1) return;
+        const existing = cart.find(item => item.name === name);
+        if(existing) { existing.qty += qty; } else { cart.push({ name: name, price: price, qty: qty }); }
+        
+        if(qtyEl) qtyEl.value = 1;
+        renderCart(); 
+        showToast(`Dodano: ${name}`);
+    }
 
-    function scrollToCartMobile() {
-        const cart = document.getElementById('koszyk');
-        const headerOffset = 180;
-        const elementPosition = cart.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-    }
+    function addCustomFileFromWidget() {
+        if (!uploadedFileUrl) {
+            alert("Najpierw wgraj zdjęcie używając przycisku powyżej!");
+            return;
+        }
+        // Dodajemy "produkt" do koszyka, ale link trzymamy w zmiennej globalnej do wysyłki
+        cart.push({ name: "Własny Projekt (Zdjęcie wgrane)", price: 7.00, qty: 1 });
+        renderCart();
+        showToast("Dodano projekt do koszyka!");
+    }
 
-    function showToast(message) {
-        const toast = document.getElementById("toast");
-        toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
-        toast.className = "show";
-        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
-    }
+    function removeItem(index) { 
+        // Jeśli usuwamy custom, możemy (opcjonalnie) zresetować link, ale lepiej zostawić
+        cart.splice(index, 1); 
+        renderCart(); 
+    }
 
-    function toggleAcc(header) { header.parentElement.classList.toggle('active'); }
+    function renderCart() {
+        const container = document.getElementById('cartItems');
+        const totalEl = document.getElementById('totalPrice');
+        const mobileTotalEl = document.getElementById('mobileTotal');
+        const mobileBar = document.getElementById('mobile-sticky-cart');
+        const promoBox = document.getElementById('promoBox');
+        const savedEl = document.getElementById('savedDisplay');
+        const isTip = document.getElementById('tipCheck').checked;
 
-    // --- FUNKCJE KOSZYKA ---
-    function addItem(name, price, inputId) {
-        const qty = parseInt(document.getElementById(inputId).value);
-        if(qty < 1) return;
-        const existing = cart.find(item => item.name === name && !item.isCustom);
-        if(existing) { existing.qty += qty; } else { cart.push({ name: name, price: price, qty: qty, isCustom: false }); }
-        document.getElementById(inputId).value = 1;
-        renderCart(); showToast(`Dodano: ${name}`);
-    }
+        container.innerHTML = "";
+        let total = 0; let savings = 0; let promoText = "";
 
-    // --- KREATOR (OBSŁUGA WIELU ZDJĘĆ) ---
-    function previewCustomImage(input) {
-      const container = document.getElementById('previewContainer');
-      const preview = document.getElementById('imgPreview');
-      const label = document.querySelector('.custom-upload-btn span');
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          preview.src = e.target.result;
-          container.style.display = 'block';
-          label.innerText = "Zdjęcie załadowane! (Kliknij, aby zmienić)";
-        }
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-    
-    function clearSelection() {
-      // Czyścimy obecny input
-      document.getElementById('activeFileInput').value = "";
-      document.getElementById('previewContainer').style.display = 'none';
-      document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
-    }
-    
-    function addCustomFile() {
-      const fileInput = document.getElementById('activeFileInput');
-      const qty = parseInt(document.getElementById('customQty').value);
-      
-      if(fileInput.files.length === 0) { showToast("Najpierw wybierz zdjęcie!"); return; }
-      
-      attachmentCounter++;
-      // Nadajemy unikalne ID inputowi, żebyśmy wiedzieli który to
-      const uniqueId = 'file_input_' + attachmentCounter;
-      fileInput.id = uniqueId;
-      fileInput.name = 'attachment' + attachmentCounter; // Unikalna nazwa dla FormSubmit
+        if(cart.length === 0 && !isTip) {
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;"><i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>Pusto...</div>';
+            totalEl.innerText = "0.00"; mobileTotalEl.innerText = "0.00 PLN";
+            promoBox.innerHTML=""; savedEl.innerText=""; document.getElementById('cartCount').innerText="0"; 
+            mobileBar.classList.remove('visible');
+            return;
+        }
+        mobileBar.classList.add('visible');
 
-      // PRZENOSIMY INPUT DO FORMULARZA (SCHOWKA)
-      document.getElementById('hiddenFileContainer').appendChild(fileInput);
+        let qtyByPrice = {};
+        cart.forEach((item, index) => {
+            let itemTotal = item.price * item.qty;
+            if (!qtyByPrice[item.price]) qtyByPrice[item.price] = 0;
+            qtyByPrice[item.price] += item.qty;
+            total += itemTotal;
+            container.innerHTML += `<div class="cart-item">
+                <div><strong>${item.name}</strong><br><small style="color:#888;">${item.qty} szt. x ${item.price} zł</small></div>
+                <div>${itemTotal.toFixed(2)} zł <i class="fa-solid fa-trash" style="color:#ff7675; cursor:pointer; margin-left:8px;" onclick="removeItem(${index})"></i></div>
+            </div>`;
+        });
 
-      // Dodajemy do koszyka z referencją do ID inputa
-      cart.push({ 
-          name: "Własny Projekt (Custom) #" + attachmentCounter, 
-          price: 7.00, 
-          qty: qty, 
-          isCustom: true,
-          inputId: uniqueId 
-      });
+        // 3+1 Logic
+        let promo3plus1 = 0;
+        for (const [price, qty] of Object.entries(qtyByPrice)) {
+            const freeItems = Math.floor(qty / 4); 
+            if (freeItems > 0) {
+                const discount = freeItems * price;
+                promo3plus1 += discount;
+                promoText += `<div>🎁 3+1 GRATIS (${price}zł): -${discount.toFixed(2)} zł</div>`;
+            }
+        }
+        total -= promo3plus1; savings += promo3plus1;
 
-      // TWORZYMY NOWY CZYSTY INPUT W MIEJSCE STAREGO
-      const newWrapper = document.getElementById('creatorInputWrapper');
-      const newInput = document.createElement('input');
-      newInput.type = 'file';
-      newInput.id = 'activeFileInput'; // Przywracamy standardowe ID dla kreatora
-      newInput.accept = 'image/*';
-      newInput.style.display = 'none';
-      newInput.onchange = function() { previewCustomImage(this); };
-      newWrapper.appendChild(newInput);
+        // Bulk Logic
+        const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
+        if (totalQty > 15) {
+            const bulkDiscount = total * 0.10; total -= bulkDiscount; savings += bulkDiscount;
+            promoText += `<div>🔥 RABAT HURTOWY (-10%): -${bulkDiscount.toFixed(2)} zł</div>`;
+        }
 
-      // Reset wizualny kreatora
-      document.getElementById('previewContainer').style.display = 'none';
-      document.querySelector('.custom-upload-btn span').innerHTML = "Kliknij, aby wybrać zdjęcie<br>z Galerii Telefonu 📸";
-      document.getElementById('customQty').value = 1;
-      
-      renderCart();
-      showToast("Dodano projekt!");
-    }
+        if(isTip) { total += 1.00; container.innerHTML += `<div class="cart-item" style="color:var(--salmon); border-bottom:none;"><div>❤️ Napiwek</div><div>1.00 zł</div></div>`; }
 
-    function removeItem(index) { 
-        const item = cart[index];
-        if(item.isCustom && item.inputId) {
-            // Jeśli usuwamy custom, usuwamy też fizycznie input z formularza
-            const inputToRemove = document.getElementById(item.inputId);
-            if(inputToRemove) {
-                inputToRemove.remove();
-            }
-        }
-        cart.splice(index, 1); 
-        renderCart(); 
-    }
+        const finalTotal = total.toFixed(2);
+        totalEl.innerText = finalTotal; mobileTotalEl.innerText = finalTotal + " PLN";
+        document.getElementById('cartCount').innerText = totalQty;
+        promoBox.innerHTML = promoText ? `<div style="background:#e0ffe0; color:#009432; padding:8px; font-size:0.8rem; border-radius:5px; margin-bottom:10px; border:1px solid #b8e994;">${promoText}</div>` : "";
+        savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN` : "";
+    }
 
-    function renderCart() {
-        const container = document.getElementById('cartItems');
-        const totalEl = document.getElementById('totalPrice');
-        const mobileTotalEl = document.getElementById('mobileTotal');
-        const mobileBar = document.getElementById('mobile-sticky-cart');
-        const promoBox = document.getElementById('promoBox');
-        const savedEl = document.getElementById('savedDisplay');
-        const isTip = document.getElementById('tipCheck').checked;
+    function setPayment(type) {
+        document.getElementById('paymentMethod').value = type;
+        document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
+        document.getElementById('info_blik').style.display = 'none';
+        document.getElementById('info_transfer').style.display = 'none';
+        document.getElementById('info_cash').style.display = 'none';
+        if (type === 'BLIK') { document.getElementById('opt_blik').classList.add('active'); document.getElementById('info_blik').style.display = 'block'; }
+        else if (type === 'PRZELEW') { document.getElementById('opt_transfer').classList.add('active'); document.getElementById('info_transfer').style.display = 'block'; }
+        else { document.getElementById('opt_cash').classList.add('active'); document.getElementById('info_cash').style.display = 'block'; }
+    }
 
-        container.innerHTML = "";
-        let total = 0; let savings = 0; let promoText = "";
+    // --- FUNKCJA PRZYGOTOWUJĄCA DANE PRZED WYSLANIEM ---
+    function prepareOrder() {
+        if(cart.length === 0 && !document.getElementById('tipCheck').checked) {
+            alert("Koszyk jest pusty!");
+            return false; // Zatrzymuje wysyłanie
+        }
+        
+        const email = document.getElementById('clientEmail').value;
+        if(email) document.getElementById('ccEmail').value = email;
 
-        if(cart.length === 0 && !isTip) {
-            container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;"><i class="fa-solid fa-basket-shopping" style="font-size:2rem; margin-bottom:10px; opacity:0.3;"></i><br>Pusto...</div>';
-            totalEl.innerText = "0.00"; mobileTotalEl.innerText = "0.00 PLN";
-            promoBox.innerHTML=""; savedEl.innerText=""; document.getElementById('cartCount').innerText="0"; 
-            mobileBar.classList.remove('visible');
-            return;
-        }
-        mobileBar.classList.add('visible');
+        // Wypełnianie ukrytych pól danymi z koszyka
+        const total = document.getElementById('totalPrice').innerText;
+        document.getElementById('hiddenTotal').value = total + " PLN";
 
-        let qtyByPrice = {};
-        cart.forEach((item, index) => {
-            let itemTotal = item.price * item.qty;
-            if (!qtyByPrice[item.price]) qtyByPrice[item.price] = 0;
-            qtyByPrice[item.price] += item.qty;
-            total += itemTotal;
-            container.innerHTML += `<div class="cart-item">
-                <div><strong>${item.name}</strong><br><small style="color:#888;">${item.qty} szt. x ${item.price} zł</small></div>
-                <div>${itemTotal.toFixed(2)} zł <i class="fa-solid fa-trash" style="color:#ff7675; cursor:pointer; margin-left:8px;" onclick="removeItem(${index})"></i></div>
-            </div>`;
-        });
+        // Wklejamy link do zdjęcia (jeśli jest)
+        if (uploadedFileUrl) {
+            document.getElementById('hiddenImageUrl').value = uploadedFileUrl;
+        }
 
-        // 3+1
-        let promo3plus1 = 0;
-        for (const [price, qty] of Object.entries(qtyByPrice)) {
-            const freeItems = Math.floor(qty / 4); 
-            if (freeItems > 0) {
-                const discount = freeItems * price;
-                promo3plus1 += discount;
-                promoText += `<div>🎁 3+1 GRATIS (${price}zł): -${discount.toFixed(2)} zł</div>`;
-            }
-        }
-        total -= promo3plus1; savings += promo3plus1;
+        let details = "";
+        cart.forEach(item => {
+            details += `- ${item.name} | Ilość: ${item.qty} szt.\n`;
+        });
+        if(document.getElementById('tipCheck').checked) details += `- NAPIWEK (+1.00 PLN) ❤️\n`;
+        details += `\nRAZEM: ${total} PLN`;
+        
+        document.getElementById('hiddenOrderText').value = details;
 
-        // Rabat >15
-        const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
-        if (totalQty > 15) {
-            const bulkDiscount = total * 0.10; total -= bulkDiscount; savings += bulkDiscount;
-            promoText += `<div>🔥 RABAT HURTOWY (-10%): -${bulkDiscount.toFixed(2)} zł</div>`;
-        }
+        return true; // Pozwala formularzowi się wysłać normalnie
+    }
 
-        if(isTip) { total += 1.00; container.innerHTML += `<div class="cart-item" style="color:var(--salmon); border-bottom:none;"><div>❤️ Napiwek</div><div>1.00 zł</div></div>`; }
-
-        const finalTotal = total.toFixed(2);
-        totalEl.innerText = finalTotal; mobileTotalEl.innerText = finalTotal + " PLN";
-        document.getElementById('cartCount').innerText = totalQty;
-        promoBox.innerHTML = promoText ? `<div style="background:#e0ffe0; color:#009432; padding:8px; font-size:0.8rem; border-radius:5px; margin-bottom:10px; border:1px solid #b8e994;">${promoText}</div>` : "";
-        savedEl.innerText = savings > 0 ? `OSZCZĘDZASZ: ${savings.toFixed(2)} PLN` : "";
-    }
-
-    function setPayment(type) {
-        document.getElementById('hiddenPayment').value = type;
-        document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
-        document.getElementById('info_blik').style.display = 'none';
-        document.getElementById('info_transfer').style.display = 'none';
-        document.getElementById('info_cash').style.display = 'none';
-        if (type === 'BLIK') { document.getElementById('opt_blik').classList.add('active'); document.getElementById('info_blik').style.display = 'block'; }
-        else if (type === 'PRZELEW') { document.getElementById('opt_transfer').classList.add('active'); document.getElementById('info_transfer').style.display = 'block'; }
-        else { document.getElementById('opt_cash').classList.add('active'); document.getElementById('info_cash').style.display = 'block'; }
-    }
-
-    function prepareAndSubmit() {
-        if(cart.length === 0 && !document.getElementById('tipCheck').checked) return showToast("Koszyk jest pusty!");
-        
-        const name = document.getElementById('clientName').value.trim();
-        const email = document.getElementById('clientEmail').value.trim();
-
-        if(!name || name.length < 2) { alert("Podaj Imię i Nazwisko!"); return; }
-        if(!email.includes('@')) { alert("Podaj poprawny E-mail!"); return; }
-
-        document.getElementById('hiddenTotal').value = document.getElementById('totalPrice').innerText + " PLN";
-        document.getElementById('formSubject').value = "NOWE ZAMÓWIENIE: " + name;
-
-        let details = "";
-        cart.forEach(item => {
-            details += `- ${item.name} | Ilość: ${item.qty} szt.\n`;
-        });
-        if(document.getElementById('tipCheck').checked) details += `- NAPIWEK (+1.00 PLN) ❤️\n`;
-        details += `\nRAZEM: ${document.getElementById('totalPrice').innerText} PLN`;
-        
-        document.getElementById('hiddenDetails').value = details;
-
-        // Formularz jest już gotowy (pliki są w #hiddenFileContainer wewnątrz forma)
-        const btn = document.querySelector('.btn-checkout');
-        btn.innerHTML = 'PRZEKIEROWYWANIE...';
-        btn.disabled = true;
-        
-        document.getElementById('orderForm').submit();
-    }
-
-    const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
-    function sendReview() {
-        const text = document.getElementById('reviewText').value;
-        if(!text) return showToast("Wpisz treść opinii!");
-        const fd = new FormData();
-        fd.append("_captcha", "false"); fd.append("_subject", "NOWA OPINIA"); fd.append("Treść", text);
-        fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
-        .then(() => { showToast("Dzięki za opinię!"); document.getElementById('reviewText').value = ""; });
-    }
+    const MY_EMAIL = "pinmeup.fuw@gmail.com"; 
+    function sendReview() {
+        const text = document.getElementById('reviewText').value;
+        if(!text) return showToast("Wpisz treść opinii!");
+        const fd = new FormData();
+        fd.append("_captcha", "false"); fd.append("_subject", "NOWA OPINIA"); fd.append("Treść", text);
+        fetch(`https://formsubmit.co/${MY_EMAIL}`, { method: "POST", body: fd })
+        .then(() => { showToast("Dzięki za opinię!"); document.getElementById('reviewText').value = ""; });
+    }
 </script>
 
 </body>
