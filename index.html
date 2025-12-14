@@ -15,10 +15,11 @@
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <style>
-        /* --- GLOBALNY RESET I BLOKADA PRZESUWANIA NA BOKI --- */
+        /* --- GLOBALNY RESET --- */
         * { box-sizing: border-box; }
+        
         html, body {
-            overflow-x: hidden; /* KLUCZOWE */
+            overflow-x: hidden;
             width: 100%;
             margin: 0;
             padding: 0;
@@ -37,7 +38,7 @@
             --radius: 16px;
             --banner-1-height: 60px;
             --banner-2-height: 45px;
-            --header-height: 80px;
+            --header-height: 70px; /* Zmniejszyłem lekko, żeby było zgrabniej */
             --top-gap: 0px;
         }
 
@@ -91,22 +92,37 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s;
         }
         .nav-inner { 
-            max-width: 1300px; width: 100%; margin: 0 auto; display: flex; 
-            justify-content: space-between; align-items: center; padding: 0 20px; box-sizing: border-box; 
+            max-width: 1400px; /* Szerzej na desktopie żeby się mieściło */
+            width: 100%; margin: 0 auto; display: flex; 
+            justify-content: space-between; align-items: center; padding: 0 15px; box-sizing: border-box; 
         }
-        .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
-        .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
+        .logo { font-weight: 900; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
+        .logo img { height: 35px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        .main-menu { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; align-items: center; margin: 0 20px; }
-        .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.7rem; padding: 8px 10px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+        /* MENU DESKTOPOWE (Zmieści się wszystko) */
+        .main-menu { 
+            display: flex; gap: 2px; /* Małe odstępy */
+            flex-wrap: nowrap; /* Nie zawijaj */
+            justify-content: center; align-items: center; 
+            margin: 0 10px; 
+            flex-grow: 1; /* Zajmij dostępne miejsce */
+        }
+        .menu-link { 
+            text-decoration: none; color: #555; font-weight: 700; 
+            font-size: 0.65rem; /* Mniejsza czcionka na desktopie */
+            padding: 8px 6px; /* Mniejszy padding */
+            border-radius: 15px; transition: 0.2s; text-transform: uppercase; cursor: pointer; white-space: nowrap; 
+        }
         .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
         .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
         .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
-        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.9rem; flex-shrink: 0; }
-        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
         
-        /* --- MOBILE MENU FIX (OSTATECZNY) --- */
-        @media (max-width: 1000px) {
+        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 15px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.8rem; flex-shrink: 0; }
+        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--primary); font-weight: 900; cursor: pointer; }
+        
+        /* --- MOBILE MENU & VIEW --- */
+        /* Zwiększyłem breakpoint do 1200px, żeby na mniejszych laptopach też włączało się menu mobilne zamiast brzydkiego łamania */
+        @media (max-width: 1200px) {
             body { padding-top: 0; } 
             
             .event-banner, .promo-banner {
@@ -125,19 +141,21 @@
             .cart-btn-desktop { display: none; }
             .mobile-menu-toggle { display: block; margin-left: auto; } 
             
+            /* MENU MOBILNE - PEŁNA WYSOKOŚĆ I PRZEWIJANIE */
             .main-menu { 
                 display: none; 
                 flex-direction: column; 
-                width: 100vw; /* Szerokość ekranu */
+                width: 100vw; 
                 background: white; 
                 position: absolute; 
-                top: 100%; /* Zaraz pod headerem */
+                top: 100%; 
                 left: 0; 
                 border-top: 1px solid #eee; 
                 padding: 0; 
                 animation: fadeInMenu 0.3s ease; 
-                max-height: 85vh; /* Zwiększona wysokość */
-                overflow-y: auto; /* Przewijanie góra-dół */
+                /* To naprawia brakujące elementy - menu ma max wysokość ekranu i się przewija */
+                max-height: 85vh; 
+                overflow-y: auto; 
                 box-shadow: 0 15px 30px rgba(0,0,0,0.1);
                 margin: 0;
             }
@@ -146,15 +164,12 @@
             
             .menu-link { 
                 display: block; width: 100%; text-align: center; padding: 15px 20px; 
-                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.9rem; 
-                white-space: normal; /* Pozwala na zawijanie tekstu! */
+                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.95rem; 
+                white-space: normal; 
                 line-height: 1.4;
             } 
-
-            /* Dodatkowy padding na dole menu, żeby ostatni element nie ucinał się */
-            .main-menu a:last-child {
-                margin-bottom: 50px;
-            }
+            /* Margines na dole menu mobilnego, żeby palec nie zasłaniał ostatniego elementu */
+            .menu-link:last-child { margin-bottom: 60px; }
         }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
