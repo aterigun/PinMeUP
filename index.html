@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PinMeUP! - Przypnij Siebie!</title>
+    <title>PinMeUP! - Przypnij Siebie! </title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,6 +15,11 @@
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <style>
+        /* --- NAJWAŻNIEJSZA POPRAWKA (GLOBALNY RESET) --- */
+        * {
+            box-sizing: border-box; /* To naprawia uciekanie na boki */
+        }
+
         :root {
             --primary: #4834d4; 
             --primary-dark: #301b9e;
@@ -39,10 +44,11 @@
             background-size: 20px 20px;
             color: #2d3436; 
             margin: 0; 
-            padding-bottom: 120px; /* Miejsce na sticky cart mobile */
+            padding-bottom: 120px;
             padding-top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); 
             -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden; /* Blokada przewijania na boki */
+            overflow-x: hidden; /* Dodatkowe zabezpieczenie */
+            width: 100%;
         }
 
         /* --- UI ELEMENTS --- */
@@ -61,17 +67,16 @@
         .success-content {
             background: white; border-radius: 20px; padding: 30px; max-width: 500px; width: 100%;
             text-align: center; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: popIn 0.3s ease; box-sizing: border-box;
+            animation: popIn 0.3s ease;
         }
         @keyframes popIn { from{transform:scale(0.8); opacity:0;} to{transform:scale(1); opacity:1;} }
         .success-icon { font-size: 4rem; color: #27ae60; margin-bottom: 15px; }
         .success-title { font-size: 1.5rem; color: #2d3436; margin-bottom: 10px; font-weight: 900; }
         .success-details { background: #f9f9f9; padding: 15px; border-radius: 10px; text-align: left; margin: 15px 0; font-size: 0.9rem; border: 1px dashed #ccc; }
         .success-close { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        .success-close:hover { transform: scale(1.05); }
 
         /* --- BANERY --- */
-        .event-banner { position: fixed; top: var(--top-gap); left: 0; width: 100%; height: var(--banner-1-height); background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200% 200%; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; z-index: 1003; animation: gradientMove 5s ease infinite; text-align: center; padding: 0 10px; box-sizing: border-box; }
+        .event-banner { position: fixed; top: var(--top-gap); left: 0; width: 100%; height: var(--banner-1-height); background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200% 200%; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; z-index: 1003; animation: gradientMove 5s ease infinite; text-align: center; padding: 0 10px; }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .event-highlight { background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; margin: 0 3px; display: inline-block; }
         .promo-banner { position: fixed; top: calc(var(--top-gap) + var(--banner-1-height)); left: 0; width: 100%; height: var(--banner-2-height); background: #fff200; color: #d63031; display: flex; align-items: center; overflow: hidden; border-bottom: 3px solid #d63031; z-index: 1002; white-space: nowrap; }
@@ -87,7 +92,7 @@
         }
         .nav-inner { 
             max-width: 1300px; width: 100%; margin: 0 auto; display: flex; 
-            justify-content: space-between; align-items: center; padding: 0 20px; box-sizing: border-box; 
+            justify-content: space-between; align-items: center; padding: 0 20px; 
         }
         .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
         .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
@@ -102,17 +107,17 @@
         
         /* MOBILE VIEW FIXES */
         @media (max-width: 1000px) {
-            body { padding-top: 0; } /* Reset padding */
+            body { padding-top: 0; } 
             
-            /* Banery normalne (nie fixed) */
+            /* Banery */
             .event-banner, .promo-banner {
                 position: relative; top: auto; left: auto; height: auto;
-                padding: 10px; white-space: normal; line-height: 1.4;
+                padding: 10px; white-space: normal; line-height: 1.4; width: 100%;
             }
             .event-banner { font-size: 0.75rem; }
-            .promo-banner { white-space: nowrap; }
+            .promo-banner { white-space: nowrap; overflow: hidden; }
             
-            /* Header sticky pod banerami */
+            /* Sticky Header */
             header {
                 position: sticky; top: 0; height: auto; padding: 10px 0; flex-wrap: wrap;
             }
@@ -121,44 +126,44 @@
             .logo { flex: 1; justify-content: flex-start; } 
             .cart-btn-desktop { display: none; }
             .mobile-menu-toggle { display: block; } 
+            
+            /* MENU MOBILNE - PEŁNA SZEROKOŚĆ BEZ PRZEWIJANIA POZIOMEGO */
             .main-menu { 
                 display: none; flex-direction: column; width: 100%; background: white; margin-top: 10px; 
                 border-top: 1px solid #eee; padding: 10px 0; animation: fadeInMenu 0.3s ease; 
-                max-height: 60vh; overflow-y: auto; 
+                max-height: 60vh; overflow-y: auto; overflow-x: hidden; margin-left: 0; margin-right: 0;
             }
             .main-menu.open { display: flex; } 
-            .menu-link { display: block; width: 100%; text-align: left; padding: 12px 15px; border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.85rem; } 
+            .menu-link { 
+                display: block; width: 100%; text-align: left; padding: 15px 20px; 
+                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.9rem; 
+                white-space: normal; /* Pozwala zawijać tekst jeśli za długi */
+            } 
         }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- LAYOUT GŁÓWNY (GRID) --- */
+        /* --- LAYOUT GŁÓWNY --- */
         .main-wrapper { 
             max-width: 1200px; margin: 20px auto; padding: 0 20px; 
             display: grid; 
-            /* Dwie kolumny na desktopie */
             grid-template-columns: 2fr 1.1fr; 
-            /* Definicja obszarów: Galeria pod produktami */
-            grid-template-areas: 
-                "products cart"
-                "gallery cart"; 
+            grid-template-areas: "products cart" "gallery cart"; 
             gap: 30px; align-items: start; 
-            box-sizing: border-box;
         }
         .content-col { grid-area: products; width: 100%; } 
         .sidebar { grid-area: cart; width: 100%; } 
         .extra-content-box { grid-area: gallery; width: 100%; }
 
-        /* --- LAYOUT MOBILE (FLEXBOX Z ORDER) --- */
         @media (max-width: 900px) {
             .main-wrapper { 
                 display: flex; flex-direction: column; 
                 gap: 25px; margin-top: 15px;
                 padding: 0 15px;
             }
-            /* !!! KLUCZOWE: ZMIANA KOLEJNOŚCI !!! */
+            /* KOLEJNOŚĆ NA TELEFONIE */
             .content-col { order: 1; }
-            .sidebar { order: 2; } /* Koszyk w środku */
-            .extra-content-box { order: 3; } /* Galeria na końcu */
+            .sidebar { order: 2; }
+            .extra-content-box { order: 3; }
         }
 
         /* --- ELEMENTY --- */
@@ -171,7 +176,7 @@
         @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.3s; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; overflow: hidden; }
+        .card { border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; background: white; transition: 0.3s; height: 100%; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
         .card:hover { border-color: var(--salmon); box-shadow: 0 15px 30px rgba(0,0,0,0.1); transform: translateY(-5px); }
         .card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #f5f5f5; align-self: center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: zoom-in; }
         .card:hover img { transform: scale(1.15) rotate(3deg); }
@@ -196,7 +201,6 @@
             box-shadow: 0 -5px 25px rgba(0,0,0,0.03); border: 1px solid #eee;
             background-image: linear-gradient(to bottom, #fff, #fcfcfc);
         }
-        .cart-header h2 { font-weight:900; letter-spacing:-0.5px; color:#2d3436; margin-bottom: 5px; }
         .cart-items { margin-bottom: 10px; max-height: 30vh; min-height: 50px; overflow-y: auto; padding-right: 5px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding-top: 10px; }
         .cart-items::-webkit-scrollbar { width: 6px; } .cart-items::-webkit-scrollbar-track { background: #f1f1f1; } .cart-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #eee; padding: 12px 0; font-size: 0.9rem; }
@@ -210,8 +214,7 @@
         input.field { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 15px; transition: 0.3s; }
         input.field:focus { border-color: var(--primary); outline: none; }
 
-        /* PŁATNOŚCI NA CAŁĄ SZEROKOŚĆ */
-        .payment-options { display: flex; gap: 8px; margin-bottom: 20px; margin-top: 10px; width: 100%; box-sizing: border-box; }
+        .payment-options { display: flex; gap: 8px; margin-bottom: 20px; margin-top: 10px; width: 100%; }
         .pay-option { 
             flex: 1; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
@@ -222,7 +225,6 @@
         .pay-option.active { border-color: var(--primary); background: #f0edff; color: var(--primary); box-shadow: 0 5px 15px rgba(72, 52, 212, 0.1); }
         .pay-option.active i { color: var(--primary); }
 
-        /* PROMOCJA OGIEŃ */
         .promo-pill {
             background: linear-gradient(135deg, #e67e22, #f39c12);
             color: white;
@@ -243,7 +245,6 @@
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
-        /* PODSUMOWANIE CEN */
         .price-summary { display: flex; flex-direction: column; align-items: flex-end; }
         .old-price { font-size: 0.9rem; text-decoration: line-through; color: #aaa; margin-right: 8px; }
         .final-price { font-size: 1.6rem; font-weight: 900; color: var(--primary); }
@@ -262,8 +263,7 @@
         .m-cart-info { font-size: 0.9rem; color: #333; } .m-cart-total { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
         .m-cart-btn { background: var(--primary); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(72, 52, 212, 0.4); }
         
-        /* GALERIA I OPINIE */
-        .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #eee; width: 100%; box-sizing: border-box; }
+        .extra-content-box { background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #eee; }
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
         .gallery-item img { width: 100%; border-radius: 8px; aspect-ratio: 1/1; object-fit: cover; cursor: zoom-in; transition: 0.3s; }
         .gallery-item img:hover { transform: scale(1.05); }
@@ -367,7 +367,7 @@
             <div class="accordion-content">
                   <div style="text-align:center;">
                     <p style="font-size:0.9rem; margin-bottom: 15px;">
-                      Przyjaciółka? Gojo Satoru? Kotek? A może... Dziekan Turzyński...? To nie problem! Wgraj swoje ulubione zdjęcie z galerii telefonu! ❤️
+                      Przyjaciółka? Gojo Satoru? Kotek? A może... Dziekan Turzyński...? To nie problem! Wgraj swoje ulubione zdjęcie - serio, cokolwiek! - a my zrobimi z tego Twoją personalizowaną przypinkę! ❤️
                     </p>
                 
                     <div style="margin-bottom: 20px; padding: 20px; border: 2px dashed #ff7675; border-radius: 12px; background: #fff5f5;">
@@ -399,7 +399,7 @@
                 <div class="grid">
                     <script>
                         const logos = [
-                            {name: "FUW (EN) Pełne", file: "[EN] fuw__pełne.png"},
+                            {name: "FUW (EN) Pełne", file: "[EN] fuw __ pełne.png"},
                             {name: "MIMUW (EN)", file: "[EN] mimuw __ pełne.png"},
                             {name: "WCHEM (EN)", file: "[EN] wchem.png"},
                             {name: "MIMUW (Łacina)", file: "[łac] mimuw __ pełne vel 2.png"},
@@ -693,7 +693,7 @@
                             { file: "wmed (42).png", name: "jest we mnie BESTIA" },
                             { file: "wmed (43).png", name: "bojem siem kombiemt" },
                             { file: "wmed (44).png", name: "eepy sleepy" },
-                            { file: "wmed(45).png", name: "zakazane słowa" },
+                            { file: "wmed (45).png", name: "zakazane słowa" },
                             { file: "meowbucks.png", name: "mmm kawusia" },
                             { file: "kapibara_książkara.png", name: "kapibara książkara" },
                             { file: "dontworrybecappy.png", name: "dont worry be cappy" }
@@ -1072,4 +1072,3 @@
 
 </body>
 </html>
-
