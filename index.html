@@ -15,9 +15,15 @@
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <style>
-        /* --- GLOBALNY RESET (Zapobiega rozjeżdżaniu) --- */
-        * {
-            box-sizing: border-box;
+        /* --- GLOBALNY RESET I BLOKADA PRZESUWANIA NA BOKI --- */
+        * { box-sizing: border-box; }
+        html, body {
+            overflow-x: hidden; /* KLUCZOWE */
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
         }
 
         :root {
@@ -35,20 +41,14 @@
             --top-gap: 0px;
         }
 
-        html { scroll-behavior: smooth; }
-
         body { 
-            font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg-color); 
             background-image: radial-gradient(#e0d4fc 1px, transparent 1px);
             background-size: 20px 20px;
             color: #2d3436; 
-            margin: 0; 
             padding-bottom: 120px;
             padding-top: calc(var(--top-gap) + var(--banner-1-height) + var(--banner-2-height) + var(--header-height) + 20px); 
             -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
-            width: 100%;
         }
 
         /* --- UI ELEMENTS --- */
@@ -74,7 +74,6 @@
         .success-title { font-size: 1.5rem; color: #2d3436; margin-bottom: 10px; font-weight: 900; }
         .success-details { background: #f9f9f9; padding: 15px; border-radius: 10px; text-align: left; margin: 15px 0; font-size: 0.9rem; border: 1px dashed #ccc; }
         .success-close { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        .success-close:hover { transform: scale(1.05); }
 
         /* --- BANERY --- */
         .event-banner { position: fixed; top: var(--top-gap); left: 0; width: 100%; height: var(--banner-1-height); background: linear-gradient(90deg, #ff0055, #ff7979, #f9ca24); background-size: 200% 200%; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; z-index: 1003; animation: gradientMove 5s ease infinite; text-align: center; padding: 0 10px; box-sizing: border-box; }
@@ -106,7 +105,7 @@
         .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.9rem; flex-shrink: 0; }
         .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
         
-        /* MOBILE VIEW FIXES */
+        /* --- MOBILE MENU FIX (OSTATECZNY) --- */
         @media (max-width: 1000px) {
             body { padding-top: 0; } 
             
@@ -126,32 +125,36 @@
             .cart-btn-desktop { display: none; }
             .mobile-menu-toggle { display: block; margin-left: auto; } 
             
-            /* MENU MOBILNE - NAPRAWA */
             .main-menu { 
                 display: none; 
                 flex-direction: column; 
-                width: 100%; 
+                width: 100vw; /* Szerokość ekranu */
                 background: white; 
-                position: absolute; /* Wychodzi z przepływu */
+                position: absolute; 
                 top: 100%; /* Zaraz pod headerem */
-                left: 0;
-                right: 0;
+                left: 0; 
                 border-top: 1px solid #eee; 
                 padding: 0; 
                 animation: fadeInMenu 0.3s ease; 
-                max-height: 70vh; 
-                overflow-y: auto; 
-                overflow-x: hidden;
-                margin: 0; /* Reset marginesów */
+                max-height: 85vh; /* Zwiększona wysokość */
+                overflow-y: auto; /* Przewijanie góra-dół */
                 box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+                margin: 0;
             }
+            
             .main-menu.open { display: flex; } 
+            
             .menu-link { 
-                display: block; width: 100%; text-align: center; padding: 15px; 
+                display: block; width: 100%; text-align: center; padding: 15px 20px; 
                 border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.9rem; 
-                white-space: normal; /* Zawijanie tekstu! */
-                box-sizing: border-box;
+                white-space: normal; /* Pozwala na zawijanie tekstu! */
+                line-height: 1.4;
             } 
+
+            /* Dodatkowy padding na dole menu, żeby ostatni element nie ucinał się */
+            .main-menu a:last-child {
+                margin-bottom: 50px;
+            }
         }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -173,7 +176,6 @@
                 gap: 25px; margin-top: 15px;
                 padding: 0 15px;
             }
-            /* KOLEJNOŚĆ NA TELEFONIE */
             .content-col { order: 1; }
             .sidebar { order: 2; }
             .extra-content-box { order: 3; }
