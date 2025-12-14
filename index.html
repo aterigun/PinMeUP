@@ -855,7 +855,7 @@
         
         <div class="contact-box">
             <h4 style="margin-top:0; color:var(--primary); text-transform:uppercase; margin-bottom: 5px;">
-                <i class="fa-regular fa-comments"></i> Masz pytania?
+                <i class="fa-regular fa-comments"></i> Masz pytania? Chcesz odebrać zamówienie w wybranym terminie? Napisz!
             </h4>
             <div style="display: flex; gap: 10px;">
                 <a href="https://www.facebook.com/profile.php?id=61584627429588" target="_blank" class="contact-btn fb">
@@ -1082,11 +1082,24 @@
             else paymentInfo = "Płatność gotówką przy odbiorze.";
 
             document.getElementById('success-details-box').innerHTML = `
-                Do zapłaty: <strong style="font-size:1.2rem; color:#4834d4;">${kwota}</strong><br>
-                <hr style="margin:10px 0; border:0; border-top:1px dashed #ccc;">
-                ${paymentInfo}<br><br>
-                📍 Odbiór: <strong>17-18 Grudnia, FUW Hall Główny</strong>
-            `;
+                            Do zapłaty: <strong style="font-size:1.2rem; color:#4834d4;">${kwota}</strong><br>
+                            <hr style="margin:10px 0; border:0; border-top:1px dashed #ccc;">
+                            ${paymentInfo}
+                            
+                            <div style="margin-top:15px; background:#f8f9fa; padding:12px; border-radius:8px; font-size:0.85rem; text-align:left; border: 1px solid #eee;">
+                                <div style="margin-bottom:8px;">
+                                    <i class="fa-solid fa-location-dot" style="color:#4834d4;"></i> <strong>Odbiór na stoisku:</strong><br>
+                                    <span style="display:block; margin-left:18px;">17-18 Grudnia, FUW (Hall Główny)</span>
+                                </div>
+                                <div style="border-top:1px solid #e0e0e0; padding-top:8px; margin-top:8px;">
+                                    <i class="fa-solid fa-envelope" style="color:#4834d4;"></i> <strong>Inny termin?</strong><br>
+                                    <span style="display:block; margin-left:18px;">
+                                        Możliwy odbiór w dowolnym terminie po kontakcie: 
+                                        <a href="mailto:pinmeup.fuw@gmail.com" style="color:#4834d4; font-weight:bold; text-decoration:none;">pinmeup.fuw@gmail.com</a>
+                                    </span>
+                                </div>
+                            </div>
+                        `;
 
             document.getElementById('success-modal').style.display = "flex";
             
@@ -1102,3 +1115,4 @@
 
 </body>
 </html>
+
