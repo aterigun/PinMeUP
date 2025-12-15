@@ -8,16 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- <script>
-        window.UPLOADCARE_PUBLIC_KEY = 'demopublickey'; // TWÓJ KLUCZ
-        window.UPLOADCARE_LOCALE = 'pl';
-    </script>
-    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script> -->
-
-    
-
     <style>
+        /* --- GLOBALNY RESET --- */
         * { box-sizing: border-box; }
+        
         html, body {
             overflow-x: hidden; width: 100%; margin: 0; padding: 0;
             font-family: 'Montserrat', sans-serif; scroll-behavior: smooth;
@@ -27,7 +21,7 @@
             --primary: #4834d4; --primary-dark: #301b9e; --salmon: #ff7979; --accent: #f9ca24; 
             --bg-color: #f7f1ff; --glass: rgba(255, 255, 255, 0.98);
             --shadow: 0 10px 40px -10px rgba(72, 52, 212, 0.15);
-            --radius: 16px; --banner-1-height: 60px; --banner-2-height: 45px; --header-height: 80px; --top-gap: 0px;
+            --radius: 16px; --banner-1-height: 60px; --banner-2-height: 45px; --header-height: 70px; --top-gap: 0px;
         }
 
         body { 
@@ -78,22 +72,31 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; align-items: center; transition: all 0.3s;
         }
         .nav-inner { 
-            max-width: 1300px; width: 100%; margin: 0 auto; display: flex; 
-            justify-content: space-between; align-items: center; padding: 0 20px; box-sizing: border-box; 
+            max-width: 1400px; width: 100%; margin: 0 auto; display: flex; 
+            justify-content: space-between; align-items: center; padding: 0 15px; box-sizing: border-box; 
         }
-        .logo { font-weight: 900; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
-        .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
+        .logo { font-weight: 900; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
+        .logo img { height: 35px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        .main-menu { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; align-items: center; margin: 0 20px; }
-        .menu-link { text-decoration: none; color: #555; font-weight: 700; font-size: 0.60rem; padding: 8px 10px; border-radius: 20px; transition: 0.2s; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+        /* MENU DESKTOPOWE */
+        .main-menu { 
+            display: flex; gap: 2px; flex-wrap: nowrap; justify-content: center; align-items: center; 
+            margin: 0 10px; flex-grow: 1; 
+        }
+        .menu-link { 
+            text-decoration: none; color: #555; font-weight: 700; 
+            font-size: 0.65rem; padding: 8px 6px; 
+            border-radius: 15px; transition: 0.2s; text-transform: uppercase; cursor: pointer; white-space: nowrap; 
+        }
         .menu-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
         .menu-link.highlight { color: var(--salmon); border: 1px solid var(--salmon); }
         .menu-link.gold { color: #b7950b; border: 1px solid #f1c40f; }
-        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.9rem; flex-shrink: 0; }
-        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.2rem; color: var(--primary); font-weight: 900; cursor: pointer; }
         
-        /* MOBILE VIEW FIXES */
-        @media (max-width: 1000px) {
+        .cart-btn-desktop { background: var(--primary); color: white; padding: 8px 15px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; font-size: 0.8rem; flex-shrink: 0; }
+        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--primary); font-weight: 900; cursor: pointer; }
+        
+        /* --- MOBILE MENU FIX --- */
+        @media (max-width: 1200px) {
             body { padding-top: 0; } 
             
             .event-banner, .promo-banner {
@@ -109,18 +112,22 @@
             .cart-btn-desktop { display: none; }
             .mobile-menu-toggle { display: block; margin-left: auto; } 
             
+            /* MENU MOBILNE */
             .main-menu { 
                 display: none; flex-direction: column; width: 100vw; background: white; 
                 position: absolute; top: 100%; left: 0; border-top: 1px solid #eee; padding: 0; 
-                animation: fadeInMenu 0.3s ease; max-height: 85vh; overflow-y: auto; overflow-x: hidden; 
+                animation: fadeInMenu 0.3s ease; 
+                max-height: 85vh; 
+                overflow-y: auto; overflow-x: hidden; 
                 box-shadow: 0 15px 30px rgba(0,0,0,0.1); margin: 0;
             }
             .main-menu.open { display: flex; } 
             .menu-link { 
                 display: block; width: 100%; text-align: center; padding: 15px 20px; 
-                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.80rem; 
+                border-bottom: 1px solid #f9f9f9; border-radius: 0; font-size: 0.9rem; 
                 white-space: normal; line-height: 1.4;
             } 
+            /* GIGANTYCZNY MARGINES NA DOLE ŻEBY "INNE" BYŁY WIDOCZNE */
             .menu-link:last-child { margin-bottom: 100px !important; display: block; }
         }
         @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
@@ -211,7 +218,6 @@
             box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4); text-transform: uppercase;
             letter-spacing: 0.5px; border: 1px solid #d35400; animation: pulse 2s infinite;
         }
-        /* Nowy styl dla rabatu hurtowego */
         .promo-pill.bulk {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             border-color: #8e44ad;
@@ -248,10 +254,6 @@
             margin-bottom: 15px; 
             background: #fafafa; padding: 15px; border-radius: 10px; border: 1px solid #eee;
         }
-
-        .custom-upload-btn { display: block; border: 2px dashed #ff7675; background-color: #fff5f5; color: #ff7675; padding: 25px 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 0.9rem; }
-        .custom-upload-btn:hover { background-color: #ffeaea; border-color: #d63031; color: #d63031; transform: scale(0.98); }
-        .uploadcare--widget__button_type_open { background-color: var(--salmon) !important; color: white !important; border-radius: 50px !important; padding: 10px 20px !important; font-weight: 700 !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -334,44 +336,44 @@
 
     <div class="content-col">
         
-    <div id="acc-custom" class="accordion-item active" style="border-left-color: var(--salmon);">
-                <div class="accordion-header" onclick="toggleAcc(this)">
-                    <span>🎨 KREATOR (WŁASNY WZÓR)</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="accordion-content">
-                      <div style="text-align:center;">
-                        <p style="font-size:0.9rem; margin-bottom: 15px;">
-                          Przyjaciółka? Gojo Satoru? Twój kotek? A może... Ty + Dziekan Turzyński? Wgraj swoje ulubione zdjęcie - serio, cokolwiek! - a my zrobimy z niego Twoją spersonalizowaną przypinkę!  <br>
-                          Wgraj zdjęcie, poczekaj na link i dodaj do koszyka! ❤️
-                        </p>
-                    
-                        <div style="margin-bottom: 20px; padding: 20px; border: 2px dashed #ff7675; border-radius: 12px; background: #fff5f5;">
-                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: #ff7675; margin-bottom: 10px;"></i>
-                            <p style="font-weight:bold; color:#ff7675; margin-bottom:10px;">1. WYBIERZ ZDJĘCIE</p>
-                            
-                            <input type="file" id="fileInput" accept="image/*" style="display: block; margin: 0 auto; margin-bottom: 10px;">
-                            
-                            <button id="uploadBtn" onclick="uploadToImgBB()" style="background:#2d3436; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-size:0.8rem;">
-                                2. ZATWIERDŹ ZDJĘCIE
-                            </button>
-    
-                            <p id="uploadStatus" style="font-size:0.8rem; color:#666; margin-top:10px; font-weight:bold;"></p>
-                        </div>
-                    
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
-                          <span class="price" style="font-size: 1.2rem; font-weight: bold; color: #2d3436;">7.00 PLN</span>
-                          
-                          <div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
-                            <div class="qty-box"><input type="number" id="customQty" class="qty-input" value="1" min="1"></div>
-                            <button class="btn-add" style="width:auto; padding:8px 30px; background-color: var(--salmon);" onclick="addCustomFromLink()">
-                                3. DODAJ DO KOSZYKA
-                            </button>
-                          </div>
-                        </div>
+        <div id="acc-custom" class="accordion-item active" style="border-left-color: var(--salmon);">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span>🎨 KREATOR (WŁASNY WZÓR)</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                  <div style="text-align:center;">
+                    <p style="font-size:0.9rem; margin-bottom: 15px; line-height: 1.5;">
+                      Przyjaciółka? Gojo Satoru? Kotek? A może... Dziekan Turzyński...?<br>
+                      Wgraj swoje ulubione zdjęcie - serio, cokolwiek! - a my zrobimy z niego Twoją spersonalizowaną przypinkę! ❤️
+                    </p>
+                
+                    <div style="margin-bottom: 20px; padding: 20px; border: 2px dashed #ff7675; border-radius: 12px; background: #fff5f5;">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: #ff7675; margin-bottom: 10px;"></i>
+                        <p style="font-weight:bold; color:#ff7675; margin-bottom:10px;">1. WYBIERZ ZDJĘCIE</p>
+                        
+                        <input type="file" id="fileInput" accept="image/*" style="display: block; margin: 0 auto; margin-bottom: 10px;">
+                        
+                        <button id="uploadBtn" onclick="uploadToImgBB()" style="background:#2d3436; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-size:0.8rem;">
+                            2. ZATWIERDŹ ZDJĘCIE
+                        </button>
+
+                        <p id="uploadStatus" style="font-size:0.8rem; color:#666; margin-top:10px; font-weight:bold;"></p>
+                    </div>
+                
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                      <span class="price" style="font-size: 1.2rem; font-weight: bold; color: #2d3436;">7.00 PLN</span>
+                      
+                      <div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
+                        <div class="qty-box"><input type="number" id="customQty" class="qty-input" value="1" min="1"></div>
+                        <button class="btn-add" style="width:auto; padding:8px 30px; background-color: var(--salmon);" onclick="addCustomFromLink()">
+                            3. DODAJ DO KOSZYKA
+                        </button>
                       </div>
-                </div>
-    </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
 
         <div id="acc-logo" class="accordion-item" style="border-left-color: var(--primary);">
             <div class="accordion-header" onclick="toggleAcc(this)">
@@ -398,14 +400,12 @@
                             {name: "Wydział Medyczny", file: "wmed.png"},
                             {name: "QuantMol", file: "quantmol.png"},
                             {name: "santa SKuNKs", file: "santa_skunks.png"},
-                            {name: "SKuNKs", file: "skunks.png"},
-                            {name: "Katedra Metod Matematycznych Fizyki, mathcal", file: "kmmf.png"},
-                            {name: "Katedra Metod Matematycznych Fizyki", file: "kmmf2.png"}
+                            {name: "SKuNKs", file: "skunks.png"}
                         ];
                         logos.forEach((item, i) => {
                             document.write(`
                             <div class="card">
-                                <img src="${item.file}" alt="${item.name}" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/90?text=LOGO'">
+                                <img src="${item.file}" alt="${item.name}" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/150?text=Brak+Foty'">
                                 <h3>${item.name}</h3>
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_logo_${i}" class="qty-input" value="1"></div>
@@ -441,23 +441,23 @@
                             { file: "fuw __ skrót (2).png", name: "logo wydziału #2" },
                             { file: "fuw __ skrót (3).png", name: "logo wydziału #3" },
                             { file: "wmed (20).png", name: "Fuw baloon"},
-                            {file: "kmmf.png", name: "Katedra Metod Matematycznych Fizyki, mathcal"},
-                            {file: "kmmf2.png", name: "Katedra Metod Matematycznych Fizyki"},
                             { file: "wmed (35).png", name: "tak, umiem pisać xi" },
                             { file: "wmed (24).png", name: "wiara czyni cuda" },
                             { file: "wmed (27).png", name: "trywialne" },
                             { file: "wmed (36).png", name: "im just a physicist" },
                             { file: "wmed (37).png", name: "im just a physicist (bow edition)" },
-                            { file: "ackschoually.png", name: "erm, ackschoually" },
-                            { file: "mmmjes.png", name: "mmm, jes fiziks" },
                             { file: "wmed (26).png", name: "załóżmy, że jestem kulą" },
                             { file: "fizykburger.png", name: "certified fan of fizykburger" },
                             { file: "wmed (33).png", name: "szrodinger" },
                             { file: "wmed (19).png", name: "najwazniejszy filar wydziału" },
-                            { file: "powerplant_marchiew.png", name: "power plant ale to power marchiew" },
                             { file: "wmed (3).png", name: "czarna dziura" },
                             { file: "gastro.png", name: "kocham gastro" },
-                            { file: "employee.png", name: "im the bestest here" }
+                            { file: "employee.png", name: "im the bestest here" },
+                            { file: "kmmf.png", name: "Katedra Metod Matematycznych Fizyki, mathcal"},
+                            { file: "kmmf2.png", name: "Katedra Metod Matematycznych Fizyki"},
+                            { file: "ackschoually.png", name: "erm, ackschoually" },
+                            { file: "mmmjes.png", name: "mmm, jes fiziks" },
+                            { file: "powerplant_marchiew.png", name: "power plant ale to power marchiew" }
                         ];
                         fuwItems.forEach((item, i) => {
                             document.write(`
@@ -725,7 +725,6 @@
                             { file: "wmed (44).png", name: "eepy sleepy" },
                             { file: "wmed (45).png", name: "zakazane słowa" },
                             { file: "meowbucks.png", name: "mmm kawusia" },
-                            { file: "ackschoually.png", name: "erm, ackschoually" },
                             { file: "kapibara_książkara.png", name: "kapibara książkara" },
                             { file: "dontworrybecappy.png", name: "dont worry be cappy" },
                              { file: "im_angy.png", name: "angy kitty" },
@@ -880,18 +879,31 @@
 </footer>
 
 <script>
+    // =========================================================
+    // KONFIGURACJA
+    // =========================================================
+    
+    // 1. WEJDŹ NA: https://api.imgbb.com/
+    // 2. Kliknij "Get API Key"
+    // 3. Skopiuj ten dziwny ciąg znaków i wklej go poniżej w cudzysłowie:
+    const IMGBB_API_KEY = 'ec0af63d5204a89d797316f1e6c698c2'; 
+
+    // 4. Tu wklej swój link do Google Script (Web App URL)
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydfyt26hljm83Wx-mPrQsuBnGpV9l32t_7J1tUJm50fiXfndpbNhe6exkYZCopPnFqeA/exec'; 
+
+    // =========================================================
+    // LOGIKA SKLEPU
+    // =========================================================
 
     let cart = [];
     let uploadedImageUrl = ""; 
+    let uploadFailedMode = false; // Tryb awaryjny
 
-    const widget = uploadcare.Widget('[role=uploadcare-uploader]');
-    widget.onUploadComplete(info => {
-        uploadedImageUrl = info.cdnUrl;
-        showToast("Zdjęcie wgrane! Kliknij DODAJ.");
-    });
-
-    function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('visible'); }
+    function openLightbox(src) { 
+        if(src.includes("placehold")) return; // Nie powiększaj placeholderów
+        document.getElementById('lightbox-img').src = src; 
+        document.getElementById('lightbox').classList.add('visible'); 
+    }
     function closeLightbox() { document.getElementById('lightbox').classList.remove('visible'); }
     function toggleMenu() { document.getElementById('navMenu').classList.toggle('open'); }
     
@@ -918,13 +930,118 @@
     }
 
     function showToast(msg) {
-        const t = document.getElementById('toast'); t.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${msg}`; t.className = "show"; setTimeout(() => t.className = "", 3000);
+        const t = document.getElementById('toast'); 
+        t.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${msg}`; 
+        t.className = "show"; 
+        setTimeout(() => t.className = "", 3000);
     }
     function closeSuccessModal() { document.getElementById('success-modal').style.display = "none"; }
 
-    // --- ZAKTUALIZOWANA FUNKCJA ADDITEM (Z obsługą starej ceny) ---
+    // --- FUNKCJA WGRYWANIA ZDJĘĆ (Z ZABEZPIECZENIEM) ---
+    function uploadToImgBB() {
+        const fileInput = document.getElementById('fileInput');
+        const statusEl = document.getElementById('uploadStatus');
+        
+        // Reset
+        uploadedImageUrl = "";
+        uploadFailedMode = false;
+
+        if (fileInput.files.length === 0) {
+            alert("Najpierw wybierz plik z telefonu/komputera!");
+            return;
+        }
+
+        const file = fileInput.files[0];
+
+        // Sprawdzenie klucza API
+        if (IMGBB_API_KEY === 'TU_WKLEJ_SWOJ_KLUCZ_IMGBB' || IMGBB_API_KEY === '') {
+            statusEl.innerHTML = `⚠️ <b>Brak klucza API!</b><br>Ale spokojnie - możesz dodać do koszyka, a zdjęcie wyślesz nam mailem.`;
+            statusEl.style.color = "#d63031";
+            enableManualMode();
+            return;
+        }
+
+        statusEl.innerHTML = "⏳ <b>Wgrywanie...</b> (Może to potrwać chwilę)";
+        statusEl.style.color = "#d35400";
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        // Wywołanie API
+        fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.success) {
+                uploadedImageUrl = data.data.url;
+                statusEl.innerHTML = `✅ <b>Gotowe!</b> Zdjęcie wgrane.<br>Kliknij "DODAJ DO KOSZYKA".`;
+                statusEl.style.color = "#27ae60";
+            } else {
+                throw new Error(data.error ? data.error.message : "Błąd nieznany");
+            }
+        })
+        .catch(error => {
+            console.error('Upload error:', error);
+            // TRYB AWARYJNY - jeśli wgranie się nie uda
+            statusEl.innerHTML = `⚠️ <b>Nie udało się wgrać zdjęcia.</b><br>Nie szkodzi! Dodaj do koszyka, a zdjęcie podeślesz nam na maila: <b>pinmeup.fuw@gmail.com</b>`;
+            statusEl.style.color = "#e17055";
+            enableManualMode();
+        });
+    }
+
+    function enableManualMode() {
+        uploadFailedMode = true;
+        // Zmieniamy tekst na przycisku
+        const btn = document.querySelector('button[onclick="addCustomFromLink()"]');
+        if(btn) btn.innerText = "3. DODAJ (FOTO WYŚLĘ MAILEM)";
+    }
+
+    function addCustomFromLink() {
+        // Jeśli nie ma linku I nie jesteśmy w trybie awaryjnym
+        if(!uploadedImageUrl && !uploadFailedMode) { 
+            alert("Najpierw kliknij 'ZATWIERDŹ ZDJĘCIE' i poczekaj na wynik!"); 
+            return; 
+        }
+
+        const qty = parseInt(document.getElementById('customQty').value);
+        let finalName = "Własny Wzór";
+        let finalLink = uploadedImageUrl;
+
+        if (uploadFailedMode) {
+            finalName = "Własny Wzór (FOTO NA MAIL)";
+            finalLink = "Klient wyśle mailem";
+        } else {
+            finalName = "Własny Wzór";
+        }
+        
+        // Dodajemy do koszyka
+        cart.push({ 
+            name: finalName, 
+            price: 7.00, 
+            qty: qty, 
+            oldPrice: 0,
+            imageLink: finalLink // Przechowujemy link (lub info o mailu) w obiekcie, ale nie wyświetlamy w koszyku
+        });
+        
+        renderCart(); 
+        showToast("Dodano do koszyka!");
+        
+        // Reset
+        document.getElementById('fileInput').value = "";
+        document.getElementById('uploadStatus').innerText = "";
+        const btn = document.querySelector('button[onclick="addCustomFromLink()"]');
+        if(btn) btn.innerText = "3. DODAJ DO KOSZYKA";
+        uploadedImageUrl = ""; 
+        uploadFailedMode = false;
+    }
+
+    // --- STANDARDOWE FUNKCJE KOSZYKA ---
+
     function addItem(name, price, inputId, oldPrice = 0) {
-        const qty = inputId ? parseInt(document.getElementById(inputId).value) : 1;
+        const qtyInput = document.getElementById(inputId);
+        const qty = qtyInput ? parseInt(qtyInput.value) : 1;
         if(qty < 1) return;
         
         const existing = cart.find(item => item.name === name);
@@ -934,16 +1051,8 @@
             cart.push({ name: name, price: price, qty: qty, oldPrice: oldPrice }); 
         }
         
-        if(inputId) document.getElementById(inputId).value = 1;
+        if(qtyInput) qtyInput.value = 1;
         renderCart(); showToast(`Dodano: ${name}`);
-    }
-
-    function addCustomFromWidget() {
-        if(!uploadedImageUrl) { alert("Najpierw wgraj zdjęcie!"); return; }
-        const qty = parseInt(document.getElementById('customQty').value); // Pobieramy ilość z inputa
-        
-        cart.push({ name: "Własny Wzór", price: 7.00, qty: qty, oldPrice: 0 });
-        renderCart(); showToast("Dodano Twój projekt!");
     }
 
     function removeItem(index) { cart.splice(index, 1); renderCart(); }
@@ -957,7 +1066,11 @@
         const mobileBar = document.getElementById('mobile-sticky-cart');
         const mobileTotal = document.querySelector('.m-cart-total');
         
-        // 1. Jeśli koszyk pusty
+        // 1. Licznik w kółeczku
+        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        const counterEl = document.getElementById('cartCount');
+        if(counterEl) counterEl.innerText = totalQty;
+
         if(cart.length === 0) { 
             container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Pusto...</div>'; 
             totalEl.innerText = "0.00"; 
@@ -965,31 +1078,29 @@
             promoBox.innerHTML = "";
             oldPriceEl.innerText = "";
             savedBadge.style.display = "none";
-            document.getElementById('cartCount').innerText = "0"; 
             return; 
         }
         
         mobileBar.classList.add('visible');
         let html = ""; 
-        let total = 0; 
-        let totalOldPrice = 0;
+        let currentTotal = 0; 
+        let theoreticalTotal = 0; 
         let countsByPrice = {};
-        let totalItemsCount = 0; 
 
-        // 2. Pętla po produktach
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
-            total += itemTotal;
-            totalItemsCount += item.qty; 
+            currentTotal += itemTotal;
             
-            // Liczymy "starą cenę" dla prestiżu
-            let itemOldTotal = (item.oldPrice > 0 ? item.oldPrice : item.price) * item.qty;
-            totalOldPrice += itemOldTotal;
+            let unitOldPrice = item.oldPrice > 0 ? item.oldPrice : item.price;
+            theoreticalTotal += unitOldPrice * item.qty;
 
-            // Zliczamy ceny dla promocji 3+1
-            let priceKey = item.price.toFixed(2);
-            if(!countsByPrice[priceKey]) countsByPrice[priceKey] = 0;
-            countsByPrice[priceKey] += item.qty;
+            // Zbieranie do 3+1 (tylko zwykłe piny, nie własne wzory za 7zł)
+            // Uznajemy, że promocja 3+1 dotyczy pinów za 5 PLN
+            if(item.price === 5.00) {
+                let priceKey = "5.00";
+                if(!countsByPrice[priceKey]) countsByPrice[priceKey] = 0;
+                countsByPrice[priceKey] += item.qty;
+            }
 
             html += `<div class="cart-item">
                 <span>${item.name} <strong style="color:var(--primary);">x${item.qty}</strong></span>
@@ -997,51 +1108,44 @@
                 <span onclick="removeItem(${index})" class="remove-icon"><i class="fa-solid fa-trash"></i></span>
             </div>`;
         });
-        
-        document.getElementById('cartCount').innerText = totalItemsCount;
 
-        // 3. Logika 3+1
-        let promoDiscount = 0;
         let discountInfo = "";
         
-        for (const [priceStr, count] of Object.entries(countsByPrice)) {
-            let price = parseFloat(priceStr);
+        // 2. Logic 3+1 (Tylko dla pinów za 5zł)
+        if (countsByPrice["5.00"]) {
+            let count = countsByPrice["5.00"];
             let freeItems = Math.floor(count / 4);
             if (freeItems > 0) {
-                let disc = freeItems * price;
-                promoDiscount += disc;
-                discountInfo += `<div class="promo-pill">🔥 GRATIS 3+1 (${price}zł): -${disc.toFixed(2)} zł</div> `;
+                let disc = freeItems * 5.00;
+                currentTotal -= disc;
+                discountInfo += `<div class="promo-pill">🔥 GRATIS 3+1 (5zł): -${disc.toFixed(2)} zł</div> `;
             }
         }
         
-        total -= promoDiscount;
-
-        // 4. Logika RABATU HURTOWEGO -10% (jeśli > 15 sztuk)
-        if(totalItemsCount > 15) {
-            let bulkDisc = total * 0.10; 
-            total -= bulkDisc;
+        // 3. Logic RABAT HURTOWY -10% (jeśli > 15 sztuk w sumie)
+        if(totalQty > 15) {
+            let bulkDisc = currentTotal * 0.10;
+            currentTotal -= bulkDisc;
             discountInfo += `<div class="promo-pill bulk">💎 RABAT HURTOWY (-10%): -${bulkDisc.toFixed(2)} zł</div>`;
         }
 
-        // 5. Napiwek
         let tipAmount = 0;
         if(document.getElementById('tipCheck').checked) { 
             tipAmount = 1.00;
+            theoreticalTotal += 1.00;
             html += `<div class="cart-item" style="border-bottom:none;"><span>Napiwek ❤️</span><span>1.00 zł</span></div>`; 
         }
 
         container.innerHTML = html;
         promoBox.innerHTML = discountInfo;
 
-        const finalTotal = total + tipAmount;
+        const finalTotal = currentTotal + tipAmount;
         totalEl.innerText = finalTotal.toFixed(2);
-        mobileTotal.innerText = finalTotal.toFixed(2) + " PLN";
+        if(mobileTotal) mobileTotal.innerText = finalTotal.toFixed(2) + " PLN";
 
-        // 6. Obliczanie oszczędności (Prestiż + Rabaty)
-        let totalSaved = totalOldPrice - total; 
-
-        if(totalSaved > 0) {
-            oldPriceEl.innerText = (totalOldPrice + tipAmount).toFixed(2) + " zł";
+        let totalSaved = theoreticalTotal - finalTotal; 
+        if(totalSaved > 0.01) {
+            oldPriceEl.innerText = theoreticalTotal.toFixed(2) + " zł";
             savedBadge.innerText = "OSZCZĘDZASZ " + totalSaved.toFixed(2) + " PLN";
             savedBadge.style.display = "block";
         } else {
@@ -1063,21 +1167,30 @@
         e.preventDefault();
         
         if(cart.length === 0) { alert("Koszyk pusty!"); return; }
-        if(GOOGLE_SCRIPT_URL.includes("exec") === false) { alert("BŁĄD KONFIGURACJI: Wklej swój link skryptu w kodzie!"); return; }
-
+        
         const btn = form.querySelector('button');
         const oldText = btn.innerHTML;
         btn.innerHTML = "ZAPISYWANIE..."; btn.disabled = true;
 
         let orderString = "";
-        cart.forEach(item => { orderString += `${item.name} (${item.qty} szt) | `; });
+        // Budujemy string zamówienia - dodajemy info o linku jeśli istnieje
+        cart.forEach(item => { 
+            let itemDesc = `${item.name} (${item.qty} szt)`;
+            if(item.imageLink) {
+                itemDesc += ` [LINK: ${item.imageLink}]`;
+            }
+            orderString += itemDesc + " | "; 
+        });
+        
         if(document.getElementById('tipCheck').checked) orderString += "NAPIWEK | ";
 
         const imie = document.getElementById('clientName').value;
         const email = document.getElementById('clientEmail').value;
         const platnosc = document.getElementById('selectedPaymentMethod').value;
         const kwota = document.getElementById('totalPrice').innerText + " PLN";
-        const link = uploadedImageUrl || "Brak";
+        
+        // Link główny (jeśli był jeden główny upload - w tym wariancie linki są w orderString)
+        const link = "Patrz w kolumnie Koszyk";
 
         const targetUrl = GOOGLE_SCRIPT_URL + 
             "?Imie=" + encodeURIComponent(imie) +
@@ -1124,74 +1237,7 @@
             btn.innerHTML = oldText; btn.disabled = false;
         });
     });
-
-    const IMGBB_API_KEY = 'ec0af63d5204a89d797316f1e6c698c2'; 
-
-    function uploadToImgBB() {
-        const fileInput = document.getElementById('fileInput');
-        const statusEl = document.getElementById('uploadStatus');
-        const file = fileInput.files[0];
-
-        if (!file) {
-            alert("Najpierw wybierz plik!");
-            return;
-        }
-
-        statusEl.innerText = "⏳ Generowanie linku... Czekaj...";
-        statusEl.style.color = "#d35400";
-
-        const formData = new FormData();
-        formData.append("image", file);
-
-        fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                uploadedImageUrl = data.data.url; // Mamy link!
-                statusEl.innerHTML = `✅ Gotowe! Link wygenerowany.<br>Możesz dodać do koszyka.`;
-                statusEl.style.color = "#27ae60";
-            } else {
-                statusEl.innerText = "❌ Błąd. Spróbuj inne zdjęcie.";
-                alert("Błąd API: " + data.error.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            statusEl.innerText = "❌ Błąd sieci. Sprawdź internet.";
-        });
-    }
-
-    function addCustomFromLink() {
-        if(!uploadedImageUrl) { 
-            alert("Najpierw musisz zatwierdzić zdjęcie i poczekać na wygenerowanie linku!"); 
-            return; 
-        }
-        const qty = parseInt(document.getElementById('customQty').value);
-        
-        cart.push({ name: "Własny Wzór (Link w bazie)", price: 7.00, qty: qty, oldPrice: 0 });
-        
-        renderCart(); 
-        showToast("Dodano Twój projekt!");
-        
-        // Reset formularza po dodaniu
-        document.getElementById('fileInput').value = "";
-        document.getElementById('uploadStatus').innerText = "";
-        uploadedImageUrl = ""; 
-    }
-    
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
