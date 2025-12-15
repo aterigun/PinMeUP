@@ -944,6 +944,7 @@
         const mobileBar = document.getElementById('mobile-sticky-cart');
         const mobileTotal = document.querySelector('.m-cart-total');
         
+        // 1. Jeśli koszyk pusty
         if(cart.length === 0) { 
             container.innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Pusto...</div>'; 
             totalEl.innerText = "0.00"; 
@@ -951,25 +952,28 @@
             promoBox.innerHTML = "";
             oldPriceEl.innerText = "";
             savedBadge.style.display = "none";
+            document.getElementById('cartCount').innerText = "0"; 
             return; 
         }
         
         mobileBar.classList.add('visible');
-        let html = ""; let total = 0; let totalOldPrice = 0;
-        
+        let html = ""; 
+        let total = 0; 
+        let totalOldPrice = 0;
         let countsByPrice = {};
-        let totalItemsCount = 0;
+        let totalItemsCount = 0; 
 
+        // 2. Pętla po produktach
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.qty;
             total += itemTotal;
-            totalItemsCount += item.qty;
+            totalItemsCount += item.qty; 
             
-            // Liczymy "starą cenę"
+            // Liczymy "starą cenę" dla prestiżu
             let itemOldTotal = (item.oldPrice > 0 ? item.oldPrice : item.price) * item.qty;
             totalOldPrice += itemOldTotal;
 
-            // Logika do 3+1 (tylko dla standardowych cen)
+            // Zliczamy ceny dla promocji 3+1
             let priceKey = item.price.toFixed(2);
             if(!countsByPrice[priceKey]) countsByPrice[priceKey] = 0;
             countsByPrice[priceKey] += item.qty;
@@ -980,8 +984,10 @@
                 <span onclick="removeItem(${index})" class="remove-icon"><i class="fa-solid fa-trash"></i></span>
             </div>`;
         });
+        
+        document.getElementById('cartCount').innerText = totalItemsCount;
 
-        // 1. Logic 3+1
+        // 3. Logika 3+1
         let promoDiscount = 0;
         let discountInfo = "";
         
@@ -997,14 +1003,14 @@
         
         total -= promoDiscount;
 
-        // 2. Logic Bulk Discount (-10% powyżej 15 sztuk)
+        // 4. Logika RABATU HURTOWEGO -10% (jeśli > 15 sztuk)
         if(totalItemsCount > 15) {
-            let bulkDisc = total * 0.10;
+            let bulkDisc = total * 0.10; 
             total -= bulkDisc;
             discountInfo += `<div class="promo-pill bulk">💎 RABAT HURTOWY (-10%): -${bulkDisc.toFixed(2)} zł</div>`;
         }
 
-        // 3. Tip
+        // 5. Napiwek
         let tipAmount = 0;
         if(document.getElementById('tipCheck').checked) { 
             tipAmount = 1.00;
@@ -1018,7 +1024,7 @@
         totalEl.innerText = finalTotal.toFixed(2);
         mobileTotal.innerText = finalTotal.toFixed(2) + " PLN";
 
-        // Savings calculation
+        // 6. Obliczanie oszczędności (Prestiż + Rabaty)
         let totalSaved = totalOldPrice - total; 
 
         if(totalSaved > 0) {
@@ -1109,5 +1115,6 @@
 
 </body>
 </html>
+
 
 
