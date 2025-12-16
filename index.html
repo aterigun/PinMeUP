@@ -316,6 +316,7 @@
             <a href="#acc-custom" class="menu-link" onclick="openSection('acc-custom')">Kreator</a>
             <a href="#acc-logo" class="menu-link" onclick="openSection('acc-logo')">Loga</a>
             <a href="#acc-fuw" class="menu-link" style="color: #f37034;" onclick="openSection('acc-fuw')">FUW Vibe</a>
+            <a href="#acc-psych" class="menu-link" style="color: #00b894; border: 1px solid #00b894;" onclick="openSection('acc-psych')">PSYCHOLOGIA 🧠</a>
             <a href="#acc-fame" class="menu-link gold" onclick="openSection('acc-fame')">BADGE OF FAME 🏆</a>
             <a href="#acc-memy" class="menu-link" onclick="openSection('acc-memy')">Memy</a>
             <a href="#acc-xmas" class="menu-link highlight" onclick="openSection('acc-xmas')">XMAS 🎄</a>
@@ -344,7 +345,7 @@
             <div class="accordion-content">
                   <div style="text-align:center;">
                     <p style="font-size:0.9rem; margin-bottom: 15px; line-height: 1.5;">
-                      Przyjaciółka? Gojo Satoru? Kotek? A może... Dziekan Turzyński...?<br>
+                      Przyjaciółka? Gojo Satoru? Kotek? A może... Ty + Dziekan Turzyński...?<br>
                       Wgraj swoje ulubione zdjęcie - serio, cokolwiek! - a my zrobimy z niego Twoją spersonalizowaną przypinkę! ❤️
                     </p>
                 
@@ -467,6 +468,53 @@
                                 <span class="price">5.00 PLN</span>
                                 <div class="qty-box"><input type="number" id="qty_fuw_${i}" class="qty-input" value="1"></div>
                                 <button class="btn-add" style="background-color: #f37034;" onclick="addItem('${item.name}', 5, 'qty_fuw_${i}')">DODAJ</button>
+                            </div>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div id="acc-psych" class="accordion-item" style="border-left-color: #00b894;">
+            <div class="accordion-header" onclick="toggleAcc(this)">
+                <span style="display: flex; align-items: center; gap: 10px; color: #00b894;">
+                    🧠 PSYCHOLOGIA
+                </span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
+                    <p style="margin: 0; font-style: italic; line-height: 1.5;">
+                        Nie oceniamy, my tylko <b>analizujemy</b>.<br>
+                        Zestaw obowiązkowy na każde zajęcia z psychologii klinicznej (i nie tylko).<br>
+                        <span style="color: #00b894; font-weight:bold;">Freud byłby dumny!</span> 🛋️
+                    </p>
+                </div>
+
+                <div class="grid">
+                    <script>
+                        const psychItems = [
+                            { file: "[EN]_psych.png", name: "[EN] Psychology" },
+                            { file: "[PL]_psych.png", name: "[PL] Psychologia white-black" },
+                            { file: "[PL]_psych2.png", name: "[PL] Psychologia black-white" },
+                            { file: "psych_in_training.png", name: "Psychologist in training" },
+                            { file: "psych_pink.png", name: "Psych Pink" },
+                            { file: "psych_blue.png", name: "Psych Blue" },
+                            { file: "psych_rainbow.png", name: "Psych Rainbow" },
+                            { file: "freud.png", name: "your mom" },
+                            { file: "freud2.png", name: "Freud Classic" },
+                            { file: "freud_pink.png", name: "ciemna strona twojej psychiki" },
+                            { file: "keep_talking.png", name: "keep yapping!" }
+                        ];
+
+                        psychItems.forEach((item, i) => {
+                            document.write(`
+                            <div class="card">
+                                <img src="${item.file}" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/150?text=PSYCH'">
+                                <h3>${item.name}</h3>
+                                <span class="price">5.00 PLN</span>
+                                <div class="qty-box"><input type="number" id="qty_psych_${i}" class="qty-input" value="1"></div>
+                                <button class="btn-add" style="background-color: #00b894;" onclick="addItem('${item.name}', 5, 'qty_psych_${i}')">DODAJ</button>
                             </div>`);
                         });
                     </script>
@@ -1242,4 +1290,5 @@
 
 </body>
 </html>
+
 
