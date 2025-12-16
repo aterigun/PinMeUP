@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- GLOBALNY RESET --- */
         * { box-sizing: border-box; }
         
         html, body {
@@ -314,16 +313,27 @@
 
         <nav class="main-menu" id="navMenu">
             <a href="#acc-custom" class="menu-link" onclick="openSection('acc-custom')">Kreator</a>
+            
             <a href="#acc-logo" class="menu-link" onclick="openSection('acc-logo')">Loga</a>
-            <a href="#acc-fuw" class="menu-link" style="color: #f37034;" onclick="openSection('acc-fuw')">FUW Vibe</a>
+            
+            <a href="#acc-fuw" class="menu-link" style="color: #f37034; border: 1px solid #f37034;" onclick="openSection('acc-fuw')">FUW Vibe</a>
+            
             <a href="#acc-psych" class="menu-link" style="color: #00b894; border: 1px solid #00b894;" onclick="openSection('acc-psych')">PSYCHOLOGIA 🧠</a>
-            <a href="#acc-fame" class="menu-link gold" onclick="openSection('acc-fame')">BADGE OF FAME 🏆</a>
+            
+            <a href="#acc-fame" class="menu-link gold" style="border: 1px solid #f1c40f;" onclick="openSection('acc-fame')">BADGE OF FAME 🏆</a>
+            
             <a href="#acc-memy" class="menu-link" onclick="openSection('acc-memy')">Memy</a>
+            
             <a href="#acc-xmas" class="menu-link highlight" onclick="openSection('acc-xmas')">XMAS 🎄</a>
-            <a href="#acc-pride" class="menu-link" onclick="openSection('acc-pride')">#PRIDE 🏳️‍🌈</a>
+            
+            <a href="#acc-pride" class="menu-link" style="color: #e84393; border: 1px solid #e84393;" onclick="openSection('acc-pride')">#PRIDE 🏳️‍🌈</a>
+            
             <a href="#acc-blind" class="menu-link" onclick="openSection('acc-blind')">Blindbox</a>
-            <a href="#acc-prestige" class="menu-link" onclick="openSection('acc-prestige')">Prestiż</a>
-            <a href="#acc-border" class="menu-link" onclick="openSection('acc-border')">Borderkicia & friends</a>
+            
+            <a href="#acc-prestige" class="menu-link" style="color: #2d3436; border: 1px solid #2d3436;" onclick="openSection('acc-prestige')">Prestiż</a>
+            
+            <a href="#acc-border" class="menu-link" style="color: #9b59b6; border: 1px solid #9b59b6;" onclick="openSection('acc-border')">Borderkicia & friends</a>
+            
             <a href="#acc-inne" class="menu-link" onclick="openSection('acc-inne')">Inne</a>
         </nav>
 
@@ -386,18 +396,21 @@
                     <script>
                         const logos = [
                             {name: "FUW (EN) Pełne", file: "[EN] fuw __ pełne.png"},
-                            {name: "MIMUW (EN)", file: "[EN] mimuw __ pełne.png"},
-                            {name: "WCHEM (EN)", file: "[EN] wchem.png"},
-                            {name: "MIMUW (Łacina)", file: "[łac] mimuw __ pełne vel 2.png"},
                             {name: "FUW (PL) Pełne", file: "[PL] fuw __ pełne.png"},
-                            {name: "MIMUW (PL)", file: "[PL] mimuw __ pełne.png"},
-                            {name: "MIMUW Sygnet", file: "[PL] mimuw __ sygnet.png"},
-                            {name: "WCHEM (PL)", file: "[PL] wchem.png"},
                             {name: "FUW Skrót 1", file: "fuw __ skrót (3).png"},
                             {name: "FUW Skrót 2", file: "fuw __ skrót.png"},
+                            {name: "Fuw baloon", file: "wmed (20).png"},
+                            {name: "MIMUW (Łacina)", file: "[łac] mimuw __ pełne vel 2.png"},
+                            {name: "MIMUW (PL)", file: "[PL] mimuw __ pełne.png"},
+                            {name: "MIMUW Sygnet", file: "[PL] mimuw __ sygnet.png"},
+                            {name: "MIMUW (EN)", file: "[EN] mimuw __ pełne.png"},
+                            {name: "WCHEM (EN)", file: "[EN] wchem.png"},
+                            {name: "WCHEM (PL)", file: "[PL] wchem.png"},
                             {name: "Pin Me Up", file: "pinmeup (3).png"},
                             {name: "Wydział Biologii", file: "wb.png"},
-                            {name: "Fuw baloon", file: "wmed (20).png"},
+                            {name: "[EN] Psychology",  file: "[EN]_psych.png"},
+                            {name: "[PL] Psychologia white-black", file: "[PL]_psych.png"},
+                            {name: "[PL] Psychologia black-white", file: "[PL]_psych2.png"},
                             {name: "Wydział Medyczny", file: "wmed.png"},
                             {name: "QuantMol", file: "quantmol.png"},
                             {name: "santa SKuNKs", file: "santa_skunks.png"},
@@ -485,7 +498,7 @@
             <div class="accordion-content">
                 <div style="text-align: center; padding: 10px; margin-bottom: 20px; color: #555;">
                     <p style="margin: 0; font-style: italic; line-height: 1.5;">
-                        ✨ Słuchamy nie oceniamy ✨
+                        ✨ Słuchamy nie oceniamy ✨<br>
                         Zestaw obowiązkowy na każde zajęcia z psychologii klinicznej (i nie tylko).<br>
                         <span style="color: #00b894; font-weight:bold;">Freud byłby dumny!</span> 🛋️
                     </p>
@@ -1291,6 +1304,7 @@
 
 </body>
 </html>
+
 
 
 
